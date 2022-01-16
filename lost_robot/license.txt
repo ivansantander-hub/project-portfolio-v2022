@@ -1,0 +1,11 @@
+Model Information:
+* title:	Lost robot
+* source:	https://sketchfab.com/3d-models/lost-robot-5a5c314a82864818a3fa5a0f71b17990
+* author:	Mikita_Hubanau (https://sketchfab.com/Mikita_Hubanau)
+
+Model License:
+* license type:	CC-BY-4.0 (http://creativecommons.org/licenses/by/4.0/)
+* requirements:	Author must be credited. Commercial use is allowed.
+
+If you use this 3D model in your project be sure to copy paste this credit wherever you share it:
+This work is based on "Lost robot" (https://sketchfab.com/3d-models/lost-robot-5a5c314a82864818a3fa5a0f71b17990) by Mikita_Hubanau (https://sketchfab.com/Mikita_Hubanau) licensed under CC-BY-4.0 (http://creativecommons.org/licenses/by/4.0/)

@@ -1,0 +1,423 @@
+@import url('https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
+
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    --background: rgb(8, 8, 8);
+    --color-text: #fff;
+}
+::-webkit-scrollbar {
+    display: none;
+}
+
+body{
+    background-color: var(--background);
+    font-family: 'Be Vietnam Pro', sans-serif;
+    overflow-x: hidden;
+}
+
+.section-1{
+    /* border: solid white; */
+    height: 150vh;
+}
+
+.banner{
+    height: 100vh;
+    color: var(--color-text);
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+}
+.header{
+    display: flex;
+    justify-content: space-evenly;
+    width: 100vw;
+    height: 10vh;
+    overflow: hidden;
+    align-items: center;
+    font-size: 10pt;
+    z-index: 100;
+}
+.logo{
+    width: 30%;
+}
+.logo p{
+    position: relative;
+    left: 2vw;
+    cursor: pointer;
+}
+.animation-header{
+    text-align: center;
+    width: 40%;
+    display: flex;
+    justify-content: center;
+}
+.content-animation-header{
+    width: 60%;
+    height: 25pt;
+    border: solid white;
+    padding: 5px 10px;
+    border-radius: 15px;
+    position: relative;
+    overflow: hidden;
+}
+.content-animation-header p{
+    position: absolute;
+    margin: auto auto;
+    animation: translate 2s infinite;
+    white-space: nowrap;
+    min-width: 100%;
+    height: 100%;
+}
+
+.content-animation-header p .slide{
+    display: inline-block;
+    padding-left: 100%;
+    text-align: center;
+    white-space: nowrap;
+    height: 100%;
+    line-height: 0pt;
+    animation: slide 10s linear infinite;
+}
+.slide-2{
+    animation-delay: 5s !important;
+}
+.menu{
+    width: 30%;
+    display: flex;
+    justify-content: end;
+    padding-right: 3vw;
+}
+.menu i{
+    font-size: 15pt;
+    cursor: pointer;
+}
+.menu ul{
+    display: flex;
+    justify-content: end;
+    position: relative;
+    right: 2vw;
+}
+li{
+    list-style: none;
+    margin: 0 10px;
+    cursor: pointer;
+}
+.content-banner{
+    display: flex;
+    width: 100vw;
+    height: 90vh;
+}
+
+.text-banner{
+    width: 50vw;
+    height: 90vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: -10vh;
+}
+
+.text-banner h1{
+    width: 70%;
+    font-size: 45pt;
+    font-weight: 400;
+}
+
+.text-banner h1 span{
+    font-weight: 800;
+}
+.model-viewer{
+    width: 50vw;
+    height: 90vh;
+    background-color: var(--background);
+    display: flex;
+    align-items: center;
+    position: relative;
+}
+.black-screen{
+    position: absolute;
+    width: 50vw;
+    height: 90vh;
+    background-color: var(--background);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    opacity: 0;
+    transition: 2s ease all;
+}
+.black-index{
+    z-index: 100;
+    opacity: 1;
+}
+.opacity-model-viewer{
+    opacity: 1;
+}
+model-viewer{
+    width: 50vw;
+    height: 80vh;
+    z-index: 10;
+}
+
+.text-banner{
+    width: 50vw;
+    height: 100vh;
+    position: relative;
+}
+
+.text-banner .rss{
+    position: absolute;
+    bottom: 3vh;
+    left: 2vh;
+}
+.text-banner .rss ul{
+    display: flex;
+}
+.text-banner .rss ul li{
+    cursor: pointer;
+    font-size: 10pt;
+}
+
+.about-me{
+    position: absolute;
+    width: 30vw;
+    text-align: end;
+    left: 100vw;
+    top: 40vh;
+}
+
+.about-me h1{
+    font-size: 15pt;
+    font-weight: 400;
+}
+.about-me span{
+    font-size: 18pt;
+    font-weight: 600;
+    text-decoration: underline;
+    line-height: 50px;
+}
+
+.about-me-2{
+    position: absolute;
+    width: 25vw;
+    text-align: end;
+    left: 150vw;
+    top: 25vh;
+    text-align: justify;
+    font-size: 10pt;
+}
+
+.portafolio{
+    position: absolute;
+    top: 200vh;
+    /* border: solid red; */
+    min-height: 200vh;
+    overflow: visible;
+    display: flex;
+    justify-content: flex-end;
+    width: 100vw;
+    flex-direction: column;
+}
+.be4care{
+    display: flex;
+    justify-content: flex-end;
+    width: 100vw;
+    min-height: 60vh;
+    /* border: solid orange; */
+}
+.gsap-2{
+    width: 40vw;
+    /* border:#fff solid; */
+    position: absolute;
+    top: -60vh;
+    left: 0;
+}
+
+.card-portafolio{
+    width: 200px;
+    height: 430px;
+    background-color: #fff;
+    /* border: solid red; */
+    margin: 10px;
+    border-radius: 20px;
+    background-size: cover;
+    /* right: -100vw; */
+}
+
+.card-portafolio-1{
+    background-image: url("../img/portafolio/be4care-1.png");
+}
+
+.card-portafolio-2{
+    background-image: url("../img/portafolio/be4care-2.png");
+}
+
+.card-portafolio-3{
+    background-image: url("../img/portafolio/be4care-3.png");
+}
+
+.card-portafolio-4{
+    background-image: url("../img/portafolio/be4care-4.png");
+}
+.gsap-3{
+    margin-bottom: 50vh;
+    /* border: solid green; */
+    width: 40vw;
+    position: absolute;
+    top: -75vh;
+}
+.be4tech{
+    /* border: solid pink; */
+    min-height: 70vh;
+    display: flex;
+    justify-content: flex-end;
+    width: 100vw;
+    position: relative;
+}
+.card-portafolio-be4tech{
+    width: 600px;
+    height: 400px;
+    background-color: white;
+    position: absolute;
+    border-radius: 10px;
+    cursor: pointer;
+    background-size: cover;
+}
+.card-portafolio-be4tech-1{
+    width: 200px;
+    height: 320px;
+    background-image: url("../img/portafolio/be4tech-2.png");
+    background-position: 50% 50%;
+    z-index: 10;
+    position: absolute;
+    top: 25vh;
+    left: 45vw;
+}
+
+.card-portafolio-be4tech-2{
+    width: 650px;
+    left: calc(10vw - 25px);
+    background-image: url("../img/portafolio/be4tech-1.png");
+    z-index: 1;
+    top: -5vh;
+    left: 5vw;
+}
+.card-portafolio-be4tech-2:hover{
+    background-size: cover;
+    background-position: 100%;
+    z-index: 10;
+    transition: 4s all ease;
+}
+.irocket{
+    min-height: 100vh;
+    /* border: solid yellow; */
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    position: relative;
+}
+.gsap-4{
+    width: 60vw;
+    position: absolute;
+    top: -45vw;
+    right: -5vw;
+}
+.card-portafolio-irocket{
+    cursor: pointer;
+}
+
+.card-portafolio-irocket-1{
+    border: white;
+    background-color: yellow;
+    width: 500px;
+    height: 300px;
+    position: absolute;
+    left: 10vw;
+    top: 10vh;
+    border-radius: 10px;
+    background-image: url("../img/portafolio/irocket-1.png");
+    background-size: cover;
+}
+
+.card-portafolio-irocket-2{
+    /* border: yellow; */
+    background-color: white;
+    width: 200px;
+    height: 320px;
+    position: absolute;
+    left: 35vw;
+    bottom: 10vh;
+    border-radius: 10px;
+    background-image: url("../img/portafolio/irocket-2.png");
+    background-size: cover;
+}
+
+.card-portafolio-irocket-1:hover{
+    background-size: cover;
+    background-position: 100% 100%;
+    z-index: 10;
+    transition: 4s all ease;
+}
+
+.app{
+    border: solid beige;
+}
+
+@keyframes slide {
+    0%{
+        transform: translate(0,0);
+    }
+    100%{
+        transform: translate(-100%,0);
+    }
+}
+
+
+@media (max-width: 620px) { 
+    .content-banner{
+        flex-direction: column;
+        text-align: center;
+    }
+    .text-banner{
+        width: 100vw;
+        height: 45vh;
+    }
+    .text-banner h1{
+        width: 90%;
+        font-size: 30pt;
+        margin-top: 10vh;
+    }
+    .model-viewer{
+        width: 100vw;
+        height: 45vh;
+        display: flex;
+        justify-content: center;
+    }
+    model-viewer{
+        width: 100vw;
+        height: 40vh;
+    }
+    .rss{
+        margin-bottom: -55vh;
+    }
+    .text-banner .rss ul li {
+        font-size: 8pt;
+    }
+    .black-screen{
+        width: 100vw;
+        height: 45vh;
+        background-color: var(--background);
+    }
+    .logo p{
+        left: 5vw;
+    }
+    .menu{
+        padding-right: 5vw;
+    }
+    .header{
+        font-size: 8pt;
+    }
+}
+
+

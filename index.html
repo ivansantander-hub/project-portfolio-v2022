@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ivan Santander</title>
+    <link rel="stylesheet" href="css/styles.css">
+    <link rel="stylesheet" href="https://pro.fontawesome.com/releases/v5.10.0/css/all.css" integrity="sha384-AYmEC3Yw5cVb3ZcuHtOA93w35dYTsvhLPVnYs9eStHfGJvOvKxVfELGroGkvsg+p" crossorigin="anonymous"/>
+
+</head>
+<body>
+    <div class="container">
+        <section class="section section-1">
+            <div class="banner">
+                <div class="pin-1 header">
+                    <div class="logo">
+                        <p>IVÁN SANTANDER</p>
+                    </div>
+                    <div class="animation-header">
+                        <div class="content-animation-header">
+                            <p><span class="slide">WEBSITE WWW.IVANSANTANDER.COM PROJECT 2022 |</span></p>
+                            <p><span class="slide slide-2">WEBSITE WWW.IVANSANTANDER.COM PROJECT 2022 |</span></p>
+                        </div>
+                        
+                    </div>
+                    <div class="menu">
+                        <i class="fas fa-ellipsis-v"></i>
+                        <!-- <ul>
+                            <li>PORTFOLIO</li>
+                            <li>ABOUT ME</li>
+                            <li>CONTACT ME</li>
+                        </ul> -->
+                    </div>
+                </div>
+                <div class="content-banner">
+                    <div class="pin-1 text-banner">
+                        <h1 class="title-banner gsap-1"><span>Frontend</span> web developer.</h1>
+                        <div class="rss">
+                            <ul>
+                                <li>Linkedin</li>
+                                <li>Behance</li>
+                                <li>Github</li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="model-viewer" >
+                        <div class="black-screen black-index">
+                            <!-- <img height="80%" src="img/load-model-viewer.png"> -->
+                        </div>
+                        <model-viewer 
+                        class="gsap-1"
+                        id="model-viewer"
+                        src="rhetorician/scene.gltf"
+                        ios-src="rhetorician/Rhetorician.usdz" 
+                        autoplay 
+                        shadow-intensity="1"
+                        id="reveal" 
+                        loading="eager" 
+                        auto-rotate 
+                        disable-zoom example
+                        animation-name="Take 001"
+                        ar 
+                        ></model-viewer>
+                    </div>
+
+                    <div class="about-me">
+                        <h1><span>About me</span></h1>
+                        <h1>Lorem ipsum, dolor sit amet consectetur adipisicing elit. Nostrum earum amet sapiente mollitia autem provident. Corrupti maxime voluptates soluta officiis alias inventore unde perferendis!</h1>
+                    </div>
+
+                </div>
+            </div>
+
+            <!-------------------------------------- PORTAFOLIO -------------------------------------->
+
+            <div class="portafolio">
+                <div class="app be4care">
+                    <model-viewer 
+                    class="gsap-2"
+                    id="model-viewer-2"
+                    autoplay 
+                    ar 
+                    shadow-intensity="1"
+                    id="reveal" 
+                    loading="eager" 
+                    auto-rotate 
+                    src="free_iphone_13_pro_2021/scene.gltf" 
+                    ></model-viewer>
+
+                    <div class="card-portafolio card-portafolio-1"></div>
+                    <div class="card-portafolio card-portafolio-2"></div>
+                    <div class="card-portafolio card-portafolio-3"></div>
+                    <div class="card-portafolio card-portafolio-4"></div>
+                </div>
+
+
+                <div class="app be4tech">
+                    <model-viewer 
+                    class="gsap-3"
+                    id="model-viewer-3"
+                    autoplay 
+                    ar 
+                    shadow-intensity="1"
+                    id="reveal" 
+                    loading="eager" 
+                    auto-rotate 
+                    src="macbook_pro_2021/scene.gltf" 
+                    ></model-viewer>
+                    <div class="card-portafolio-be4tech card-portafolio-be4tech-1"></div>
+                    <div class="card-portafolio-be4tech card-portafolio-be4tech-2"></div>
+
+                </div>
+
+                <div class="app irocket">
+                    <model-viewer 
+                    class="gsap-4"
+                    id="model-viewer-4"
+                    autoplay 
+                    ar 
+                    shadow-intensity="1"
+                    id="reveal" 
+                    loading="eager" 
+                    auto-rotate 
+                    src="computer_monitor/scene.gltf" 
+                    ></model-viewer>
+                    <div class="card-portafolio-irocket card-portafolio-irocket-1"></div>
+                    <div class="card-portafolio-irocket card-portafolio-irocket-2"></div>
+                </div>
+            </div>
+
+
+        </section>
+<!--       
+          <section class="section section-2">
+              Habilities
+          </section>
+      
+          <section class="section section-3">
+            <div class="contact-me">
+                  
+            </div>
+          </section> -->
+
+</body>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+<script src="https://unpkg.com/@google/model-viewer/dist/model-viewer.min.js" type="module"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.3.3/gsap.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.3.3/ScrollTrigger.min.js"></script>
+<script src="js/app.js"></script>
+<script src="js/gsap.js"></script>
+</html>
