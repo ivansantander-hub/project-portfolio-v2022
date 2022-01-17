@@ -1,11 +1,5 @@
-// gsap.from(".banner",{
-//     y:"-100vh",
-//     opacity:0,
-//     duration:3,
-//     delay:4
-// })
+///////TIME-LINE BANNER
 gsap.registerPlugin(ScrollTrigger);
-// var timeLine = gsap.timeline()
 var timeLine = gsap.timeline({
     scrollTrigger:{
         trigger: '.section-1',
@@ -55,7 +49,46 @@ timeLine.to(".banner",{
     duration:5,
 }, "<")
 
+timeLine.from(".portafolio",{
+    opacity: 0,
+    duration:15,
+    delay:2
+},"<")
 
+timeLine.from(".projects-title",{
+    opacity: 0,
+    y: '+30vh',
+    duration:20,
+    delay:3
+},"<")
+
+timeLine.to(".projects-title-1",{
+    duration:25,
+    x: '-=80%'
+},"<")
+
+timeLine.to(".projects-title-2",{
+    duration:25,
+    x: '+=80%'
+},"<")
+
+timeLine.from(".projects-title-3",{
+    duration:25,
+    x: '+=80%'
+},"<")
+
+timeLine.from(".projects-title-4",{
+    duration:25,
+    x: '-=80%'
+},"<")
+
+
+timeLine.to(".projects-title",{
+    opacity: 0,
+    duration:15,
+    delay:3
+},">")
+///////TIME-LINE BE4CARE
 
 var timeLine2 = gsap.timeline({
     scrollTrigger:{
@@ -68,173 +101,86 @@ var timeLine2 = gsap.timeline({
     },
 });
 
-timeLine.from(".portafolio",{
-    opacity: 0,
-    duration:15,
-    delay:2
-},"<")
-
-timeLine2.to(".card-portafolio-1",{
-    y:"3vh",
-    duration:35,
-},"<")
-
-timeLine2.to(".card-portafolio-2",{
-    y:"8vh",
-    duration:35,
-},"<")
-
-timeLine2.to(".card-portafolio-3",{
-    y:"8vh",
-    duration:35,
-},"<")
-
-timeLine2.to(".card-portafolio-4",{
-    y:"3vh",
-    duration:35,
-},"<")
-
-
-timeLine2.to(".card-portafolio-1",{
-    y:"-35vh",
-    duration:35,
-    delay:2
-})
-
-timeLine2.to(".card-portafolio-2",{
-    y:"-40vh",
-    duration:35,
-},"<")
-
-timeLine2.to(".card-portafolio-3",{
-    y:"-40vh",
-    duration:35,
-},"<")
-
-timeLine2.to(".card-portafolio-4",{
-    y:"-35vh",
-    duration:35,
-},"<")
-
-timeLine2.to(".card-portafolio",{
-    y:"-105vh",
-    duration:35,
-    delay:10
-},">")
-
-
-timeLine2.to(".gsap-2",{
-    x:"-100vw",
+timeLine2.from(".be4care",{
     opacity:0,
-    duration:35,
-    delay:10
+    duration:5,
 })
+
+
+
+timeLine2.to(".card-portafolio-1",{
+    y:"18vh",
+    duration:35,
+},"<")
+
+timeLine2.to(".card-portafolio-2",{
+    y:"22vh",
+    duration:35,
+},"<")
+
+timeLine2.to(".card-portafolio-3",{
+    y:"22vh",
+    duration:35,
+},"<")
+
+timeLine2.to(".card-portafolio-4",{
+    y:"18vh",
+    duration:35,
+},"<")
+
+
+///////TIME-LINE BE4TECH
 
 var timeLine3 = gsap.timeline({
     scrollTrigger:{
         trigger: '.be4tech',
         pin: ".gsap-3",
-        markers: true,
-        start: '100px bottom',
-        end: 'bottom bottom',
-        scrub: 5,
+        markers: false,
+        start: '200px bottom',
+        end: '=+800px bottom',
+        scrub: 15,
         delay: 2
     },
 });
 
+
+
 timeLine3.from(".gsap-3",{
-    x:"150vw",
+    x:"100vw",
     opacity: 0,
-    duration:25,
-    // delay:2
+    duration:30,
+    delay:2
 },"<")
 
 timeLine3.from(".card-portafolio-be4tech-2",{
     x:"-150vw",
     opacity: 0,
-    duration:15,
+    duration:35,
     delay:4
 },"<")
 
 timeLine3.from(".card-portafolio-be4tech-1",{
     x:'-150vh',
     opacity:0,
-    duration:20,
+    duration:40,
     delay:2
 },"<")
 
 timeLine3.to(".card-portafolio-be4tech",{
     y:"-10vw",
-    duration:15,
+    duration:55,
     delay:4
 },">")
 
-timeLine3.to(".card-portafolio-be4tech-2",{
-    x:"-150vw",
-    opacity: 0,
-    duration:15,
-    delay:20
-},">")
-
-timeLine3.to(".card-portafolio-be4tech-1",{
-    x:'-150vh',
-    opacity:0,
-    duration:20,
-},"<")
-
-timeLine3.to(".gsap-3",{
-    x:"150vw",
-    opacity: 0,
-    duration:5,
-    // delay:2
-},">")
-
-// timeLine3.to(".card-portafolio-be4tech-2",{
-//     y:'-35vh',
-//     duration:10,
-//     delay:5
-// },"<")
-
-// timeLine3.to(".card-portafolio-be4tech-1",{
-//     y:'-15vh',
-//     duration:10,
-//     delay:20
-// },">")
-
-// timeLine3.to(".card-portafolio-be4tech-2",{
-//     y:'-10vh',
-//     duration:10,
-//     delay:5
-// },"<")
-
-// timeLine3.to(".card-portafolio-be4tech-1",{
-//     y:'-80vh',
-//     opacity:0,
-//     duration:10,
-//     delay:20
-// },">")
-
-// timeLine3.to(".card-portafolio-be4tech-2",{
-//     y:'-85vh',
-//     opacity:0,
-//     duration:10,
-//     delay:5
-// },"<")
-
-// timeLine3.to(".gsap-3",{
-//     x:"100vw",
-//     opacity:0,
-//     duration:35,
-//     delay:20
-// },"<")
+///////TIME-LINE IROCKET
 
 var timeLine4 = gsap.timeline({
     scrollTrigger:{
         trigger: '.irocket',
         pin: ".gsap-4",
-        markers: false,
-        start: '100px bottom',
-        end: 'bottom bottom',
+        markers: true,
+        start: '300px bottom',
+        end: '=+800px bottom',
         scrub: 5,
         delay: 2
     },
@@ -244,6 +190,7 @@ timeLine4.from(".gsap-4",{
     x:"50vw",
     opacity:0,
     duration:10,
+    delay:5
 },"<")
 
 
