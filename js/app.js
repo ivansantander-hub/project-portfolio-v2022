@@ -18,6 +18,11 @@ $( "#model-viewer-4" ).click(function() {
     // clickModel();
 });
 
+$( "#model-viewer-5" ).click(function() {
+    $("#model-viewer-5").attr("camera-controls","true");
+    // clickModel();
+});
+
 timeBlackScreen = setTimeout(blackScreen, 4000);
 
 function blackScreen(){

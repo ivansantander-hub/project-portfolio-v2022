@@ -6,7 +6,9 @@
     box-sizing: border-box;
     --background: rgb(8, 8, 8);
     --color-text: #fff;
+    cursor: url(../img/cursor/cursor.png) 10 10, auto;
 }
+
 ::-webkit-scrollbar {
     display: none;
 }
@@ -17,12 +19,7 @@ body{
     overflow-x: hidden;
 }
 
-.section-1{
-    /* border: solid white; */
-    height: 150vh;
-    position: relative;
-}
-
+/* //////SCREEN-1 */
 .banner{
     height: 100vh;
     color: var(--color-text);
@@ -31,45 +28,9 @@ body{
     flex-direction: column;
     z-index: 10;
     background-color: var(--background);
+    overflow: hidden;
+    /* border: solid red; */
 }
-
-.sub-banner{
-    width: 100%;
-    height: 100vh;
-    position: absolute;
-    top: 20vh;
-    z-index: 1;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-}
-.sub-banner h1{
-    color: var(--color-text);
-    font-size: 180pt;
-    width: 100%;
-    white-space: nowrap;
-}
-.sub-banner h1 span{
-    color: #000000;
-    -webkit-text-stroke: 1px white;
-}
-.sub-banner h1:nth-child(1){
-    margin-left: -1200vw;
-}
-.sub-banner h1:nth-child(2){
-    margin-top: 300pt;
-    margin-left: -260vw;
-}
-.sub-banner h1:nth-child(3){
-    margin-top: 600pt;
-    margin-left: -800vw;
-}
-.sub-banner h1:nth-child(4){
-    margin-top: 900pt;
-    margin-left: -260vw;
-    
-}
-
 .header{
     display: flex;
     justify-content: space-evenly;
@@ -97,11 +58,11 @@ body{
 .content-animation-header{
     width: 60%;
     height: 25pt;
-    border: solid white;
     padding: 5px 10px;
     border-radius: 15px;
     position: relative;
     overflow: hidden;
+    border: solid white;
 }
 .content-animation-header p{
     position: absolute;
@@ -111,7 +72,6 @@ body{
     min-width: 100%;
     height: 100%;
 }
-
 .content-animation-header p .slide{
     display: inline-block;
     padding-left: 100%;
@@ -121,6 +81,7 @@ body{
     line-height: 0pt;
     animation: slide 10s linear infinite;
 }
+
 .slide-2{
     animation-delay: 5s !important;
 }
@@ -150,7 +111,6 @@ li{
     width: 100vw;
     height: 90vh;
 }
-
 .text-banner{
     width: 50vw;
     height: 90vh;
@@ -159,14 +119,12 @@ li{
     align-items: center;
     margin-top: -10vh;
 }
-
 .text-banner h1{
     width: 70%;
     font-size: 45pt;
     font-weight: 400;
     z-index: 500;
 }
-
 .text-banner h1 span{
     font-weight: 800;
 }
@@ -220,7 +178,6 @@ model-viewer{
     cursor: pointer;
     font-size: 10pt;
 }
-
 .about-me{
     position: absolute;
     width: 30vw;
@@ -249,184 +206,145 @@ model-viewer{
     text-align: justify;
     font-size: 10pt;
 }
+.rss{
+    z-index: 20;
+}
 
+
+
+
+
+/* //////SCREEN-2 */
+.sub-banner{
+    width: 100%;
+    height: 400px;
+    z-index: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    overflow: hidden;
+    /* border: solid blue; */
+}
+.sub-banner h1{
+    color: var(--color-text);
+    font-size: 80pt;
+    width: 100%;
+    white-space: nowrap;
+}
+.sub-banner h1 span{
+    color: var(--background);
+    -webkit-text-stroke: 1px white;
+}
+
+
+
+
+
+
+
+/* //////SCREENS-APPS */
 .portafolio{
-    position: absolute;
-    top: 200vh;
-    /* border: solid red; */
-    min-height: 200vh;
     overflow: visible;
     display: flex;
     justify-content: flex-end;
     width: 100vw;
     flex-direction: column;
+    /* border: salmon solid; */
 }
-.be4care{
-    display: flex;
-    justify-content: flex-end;
-    width: 100vw;
-    min-height: 60vh;
-    /* border: solid orange; */
+.projects-title-1,.projects-title-3{
+    margin-left: -200vw;
 }
-.gsap-2{
-    width: 40vw;
-    /* border:#fff solid; */
-    position: absolute;
-    top: -60vh;
-    left: 0;
-}
-
-.card-portafolio{
-    width: 200px;
-    height: 430px;
-    background-color: #fff;
-    /* border: solid red; */
-    margin: 10px;
-    border-radius: 20px;
-    background-size: cover;
-    /* right: -100vw; */
-}
-
-.card-portafolio-1{
-    background-image: url("../img/portafolio/be4care-1.png");
-}
-
-.card-portafolio-2{
-    background-image: url("../img/portafolio/be4care-2.png");
-}
-
-.card-portafolio-3{
-    background-image: url("../img/portafolio/be4care-3.png");
-}
-
-.card-portafolio-4{
-    background-image: url("../img/portafolio/be4care-4.png");
-}
-.gsap-3{
-    /* border: solid green; */
-    width: 40vw;
-    position: absolute;
-    top: -50vh;
-}
-.be4tech{
-    /* border: solid pink; */
-    min-height: 90vh;
-    display: flex;
-    justify-content: flex-end;
-    width: 100vw;
-    position: relative;
-}
-.card-portafolio-be4tech{
-    width: 600px;
-    height: 400px;
-    background-color: white;
-    position: absolute;
-    border-radius: 10px;
-    cursor: pointer;
-    background-size: cover;
-}
-.card-portafolio-be4tech-1{
-    width: 200px;
-    height: 320px;
-    background-image: url("../img/portafolio/be4tech-2.png");
-    background-position: 50% 50%;
-    z-index: 10;
-    position: absolute;
-    top: 80vh;
-    left: 45vw;
-}
-
-.card-portafolio-be4tech-2{
-    width: 650px;
-    left: calc(10vw - 25px);
-    background-image: url("../img/portafolio/be4tech-1.png");
-    z-index: 1;
-    top: 40vh;
-    left: 5vw;
-}
-.card-portafolio-be4tech-2:hover{
-    background-size: cover;
-    background-position: 100%;
-    z-index: 10;
-    transition: 4s all ease;
-}
-.irocket{
-    min-height: 100vh;
-    /* border: solid yellow; */
-    display: flex;
-    justify-content: flex-start;
-    align-items: center;
-    position: relative;
-}
-.gsap-4{
-    width: 60vw;
-    position: absolute;
-    top: -45vh;
-    right: -5vw;
-}
-.card-portafolio-irocket{
-    cursor: pointer;
-}
-
-.card-portafolio-irocket-1{
-    border: white;
-    background-color: yellow;
-    width: 500px;
-    height: 300px;
-    position: absolute;
-    left: 10vw;
-    top: 50vh;
-    border-radius: 10px;
-    background-image: url("../img/portafolio/irocket-1.png");
-    background-size: cover;
-}
-
-.card-portafolio-irocket-2{
-    /* border: yellow; */
-    background-color: white;
-    width: 200px;
-    height: 320px;
-    position: absolute;
-    left: 35vw;
-    bottom: 25vh;
-    border-radius: 10px;
-    background-image: url("../img/portafolio/irocket-2.png");
-    background-size: cover;
-}
-
-.card-portafolio-irocket-1:hover{
-    background-size: cover;
-    background-position: 100% 100%;
-    z-index: 10;
-    transition: 4s all ease;
-}
-
 .app{
-    /* border: solid beige; */
-    min-height: 120vh;
-}
-
-.app:nth-child(1){
-    min-height: 150vh;
-    border: solid white;
-}
-
-.app:nth-child(2){
-    min-height: 150vh;
-    border: solid white;
-}
-
-.app:nth-child(3){
-    min-height: 150vh;
-    border: solid white;
-}
-
-
-.entrada-newo{
     width: 100vw;
-    height: 100vh;
-    border: solid red;
+    min-height: 100vh;
+    color: var(--color-text);
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    /* border: solid beige; */
+    align-items: flex-start;
 }
+.app .content{
+    width: 100%;
+    height: 100vh;
+    display: flex;
+    /* border: solid greenyellow; */
+}
+
+.app .content .model-3d{
+    width: 30vw;
+    /* border: solid blueviolet; */
+}
+.app .content .model-3d model-viewer{
+    height: 100%;
+    width: 30vw;
+    /* border: gold solid; */
+}
+
+.app .content .cards{
+    width: 70vw;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    /* border: solid blueviolet; */
+}
+.app .content .cards .card-portafolio-app{
+    overflow: hidden;
+    max-width: 220px;
+    overflow: hidden;
+}
+.app .content .cards .card-portafolio-app img{
+    border-radius: 10px;
+    max-width: 200px;
+    height: 100%;
+    margin: 10px;
+}
+
+.app .content .cards .card-portafolio-web-slide{
+    border-radius: 10px;
+    margin: 10px;
+    overflow: hidden;
+    max-width: 450px;
+    max-height: 300px;
+    overflow: scroll;
+    /* border: solid goldenrod; */
+}
+.app .content .cards .card-portafolio-web-slide img{
+    border-radius: 10px;
+    max-width: 450px;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 @keyframes slide {
     0%{
@@ -436,6 +354,7 @@ model-viewer{
         transform: translate(-100%,0);
     }
 }
+
 
 
 @media (max-width: 620px) { 

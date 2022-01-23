@@ -1,209 +1,240 @@
-///////TIME-LINE BANNER
 gsap.registerPlugin(ScrollTrigger);
-var timeLine = gsap.timeline({
+const models3d = gsap.utils.toArray(".model-3d");
+
+
+// gsap.from(".header",{
+//     opacity:0,
+//     y:'-10vh',
+//     delay:1,
+//     duration:2,
+// })
+
+// gsap.from(".title-banner",{
+//     opacity:0,
+//     x:'80vw',
+//     delay:2,
+//     duration:3,
+// })
+
+// gsap.from(".model-viewer",{
+//     opacity:0,
+//     x:'100vw',
+//     delay:2,
+//     duration:2,
+// })
+
+// gsap.from(".rss",{
+//     opacity:0,
+//     x:'-20vw',
+//     delay:4,
+//     duration:1,
+// })
+
+var tlBanner = gsap.timeline({
     scrollTrigger:{
-        trigger: '.section-1',
+        trigger: '.banner',
         markers: false,
         start: 'top top',
-        end: 'bottom',
-        scrub: 5,
-        pin: '.banner'
+        end: 'bottom top',
+        scrub: 15,
+        pin: true
     }
 });
 
-timeLine.to(".gsap-1",{
-    x:'-50vw',
-    duration:5,
+tlBanner.to(".title-banner",{
+    x:'-100vw',
+    opacity:0,
+    duration:3,
 })
 
-timeLine.to(".about-me",{
-    x:'-75vw',
-    duration:5,
-    delay:2
-}, "<")
-
-timeLine.to(".about-me",{
-    x:'-300vw',
-    duration:5,
-}, ">")
-
-timeLine.to(".title-banner",{
-    opacity:0,
+tlBanner.to(".model-viewer",{
+    x:'-50vw',
     duration:1,
-}, "<")
+},"<")
 
-timeLine.to(".gsap-1",{
-    x:'-25vw',
+tlBanner.to(".about-me",{
+    x:'-50vw',
+    delay:0.4,
+    duration:3,
+},"<")
+
+tlBanner.to(".banner",{
+    opacity:'0',
+    delay:2,
     duration:2,
-}, "<")
-
-timeLine.to(".gsap-1",{
-    y: '150vh',
-    duration:10,
-    delay:5
-}, "<")
-
-timeLine.to(".banner",{
-    opacity:0,
-    y: '-150vh',
-    duration:5,
-}, "<")
-
-timeLine.from(".portafolio",{
-    opacity: 0,
-    duration:15,
-    delay:2
 },"<")
 
-timeLine.from(".projects-title",{
-    opacity: 0,
-    y: '+30vh',
-    duration:20,
-    delay:3
+var tlSubBanner = gsap.timeline({
+    scrollTrigger:{
+        trigger: '.portafolio',
+        markers: false,
+        start: 'top bottom',
+        end: 'bottom top',
+        scrub: 15,
+        pin: false
+    }
+});
+
+tlSubBanner.from(".sub-banner",{
+    opacity:'0',
+    duration:0.1,
 },"<")
 
-timeLine.to(".projects-title-1",{
-    duration:25,
-    x: '-=80%'
-},"<")
-
-timeLine.to(".projects-title-2",{
-    duration:25,
-    x: '+=80%'
-},"<")
-
-timeLine.from(".projects-title-3",{
-    duration:25,
-    x: '+=80%'
-},"<")
-
-timeLine.from(".projects-title-4",{
-    duration:25,
-    x: '-=80%'
+tlSubBanner.to(".projects-title-1",{
+    // opacity:'0',
+    x:'100vw',
+    duration:1,
 },"<")
 
 
-timeLine.to(".projects-title",{
-    opacity: 0,
-    duration:15,
-    delay:3
-},">")
-///////TIME-LINE BE4CARE
+tlSubBanner.to(".projects-title-2",{
+    // opacity:'0',
+    x:'-100vw',
+    duration:1,
+},"<")
 
-var timeLine2 = gsap.timeline({
+
+tlSubBanner.to(".projects-title-3",{
+    // opacity:'0',
+    x:'100vw',
+    duration:1,
+},"<")
+
+
+tlSubBanner.to(".projects-title-4",{
+    // opacity:'0',
+    x:'-100vw',
+    duration:1,
+},"<")
+
+var tlBe4care = gsap.timeline({
     scrollTrigger:{
         trigger: '.be4care',
-        pin: ".gsap-2",
         markers: false,
-        start: '200px bottom',
+        start: 'top bottom',
         end: 'bottom bottom',
-        scrub: 5,
-    },
+        scrub: 15,
+        pin: false
+    }
 });
 
-timeLine2.from(".be4care",{
-    opacity:0,
-    duration:5,
-})
-
-
-
-timeLine2.to(".card-portafolio-1",{
-    y:"18vh",
-    duration:35,
+tlBe4care.from(".gsap-2",{
+    opacity:'0',
+    x:'-50vw',
+    duration:1,
 },"<")
 
-timeLine2.to(".card-portafolio-2",{
-    y:"22vh",
-    duration:35,
+tlBe4care.from(".card-portafolio-be4care-1",{
+    opacity:'0',
+    y:'-10vh',
+    duration:4,
+    delay:1,
 },"<")
 
-timeLine2.to(".card-portafolio-3",{
-    y:"22vh",
-    duration:35,
+tlBe4care.from(".card-portafolio-be4care-2",{
+    opacity:'0',
+    y:'-25vh',
+    duration:4,
 },"<")
 
-timeLine2.to(".card-portafolio-4",{
-    y:"18vh",
-    duration:35,
+tlBe4care.from(".card-portafolio-be4care-3",{
+    opacity:'0',
+    y:'-10vh',
+    duration:4,
+},"<")
+
+tlBe4care.from(".card-portafolio-be4care-4",{
+    opacity:'0',
+    y:'-25vh',
+    duration:4,
 },"<")
 
 
-///////TIME-LINE BE4TECH
 
-var timeLine3 = gsap.timeline({
+var tlBe4tech = gsap.timeline({
     scrollTrigger:{
         trigger: '.be4tech',
-        pin: ".gsap-3",
         markers: false,
-        start: '200px bottom',
-        end: '=+800px bottom',
+        start: 'top bottom',
+        end: 'bottom bottom',
         scrub: 15,
-        delay: 2
-    },
+        pin: false
+    }
 });
 
-
-
-timeLine3.from(".gsap-3",{
-    x:"100vw",
-    opacity: 0,
-    duration:30,
-    delay:2
+tlBe4tech.from(".gsap-3",{
+    opacity:'0',
+    x:'-50vw',
+    duration:1,
 },"<")
 
-timeLine3.from(".card-portafolio-be4tech-2",{
-    x:"-150vw",
-    opacity: 0,
-    duration:35,
-    delay:4
+tlBe4tech.from(".card-portafolio-be4tech-1",{
+    opacity:'0',
+    y:'-10vh',
+    duration:2,
+    delay:0.5,
 },"<")
 
-timeLine3.from(".card-portafolio-be4tech-1",{
-    x:'-150vh',
-    opacity:0,
-    duration:40,
-    delay:2
+tlBe4tech.from(".card-portafolio-be4tech-2",{
+    opacity:'0',
+    y:'-30vh',
+    duration:2,
 },"<")
 
-timeLine3.to(".card-portafolio-be4tech",{
-    y:"-10vw",
-    duration:55,
-    delay:4
-},">")
 
-///////TIME-LINE IROCKET
 
-var timeLine4 = gsap.timeline({
+
+var tlIrocket = gsap.timeline({
     scrollTrigger:{
         trigger: '.irocket',
-        pin: ".gsap-4",
-        markers: true,
-        start: '300px bottom',
-        end: '=+800px bottom',
-        scrub: 5,
-        delay: 2
-    },
+        markers: false,
+        start: 'top bottom',
+        end: 'bottom bottom',
+        scrub: 15,
+        pin: false
+    }
 });
 
-timeLine4.from(".gsap-4",{
-    x:"50vw",
-    opacity:0,
-    duration:10,
-    delay:5
+tlIrocket.from(".gsap-4",{
+    opacity:'0',
+    x:'-50vw',
+    duration:1,
+},"<")
+
+tlIrocket.from(".card-portafolio-irocket-1",{
+    opacity:'0',
+    y:'-10vh',
+    duration:2,
+    delay:0.5,
+},"<")
+
+tlIrocket.from(".card-portafolio-irocket-2",{
+    opacity:'0',
+    y:'-30vh',
+    duration:2,
 },"<")
 
 
-timeLine4.from(".card-portafolio-irocket-1",{
-    x:'-85vw',
-    opacity:0,
-    duration:20,
-    delay:5
+var tlQrAccess = gsap.timeline({
+    scrollTrigger:{
+        trigger: '.qr-access',
+        markers: false,
+        start: 'top bottom',
+        end: 'bottom bottom',
+        scrub: 15,
+        pin: false
+    }
+});
+
+tlQrAccess.from(".gsap-5",{
+    opacity:'0',
+    x:'-50vw',
+    duration:1,
 },"<")
 
-timeLine4.from(".card-portafolio-irocket-2",{
-    x:'-85vw',
-    opacity:0,
-    duration:15,
-    delay:3
+tlQrAccess.from(".card-portafolio-qr-access-1",{
+    opacity:'0',
+    y:'-30vh',
+    duration:2,
+    delay:0.5,
 },"<")
