@@ -36,7 +36,7 @@ var tlBanner = gsap.timeline({
         markers: false,
         start: 'top top',
         end: 'bottom top',
-        scrub: 15,
+        scrub: 5,
         pin: true
     }
 });
@@ -70,7 +70,7 @@ var tlSubBanner = gsap.timeline({
         markers: false,
         start: 'top bottom',
         end: 'bottom top',
-        scrub: 15,
+        scrub: 25,
         pin: false
     }
 });
@@ -113,7 +113,7 @@ var tlBe4care = gsap.timeline({
         markers: false,
         start: 'top bottom',
         end: 'bottom bottom',
-        scrub: 15,
+        scrub: 25,
         pin: false
     }
 });
@@ -157,7 +157,7 @@ var tlBe4tech = gsap.timeline({
         markers: false,
         start: 'top bottom',
         end: 'bottom bottom',
-        scrub: 15,
+        scrub: 25,
         pin: false
     }
 });
@@ -190,7 +190,7 @@ var tlIrocket = gsap.timeline({
         markers: false,
         start: 'top bottom',
         end: 'bottom bottom',
-        scrub: 15,
+        scrub: 25,
         pin: false
     }
 });
@@ -221,7 +221,7 @@ var tlQrAccess = gsap.timeline({
         markers: false,
         start: 'top bottom',
         end: 'bottom bottom',
-        scrub: 15,
+        scrub: 25,
         pin: false
     }
 });
