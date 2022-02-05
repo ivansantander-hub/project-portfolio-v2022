@@ -5,33 +5,46 @@
     padding: 0;
     box-sizing: border-box;
 
-    --background: #1D2B28;
-    --color-text: #D7D3C9;
-    --contrast: #D7D3C9;
+
+
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -khtml-user-select: none;
+    -ms-user-select:none;
+
+
+    
 
     /* --background: #1D2B28;
     --color-text: #D7D3C9;
-    --contrast: #B77CEE; */
+    --contrast: #B77CEE;
 
-    /* --background: #232025;
+    --background: #232025;
     --color-text: #D5CDC4;
-    --contrast: #D5CDC4; */
+    --contrast: #D5CDC4;
 
-    /* --background: #7C8DCE;
+    --background: #7C8DCE;
     --color-text: #F1F4FF;
-    --contrast: #F1F4FF; */
+    --contrast: #F1F4FF;
 
-    /* --background: #F4F3F1;
+    --background: #F4F3F1;
     --color-text: #000000;
-    --contrast: #000; */
+    --contrast: #000;
 
-    /* --background: #FFEBCC;
+    --background: #FFEBCC;
     --color-text: #F56B5D; 
-    --contrast: #F56B5D; */
+    --contrast: #F56B5D; 
+    
+    --background: #1D2B28;
+    --color-text: #D7D3C9;
+    --contrast: #D7D3C9;
+    */
 
+    --background: #D7D3C9;
+    --color-text: #1D2B28;
+    --contrast: #1D2B28;
 
    
-    cursor: url(../img/cursor/cursor.png) 10 10, auto;
 }
 
 ::-webkit-scrollbar {
@@ -41,8 +54,9 @@
 body{
     background-color: var(--background);
     font-family: 'Be Vietnam Pro', sans-serif;
-    border:solid var(--contrast) 3px;
+    /* border:solid var(--contrast) 3px; */
     overflow-x: hidden;
+    text-transform:uppercase
 }
 
 /* //////SCREEN-1 */
@@ -73,7 +87,6 @@ body{
 .logo p{
     position: relative;
     left: 2vw;
-    cursor: pointer;
 }
 .animation-header{
     text-align: center;
@@ -120,8 +133,12 @@ body{
     padding-right: 3vw;
 }
 .menu i{
+    display:flex;
+    justify-content:center;
+    align-items:center;
     font-size: 15pt;
-    cursor: pointer;
+    width:50px;
+    height:50px;
 }
 .menu ul{
     display: flex;
@@ -132,8 +149,8 @@ body{
 li{
     list-style: none;
     margin: 0 10px;
-    cursor: pointer;
 }
+
 .content-banner{
     display: flex;
     width: 100vw;
@@ -196,21 +213,25 @@ model-viewer{
 
 .text-banner .rss{
     position: absolute;
-    bottom: 3vh;
-    left: 2vh;
+    bottom: 5vh;
+    left: -48vw;
 }
 .text-banner .rss ul{
     display: flex;
 }
 .text-banner .rss ul li{
-    cursor: pointer;
     font-size: 10pt;
 }
+.text-banner .rss ul li a{
+    color:var(--color-text);
+    text-decoration:none;
+}
+
 .about-me{
     position: absolute;
     width: 30vw;
-    text-align: end;
-    left: 100vw;
+    text-align: start;
+    left: -50vw;
     top: 40vh;
 }
 
@@ -345,14 +366,15 @@ model-viewer{
     /* border: solid blueviolet; */
 }
 .app .content .cards .card-portafolio-app{
-    margin:5px;
-    width:200px;
+    margin: 2px;
+    max-width: 150px;
+    max-height: 280px;
+    overflow: scroll;
 }
 .app .content .cards .card-scroll .card-portafolio-app img{
     border-radius: 10px;
     max-width: 100%;
     height: 100%;
-    margin: 10px;
 }
 
 .app .content .cards .card-portafolio-web-slide{
@@ -377,16 +399,71 @@ model-viewer{
 
 
 /* ///////////////////////CONTACT */
-
+model-viewer {
+    z-index: 20;
+}
 .contact{
-    width: 100vw;
+    width: calc(100vw - 6px);
     min-height: 100vh;
     color: var(--color-text);
     display: flex;
-    justify-content: center;
+    justify-content: flex-start;
     flex-direction: column;
-    border: solid beige;
     align-items: flex-start;
+    text-transform: uppercase;
+    position: relative;
+    z-index: 200;
+}
+
+.contact h1{
+    font-size: 100pt;
+    font-weight: 200;
+    font-style: oblique;
+    padding: 20px;
+}
+
+.contact h1 span{
+    font-size: 100pt;
+    font-weight: 800;
+    font-style: normal;
+}
+
+.contact .aaron{
+    max-width: 300px;
+    position: absolute;
+    right: 0;
+    text-align: end;
+    padding: 20px;
+    font-style: oblique;
+    font-weight: 100;
+    top: 5vh;
+}
+
+.contact .social{
+    position:absolute;
+    top:15vh;
+    right:0;
+    text-align: start;
+    padding: 20px;
+    opacity:0
+}
+
+.contact footer{
+    width:100%;
+    height:15vh;
+    position: absolute;
+    bottom: 0;
+    padding:20px;
+    display:flex;
+    justify-content: space-between;
+    align-items:flex-end;
+}
+
+
+.contact footer a{
+    color: var(--color-text);
+    padding:20px;
+    text-decoration: none;
 }
 
 
@@ -403,18 +480,17 @@ model-viewer{
 
 
 
+/* //////////////////////////CURSORS */
+*{
+    cursor: url(../img/cursor/cursor.png) 10 10, auto;
+}
+.menu i, a{
+    cursor: url(../img/cursor/rick-1.png) 10 10, auto;
+}
 
-
-
-
-
-
-
-
-
-
-
-
+a:hover{
+    text-decoration: underline !important;
+}
 
 
 
@@ -431,6 +507,37 @@ model-viewer{
 
 @media (max-width: 620px) { 
 
+
+    /* ////////////////////////CONTACTO */
+
+    .contact h1{
+        font-size: 40pt;
+    }
+    
+    .contact h1 span{
+        font-size: 50pt;
+    }
+
+
+    .contact .aaron{
+        top: 55vh;
+    }
+
+    .rss-hidden{
+        display:none;
+        visibility:hidden;
+    }
+    
+
+
+    /* ///////////////PORTAFOLIO */
+
+    .sub-banner{
+        height:200px;
+    }
+    .sub-banner h1{
+        font-size:40pt;
+    }
     .portafolio .app .content{
         display: flex;
         flex-direction: column;

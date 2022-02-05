@@ -19,7 +19,8 @@ if (screen.width < 620) {
 
     tlBanner.to(".model-viewer",{
         duration:2,
-        y:'20vh',
+        y:'15vh',
+        x:'15vh',
         },"<")
 
     var tlSubBanner = gsap.timeline({
@@ -192,4 +193,47 @@ if (screen.width < 620) {
         delay:0.5,
     },"<")
 
+
+
+
+
+
+
+
+
+
+    
+    var tlContact = gsap.timeline({
+        scrollTrigger:{
+            trigger: '.contact',
+            markers: false,
+            start: 'top bottom',
+            end: 'bottom bottom',
+            scrub: 5,
+            pin: false
+        }
+    });
+
+    tlContact.from(".contact-title-1",{
+        opacity:'0',
+        x:'-100vw',
+        duration:2,
+        delay:0.5
+    },"<")
+    tlContact.from(".contact-title-2",{
+        opacity:'0',
+        x:'-100vw',
+        duration:2.2,
+    },"<")
+    tlContact.from(".aaron",{
+        opacity:'0',
+        x:'50vw',
+        duration:1.2,
+    },">")
+
+    tlContact.from(".footer-contact",{
+        opacity:'0',
+        x:'-100vw',
+        duration:1.2,
+    },"<")
 }
