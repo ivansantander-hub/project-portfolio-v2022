@@ -1,6 +1,9 @@
 
 
 if (screen.width < 620) {
+    setTimeout(() => {
+        $('.preload').fadeOut('fast');
+    }, 10000);
     
     var tlBanner = gsap.timeline({
         scrollTrigger:{
