@@ -1,4 +1,6 @@
-
+setTimeout(() => {
+    $('.preload').fadeOut('fast');
+}, 10000);
 
 $( "#model-viewer" ).click(function() {
     $("#model-viewer").attr("camera-controls","true");
