@@ -20,7 +20,6 @@ if (screen.width < 620) {
     tlBanner.to(".model-viewer",{
         duration:2,
         y:'15vh',
-        x:'15vh',
         },"<")
 
     var tlSubBanner = gsap.timeline({

@@ -83,7 +83,7 @@ if (screen.width > 620) {
     },"<")
 
     tlBanner.to(".about-me",{
-        x:'60vw',
+        x:'70vw',
         delay:0.4,
         duration:3,
     },"<")
