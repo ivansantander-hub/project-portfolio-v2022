@@ -1,62 +1,4 @@
 gsap.registerPlugin(ScrollTrigger);
-const models3d = gsap.utils.toArray(".model-3d");
-
-
-// gsap.from(".header",{
-//     opacity:0,
-//     y:'-10vh',
-//     delay:1,
-//     duration:2,
-// })
-
-// gsap.from(".title-banner",{
-//     opacity:0,
-//     x:'80vw',
-//     delay:2,
-//     duration:3,
-// })
-
-// gsap.from(".model-viewer",{
-//     opacity:0,
-//     x:'100vw',
-//     delay:2,
-//     duration:2,
-// })
-
-// gsap.from(".rss",{
-//     opacity:0,
-//     x:'-20vw',
-//     delay:4,
-//     duration:1,
-// })
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 if (screen.width > 620) {
     
@@ -298,5 +240,5 @@ if (screen.width > 620) {
         x:'-100vw',
         duration:1.2,
     },">")
-    
 }
+

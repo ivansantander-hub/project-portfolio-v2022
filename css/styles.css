@@ -1,4 +1,5 @@
 @import url('https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=VT323&display=swap');
 
 *{
     margin: 0;
@@ -10,7 +11,8 @@
     -moz-user-select: none;
     -khtml-user-select: none;
     -ms-user-select:none;
-
+    --fontPrimary: 'Be Vietnam Pro', sans-serif;
+    --fontSecond: 'VT323', monospace;
 
 /*     
 
@@ -52,7 +54,7 @@
 
 body{
     background-color: var(--background);
-    font-family: 'Be Vietnam Pro', sans-serif;
+    font-family: var(--fontPrimary);
     /* border:solid var(--contrast) 3px; */
     overflow-x: hidden;
     text-transform:uppercase
@@ -84,6 +86,8 @@ body{
     width: 30%;
 }
 .logo p{
+    font-family: var(--fontSecond);
+    font-size:18pt;
     position: relative;
     left: 2vw;
 }
@@ -103,6 +107,8 @@ body{
     border: solid var(--contrast);
 }
 .content-animation-header p{
+    font-family: var(--fontSecond);
+    font-size:15pt;
     color: var(--color-text);
     font-weight: 500;
     position: absolute;
@@ -206,6 +212,7 @@ li{
     font-size: 45pt;
     font-weight: 400;
     z-index: 500;
+    font-size:50pt
 }
 .text-banner h1 span{
     font-weight: 800;
@@ -503,6 +510,23 @@ model-viewer {
     text-decoration: none;
 }
 
+.preload {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    z-index: 9999;
+    background: #000;
+}
+.preload img {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 20%;
+}
+
 
 
 
@@ -528,6 +552,27 @@ model-viewer {
 a:hover{
     text-decoration: underline !important;
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
