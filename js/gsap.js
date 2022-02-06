@@ -8,7 +8,7 @@ if (screen.width > 620) {
         scrollTrigger:{
             trigger: '.banner',
             markers: false,
-            start: 'top top',
+            start: 'top top', 
             end: 'bottom top',
             scrub: 5,
             pin: true
