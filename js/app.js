@@ -1,9 +1,3 @@
-const modelViewer = document.querySelector('#model-viewer');
-modelViewer.addEventListener('model-visibility', function(evt) {
-    $('.preload').fadeOut('fast');
-    console.log(evt);
-})
-
 
 $( "#model-viewer" ).click(function() {
     $("#model-viewer").attr("camera-controls","true");

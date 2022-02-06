@@ -1,6 +1,19 @@
-document.querySelector("html").style.setProperty('--background', "#a4c5c5");
+
+
+document.querySelector("html").style.setProperty('--background', "#0C120C");
+// document.querySelector("html").style.setProperty('--background', "#a4c5c5");
 document.querySelector("html").style.setProperty('--color-text', "#F1F4FF");
 document.querySelector("html").style.setProperty('--contrast', "#F1F4FF");
+
+const modelViewer = document.querySelector('#model-viewer');
+modelViewer.addEventListener('model-visibility', function(evt) {
+    setTimeout(() => {
+        $('.preload').fadeOut('fast');
+    }, 2000);
+    console.log(evt);
+})
+
+
 
 $( ".color-1" ).click(function() {
     document.querySelector("html").style.setProperty('--background', "#0C120C");
