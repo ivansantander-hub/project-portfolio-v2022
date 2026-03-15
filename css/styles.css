@@ -415,7 +415,7 @@ model-viewer:active {
     position: absolute;
 }
 
-.app .content .model-3d .gsap-2, .app .content .model-3d .gsap-3,.app .content .model-3d .gsap-4,.app .content .model-3d .gsap-5{
+.app .content .model-3d .gsap-2, .app .content .model-3d .gsap-3,.app .content .model-3d .gsap-4,.app .content .model-3d .gsap-5,.app .content .model-3d .gsap-6{
     top: 0;
     bottom: 0;
     left: -30px;
@@ -428,7 +428,7 @@ model-viewer:active {
 }
 
 .app .content .model-3d .gsap-4,.app .content .model-3d .gsap-5,.app .content .model-3d .gsap-6 {
-    width: 55vw;
+    width: 50vw;
 }
 
 .app .content .cards{
@@ -484,11 +484,10 @@ model-viewer:active {
     text-align: center;
 }
 .app.learup .content.learup-content .project-meta {
-    position: absolute;
-    top: 0;
-    right: 0;
-    margin: 1rem 2rem 0 0;
-    align-self: auto;
+    position: sticky;
+    top: 1rem;
+    margin: 0 2rem 0 0;
+    align-self: flex-end;
 }
 .app.learup .cards.cards-learup {
     width: 100%;
@@ -593,6 +592,10 @@ model-viewer {
     font-size: 0.9em;
     color: var(--color-text);
     opacity: 0.9;
+    position: sticky;
+    top: 1rem;
+    align-self: flex-start;
+    z-index: 10;
 }
 .project-meta a {
     color: var(--color-text);
@@ -775,7 +778,7 @@ a:hover{
         position: relative;
     }
 
-    .app .content .model-3d .gsap-2,.app .content .model-3d .gsap-3,.app .content .model-3d .gsap-4,.app .content .model-3d .gsap-5 {
+    .app .content .model-3d .gsap-2,.app .content .model-3d .gsap-3,.app .content .model-3d .gsap-4,.app .content .model-3d .gsap-5,.app .content .model-3d .gsap-6 {
         height: 50vh;
         left: 0;
         width: 100vw;
