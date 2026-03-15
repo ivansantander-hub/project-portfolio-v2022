@@ -13,7 +13,7 @@
 | **3D in the browser** | Interactive GLTF models (cosmonaut, devices) via Google’s model-viewer — responsive and AR-ready on supported devices. |
 | **Scroll storytelling** | GSAP + ScrollTrigger drive the narrative: hero pin, staggered project reveals, and smooth section transitions. |
 | **Theming** | Four palette presets (dark, mint, rose, light) applied via CSS custom properties — no reload. |
-| **Selected works** | BE4CARE, BE4TECH, IROCKET, QR Access — each with device mockups and screenshots. |
+| **Selected works** | LearUp, BE4CARE, BE4TECH, IROCKET, QR Access — each with device mockups and screenshots. |
 
 ---
 
@@ -52,4 +52,4 @@ Alternatively: `npx serve . -p 3000` or any static server on the project root.
 
 ---
 
-*Design & code — Iván Santander*
+*Design & code — Iván Santander · [GitHub @ivansantander-hub](https://github.com/ivansantander-hub)*

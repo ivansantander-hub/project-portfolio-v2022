@@ -1,6 +1,12 @@
 (function () {
     'use strict';
 
+    /* Siempre iniciar en la parte superior al cargar o recargar */
+    if (typeof history !== 'undefined' && history.scrollRestoration) {
+        history.scrollRestoration = 'manual';
+    }
+    window.scrollTo(0, 0);
+
     var HINT_HIDE_DELAY_MS = 5500;
     var modelViewerIds = ['model-viewer', 'model-viewer-2', 'model-viewer-3', 'model-viewer-4', 'model-viewer-5'];
 
@@ -55,10 +61,12 @@
 
     if (document.readyState === 'loading') {
         document.addEventListener('DOMContentLoaded', function () {
+            window.scrollTo(0, 0);
             setupHints();
             runHeroEntrance();
         });
     } else {
+        window.scrollTo(0, 0);
         setupHints();
         runHeroEntrance();
     }
