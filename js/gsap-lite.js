@@ -178,7 +178,22 @@ if (screen.width < 620) {
         delay:0.5,
     },"<")
 
-
+    var tlLearUp = gsap.timeline({
+        scrollTrigger:{
+            trigger: '.learup',
+            markers: false,
+            start: 'top bottom',
+            end: 'bottom bottom',
+            scrub: 10,
+            pin: false
+        }
+    });
+    tlLearUp.from(".card-portafolio-learup-1",{
+        opacity:'0',
+        x:'-50vw',
+        duration:2,
+        delay:0.5,
+    },"<")
 
 
 

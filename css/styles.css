@@ -3,7 +3,7 @@
 
 /* Default theme — works without JavaScript */
 :root {
-    --background: #0C120C;
+    --background: #111111;
     --color-text: #F1F4FF;
     --contrast: #F1F4FF;
     --fontPrimary: 'Be Vietnam Pro', sans-serif;
@@ -157,7 +157,7 @@ body{
 .color-1{
     top:0;
     left:0;
-    background: #0C120C;
+    background: #111111;
 }
 .color-2{
     top:0;
@@ -427,7 +427,7 @@ model-viewer:active {
     width: 45vw;
 }
 
-.app .content .model-3d .gsap-4,.app .content .model-3d .gsap-5 {
+.app .content .model-3d .gsap-4,.app .content .model-3d .gsap-5,.app .content .model-3d .gsap-6 {
     width: 55vw;
 }
 
@@ -471,6 +471,46 @@ model-viewer:active {
 .app .content .cards .card-portafolio-web-slide img{
     border-radius: 10px;
     max-width: 100%;
+}
+
+/* LearUp: no 3D, link top-right like other projects, centered image */
+.app.learup .content.learup-content {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 2rem 1.5rem;
+    text-align: center;
+}
+.app.learup .content.learup-content .project-meta {
+    position: absolute;
+    top: 0;
+    right: 0;
+    margin: 1rem 2rem 0 0;
+    align-self: auto;
+}
+.app.learup .cards.cards-learup {
+    width: 100%;
+    max-width: min(95vw, 1100px);
+    display: flex;
+    justify-content: center;
+}
+.app.learup .cards-learup .card-scroll {
+    justify-content: center;
+}
+.app.learup .cards-learup .card-portafolio-web-slide {
+    max-width: 100%;
+    max-height: none;
+    width: 100%;
+    margin: 0 auto;
+}
+.app.learup .cards-learup .card-portafolio-web-slide img {
+    width: 100%;
+    max-width: 100%;
+    height: auto;
+    object-fit: contain;
+    display: block;
 }
 
 
@@ -550,30 +590,76 @@ model-viewer {
 
 .project-meta {
     margin-top: 1rem;
-    font-size: 0.85em;
+    font-size: 0.9em;
     color: var(--color-text);
     opacity: 0.9;
 }
 .project-meta a {
-    color: var(--contrast);
+    color: var(--color-text);
     text-decoration: underline;
+    text-underline-offset: 3px;
+    padding: 0.2em 0.1em;
+    margin: 0 -0.1em;
+    border-radius: 2px;
+    cursor: pointer;
+    transition: color 0.2s ease, background-color 0.2s ease, text-underline-offset 0.2s ease;
+}
+.project-meta a:hover {
+    color: var(--contrast);
+    text-underline-offset: 5px;
+    background-color: color-mix(in srgb, var(--contrast) 12%, transparent);
+}
+.project-meta a:focus-visible {
+    outline: 2px solid var(--contrast);
+    outline-offset: 2px;
 }
 
 .preload {
     position: fixed;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
+    inset: 0;
     z-index: 9999;
-    background: #000;
+    background: var(--background);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: opacity 0.5s ease-out;
 }
-.preload img {
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    width: 20%;
+.preload.preload--done {
+    opacity: 0;
+    pointer-events: none;
+}
+.preload-inner {
+    width: min(90vw, 320px);
+    text-align: center;
+}
+.preload-label {
+    font-family: var(--fontSecond);
+    font-size: 1.25rem;
+    color: var(--color-text);
+    letter-spacing: 0.2em;
+    margin-bottom: 1rem;
+    opacity: 0.9;
+}
+.preload-bar {
+    height: 2px;
+    background: rgba(255, 255, 255, 0.15);
+    border-radius: 2px;
+    overflow: hidden;
+    margin-bottom: 0.75rem;
+}
+.preload-bar-fill {
+    height: 100%;
+    width: 0%;
+    background: var(--contrast);
+    border-radius: 2px;
+    transition: width 0.15s ease-out;
+}
+.preload-percent {
+    font-family: var(--fontSecond);
+    font-size: 1.1rem;
+    color: var(--color-text);
+    letter-spacing: 0.15em;
+    opacity: 0.85;
 }
 
 
