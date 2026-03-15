@@ -2,7 +2,8 @@
   "name": "project-portfolio-v2022",
   "private": true,
   "scripts": {
-    "serve": "npx --yes serve . -p 3000",
-    "start": "npx --yes serve . -p 3000"
+    "build": "cd site && npm run build",
+    "dev": "cd site && npm run dev",
+    "serve": "cd site && npx --yes serve dist -p 3000"
   }
 }
