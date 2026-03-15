@@ -46,20 +46,6 @@ if (screen.width < 620) {
         duration:1,
     },"<")
 
-
-    tlSubBanner.to(".projects-title-3",{
-        // opacity:'0',
-        x:'100vw',
-        duration:1,
-    },"<")
-
-
-    tlSubBanner.to(".projects-title-4",{
-        // opacity:'0',
-        x:'-100vw',
-        duration:1,
-    },"<")
-
     var tlBe4care = gsap.timeline({
         scrollTrigger:{
             trigger: '.be4care',

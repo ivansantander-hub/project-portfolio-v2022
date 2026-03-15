@@ -1,0 +1,42 @@
+# Dependencies
+node_modules/
+
+# OS
+.DS_Store
+Thumbs.db
+Desktop.ini
+*.lnk
+
+# IDE / editors
+.idea/
+.vscode/
+*.swp
+*.swo
+*~
+
+# Logs & debug
+*.log
+npm-debug.log*
+pnpm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Env and secrets
+.env
+.env.*
+!.env.example
+*.pem
+
+# Temp and cache
+tmp/
+temp/
+*.tmp
+.cache/
+
+# Optional: Cursor
+.cursor/
+
+# Build output (if you add a build step later)
+dist/
+build/
+out/

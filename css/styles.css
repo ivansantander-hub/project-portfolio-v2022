@@ -1,51 +1,36 @@
 @import url('https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=VT323&display=swap');
 
+/* Default theme — works without JavaScript */
+:root {
+    --background: #0C120C;
+    --color-text: #F1F4FF;
+    --contrast: #F1F4FF;
+    --fontPrimary: 'Be Vietnam Pro', sans-serif;
+    --fontSecond: 'VT323', monospace;
+}
+
 *{
     margin: 0;
     padding: 0;
     box-sizing: border-box;
-
-
-    -webkit-user-select: none;
-    -moz-user-select: none;
-    -khtml-user-select: none;
-    -ms-user-select:none;
     --fontPrimary: 'Be Vietnam Pro', sans-serif;
     --fontSecond: 'VT323', monospace;
+}
 
-/*     
-
-    --background: #1D2B28;
-    --color-text: #D7D3C9;
-    --contrast: #B77CEE;
-
-    --background: #232025;
-    --color-text: #D5CDC4;
-    --contrast: #D5CDC4;
-
-    --background: #7C8DCE;
-    --color-text: #F1F4FF;
-    --contrast: #F1F4FF;
-
-    --background: #F4F3F1;
-    --color-text: #000000;
-    --contrast: #000;
-
-    --background: #FFEBCC;
-    --color-text: #F56B5D; 
-    --contrast: #F56B5D; 
-    
-    --background: #1D2B28;
-    --color-text: #D7D3C9;
-    --contrast: #D7D3C9;
-   
-
-    --background: #D7D3C9;
-    --color-text: #1D2B28;
-    --contrast: #1D2B28; */
-
-   
+/* Allow text selection in main content; disable only on decorative marquees */
+.text, .about-me, .contact .text, .footer-contact, .cards, .card-portafolio {
+    -webkit-user-select: text;
+    -moz-user-select: text;
+    -ms-user-select: text;
+    user-select: text;
+}
+.sub-banner .projects-title,
+.animation-header {
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
 }
 
 ::-webkit-scrollbar {
@@ -224,6 +209,10 @@ li{
     display: flex;
     align-items: center;
     position: relative;
+    perspective: 1400px;
+}
+.model-viewer model-viewer {
+    transform-style: preserve-3d;
 }
 .black-screen{
     position: absolute;
@@ -234,7 +223,7 @@ li{
     justify-content: center;
     align-items: center;
     opacity: 0;
-    transition: 2s ease all;
+    transition: 1.2s ease-out;
 }
 .black-index{
     z-index: 100;
@@ -243,10 +232,53 @@ li{
 .opacity-model-viewer{
     opacity: 1;
 }
+
+/* Hero: wrapper animado para que la entrada sea visible (no se pisa con el render del model-viewer) */
+.hero-model-wrap {
+    position: relative;
+    width: 50vw;
+    height: 150vh;
+    opacity: 0;
+    transform: translateX(48%) scale(0.88);
+    transform-origin: center center;
+    will-change: transform, opacity;
+}
+.hero-model-wrap model-viewer {
+    display: block;
+}
+
 model-viewer{
     width: 50vw;
     height: 150vh;
     z-index: 10;
+    cursor: grab;
+}
+model-viewer:active {
+    cursor: grabbing;
+}
+
+.model-viewer-hint {
+    position: absolute;
+    bottom: 1rem;
+    left: 50%;
+    transform: translateX(-50%);
+    padding: 0.4rem 0.75rem;
+    font-size: 0.75rem;
+    font-family: var(--fontPrimary);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    color: var(--color-text);
+    background: rgba(0, 0, 0, 0.65);
+    border: 1px solid var(--contrast);
+    border-radius: 4px;
+    pointer-events: none;
+    opacity: 1;
+    transition: opacity 0.4s ease;
+    z-index: 25;
+}
+.model-viewer-hint--hidden {
+    opacity: 0;
+    pointer-events: none;
 }
 
 .text-banner{
@@ -369,6 +401,12 @@ model-viewer{
     overflow: visible;
     /* border: solid blueviolet; */
     position: relative;
+}
+.app .content .model-3d model-viewer {
+    cursor: grab;
+}
+.app .content .model-3d model-viewer:active {
+    cursor: grabbing;
 }
 .app .content .model-3d model-viewer{
     height: 150%;
@@ -508,6 +546,17 @@ model-viewer {
     color: var(--color-text);
     padding:20px;
     text-decoration: none;
+}
+
+.project-meta {
+    margin-top: 1rem;
+    font-size: 0.85em;
+    color: var(--color-text);
+    opacity: 0.9;
+}
+.project-meta a {
+    color: var(--contrast);
+    text-decoration: underline;
 }
 
 .preload {
