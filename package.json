@@ -1,0 +1,8 @@
+{
+  "name": "project-portfolio-v2022",
+  "private": true,
+  "scripts": {
+    "serve": "npx --yes serve . -p 3000",
+    "start": "npx --yes serve . -p 3000"
+  }
+}

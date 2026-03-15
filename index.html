@@ -4,7 +4,22 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Ivan Santander</title>
+    <meta name="description" content="Iván Santander — Frontend developer. Selected works: BE4CARE (BE4TECH), IROCKET, QR for NEWO. Portfolio.">
+    <link rel="canonical" href="https://ivansantander.com/">
+    <title>Iván Santander — Frontend Developer</title>
+    <!-- Open Graph -->
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://ivansantander.com/">
+    <meta property="og:title" content="Iván Santander — Frontend Developer">
+    <meta property="og:description" content="Frontend developer. Selected works: BE4CARE, BE4TECH, IROCKET, QR Access for NEWO.">
+    <meta property="og:image" content="https://ivansantander.com/img/og.jpg">
+    <meta property="og:site_name" content="Iván Santander">
+    <meta property="og:locale" content="en_US">
+    <!-- Twitter -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Iván Santander — Frontend Developer">
+    <meta name="twitter:description" content="Frontend developer. Selected works: BE4CARE, BE4TECH, IROCKET, QR Access for NEWO.">
+    <meta name="twitter:image" content="https://ivansantander.com/img/og.jpg">
     <link rel="stylesheet" href="css/lite-projects.css">
     <link rel="stylesheet" href="css/styles.css">
     <link rel="stylesheet" href="https://pro.fontawesome.com/releases/v5.10.0/css/all.css" integrity="sha384-AYmEC3Yw5cVb3ZcuHtOA93w35dYTsvhLPVnYs9eStHfGJvOvKxVfELGroGkvsg+p" crossorigin="anonymous"/>
@@ -12,8 +27,8 @@
 </head>
 <body>
 
-    <div class="preload">
-        <img src="https://media.giphy.com/media/3oeHLhzRkRX1bQQBPi/giphy.gif">
+    <div class="preload" aria-hidden="true">
+        <img src="https://media.giphy.com/media/3oeHLhzRkRX1bQQBPi/giphy.gif" alt="" role="presentation">
     </div>
 
     <div class="container">
@@ -46,27 +61,30 @@
                     <div class="black-screen black-index">
                         <!-- <img height="80%" src="img/load-model-viewer.png"> -->
                     </div>
-                    <model-viewer 
-                    class="gsap-1"
-                    id="model-viewer"
-                    camera-orbit="40deg 80deg auto"
-                    src="models-3d/cosmonaut_on_a_rocket/scene.gltf"
-                    ios-src="rhetorician/Rhetorician.usdz" 
-                    autoplay 
-                    shadow-intensity="1"
-                    id="reveal" 
-                    loading="eager" 
-                    animation-name="Take 001"
-                    ></model-viewer>
+                    <div class="hero-model-wrap">
+                        <model-viewer 
+                        class="gsap-1"
+                        id="model-viewer"
+                        camera-orbit="40deg 80deg auto"
+                        camera-controls
+                        src="models-3d/cosmonaut_on_a_rocket/scene.gltf"
+                        ios-src="models-3d/rhetorician/Rhetorician.usdz" 
+                        autoplay 
+                        shadow-intensity="1"
+                        loading="eager" 
+                        animation-name="Take 001"
+                        ></model-viewer>
+                        <span class="model-viewer-hint" aria-hidden="true">Drag to rotate</span>
+                    </div>
                 </div>
 
                 <div class="text-banner">
                     <h1 class="title-banner"><span>Frontend</span> developer.</h1>
                         <div class="rss pin-1">
                         <ul>
-                            <li><a href="https://www.linkedin.com/in/ivan-dario/" target="_blank">Linkedin</a></li>
+                            <li><a href="https://www.linkedin.com/in/ivan-dario/" target="_blank" rel="noopener noreferrer">Linkedin</a></li>
                             <!-- <li>Behance</li> -->
-                            <li><a href="https://github.com/ivan-sf" target="_blank">Github</a></li>
+                            <li><a href="https://github.com/ivan-sf" target="_blank" rel="noopener noreferrer">Github</a></li>
                         </ul>
                     </div>
                 </div>
@@ -97,32 +115,33 @@
                             class="gsap-2"
                             id="model-viewer-2"
                             autoplay 
+                            camera-controls
                             camera-orbit="-120deg 100deg auto"
                             shadow-intensity="1"
-                            id="reveal" 
-                            loading="eager" 
-                                
+                            loading="lazy" 
                             src="models-3d/free_iphone_13_pro_2021/scene.gltf" 
                         >
                         </model-viewer>
+                        <span class="model-viewer-hint" aria-hidden="true">Drag to rotate</span>
                     </div>
 
                     <div class="cards">
                         <div class="card-scroll">
                             <div class="card-portafolio card-portafolio-app card-portafolio-be4care card-portafolio-be4care-1">
-                                <img src="img/portafolio/be4care-1.png" alt="">
+                                <img src="img/portafolio/be4care-1.png" alt="BE4CARE app screenshot 1">
                             </div>
                             <div class="card-portafolio card-portafolio-app card-portafolio-be4care card-portafolio-be4care-2">
-                                <img src="img/portafolio/be4care-2.png" alt="">
+                                <img src="img/portafolio/be4care-2.png" alt="BE4CARE app screenshot 2">
                             </div>
                             <div class="card-portafolio card-portafolio-app card-portafolio-be4care card-portafolio-be4care-3">
-                                <img src="img/portafolio/be4care-3.png" alt="">
+                                <img src="img/portafolio/be4care-3.png" alt="BE4CARE app screenshot 3">
                             </div>
                             <div class="card-portafolio card-portafolio-app card-portafolio-be4care card-portafolio-be4care-4">
-                                <img src="img/portafolio/be4care-4.png" alt="">
+                                <img src="img/portafolio/be4care-4.png" alt="BE4CARE app screenshot 4">
                             </div>
                         </div>
                     </div>
+                    <p class="project-meta">App by <a href="https://www.linkedin.com/company/be4tech/" target="_blank" rel="noopener noreferrer">BE4TECH</a></p>
                 </div>
             </div>
 
@@ -144,26 +163,27 @@
                         <model-viewer 
                         class="gsap-3"
                         id="model-viewer-3"
+                        camera-controls
                         camera-orbit="-120deg 80deg auto"
                         autoplay 
                         shadow-intensity="1"
-                        id="reveal" 
-                        loading="eager" 
-                            
+                        loading="lazy" 
                         src="models-3d/macbook_pro_2021/scene.gltf" 
                         ></model-viewer>
+                        <span class="model-viewer-hint" aria-hidden="true">Drag to rotate</span>
                     </div>
 
                     <div class="cards">
                         <div class="card-scroll">
                             <div class="card-portafolio-web-slide card-portafolio-be4tech-1">
-                                <img src="img/portafolio/be4tech-1.png" alt="">
+                                <img src="img/portafolio/be4tech-1.png" alt="BE4TECH project screenshot 1">
                             </div>
                             <div class="card-portafolio-app card-portafolio-be4tech-2">
-                                <img src="img/portafolio/be4tech-2.png" alt="">
+                                <img src="img/portafolio/be4tech-2.png" alt="BE4TECH project screenshot 2">
                             </div>
                         </div>
                     </div>
+                    <p class="project-meta"><a href="https://www.linkedin.com/company/be4tech/" target="_blank" rel="noopener noreferrer">BE4TECH</a></p>
                 </div>
             </div>
 
@@ -184,32 +204,33 @@
                         <model-viewer 
                         class="gsap-4"
                         id="model-viewer-4"
+                        camera-controls
                         camera-orbit="-12deg 80deg auto"
                         autoplay 
                         shadow-intensity="1"
-                        id="reveal" 
-                        loading="eager" 
-                            
+                        loading="lazy" 
                         src="models-3d/computer_monitor/scene.gltf" 
                         ></model-viewer>
+                        <span class="model-viewer-hint" aria-hidden="true">Drag to rotate</span>
                     </div>
 
                     <div class="cards">
                         <div class="card-scroll">
-                            <div class="card-portafolio-web-slide card-portafolio-irocket-2">
-                                <img src="img/portafolio/irocket-1.png" alt="">
+                            <div class="card-portafolio-web-slide card-portafolio-irocket-1">
+                                <img src="img/portafolio/irocket-1.png" alt="IROCKET project screenshot 1">
                             </div>
                             <div class="card-portafolio-app card-portafolio-irocket-2">
-                                <img src="img/portafolio/irocket-2.png" alt="">
+                                <img src="img/portafolio/irocket-2.png" alt="IROCKET project screenshot 2">
                             </div>
                         </div>
                     </div>
+                    <p class="project-meta">Personal commercial project</p>
                 </div>
             </div>
 
 
             <div class="sub-banner">
-                <h1 class="projects-title projects-title-1"><span>SELECTED WORKS</span> SELECTED WORKS <span>SELECTED WORKS</span> SELECTED WORKS <span> PROJECTS <span>SELECTED WORKS</span> SELECTED WORKS <span>SELECTED WORKS</span> SELECTED WORKS <span> PROJECTS <span>SELECTED WORKS</span> SELECTED WORKS <span>SELECTED WORKS</span> SELECTED WORKS <span> PROJECTS <span>SELECTED WORKS</span> SELECTED WORKS <span>SELECTED WORKS</span> SELECTED WORKS <span> PROJECTS <span>SELECTED WORKS</span> SELECTED WORKS <span>SELECTED WORKS</span> SELECTED WORKS <span> PROJECTS <span>SELECTED WORKS</span> SELECTED WORKS <span>SELECTED WORKS</span> SELECTED WORKS <span> PROJECTS <span>SELECTED WORKS</span> SELECTED WORKS <span>SELECTED WORKS</span> SELECTED WORKS <span> PROJECTS <span>SELECTED WORKS</span> SELECTED WORKS <span>SELECTED WORKS</span> SELECTED WORKS <span> PROJECTS </h1>
+                <h1 class="projects-title projects-title-1"><span>SELECTED WORKS</span> SELECTED WORKS <span>SELECTED WORKS</span> SELECTED WORKS <span> PROJECTS <span>SELECTED WORKS</span> SELECTED WORKS <span>SELECTED WORKS</span> SELECTED WORKS <span> PROJECTS <span>SELECTED WORKS</span> SELECTED WORKS <span>SELECTED WORKS</span> SELECTED WORKS <span> PROJECTS <span>SELECTED WORKS</span> SELECTED WORKS <span>SELECTED WORKS</span> SELECTED WORKS <span> PROJECTS <span>SELECTED WORKS</span> SELECTED WORKS <span>SELECTED WORKS</span> SELECTED WORKS <span> PROJECTS <span>SELECTED WORKS</span> SELECTED WORKS <span>SELECTED WORKS</span> SELECTED WORKS <span> PROJECTS <span>SELECTED WORKS</span> SELECTED WORKS <span>SELECTED WORKS</span> SELECTED WORKS <span> PROJECTS </h1>
                 <h1 class="projects-title projects-title-2"><span>QR ACCESS</span> QR ACCESS <span>QR ACCESS</span> QR ACCESS <span>QR ACCESS</span> QR ACCESS <span>QR ACCESS</span> QR ACCESS <span>QR ACCESS</span> QR ACCESS <span>QR ACCESS</span> QR ACCESS <span>QR ACCESS</span> QR ACCESS <span>QR ACCESS</span> QR ACCESS <span>QR ACCESS</span> QR ACCESS <span>QR ACCESS</span> QR ACCESS <span>QR ACCESS</span> QR ACCESS <span>QR ACCESS</span> QR ACCESS <span>QR ACCESS</span> QR ACCESS <span>QR ACCESS</span> QR ACCESS <span>QR ACCESS</span> QR ACCESS <span>QR ACCESS</span> QR ACCESS </h1>
                 <h1 class="projects-title projects-title-1"><span>SELECTED WORKS</span> SELECTED WORKS <span>SELECTED WORKS</span> SELECTED WORKS <span> PROJECTS <span>SELECTED WORKS</span> SELECTED WORKS <span>SELECTED WORKS</span> SELECTED WORKS <span> PROJECTS <span>SELECTED WORKS</span> SELECTED WORKS <span>SELECTED WORKS</span> SELECTED WORKS <span> PROJECTS <span>SELECTED WORKS</span> SELECTED WORKS <span>SELECTED WORKS</span> SELECTED WORKS <span> PROJECTS <span>SELECTED WORKS</span> SELECTED WORKS <span>SELECTED WORKS</span> SELECTED WORKS <span> PROJECTS <span>SELECTED WORKS</span> SELECTED WORKS <span>SELECTED WORKS</span> SELECTED WORKS <span> PROJECTS <span>SELECTED WORKS</span> SELECTED WORKS <span>SELECTED WORKS</span> SELECTED WORKS <span> PROJECTS <span>SELECTED WORKS</span> SELECTED WORKS <span>SELECTED WORKS</span> SELECTED WORKS <span> PROJECTS </h1>
                 <h1 class="projects-title projects-title-2"><span>QR ACCESS</span> QR ACCESS <span>QR ACCESS</span> QR ACCESS <span>QR ACCESS</span> QR ACCESS <span>QR ACCESS</span> QR ACCESS <span>QR ACCESS</span> QR ACCESS <span>QR ACCESS</span> QR ACCESS <span>QR ACCESS</span> QR ACCESS <span>QR ACCESS</span> QR ACCESS <span>QR ACCESS</span> QR ACCESS <span>QR ACCESS</span> QR ACCESS <span>QR ACCESS</span> QR ACCESS <span>QR ACCESS</span> QR ACCESS <span>QR ACCESS</span> QR ACCESS <span>QR ACCESS</span> QR ACCESS <span>QR ACCESS</span> QR ACCESS <span>QR ACCESS</span> QR ACCESS </h1>
@@ -226,29 +247,30 @@
                         <model-viewer 
                         class="gsap-5"
                         id="model-viewer-5"
+                        camera-controls
                         camera-orbit="-220deg 70deg auto"
                         shadow-intensity="1"
-                        id="reveal" 
-                        loading="eager" 
-                            
+                        loading="lazy" 
                         ios-src="models-3d/samsung_ativ_book_9/Samsung_Ativ_Book_9.usdz"
                         src="models-3d/samsung_ativ_book_9/scene.gltf" 
                         ></model-viewer>
+                        <span class="model-viewer-hint" aria-hidden="true">Drag to rotate</span>
                     </div>
 
                     <div class="cards">
                         <div class="card-scroll">
                             <div class="card-portafolio-web-slide card-portafolio-qr-access-1">
-                                <img src="img/portafolio/newo.png" alt="">
+                                <img src="img/portafolio/newo.png" alt="QR Access for NEWO">
                             </div>
                         </div>
                     </div>
+                    <p class="project-meta">QR solution for <a href="https://www.newo.co/" target="_blank" rel="noopener noreferrer">NEWO</a></p>
                 </div>
             </div>
 
             
             <div class="sub-banner">
-                <h1 class="projects-title projects-title-1"><span>CONTACT-ME</span> CONTACT-ME <span>CONTACT-ME</span> CONTACT-ME <span> PROJECTS <span>CONTACT-ME</span> CONTACT-ME <span>CONTACT-ME</span> CONTACT-ME <span> PROJECTS <span>CONTACT-ME</span> CONTACT-ME <span>CONTACT-ME</span> CONTACT-ME <span> PROJECTS <span>CONTACT-ME</span> CONTACT-ME <span>CONTACT-ME</span> CONTACT-ME <span> PROJECTS <span>CONTACT-ME</span> CONTACT-ME <span>CONTACT-ME</span> CONTACT-ME <span> PROJECTS <span>CONTACT-ME</span> CONTACT-ME <span>CONTACT-ME</span> CONTACT-ME <span> PROJECTS <span>CONTACT-ME</span> CONTACT-ME <span>CONTACT-ME</span> CONTACT-ME <span> PROJECTS <span>CONTACT-ME</span|> CONTACT-ME <span>CONTACT-ME</span> CONTACT-ME <span> PROJECTS </h1>
+                <h1 class="projects-title projects-title-1"><span>CONTACT-ME</span> CONTACT-ME <span>CONTACT-ME</span> CONTACT-ME <span> PROJECTS <span>CONTACT-ME</span> CONTACT-ME <span>CONTACT-ME</span> CONTACT-ME <span> PROJECTS <span>CONTACT-ME</span> CONTACT-ME <span>CONTACT-ME</span> CONTACT-ME <span> PROJECTS <span>CONTACT-ME</span> CONTACT-ME <span>CONTACT-ME</span> CONTACT-ME <span> PROJECTS <span>CONTACT-ME</span> CONTACT-ME <span>CONTACT-ME</span> CONTACT-ME <span> PROJECTS <span>CONTACT-ME</span> CONTACT-ME <span>CONTACT-ME</span> CONTACT-ME <span> PROJECTS <span>CONTACT-ME</span> CONTACT-ME <span>CONTACT-ME</span> CONTACT-ME <span> PROJECTS <span>CONTACT-ME</span> CONTACT-ME <span>CONTACT-ME</span> CONTACT-ME <span> PROJECTS </h1>
                     <h1 class="projects-title projects-title-2"><span>CONTACT-ME</span> CONTACT-ME <span>CONTACT-ME</span> CONTACT-ME <span>CONTACT-ME</span> CONTACT-ME <span>CONTACT-ME</span> CONTACT-ME <span>CONTACT-ME</span> CONTACT-ME <span>CONTACT-ME</span> CONTACT-ME <span>CONTACT-ME</span> CONTACT-ME <span>CONTACT-ME</span> CONTACT-ME <span>CONTACT-ME</span> CONTACT-ME <span>CONTACT-ME</span> CONTACT-ME <span>CONTACT-ME</span> CONTACT-ME <span>CONTACT-ME</span> CONTACT-ME <span>CONTACT-ME</span> CONTACT-ME <span>CONTACT-ME</span> CONTACT-ME <span>CONTACT-ME</span> CONTACT-ME <span>CONTACT-ME</span> CONTACT-ME </h1>
                     <h1 class="projects-title projects-title-1"><span>CONTACT-ME</span> CONTACT-ME <span>CONTACT-ME</span> CONTACT-ME <span> PROJECTS <span>CONTACT-ME</span> CONTACT-ME <span>CONTACT-ME</span> CONTACT-ME <span> PROJECTS <span>CONTACT-ME</span> CONTACT-ME <span>CONTACT-ME</span> CONTACT-ME <span> PROJECTS <span>CONTACT-ME</span> CONTACT-ME <span>CONTACT-ME</span> CONTACT-ME <span> PROJECTS <span>CONTACT-ME</span> CONTACT-ME <span>CONTACT-ME</span> CONTACT-ME <span> PROJECTS <span>CONTACT-ME</span> CONTACT-ME <span>CONTACT-ME</span> CONTACT-ME <span> PROJECTS <span>CONTACT-ME</span> CONTACT-ME <span>CONTACT-ME</span> CONTACT-ME <span> PROJECTS <span>CONTACT-ME</span> CONTACT-ME <span>CONTACT-ME</span> CONTACT-ME <span> PROJECTS </h1>
                     <h1 class="projects-title projects-title-2"><span>CONTACT-ME</span> CONTACT-ME <span>CONTACT-ME</span> CONTACT-ME <span>CONTACT-ME</span> CONTACT-ME <span>CONTACT-ME</span> CONTACT-ME <span>CONTACT-ME</span> CONTACT-ME <span>CONTACT-ME</span> CONTACT-ME <span>CONTACT-ME</span> CONTACT-ME <span>CONTACT-ME</span> CONTACT-ME <span>CONTACT-ME</span> CONTACT-ME <span>CONTACT-ME</span> CONTACT-ME <span>CONTACT-ME</span> CONTACT-ME <span>CONTACT-ME</span> CONTACT-ME <span>CONTACT-ME</span> CONTACT-ME <span>CONTACT-ME</span> CONTACT-ME <span>CONTACT-ME</span> CONTACT-ME <span>CONTACT-ME</span> CONTACT-ME </h1>
@@ -258,20 +280,20 @@
                     <h1 class="projects-title projects-title-2"><span>CONTACT-ME</span> CONTACT-ME <span>CONTACT-ME</span> CONTACT-ME <span>CONTACT-ME</span> CONTACT-ME <span>CONTACT-ME</span> CONTACT-ME <span>CONTACT-ME</span> CONTACT-ME <span>CONTACT-ME</span> CONTACT-ME <span>CONTACT-ME</span> CONTACT-ME <span>CONTACT-ME</span> CONTACT-ME <span>CONTACT-ME</span> CONTACT-ME <span>CONTACT-ME</span> CONTACT-ME <span>CONTACT-ME</span> CONTACT-ME <span>CONTACT-ME</span> CONTACT-ME <span>CONTACT-ME</span> CONTACT-ME <span>CONTACT-ME</span> CONTACT-ME <span>CONTACT-ME</span> CONTACT-ME <span>CONTACT-ME</span> CONTACT-ME </h1>
             </div>
 
-            <div class="contact">
+            <div class="contact" id="contact">
                 <div class="text">
-                    <h1 class="contact-title-1"><span>LET'S START </span></h1>
-                    <h1 class="contact-title-2">A CONTACT</h1>
+                    <h1 class="contact-title-1"><span>LET'S GET </span></h1>
+                    <h1 class="contact-title-2">IN TOUCH</h1>
                     <p class="aaron">“Be curious. Read widely. Try new things. What people call intelligence just boils down to curiosity.” <br>
                         ― Aaron Swartz</p>
                 </div>
 
                 <footer class="footer-contact">
-                    <a href="#">PARENTAL ADVISORY EXPLICIT CODE</a>
-                    <a class="rss-hidden" href="https://www.linkedin.com/in/ivan-dario/" target="_blank">LINKEDIN</a>
-                    <a class="rss-hidden" href="https://github.com/ivan-sf" target="_blank">GITHUB</a>
-                    <a class="rss-hidden" href="mailto:mail@ivansantander.com">MAIL@IVANSANTANDER.COM</p>
-                    <a href="#">DESIGN & CODE BY IVAN SANTANDER</a>
+                    <a href="#contact">PARENTAL ADVISORY EXPLICIT CODE</a>
+                    <a class="rss-hidden" href="https://www.linkedin.com/in/ivan-dario/" target="_blank" rel="noopener noreferrer">LINKEDIN</a>
+                    <a class="rss-hidden" href="https://github.com/ivan-sf" target="_blank" rel="noopener noreferrer">GITHUB</a>
+                    <a class="rss-hidden" href="mailto:mail@ivansantander.com">MAIL@IVANSANTANDER.COM</a>
+                    <a href="#contact">DESIGN & CODE BY IVAN SANTANDER</a>
                 </footer>
             </div>
 
@@ -297,7 +319,6 @@
 <script src="https://unpkg.com/@google/model-viewer/dist/model-viewer.min.js" type="module"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.3.3/gsap.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.3.3/ScrollTrigger.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/latest/TweenMax.min.js"></script>
 <script src="js/app.js"></script>
 <script src="js/colors.js"></script>
 <script src="js/gsap.js"></script>
