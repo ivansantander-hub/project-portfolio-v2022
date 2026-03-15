@@ -1,0 +1,12 @@
+{
+  "name": "portfolio-site",
+  "type": "module",
+  "private": true,
+  "scripts": {
+    "build": "mini-astro build",
+    "dev": "mini-astro dev"
+  },
+  "dependencies": {
+    "mini-astro": "github:ivansantander-hub/mini-astro"
+  }
+}

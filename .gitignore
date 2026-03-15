@@ -1,6 +1,9 @@
 # Dependencies
 node_modules/
 
+# mini-astro: repo propio en github.com/ivansantander-hub/mini-astro (se instala vía dependencia en site/)
+mini-astro/
+
 # OS
 .DS_Store
 Thumbs.db
