@@ -205,11 +205,16 @@ if (screen.width > 620) {
             pin: false
         }
     });
+    tlLearUp.from(".gsap-6",{
+        opacity:'0',
+        x:'-50vw',
+        duration:1,
+    },"<")
     tlLearUp.from(".card-portafolio-learup-1",{
         opacity:'0',
         x:'60vh',
         duration:2,
-    },"<")
+    },">")
 
     var tlContact = gsap.timeline({
         scrollTrigger:{

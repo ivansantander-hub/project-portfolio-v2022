@@ -48,6 +48,8 @@ Alternatively: `npx serve . -p 3000` or any static server on the project root.
 ├── js/            → app.js, colors.js, gsap.js, gsap-lite.js
 ├── models-3d/     → GLTF (and USDZ where used)
 └── img/portafolio/
+    ├── learup-login.png   ← optional: LearUp login screenshot for the 3D card (fallback: learupm.webp)
+    └── …
 ```
 
 ---

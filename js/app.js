@@ -8,7 +8,7 @@
     window.scrollTo(0, 0);
 
     var HINT_HIDE_DELAY_MS = 5500;
-    var modelViewerIds = ['model-viewer', 'model-viewer-2', 'model-viewer-3', 'model-viewer-4', 'model-viewer-5'];
+    var modelViewerIds = ['model-viewer', 'model-viewer-2', 'model-viewer-3', 'model-viewer-4', 'model-viewer-5', 'model-viewer-6'];
 
     function runHeroEntrance() {
         var wrap = document.querySelector('.hero-model-wrap');
