@@ -150,8 +150,13 @@ Vendor JS (GSAP, Lenis, model-viewer) is copied from `node_modules` → `dist/ve
 | **Info real del perfil** | Bio: Tech Lead & TPO, healthtech, Medellín Colombia. Stack: TS/React/Next.js/GraphQL/Docker |
 | **Film grain overlay** | `.grain` fixed SVG feTurbulence + `grain-shift` steps(1) animation — opacity 0.032 |
 | **Galería horizontal** | `.card-scroll` drag-to-scroll con `scroll-snap-type: x mandatory`, cursor grab |
-| **Sonido ambiental** | Web Audio bandpass noise burst (250ms, gain 0.04) en cada section entry — 800ms throttle |
+| **Sonido ambiental** | CC0 MP3 reales (`whoosh1/3.mp3` de rse/soundfx). `fetch()` + `decodeAudioData()`, alternancia, vol 0.12 |
 | **OG image** | `src/og-card.html` + `scripts/gen-og.mjs` — ejecutar `pnpm og` para generar `dist/img/og.jpg` |
+| **Scroll velocity skew** | Awwwards signature: `±4° skewY` en secciones proporcional a velocidad de scroll. `gsap.quickSetter` + `clamp` |
+| **Clip-path wipe reveals** | Proyectos entran con `inset(100% 0% 0% 0%)` → `inset(0)` + blur dissolve + scale 0.92 |
+| **Footer sticky reveal** | Contact section: scrubbed clip-path `inset(100%)→inset(0)` + blur, `scrub:1.2` |
+| **Cursor velocity trail** | Ring stretch `scaleX` hasta 1.35× en dirección de movimiento + rotación + dynamic lerp (0.085 vs 0.12) |
+| **Drag momentum** | Galerías con velocity tracking + friction decay (0.92) coast en mouseup vía RAF |
 
 ## ✅ Sin pendientes — Listo para Awwwards
 

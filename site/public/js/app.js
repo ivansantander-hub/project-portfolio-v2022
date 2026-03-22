@@ -221,104 +221,116 @@
     window.addEventListener('scroll', hide, { passive: true });
   }
 
-  // ── Card gallery drag-to-scroll ───────────────────────────────────────────
-  //  Mousedown captures start position; mousemove translates scrollLeft.
-  //  Uses window listeners for mouseup/mouseleave so fast drags don't escape.
-  //  Touch scroll is handled natively by overflow-x: auto on .card-scroll.
+  // ── Card gallery drag-to-scroll with momentum ──────────────────────────
+  //  Mousedown captures start; mousemove translates scrollLeft.
+  //  On mouseup, velocity is preserved and decays with friction (0.92).
+  //  Touch scroll handled natively by overflow-x: auto.
   function setupDragScroll() {
-    document.querySelectorAll('.card-scroll').forEach((el) => {
-      let dragging  = false;
-      let startX    = 0;
-      let scrollStart = 0;
+    document.querySelectorAll('.card-scroll').forEach(function(el) {
+      var dragging    = false;
+      var startX      = 0;
+      var scrollStart = 0;
+      var velocity    = 0;
+      var lastX       = 0;
+      var lastT       = 0;
+      var momentumRaf = 0;
 
-      el.addEventListener('mousedown', (e) => {
+      el.addEventListener('mousedown', function(e) {
         dragging    = true;
         startX      = e.clientX;
+        lastX       = e.clientX;
+        lastT       = performance.now();
         scrollStart = el.scrollLeft;
+        velocity    = 0;
+        cancelAnimationFrame(momentumRaf);
         el.classList.add('is-dragging');
-        e.preventDefault(); // prevents text selection while dragging
+        e.preventDefault();
       });
 
-      window.addEventListener('mousemove', (e) => {
+      window.addEventListener('mousemove', function(e) {
         if (!dragging) return;
+        var now = performance.now();
+        var dx  = lastX - e.clientX;
+        var dt  = now - lastT;
+        if (dt > 0) velocity = dx / dt; // px/ms
+        lastX = e.clientX;
+        lastT = now;
         el.scrollLeft = scrollStart + (startX - e.clientX);
       });
 
-      const stopDrag = () => {
+      function stopDrag() {
         if (!dragging) return;
         dragging = false;
         el.classList.remove('is-dragging');
-      };
+        // Apply momentum
+        if (Math.abs(velocity) > 0.3) {
+          var v = velocity * 16; // convert px/ms → px/frame
+          (function coast() {
+            v *= 0.92; // friction
+            if (Math.abs(v) < 0.5) return;
+            el.scrollLeft += v;
+            momentumRaf = requestAnimationFrame(coast);
+          })();
+        }
+      }
       window.addEventListener('mouseup',    stopDrag);
       window.addEventListener('mouseleave', stopDrag);
     });
   }
 
-  // ── Ambient scroll sound ──────────────────────────────────────────────────
-  //  Bandpass-filtered white noise burst (0.25s) at very low gain (0.04).
-  //  Fires on IntersectionObserver section entry — max once per 800ms.
-  //  AudioContext created on first user gesture (browser autoplay policy).
-  //  Skipped entirely if user prefers reduced motion (implies reduced stimuli).
+  // ── Lo-fi ambient music — CC0 track by Loyalty Freak Music ──────────────
+  //  "I'm glad you are here with me" by Lack of Color / Loyalty Freak Music.
+  //  CC0 public domain (archive.org). Loops at low volume (~4%).
+  //  Fades in 4s on first user gesture. Fades out on tab hide.
+  //  No SFX, no transitions — just the music setting the mood.
+  //
   function setupScrollSound() {
     if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
     if (typeof AudioContext === 'undefined' && typeof window.webkitAudioContext === 'undefined') return;
 
-    let ctx      = null;
-    let lastTime = 0;
+    var ctx         = null;
+    var ambientSrc  = null;
+    var ambientGain = null;
+    var VOLUME      = 0.04;
 
     function unlock() {
       if (ctx) return;
       ctx = new (window.AudioContext || window.webkitAudioContext)();
+
+      fetch('audio/lofi-ambient.mp3')
+        .then(function(r) { return r.arrayBuffer(); })
+        .then(function(b) { return ctx.decodeAudioData(b); })
+        .then(function(buffer) {
+          ambientSrc = ctx.createBufferSource();
+          ambientSrc.buffer = buffer;
+          ambientSrc.loop = true;
+
+          ambientGain = ctx.createGain();
+          ambientGain.gain.setValueAtTime(0, ctx.currentTime);
+          ambientGain.gain.linearRampToValueAtTime(VOLUME, ctx.currentTime + 4);
+
+          ambientSrc.connect(ambientGain);
+          ambientGain.connect(ctx.destination);
+          ambientSrc.start(0);
+        })
+        .catch(function() { /* audio not available — silent fallback */ });
     }
+
     document.addEventListener('mousedown',  unlock, { once: true });
     document.addEventListener('touchstart', unlock, { once: true });
     document.addEventListener('keydown',    unlock, { once: true });
 
-    function playWhoosh() {
-      if (!ctx) return;
-      const now = performance.now();
-      if (now - lastTime < 800) return;
-      lastTime = now;
-
-      if (ctx.state === 'suspended') ctx.resume();
-
-      const t      = ctx.currentTime;
-      const len    = Math.floor(ctx.sampleRate * 0.25);
-      const buf    = ctx.createBuffer(1, len, ctx.sampleRate);
-      const data   = buf.getChannelData(0);
-      for (let i = 0; i < len; i++) data[i] = Math.random() * 2 - 1;
-
-      const src = ctx.createBufferSource();
-      src.buffer = buf;
-
-      const bpf = ctx.createBiquadFilter();
-      bpf.type = 'bandpass';
-      bpf.frequency.setValueAtTime(500, t);
-      bpf.frequency.exponentialRampToValueAtTime(140, t + 0.25);
-      bpf.Q.value = 1.4;
-
-      const gain = ctx.createGain();
-      gain.gain.setValueAtTime(0, t);
-      gain.gain.linearRampToValueAtTime(0.04, t + 0.04);
-      gain.gain.exponentialRampToValueAtTime(0.001, t + 0.25);
-
-      src.connect(bpf);
-      bpf.connect(gain);
-      gain.connect(ctx.destination);
-      src.start(t);
-      src.stop(t + 0.28);
-    }
-
-    const sections = document.querySelectorAll('.app, .about-section, .contact');
-    if (!sections.length) return;
-
-    const obs = new IntersectionObserver((entries) => {
-      entries.forEach((e) => {
-        if (e.isIntersecting && e.intersectionRatio >= 0.35) playWhoosh();
-      });
-    }, { threshold: 0.35 });
-
-    sections.forEach((s) => obs.observe(s));
+    // Mute on tab hide, restore on show
+    document.addEventListener('visibilitychange', function() {
+      if (!ctx || !ambientGain) return;
+      var t = ctx.currentTime;
+      if (document.hidden) {
+        ambientGain.gain.linearRampToValueAtTime(0, t + 0.5);
+      } else {
+        ctx.resume();
+        ambientGain.gain.linearRampToValueAtTime(VOLUME, t + 1.5);
+      }
+    });
   }
 
   // ── Init ──────────────────────────────────────────────────────────────────

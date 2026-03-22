@@ -1,0 +1,17 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(curl -sL -o \"transition1.wav\" \"https://raw.githubusercontent.com/Calinou/kenney-interface-sounds/master/addons/kenney_interface_sounds/minimize_002.wav\")",
+      "Bash(curl -sL -o \"transition2.wav\" \"https://raw.githubusercontent.com/Calinou/kenney-interface-sounds/master/addons/kenney_interface_sounds/open_001.wav\")",
+      "Bash(curl -sL -o \"transition3.wav\" \"https://raw.githubusercontent.com/Calinou/kenney-interface-sounds/master/addons/kenney_interface_sounds/close_002.wav\")",
+      "Bash(curl -sL -o \"confirmation.wav\" \"https://raw.githubusercontent.com/Calinou/kenney-interface-sounds/master/addons/kenney_interface_sounds/confirmation_002.wav\")",
+      "Bash(curl -sL -o \"pluck.wav\" \"https://raw.githubusercontent.com/Calinou/kenney-interface-sounds/master/addons/kenney_interface_sounds/pluck_001.wav\")",
+      "Bash(where ffmpeg:*)",
+      "Bash(AUDIO_DIR=/c/ivan/personal/2026/project-portfolio-v2022/site/public/audio)",
+      "Bash(cp click.wav \"$AUDIO_DIR/click.wav\")",
+      "Bash(cp transition1.wav \"$AUDIO_DIR/transition1.wav\")",
+      "Bash(cp transition2.wav \"$AUDIO_DIR/transition2.wav\")",
+      "Bash(cp transition3.wav \"$AUDIO_DIR/transition3.wav\")"
+    ]
+  }
+}

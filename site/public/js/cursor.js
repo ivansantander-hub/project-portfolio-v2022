@@ -5,6 +5,7 @@
  *  - Ring (36px): lerped at factor 0.12 — smooth trailing effect.
  *  - Hover: ring grows, dot vanishes.
  *  - Click: ring squish + dot pulse + subtle audio tick.
+ *  - Velocity stretch: ring stretches in movement direction at speed.
  *  - Magnetic: elements with .magnetic class pull ring toward them.
  *  - Touch guard: no-op on touch-only devices.
  *
@@ -42,26 +43,37 @@
   let ringScaleT = 1,  ringScale = 1;
   let dotScaleT  = 1,  dotScale  = 1;
 
-  // ── Click audio — short sine sweep (tasteful digital tick) ────────────────
-  let audioCtx = null;
+  // Velocity tracking for ring stretch
+  let prevMouseX = mouseX;
+  let prevMouseY = mouseY;
+  let ringRotT   = 0, ringRot = 0;   // rotation target + current
+  let ringStretchT = 1, ringStretch = 1; // scaleX stretch target + current
+
+  // ── Click audio — real WAV file (Kenney CC0) ──────────────────────────────
+  //  Uses click.wav from Kenney UI Audio pack — a subtle, physical click.
+  //  Loaded once on first AudioContext unlock, then replayed from buffer.
+  //  Meaning: tactile feedback — "you pressed something real."
+  let audioCtx    = null;
+  let clickBuffer = null;
   function playClick() {
     try {
       if (!audioCtx) {
         audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+        fetch('audio/click.wav')
+          .then(function(r) { return r.arrayBuffer(); })
+          .then(function(b) { return audioCtx.decodeAudioData(b); })
+          .then(function(buf) { clickBuffer = buf; })
+          .catch(function() {});
       }
       if (audioCtx.state === 'suspended') audioCtx.resume();
-      const t    = audioCtx.currentTime;
-      const osc  = audioCtx.createOscillator();
-      const gain = audioCtx.createGain();
-      osc.type = 'sine';
-      osc.frequency.setValueAtTime(1100, t);
-      osc.frequency.exponentialRampToValueAtTime(180, t + 0.065);
-      gain.gain.setValueAtTime(0.09, t);
-      gain.gain.exponentialRampToValueAtTime(0.001, t + 0.085);
-      osc.connect(gain);
+      if (!clickBuffer) return;
+      var src  = audioCtx.createBufferSource();
+      src.buffer = clickBuffer;
+      var gain = audioCtx.createGain();
+      gain.gain.value = 0.10;
+      src.connect(gain);
       gain.connect(audioCtx.destination);
-      osc.start(t);
-      osc.stop(t + 0.1);
+      src.start(0);
     } catch (_) { /* audio not available — silent fallback */ }
   }
 
@@ -84,13 +96,36 @@
     dot.style.transform =
       `translate(${mouseX}px, ${mouseY}px) scale(${dotScale.toFixed(3)})`;
 
-    // Ring: lerped position AND scale — both inside same transform string
-    // so scale pivots at the ring's current position (not the viewport origin)
-    ringX    += (mouseX    - ringX)    * LERP;
-    ringY    += (mouseY    - ringY)    * LERP;
+    // Ring: velocity-aware trail with directional stretch
+    var dx = mouseX - prevMouseX;
+    var dy = mouseY - prevMouseY;
+    var speed = Math.sqrt(dx * dx + dy * dy);
+    prevMouseX = mouseX;
+    prevMouseY = mouseY;
+
+    // Dynamic lerp: faster movement = longer trail (more lag)
+    var dynamicLerp = speed > 8 ? 0.085 : LERP; // 0.085 vs default 0.12
+
+    ringX += (mouseX - ringX) * dynamicLerp;
+    ringY += (mouseY - ringY) * dynamicLerp;
+
+    // Stretch in movement direction (max 1.35x at high speed)
+    ringStretchT = 1 + Math.min(speed * 0.012, 0.35);
+    ringStretch += (ringStretchT - ringStretch) * 0.14;
+
+    // Rotate ring to face movement direction
+    if (speed > 3) {
+      ringRotT = Math.atan2(dy, dx) * (180 / Math.PI);
+    }
+    // Smooth rotation interpolation (handle 360° wrap)
+    var rotDiff = ringRotT - ringRot;
+    if (rotDiff > 180)  rotDiff -= 360;
+    if (rotDiff < -180) rotDiff += 360;
+    ringRot += rotDiff * 0.12;
+
     ringScale += (ringScaleT - ringScale) * SCALE_LERP;
     ring.style.transform =
-      `translate(${ringX}px, ${ringY}px) scale(${ringScale.toFixed(3)})`;
+      'translate(' + ringX + 'px, ' + ringY + 'px) rotate(' + ringRot.toFixed(1) + 'deg) scaleX(' + (ringScale * ringStretch).toFixed(3) + ') scaleY(' + ringScale.toFixed(3) + ')';
 
     requestAnimationFrame(tick);
   }
