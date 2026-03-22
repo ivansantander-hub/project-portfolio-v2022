@@ -3,7 +3,8 @@
     "allow": [
       "Bash(claude mcp:*)",
       "Bash(npx:*)",
-      "mcp__gitlab__get_merge_request_diffs"
+      "mcp__gitlab__get_merge_request_diffs",
+      "Bash(node -e \"const fs=require\\(''fs''\\); const g=JSON.parse\\(fs.readFileSync\\(''c:/ivan/personal/2026/project-portfolio-v2022/site/public/models-3d/rhetorician/scene.gltf'',''utf8''\\)\\); console.log\\(''animations:'', JSON.stringify\\(g.animations?.map\\(a=>a.name\\)\\)\\); console.log\\(''nodes:'', g.nodes?.length\\); console.log\\(''meshes:'', g.meshes?.length\\);\")"
     ]
   }
 }

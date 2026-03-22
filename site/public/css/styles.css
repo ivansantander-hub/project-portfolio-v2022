@@ -62,9 +62,9 @@ body{
     overflow: hidden;
     display: flex;
     flex-direction: column;
+    position: relative;
     z-index: 10;
     background-color: var(--background);
-    overflow: hidden;
     /* border: solid red; */
 }
 .header{
@@ -321,9 +321,9 @@ model-viewer:active {
 .about-me{
     position: absolute;
     width: 30vw;
-    text-align: start;
+    text-align: center;
     left: -50vw;
-    top: 40vh;
+    top: 48vh;   /* ~50vh minus half the text height → visually centered */
 }
 
 .about-me h2,
@@ -408,16 +408,19 @@ model-viewer:active {
     flex-direction: column;
     /* border: solid beige; */
     align-items: flex-start;
+    position: relative;
 }
 .app .content{
     width: 100%;
     height: 100vh;
     display: flex;
+    position: relative;
     /* border: solid greenyellow; */
 }
 
 .app .content .model-3d{
-    width: 30vw;
+    width: 48vw;
+    flex-shrink: 0;
     overflow: visible;
     /* border: solid blueviolet; */
     position: relative;
@@ -449,7 +452,8 @@ model-viewer:active {
 }
 
 .app .content .cards{
-    width: 70vw;
+    flex: 1;
+    min-width: 0;
     height: 100%;
     display: flex;
     justify-content: center;
@@ -663,14 +667,16 @@ model-viewer:active {
 }
 
 .project-meta {
-    margin-top: 1rem;
     font-size: 0.9em;
     color: var(--color-text);
     opacity: 0.9;
-    position: sticky;
-    top: 1rem;
-    align-self: flex-start;
-    z-index: 10;
+    position: absolute;
+    top: 1.5rem;
+    right: 1.5rem;
+    text-align: right;
+    z-index: 20;
+    max-width: 260px;
+    line-height: 1.4;
 }
 .project-meta a {
     color: var(--color-text);
@@ -771,17 +777,181 @@ model-viewer:active {
 }
 
 /* //////////////////////////CURSORS */
-*{
-    cursor: url(../img/cursor/cursor.png) 15 10, auto;
+/* JS cursor follower handles visual on pointer devices — hide OS cursor */
+@media (pointer: fine) {
+    * { cursor: none !important; }
 }
-.menu i, a, .color, .swatch {
-    cursor: url(../img/cursor/rick-1.png) 5 10, auto;
-}
-
-a:hover{
-    text-decoration: underline !important;
+@media (pointer: coarse) {
+    * { cursor: auto; }
+    a, button, .swatch { cursor: pointer; }
 }
 
+a:hover { text-decoration: underline !important; }
+
+/* ── JS Cursor Follower ────────────────────────────────────────────────────── */
+.cursor-dot,
+.cursor-ring {
+    position: fixed;
+    top: 0; left: 0;
+    border-radius: 50%;
+    pointer-events: none;
+    opacity: 0;
+    z-index: 999999;
+    will-change: transform;
+}
+.cursor-dot {
+    width: 8px; height: 8px;
+    background: var(--contrast);
+    top: -4px; left: -4px;
+    transition: opacity 0.3s ease, scale 0.15s ease, background-color 0.3s ease;
+}
+.cursor-ring {
+    width: 36px; height: 36px;
+    border: 1.5px solid var(--contrast);
+    top: -18px; left: -18px;
+    mix-blend-mode: difference;
+    transition: opacity 0.3s ease, scale 0.22s cubic-bezier(0.34,1.56,0.64,1), border-color 0.3s ease;
+}
+.cursor-ring--hover { scale: 1.55; }
+.cursor-dot--hover  { scale: 0; }
+.cursor-ring--click { scale: 0.75; }
+
+/* ── Scroll Progress Bar ───────────────────────────────────────────────────── */
+#scroll-progress {
+    position: fixed;
+    top: 0; left: 0;
+    height: 2px;
+    width: 0%;
+    background: var(--contrast);
+    z-index: 9998;
+    pointer-events: none;
+    transition: width 0.04s linear;
+}
+
+/* ── Section Indicator (right margin, desktop only) ───────────────────────── */
+.section-indicator { display: none; }
+@media (min-width: 621px) {
+    .section-indicator {
+        display: block;
+        position: fixed;
+        right: 1.2rem;
+        top: 50%;
+        transform: translateY(-50%);
+        writing-mode: vertical-rl;
+        font-family: var(--fontSecond);
+        font-size: 0.62rem;
+        letter-spacing: 0.25em;
+        color: var(--color-text);
+        opacity: 0.38;
+        pointer-events: none;
+        z-index: 500;
+        transition: opacity 0.4s ease;
+    }
+}
+.section-indicator-text {
+    display: block;
+    transition: opacity 0.25s ease;
+}
+.section-indicator-text.fade { opacity: 0; }
+
+/* ── Scroll CTA (animated line in hero) ────────────────────────────────────── */
+.scroll-cta {
+    position: absolute;
+    bottom: 1.8rem;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.45rem;
+    z-index: 20;
+    opacity: 1;
+    transition: opacity 0.6s ease;
+    pointer-events: none;
+}
+.scroll-cta--hidden { opacity: 0; pointer-events: none; }
+.scroll-cta-label {
+    font-family: var(--fontSecond);
+    font-size: 0.68rem;
+    letter-spacing: 0.35em;
+    color: var(--color-text);
+    opacity: 0.55;
+}
+.scroll-cta-line {
+    width: 1px; height: 40px;
+    background: color-mix(in srgb, var(--contrast) 20%, transparent);
+    position: relative;
+    overflow: hidden;
+}
+.scroll-cta-line::after {
+    content: '';
+    position: absolute;
+    top: 0; left: 0;
+    width: 100%; height: 100%;
+    background: var(--contrast);
+    animation: scroll-cta-drop 1.6s ease-in-out infinite;
+}
+@keyframes scroll-cta-drop {
+    0%   { transform: translateY(-100%); opacity: 1; }
+    70%  { transform: translateY(100%);  opacity: 1; }
+    100% { transform: translateY(100%);  opacity: 0; }
+}
+@media (max-width: 620px) { .scroll-cta { bottom: 1rem; } }
+
+/* ── Film grain / noise overlay ────────────────────────────────────────────── */
+body::after {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='256' height='256'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+    background-size: 256px 256px;
+    opacity: 0.028;
+    pointer-events: none;
+    z-index: 9989;
+}
+
+/* ── Theme transition overlay ──────────────────────────────────────────────── */
+#theme-overlay {
+    position: fixed;
+    inset: 0;
+    background: #000;
+    opacity: 0;
+    transition: opacity 0.15s ease;
+    pointer-events: none;
+    z-index: 9990;
+}
+
+/* ── Magnetic elements ─────────────────────────────────────────────────────── */
+.magnetic { display: inline-block; }
+
+/* ── Project description ───────────────────────────────────────────────────── */
+.project-desc {
+    font-size: 0.65rem;
+    opacity: 0.5;
+    font-weight: 300;
+    letter-spacing: 0.04em;
+    max-width: 26ch;
+    line-height: 1.55;
+    position: absolute;
+    top: 3.6rem;
+    right: 1.5rem;
+    text-align: right;
+    z-index: 20;
+}
+@media (max-width: 620px) {
+    .project-meta,
+    .project-desc {
+        position: static;
+        text-align: center;
+        max-width: 100%;
+        padding: 0 1rem;
+        right: auto;
+    }
+    .project-desc {
+        font-size: clamp(0.58rem, 2.4vw, 0.72rem);
+        margin-top: 0.3rem;
+    }
+}
 
 
 
@@ -804,6 +974,36 @@ a:hover{
 
 
 
+
+
+/* ── Cosmonaut traveler ────────────────────────────────────────────────────────
+   Fixed-position layer for the cosmonaut that journeys through portfolio
+   sections. GSAP controls position/scale/rotation/opacity from animations.js.
+   Width/height are set to 280×330px by JS (matching the travel scale).        */
+#traveler-wrap {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 280px;
+    height: 330px;
+    pointer-events: none;
+    z-index: 60;
+    opacity: 0;
+    will-change: transform, opacity;
+    cursor: none;
+    transform-origin: top left;
+}
+#traveler-wrap model-viewer {
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    --poster-color: transparent;
+    --progress-bar-color: transparent;
+    --progress-mask: transparent;
+}
+@media (max-width: 620px) {
+    #traveler-wrap { display: none; }
+}
 
 @keyframes slide {
     0%{

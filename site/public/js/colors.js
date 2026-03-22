@@ -56,12 +56,29 @@
 
   // ── Theme switcher (vanilla JS — no jQuery) ──────────────────────────────
   // Buttons use data-bg / data-text / data-contrast attributes (set in HTML).
+  // #theme-overlay flashes black during the color swap for a cinematic cut.
+  const themeOverlay = document.getElementById('theme-overlay');
+
+  function flashAndApply(bg, text, contrast) {
+    if (!themeOverlay) {
+      applyTheme(bg, text, contrast);
+      return;
+    }
+    // Fade in
+    themeOverlay.style.opacity = '1';
+    setTimeout(() => {
+      applyTheme(bg, text, contrast);
+      // Fade out after variables applied
+      themeOverlay.style.opacity = '0';
+    }, 150);
+  }
+
   document.querySelectorAll('.swatch').forEach((btn) => {
     btn.addEventListener('click', () => {
       const bg       = btn.dataset.bg       ?? '#111111';
       const text     = btn.dataset.text     ?? '#F1F4FF';
       const contrast = btn.dataset.contrast ?? '#F1F4FF';
-      applyTheme(bg, text, contrast);
+      flashAndApply(bg, text, contrast);
     });
   });
 

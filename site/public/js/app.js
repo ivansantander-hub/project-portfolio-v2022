@@ -149,11 +149,85 @@
     });
   }
 
+  // ── Scroll progress bar ───────────────────────────────────────────────────
+  function setupScrollProgress() {
+    const bar = document.getElementById('scroll-progress');
+    if (!bar) return;
+
+    function updateBar() {
+      const scrollTop = window.scrollY || document.documentElement.scrollTop;
+      const docH      = document.documentElement.scrollHeight - window.innerHeight;
+      const pct       = docH > 0 ? (scrollTop / docH) * 100 : 0;
+      bar.style.width = `${Math.min(100, pct)}%`;
+    }
+
+    window.addEventListener('scroll', updateBar, { passive: true });
+    updateBar();
+  }
+
+  // ── Section indicator ─────────────────────────────────────────────────────
+  function setupSectionIndicator() {
+    const textEl = document.getElementById('section-indicator-text');
+    if (!textEl) return;
+
+    const sections = [
+      { el: document.querySelector('.banner'),  label: 'HOME'     },
+      { el: document.querySelector('.sub-banner'), label: 'WORK'  },
+      { el: document.querySelector('.app.be4care'),  label: 'BE4CARE'  },
+      { el: document.querySelector('.app.be4tech'),  label: 'BE4TECH'  },
+      { el: document.querySelector('.app.irocket'),  label: 'IROCKET'  },
+      { el: document.querySelector('.app.qr-access'), label: 'NEWO'   },
+      { el: document.querySelector('.app.learup'),   label: 'LEARUP'  },
+      { el: document.querySelector('.contact'),  label: 'CONTACT'  },
+    ].filter((s) => s.el !== null);
+
+    if (sections.length === 0) return;
+
+    let current = '';
+
+    const obs = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (!entry.isIntersecting) return;
+          const match = sections.find((s) => s.el === entry.target);
+          if (!match || match.label === current) return;
+          current = match.label;
+          textEl.style.opacity = '0';
+          setTimeout(() => {
+            textEl.textContent  = current;
+            textEl.style.opacity = '';
+          }, 180);
+        });
+      },
+      { threshold: 0.25 }
+    );
+
+    sections.forEach((s) => obs.observe(s.el));
+  }
+
+  // ── Scroll CTA: hide after first meaningful scroll ─────────────────────────
+  function setupScrollCta() {
+    const cta = document.querySelector('.scroll-cta');
+    if (!cta) return;
+
+    function hide() {
+      if (window.scrollY > 50) {
+        cta.classList.add('scroll-cta--hidden');
+        window.removeEventListener('scroll', hide);
+      }
+    }
+
+    window.addEventListener('scroll', hide, { passive: true });
+  }
+
   // ── Init ──────────────────────────────────────────────────────────────────
   function init() {
     window.scrollTo(0, 0);
     setupDragHints();
     runHeroEntrance();
+    setupScrollProgress();
+    setupSectionIndicator();
+    setupScrollCta();
   }
 
   if (document.readyState === 'loading') {
