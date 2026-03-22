@@ -13,20 +13,29 @@
     function runHeroEntrance() {
         var wrap = document.querySelector('.hero-model-wrap');
         if (!wrap || typeof gsap === 'undefined') return;
+        var narrow =
+            typeof window.matchMedia !== 'undefined' &&
+            window.matchMedia('(max-width: 620px)').matches;
         /* Quitar pantalla negra al mismo tiempo que empieza la entrada para que se vea la animación */
         setTimeout(function () {
             clearTimeout(timeBlackScreen);
             blackScreen();
         }, 1800);
-        gsap.to(wrap, {
-            opacity: 1,
-            x: 0,
-            scale: 1,
-            duration: 2.4,
-            delay: 1.8,
-            ease: 'power2.out',
-            overwrite: 'auto'
-        });
+        gsap.fromTo(
+            wrap,
+            narrow
+                ? { opacity: 0, x: '4%', scale: 0.94 }
+                : { opacity: 0, x: '48%', scale: 0.88 },
+            {
+                opacity: 1,
+                x: 0,
+                scale: 1,
+                duration: 2.4,
+                delay: 1.8,
+                ease: 'power2.out',
+                overwrite: 'auto'
+            }
+        );
     }
 
     function hideHintFor(el) {

@@ -4,6 +4,8 @@
   "private": true,
   "scripts": {
     "build": "mini-astro build",
+    "sync:static": "node scripts/sync-static.mjs",
+    "predev": "node scripts/sync-static.mjs",
     "dev": "mini-astro dev"
   },
   "dependencies": {

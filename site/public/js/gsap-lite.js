@@ -13,13 +13,13 @@ if (screen.width < 620) {
     });
 
     tlBanner.to(".title-banner",{
-        y:'23vh',
+        y:'6vh',
         duration:1,
     })
 
     tlBanner.to(".model-viewer",{
         duration:2,
-        y:'15vh',
+        y:'4vh',
         },"<")
 
     var tlSubBanner = gsap.timeline({
