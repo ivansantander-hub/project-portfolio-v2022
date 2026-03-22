@@ -66,14 +66,12 @@
         xPercent: 38, scale: 0.82, autoAlpha: 0,
         ease: 'none', duration: 2.2,
       }, 0)
+      // .about-me slides to center and stays — acts as bridge to projects section.
+      // Banner background stays opaque (no autoAlpha:0) → zero black gap.
       .to('.about-me', {
-        x: '70vw',
-        ease: 'none', duration: 2.6,
-      }, 0.4)
-      .to('.banner', {
-        autoAlpha: 0,
-        ease: 'none', duration: 0.9,
-      }, '-=0.7');
+        x: '85vw',   // left(-50vw) + 85vw = 35vw left edge → 30vw wide = 50vw center ✓
+        ease: 'none', duration: 2.4,
+      }, 0.4);
 
     // ── SUB-BANNERS: per-trigger counter-speed parallax ────────────────────
     //  Each sub-banner gets its own ScrollTrigger (not one global trigger).
@@ -176,6 +174,76 @@
         autoAlpha: 0, yPercent: 22,
         duration: 1.0, ease: POWER4,
       }, '-=0.7');
+
+    // ── COSMONAUT TRAVELER ────────────────────────────────────────────────────
+    //  Fixed-size cosmonaut that journeys through the portfolio sections.
+    //  Hero uses a different 3D model (rhetorician); this traveler appears
+    //  naturally from the projects section — no hero sync needed.
+    //
+    //  camera-orbit: "azimuthal polar radius"
+    //   az 0/360 = front   az 90 = right side   az -90/270 = left side  az 180 = back
+    //   polar 90 = eye-level   polar 50 = looking DOWN on you   polar 110 = looking UP
+    const travWrap = document.getElementById('traveler-wrap');
+    const travMV   = document.getElementById('model-viewer-traveler');
+
+    if (travWrap && travMV) {
+
+      // ── Fixed travel dimensions (matches CSS) ────────────────────────────
+      travWrap.style.width  = '280px';
+      travWrap.style.height = '330px';
+
+      // ── Camera orbit helper ──────────────────────────────────────────────
+      const orbit = { az: 40, polar: 80 };
+      function setOrbit() {
+        travMV.setAttribute(
+          'camera-orbit',
+          `${orbit.az.toFixed(1)}deg ${orbit.polar.toFixed(1)}deg auto`
+        );
+      }
+
+      // ── Parked off-screen — deep space, above-right ──────────────────────
+      gsap.set(travWrap, { x: '78vw', y: '-22vh', scale: 0.28, rotation: 52, autoAlpha: 0 });
+
+      // ── Journey through portfolio sections ───────────────────────────────
+      //  scrub: 2.8  →  heavy inertia, "floating in zero gravity"
+      //  Entrance is the first move: traveler swoops in from above-right
+      //  as the user begins scrolling the projects section.
+      gsap.timeline({
+        scrollTrigger: {
+          trigger: '.portafolio',
+          start:   'top top',
+          end:     'bottom bottom',
+          scrub:   2.8,
+        },
+      })
+
+        // ── Arrival ─ swoops in from deep space into BE4CARE corner ─────────
+        .to(travWrap, { autoAlpha: 1, x: '67vw', y:  '5vh', scale: 0.90, rotation: -16, duration: 1.2 }, 0)
+        .to(orbit,    { az:  80, polar: 72, onUpdate: setOrbit, duration: 1.2 }, 0)
+
+        // ── BE4TECH ─ drifts left, peeks at the MacBook ─────────────────────
+        .to(travWrap, { x:  '1vw', y: '42vh', scale: 0.74, rotation:  22, duration: 1.3 }, 1.4)
+        .to(orbit,    { az: -55, polar: 90, onUpdate: setOrbit, duration: 1.3 }, 1.4)
+
+        // ── iROCKET ─ rockets up-right, looks DOWN — mission control ────────
+        .to(travWrap, { x: '63vw', y:  '0vh', scale: 1.12, rotation: -28, duration: 1.1 }, 2.9)
+        .to(orbit,    { az:  18, polar: 50, onUpdate: setOrbit, duration: 1.1 }, 2.9)
+
+        // ── QR ACCESS ─ swoops low-left, back view, scanning mode ────────────
+        .to(travWrap, { x:  '1vw', y: '57vh', scale: 0.78, rotation:  15, duration: 1.3 }, 4.2)
+        .to(orbit,    { az: 172, polar: 106, onUpdate: setOrbit, duration: 1.3 }, 4.2)
+
+        // ── LEARUP ─ calm center drift, front view, clinical study ───────────
+        .to(travWrap, { x: '50vw', y: '35vh', scale: 0.92, rotation:  -4, duration: 1.2 }, 5.7)
+        .to(orbit,    { az:  40, polar: 82, onUpdate: setOrbit, duration: 1.2 }, 5.7)
+
+        // ── Exit ─ launches into deep space ─────────────────────────────────
+        .to(travWrap, {
+          autoAlpha: 0, scale: 0.22,
+          y: '-14vh', x: '80vw', rotation: 32,
+          duration: 0.7,
+        }, 7.1);
+    }
 
     return () => ScrollTrigger.getAll().forEach((st) => st.kill());
   });
