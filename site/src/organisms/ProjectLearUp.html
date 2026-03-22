@@ -1,0 +1,40 @@
+<!-- ── ORGANISM: ProjectLearUp ────────────────────────────────────────────
+  LearUp — clinical trial productivity platform.
+  3D: Computer monitor with LearUp (.gsap-6) | Cards: 1 full-page screenshot
+──────────────────────────────────────────────────────────────────────────── -->
+<article class="app learup" aria-labelledby="proj-learup-title">
+  <div class="content">
+
+    <div class="model-3d">
+      <model-viewer
+        id="model-viewer-6"
+        class="gsap-6"
+        camera-controls
+        disable-zoom
+        camera-orbit="60deg 75deg auto"
+        shadow-intensity="1"
+        loading="lazy"
+        src="models-3d/computer_monitor_learup/scene.gltf"
+        aria-label="LearUp monitor 3D model — draggable"
+      ></model-viewer>
+      <span class="model-viewer-hint" aria-hidden="true">Drag to rotate</span>
+    </div>
+
+    <div class="cards">
+      <div class="card-scroll">
+        <div class="card-portafolio-web-slide card-portafolio-learup-1">
+          <img src="img/portafolio/learupm.webp"
+            alt="LearUp — clinical trial productivity platform"
+            loading="lazy" width="450" height="auto">
+        </div>
+      </div>
+    </div>
+
+    <p class="project-meta" id="proj-learup-title">
+      Clinical trial platform<br>
+      <a href="https://learup.com/home/"
+        target="_blank" rel="noopener noreferrer">LearUp</a>
+    </p>
+
+  </div>
+</article>

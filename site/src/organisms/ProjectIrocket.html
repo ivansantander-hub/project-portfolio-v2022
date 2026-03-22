@@ -1,0 +1,46 @@
+<!-- ── ORGANISM: ProjectIrocket ───────────────────────────────────────────
+  iRocket — web platform by Ivan Santander.
+  3D: Computer monitor (.gsap-4) | Cards: 1 web + 1 app screenshot
+──────────────────────────────────────────────────────────────────────────── -->
+<article class="app irocket" aria-labelledby="proj-irocket-title">
+  <div class="content">
+
+    <div class="model-3d">
+      <model-viewer
+        id="model-viewer-4"
+        class="gsap-4"
+        camera-controls
+        disable-zoom
+        camera-orbit="-12deg 80deg auto"
+        autoplay
+        shadow-intensity="1"
+        loading="lazy"
+        src="models-3d/computer_monitor/scene.gltf"
+        aria-label="Computer monitor 3D model — draggable"
+      ></model-viewer>
+      <span class="model-viewer-hint" aria-hidden="true">Drag to rotate</span>
+    </div>
+
+    <div class="cards">
+      <div class="card-scroll">
+        <div class="card-portafolio-web-slide card-portafolio-irocket-1">
+          <img src="img/portafolio/irocket-1.png"
+            alt="iRocket — main dashboard"
+            loading="lazy" width="450" height="auto">
+        </div>
+        <div class="card-portafolio-app card-portafolio-irocket-2">
+          <img src="img/portafolio/irocket-2.png"
+            alt="iRocket — mobile view"
+            loading="lazy" width="150" height="auto">
+        </div>
+      </div>
+    </div>
+
+    <p class="project-meta" id="proj-irocket-title">
+      iRocket by
+      <a href="https://www.linkedin.com/in/ivan-santander/"
+        target="_blank" rel="noopener noreferrer">Ivan Santander</a>
+    </p>
+
+  </div>
+</article>

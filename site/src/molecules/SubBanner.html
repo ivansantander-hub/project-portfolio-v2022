@@ -1,0 +1,22 @@
+<!-- ── MOLECULE: SubBanner ────────────────────────────────────────────────
+  Marquee band between portfolio sections.
+
+  Props (injected by mini-astro's <mini-include> + parseAttrs):
+    title1  → text for odd rows (e.g. "SELECTED WORKS")
+    title2  → text for even rows (e.g. "BE4CARE")
+
+  mini-astro auto-generates {{ line1content }} and {{ line2content }}
+  via repeatMarquee() when title1 + title2 are provided — no JS needed.
+
+  GSAP animations target .projects-title-1 and .projects-title-2 classes.
+──────────────────────────────────────────────────────────────────────────── -->
+<div class="sub-banner" aria-hidden="true">
+  <p class="projects-title projects-title-1">{{ line1content }}</p>
+  <p class="projects-title projects-title-2">{{ line2content }}</p>
+  <p class="projects-title projects-title-1">{{ line1content }}</p>
+  <p class="projects-title projects-title-2">{{ line2content }}</p>
+  <p class="projects-title projects-title-1">{{ line1content }}</p>
+  <p class="projects-title projects-title-2">{{ line2content }}</p>
+  <p class="projects-title projects-title-1">{{ line1content }}</p>
+  <p class="projects-title projects-title-2">{{ line2content }}</p>
+</div>

@@ -1,0 +1,41 @@
+<!-- ── ORGANISM: ProjectQrAccess ──────────────────────────────────────────
+  QR Access — entry management solution for NEWO.
+  3D: Samsung laptop (.gsap-5) | Cards: 1 web screenshot
+──────────────────────────────────────────────────────────────────────────── -->
+<article class="app qr-access" aria-labelledby="proj-qraccess-title">
+  <div class="content">
+
+    <div class="model-3d">
+      <model-viewer
+        id="model-viewer-5"
+        class="gsap-5"
+        camera-controls
+        disable-zoom
+        camera-orbit="-220deg 70deg auto"
+        shadow-intensity="1"
+        loading="lazy"
+        ios-src="models-3d/samsung_ativ_book_9/Samsung_Ativ_Book_9.usdz"
+        src="models-3d/samsung_ativ_book_9/scene.gltf"
+        aria-label="Samsung laptop 3D model — draggable"
+      ></model-viewer>
+      <span class="model-viewer-hint" aria-hidden="true">Drag to rotate</span>
+    </div>
+
+    <div class="cards">
+      <div class="card-scroll">
+        <div class="card-portafolio-web-slide card-portafolio-qr-access-1">
+          <img src="img/portafolio/newo.png"
+            alt="QR Access solution for NEWO"
+            loading="lazy" width="450" height="auto">
+        </div>
+      </div>
+    </div>
+
+    <p class="project-meta" id="proj-qraccess-title">
+      QR solution for
+      <a href="https://www.newo.co/"
+        target="_blank" rel="noopener noreferrer">NEWO</a>
+    </p>
+
+  </div>
+</article>

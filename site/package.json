@@ -9,6 +9,10 @@
     "dev": "mini-astro dev"
   },
   "dependencies": {
+    "@fontsource/be-vietnam-pro": "^5.2.8",
+    "@fontsource/vt323": "^5.2.7",
+    "@google/model-viewer": "^4.2.0",
+    "gsap": "^3.14.2",
     "mini-astro": "github:ivansantander-hub/mini-astro"
   }
 }
