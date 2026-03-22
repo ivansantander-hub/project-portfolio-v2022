@@ -3,13 +3,11 @@
  * Cinematic GSAP + ScrollTrigger — inspired by GTA V & Awwwards.
  *
  * Principles:
- *  - Hero: pinned section with clean velocity exit (no skew)
+ *  - Hero: pinned section with clean velocity exit
  *  - Sub-banners: per-trigger bidirectional parallax (counter-speed)
- *  - Projects: toggleActions (plays at own speed on trigger, not scrub-tied)
- *    → 3D model slides from left with scale; cards cascade up with stagger
- *  - Contact: clip-path + blur reveal for depth
- *  - Cosmonaut: art-directed zero-gravity journey, each position narrative
- *  - GPU-only: transform / opacity / filter — no layout properties
+ *  - Projects: clip-path wipe + blur dissolve reveals (not plain fade)
+ *  - Contact: clip-path inset wipe + sticky reveal from behind last project
+ *  - GPU-only: transform / opacity / filter / clipPath — no layout properties
  */
 
 (function () {
@@ -137,6 +135,7 @@
         },
       });
 
+      // Model: slides from left with scale (unchanged, it's already cinematic)
       tl.from(modelSel, {
         autoAlpha: 0,
         xPercent:  -22,
@@ -145,14 +144,35 @@
         ease:      EXPO_OUT,
       });
 
+      // Cards: clip-path wipe from bottom + blur dissolve (Awwwards standard)
       tl.from(cardSels, {
+        clipPath:  'inset(100% 0% 0% 0%)',
         autoAlpha: 0,
-        yPercent:  65,
-        scale:     0.88,
-        duration:  1.0,
-        stagger:   0.13,
+        scale:     0.92,
+        filter:    'blur(6px)',
+        duration:  1.1,
+        stagger:   0.15,
         ease:      POWER4,
+        clearProps: 'clipPath,filter',
       }, '-=0.85');
+
+      // Project meta + desc: slide up with clip
+      tl.from(section + ' .project-meta, ' + section + ' .project-desc', {
+        autoAlpha: 0,
+        yPercent:  30,
+        duration:  0.7,
+        stagger:   0.08,
+        ease:      POWER3,
+      }, '-=0.7');
+
+      // Stack chips: fast stagger
+      tl.from(section + ' .project-stack li', {
+        autoAlpha: 0,
+        yPercent:  40,
+        duration:  0.45,
+        stagger:   0.04,
+        ease:      POWER3,
+      }, '-=0.5');
 
       return tl;
     }
@@ -266,6 +286,24 @@
         autoAlpha: 0, yPercent: 40,
         duration: 0.8, stagger: 0.1, ease: POWER3,
       }, '-=0.8');
+
+    // ── FOOTER STICKY REVEAL ────────────────────────────────────────────────
+    //  Contact section "emerges" from behind the last project section.
+    //  Clip-path wipe from bottom → creates depth illusion.
+    const contactEl = document.querySelector('.contact');
+    if (contactEl) {
+      gsap.from(contactEl, {
+        clipPath: 'inset(100% 0% 0% 0%)',
+        filter:   'blur(3px)',
+        scrollTrigger: {
+          trigger: contactEl,
+          start:   'top 95%',
+          end:     'top 55%',
+          scrub:   1.2,
+        },
+        clearProps: 'clipPath,filter',
+      });
+    }
 
     return () => ScrollTrigger.getAll().forEach((st) => st.kill());
   });
