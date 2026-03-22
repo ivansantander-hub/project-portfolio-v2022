@@ -3,11 +3,12 @@
  * Cinematic GSAP + ScrollTrigger — inspired by GTA V & Awwwards.
  *
  * Principles:
- *  - Hero: pinned section with skewX + scale exit (cinematic wipe)
+ *  - Hero: pinned section with clean velocity exit (no skew)
  *  - Sub-banners: per-trigger bidirectional parallax (counter-speed)
  *  - Projects: toggleActions (plays at own speed on trigger, not scrub-tied)
  *    → 3D model slides from left with scale; cards cascade up with stagger
  *  - Contact: clip-path + blur reveal for depth
+ *  - Cosmonaut: art-directed zero-gravity journey, each position narrative
  *  - GPU-only: transform / opacity / filter — no layout properties
  */
 
@@ -20,6 +21,36 @@
   }
 
   gsap.registerPlugin(ScrollTrigger);
+
+  // ── Lenis smooth scroll ─────────────────────────────────────────────────────
+  //  Lenis drives the RAF; GSAP ScrollTrigger listens to Lenis scroll events
+  //  so scrub/pin/toggleActions all fire on the smoothed position — not native.
+  if (typeof window.Lenis !== 'undefined') {
+    const lenis = new window.Lenis({
+      duration:   1.2,
+      easing:     (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
+      smoothWheel: true,
+      wheelMultiplier: 1.0,
+      touchMultiplier: 2.0,
+    });
+
+    // Connect Lenis to GSAP ticker — single RAF loop
+    gsap.ticker.add((time) => lenis.raf(time * 1000));
+    gsap.ticker.lagSmoothing(0);
+
+    // Tell ScrollTrigger to read scroll position from Lenis
+    ScrollTrigger.scrollerProxy(document.body, {
+      scrollTop(value) {
+        if (arguments.length) lenis.scrollTo(value, { immediate: true });
+        return lenis.scroll;
+      },
+      getBoundingClientRect() {
+        return { top: 0, left: 0, width: window.innerWidth, height: window.innerHeight };
+      },
+    });
+
+    lenis.on('scroll', ScrollTrigger.update);
+  }
 
   // ── Easing tokens ──────────────────────────────────────────────────────────
   const EXPO_OUT  = 'expo.out';
@@ -45,8 +76,8 @@
 
     // ── HERO: pinned cinematic exit ─────────────────────────────────────────
     //  scrub: 1.5  →  smooth 1.5 s lag behind scroll (more responsive than 5)
-    //  skewX on title  →  GTA V–style velocity feel
-    //  about-me slides across viewport while pinned, then banner fades
+    //  title exits right, model fades + slides — clean velocity exit, no skew
+    //  about-me slides across viewport while pinned, acts as bridge to projects
     const tlBanner = gsap.timeline({
       scrollTrigger: {
         trigger: '.banner',
@@ -59,7 +90,7 @@
 
     tlBanner
       .to('.title-banner', {
-        xPercent: 120, skewX: -8, autoAlpha: 0,
+        xPercent: 120, autoAlpha: 0,
         ease: 'none', duration: 1.8,
       }, 0)
       .to('.model-viewer', {
@@ -147,103 +178,43 @@
       '.card-portafolio-learup-1',
     ]);
 
-    // ── CONTACT: blur + stagger reveal ─────────────────────────────────────
-    //  Titles: skew + slide from left  →  directional weight
-    //  Aaron quote: blur dissolve  →  depth / cinematic focus pull
-    //  Footer: rise from below
+    // ── CONTACT: clip-path wipe + blur reveal ──────────────────────────────
+    //  Titles use clip-path inset wipe: text "slides out" from behind a mask.
+    //  This is the Awwwards-standard text reveal (vs plain opacity fade).
+    //  Aaron quote: blur dissolve for cinematic depth pull.
+    //  Footer links: stagger rise from below.
+
+    // Prep: titles need overflow-clip so the clip-path works as a reveal mask
+    document.querySelectorAll('.contact-title-1, .contact-title-2').forEach((el) => {
+      el.style.overflow = 'hidden';
+      el.style.display  = 'block';
+    });
+
     gsap.timeline({
       scrollTrigger: {
         trigger: '.contact',
-        start:   'top 75%',
+        start:   'top 72%',
         toggleActions: 'play none none reverse',
       },
     })
       .from('.contact-title-1', {
-        autoAlpha: 0, xPercent: -55, skewX: 6,
+        clipPath: 'inset(0 100% 0 0)',
+        xPercent: -8, skewX: 4,
         duration: 1.1, ease: EXPO_OUT,
       })
       .from('.contact-title-2', {
-        autoAlpha: 0, xPercent: -55, skewX: 6,
+        clipPath: 'inset(0 100% 0 0)',
+        xPercent: -8, skewX: 4,
         duration: 1.2, ease: EXPO_OUT,
-      }, '-=0.8')
+      }, '-=0.75')
       .from('.aaron', {
-        autoAlpha: 0, yPercent: 35, filter: 'blur(8px)',
+        autoAlpha: 0, yPercent: 30, filter: 'blur(10px)',
         duration: 1.3, ease: POWER4,
-      }, '-=0.55')
-      .from('.footer-contact', {
-        autoAlpha: 0, yPercent: 22,
-        duration: 1.0, ease: POWER4,
-      }, '-=0.7');
-
-    // ── COSMONAUT TRAVELER ────────────────────────────────────────────────────
-    //  Fixed-size cosmonaut that journeys through the portfolio sections.
-    //  Hero uses a different 3D model (rhetorician); this traveler appears
-    //  naturally from the projects section — no hero sync needed.
-    //
-    //  camera-orbit: "azimuthal polar radius"
-    //   az 0/360 = front   az 90 = right side   az -90/270 = left side  az 180 = back
-    //   polar 90 = eye-level   polar 50 = looking DOWN on you   polar 110 = looking UP
-    const travWrap = document.getElementById('traveler-wrap');
-    const travMV   = document.getElementById('model-viewer-traveler');
-
-    if (travWrap && travMV) {
-
-      // ── Fixed travel dimensions (matches CSS) ────────────────────────────
-      travWrap.style.width  = '280px';
-      travWrap.style.height = '330px';
-
-      // ── Camera orbit helper ──────────────────────────────────────────────
-      const orbit = { az: 40, polar: 80 };
-      function setOrbit() {
-        travMV.setAttribute(
-          'camera-orbit',
-          `${orbit.az.toFixed(1)}deg ${orbit.polar.toFixed(1)}deg auto`
-        );
-      }
-
-      // ── Parked off-screen — deep space, above-right ──────────────────────
-      gsap.set(travWrap, { x: '78vw', y: '-22vh', scale: 0.28, rotation: 52, autoAlpha: 0 });
-
-      // ── Journey through portfolio sections ───────────────────────────────
-      //  scrub: 2.8  →  heavy inertia, "floating in zero gravity"
-      //  Entrance is the first move: traveler swoops in from above-right
-      //  as the user begins scrolling the projects section.
-      gsap.timeline({
-        scrollTrigger: {
-          trigger: '.portafolio',
-          start:   'top top',
-          end:     'bottom bottom',
-          scrub:   2.8,
-        },
-      })
-
-        // ── Arrival ─ swoops in from deep space into BE4CARE corner ─────────
-        .to(travWrap, { autoAlpha: 1, x: '67vw', y:  '5vh', scale: 0.90, rotation: -16, duration: 1.2 }, 0)
-        .to(orbit,    { az:  80, polar: 72, onUpdate: setOrbit, duration: 1.2 }, 0)
-
-        // ── BE4TECH ─ drifts left, peeks at the MacBook ─────────────────────
-        .to(travWrap, { x:  '1vw', y: '42vh', scale: 0.74, rotation:  22, duration: 1.3 }, 1.4)
-        .to(orbit,    { az: -55, polar: 90, onUpdate: setOrbit, duration: 1.3 }, 1.4)
-
-        // ── iROCKET ─ rockets up-right, looks DOWN — mission control ────────
-        .to(travWrap, { x: '63vw', y:  '0vh', scale: 1.12, rotation: -28, duration: 1.1 }, 2.9)
-        .to(orbit,    { az:  18, polar: 50, onUpdate: setOrbit, duration: 1.1 }, 2.9)
-
-        // ── QR ACCESS ─ swoops low-left, back view, scanning mode ────────────
-        .to(travWrap, { x:  '1vw', y: '57vh', scale: 0.78, rotation:  15, duration: 1.3 }, 4.2)
-        .to(orbit,    { az: 172, polar: 106, onUpdate: setOrbit, duration: 1.3 }, 4.2)
-
-        // ── LEARUP ─ calm center drift, front view, clinical study ───────────
-        .to(travWrap, { x: '50vw', y: '35vh', scale: 0.92, rotation:  -4, duration: 1.2 }, 5.7)
-        .to(orbit,    { az:  40, polar: 82, onUpdate: setOrbit, duration: 1.2 }, 5.7)
-
-        // ── Exit ─ launches into deep space ─────────────────────────────────
-        .to(travWrap, {
-          autoAlpha: 0, scale: 0.22,
-          y: '-14vh', x: '80vw', rotation: 32,
-          duration: 0.7,
-        }, 7.1);
-    }
+      }, '-=0.5')
+      .from('.footer-contact a', {
+        autoAlpha: 0, yPercent: 40,
+        duration: 0.8, stagger: 0.1, ease: POWER3,
+      }, '-=0.8');
 
     return () => ScrollTrigger.getAll().forEach((st) => st.kill());
   });

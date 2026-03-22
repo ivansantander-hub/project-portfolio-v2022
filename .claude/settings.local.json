@@ -4,7 +4,12 @@
       "Bash(claude mcp:*)",
       "Bash(npx:*)",
       "mcp__gitlab__get_merge_request_diffs",
-      "Bash(node -e \"const fs=require\\(''fs''\\); const g=JSON.parse\\(fs.readFileSync\\(''c:/ivan/personal/2026/project-portfolio-v2022/site/public/models-3d/rhetorician/scene.gltf'',''utf8''\\)\\); console.log\\(''animations:'', JSON.stringify\\(g.animations?.map\\(a=>a.name\\)\\)\\); console.log\\(''nodes:'', g.nodes?.length\\); console.log\\(''meshes:'', g.meshes?.length\\);\")"
+      "Bash(node -e \"const fs=require\\(''fs''\\); const g=JSON.parse\\(fs.readFileSync\\(''c:/ivan/personal/2026/project-portfolio-v2022/site/public/models-3d/rhetorician/scene.gltf'',''utf8''\\)\\); console.log\\(''animations:'', JSON.stringify\\(g.animations?.map\\(a=>a.name\\)\\)\\); console.log\\(''nodes:'', g.nodes?.length\\); console.log\\(''meshes:'', g.meshes?.length\\);\")",
+      "Bash(node -e \"const fs=require\\(''fs''\\); const src=fs.readFileSync\\(''c:/ivan/personal/2026/project-portfolio-v2022/site/node_modules/lenis/dist/lenis.min.js'',''utf8''\\); const m=src.match\\(/global\\\\[\"\"\\([^\"\"]+\\)\"\"\\\\]/\\); console.log\\(m && m[1]\\);\")",
+      "Bash(node -e \":*)",
+      "Bash(node -e \"const p=require\\(''c:/ivan/personal/2026/project-portfolio-v2022/site/node_modules/lenis/package.json''\\); console.log\\(JSON.stringify\\({main:p.main,module:p.module,exports:Object.keys\\(p.exports||{}\\)},null,2\\)\\)\")",
+      "Bash(pnpm build:*)",
+      "Bash(npm install:*)"
     ]
   }
 }
