@@ -1,0 +1,46 @@
+<!-- ── ORGANISM: ProjectBe4tech ───────────────────────────────────────────
+  BE4TECH — company landing page.
+  3D: MacBook Pro 2021 (.gsap-3) | Cards: 1 web + 1 app screenshot
+──────────────────────────────────────────────────────────────────────────── -->
+<article class="app be4tech" aria-labelledby="proj-be4tech-title">
+  <div class="content">
+
+    <div class="model-3d">
+      <model-viewer
+        id="model-viewer-3"
+        class="gsap-3"
+        camera-controls
+        disable-zoom
+        camera-orbit="-120deg 80deg auto"
+        autoplay
+        shadow-intensity="1"
+        loading="lazy"
+        src="models-3d/macbook_pro_2021/scene.gltf"
+        aria-label="MacBook Pro 2021 3D model — draggable"
+      ></model-viewer>
+      <span class="model-viewer-hint" aria-hidden="true">Drag to rotate</span>
+    </div>
+
+    <div class="cards">
+      <div class="card-scroll">
+        <div class="card-portafolio-web-slide card-portafolio-be4tech-1">
+          <img src="img/portafolio/be4tech-1.png"
+            alt="BE4TECH landing — hero section"
+            loading="lazy" width="450" height="auto">
+        </div>
+        <div class="card-portafolio-app card-portafolio-be4tech-2">
+          <img src="img/portafolio/be4tech-2.png"
+            alt="BE4TECH landing — features section"
+            loading="lazy" width="150" height="auto">
+        </div>
+      </div>
+    </div>
+
+    <p class="project-meta" id="proj-be4tech-title">
+      Landing
+      <a href="https://www.linkedin.com/company/be4tech/"
+        target="_blank" rel="noopener noreferrer">BE4TECH</a>
+    </p>
+
+  </div>
+</article>

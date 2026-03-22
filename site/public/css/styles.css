@@ -1,5 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
-@import url('https://fonts.googleapis.com/css2?family=VT323&display=swap');
+/* Fonts are declared in css/fonts.css and self-hosted (synced from @fontsource) */
 
 /* Default theme — works without JavaScript */
 :root {
@@ -152,18 +151,26 @@ body{
     height: 50px;
     position: relative;
 }
-.colors .color{
-    width:25px;
-    height:25px;
-    border:solid 1px;
-    position:absolute;
+.colors .color {
+    width: 25px;
+    height: 25px;
+    border: solid 1px var(--contrast);
+    position: absolute;
     z-index: 20;
-    transition: all 2s ease;
+    transition: all 0.3s ease;
+    /* Reset <button> defaults */
+    padding: 0;
+    appearance: none;
+    -webkit-appearance: none;
+    outline-offset: 2px;
 }
-.colors .color:hover{
+.colors .color:hover {
     z-index: 30;
-    transform:scale(1.5);
-    border-radius:50%
+    transform: scale(1.5);
+    border-radius: 50%;
+}
+.colors .color:focus-visible {
+    outline: 2px solid var(--contrast);
 }
 .color-1{
     top:0;
@@ -195,13 +202,14 @@ li{
     width: 100vw;
     height: 90vh;
 }
-.text-banner{
+.text-banner {
     width: 50vw;
-    height: 90vh;
+    height: 100vh;
     display: flex;
     justify-content: center;
     align-items: center;
     margin-top: -10vh;
+    position: relative;
 }
 .text-banner h1{
     width: 70%;
@@ -258,10 +266,10 @@ li{
     display: block;
 }
 
-model-viewer{
+model-viewer {
     width: 50vw;
     height: 150vh;
-    z-index: 10;
+    z-index: 20;
     cursor: grab;
 }
 model-viewer:active {
@@ -292,11 +300,7 @@ model-viewer:active {
     pointer-events: none;
 }
 
-.text-banner{
-    width: 50vw;
-    height: 100vh;
-    position: relative;
-}
+/* .text-banner consolidated above */
 
 .text-banner .rss{
     position: absolute;
@@ -322,7 +326,8 @@ model-viewer:active {
     top: 40vh;
 }
 
-.about-me h1{
+.about-me h2,
+.about-me h1 {
     font-size: 18pt;
     font-weight: 400;
 }
@@ -361,13 +366,17 @@ model-viewer:active {
     overflow: hidden;
     /* border: solid blue; */
 }
-.sub-banner h1{
+/* Marquee rows — <p> elements filled by JS via data-marquee-text */
+.projects-title {
     color: var(--color-text);
     font-size: 80pt;
+    font-weight: 900;
     width: 100%;
     white-space: nowrap;
+    line-height: 1;
+    display: block;
 }
-.sub-banner h1 span{
+.projects-title span {
     color: var(--background);
     -webkit-text-stroke: 1px var(--contrast);
 }
@@ -414,16 +423,13 @@ model-viewer:active {
     position: relative;
 }
 .app .content .model-3d model-viewer {
+    height: 150%;
+    width: 40vw;
+    position: absolute;
     cursor: grab;
 }
 .app .content .model-3d model-viewer:active {
     cursor: grabbing;
-}
-.app .content .model-3d model-viewer{
-    height: 150%;
-    width: 40vw;
-    /* border: gold solid; */
-    position: absolute;
 }
 
 .app .content .model-3d .gsap-2, .app .content .model-3d .gsap-3,.app .content .model-3d .gsap-4,.app .content .model-3d .gsap-5,.app .content .model-3d .gsap-6{
@@ -590,10 +596,7 @@ model-viewer:active {
 
 
 /* ///////////////////////CONTACT */
-model-viewer {
-    z-index: 20;
-}
-.contact{
+.contact {
     width: calc(100vw - 6px);
     min-height: 100vh;
     color: var(--color-text);
@@ -606,14 +609,16 @@ model-viewer {
     z-index: 200;
 }
 
-.contact h1{
+.contact h2,
+.contact h1 {
     font-size: 100pt;
     font-weight: 200;
     font-style: oblique;
     padding: 20px;
 }
 
-.contact h1 span{
+.contact h2 span,
+.contact h1 span {
     font-size: 100pt;
     font-weight: 800;
     font-style: normal;
@@ -753,7 +758,7 @@ model-viewer {
 *{
     cursor: url(../img/cursor/cursor.png) 15 10, auto;
 }
-.menu i, a, .color{
+.menu i, a, .color, .swatch {
     cursor: url(../img/cursor/rick-1.png) 5 10, auto;
 }
 
@@ -800,12 +805,14 @@ a:hover{
 
     /* ////////////////////////CONTACTO */
 
+    .contact h2,
     .contact h1 {
         font-size: clamp(1.75rem, 9vw, 2.65rem);
         padding: 14px 16px 8px;
         line-height: 1.05;
     }
 
+    .contact h2 span,
     .contact h1 span {
         font-size: clamp(2rem, 10vw, 3rem);
     }
@@ -864,6 +871,7 @@ a:hover{
         height: clamp(160px, 28vw, 220px);
     }
 
+    .sub-banner .projects-title,
     .sub-banner h1 {
         font-size: clamp(1.45rem, 8.5vw, 2.35rem);
     }

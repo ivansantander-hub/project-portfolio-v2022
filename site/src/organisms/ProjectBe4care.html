@@ -1,0 +1,59 @@
+<!-- ── ORGANISM: ProjectBe4care ───────────────────────────────────────────
+  BE4CARE — mobile health app by BE4TECH.
+  3D: iPhone 13 Pro (.gsap-2) | Cards: 4 mobile screenshots
+──────────────────────────────────────────────────────────────────────────── -->
+<article class="app be4care" aria-labelledby="proj-be4care-title">
+  <div class="content">
+
+    <!-- MOLECULE: 3D model viewer -->
+    <div class="model-3d">
+      <model-viewer
+        id="model-viewer-2"
+        class="gsap-2"
+        autoplay
+        camera-controls
+        disable-zoom
+        camera-orbit="-120deg 100deg auto"
+        shadow-intensity="1"
+        loading="lazy"
+        src="models-3d/free_iphone_13_pro_2021/scene.gltf"
+        aria-label="iPhone 13 Pro 3D model — draggable"
+      ></model-viewer>
+      <span class="model-viewer-hint" aria-hidden="true">Drag to rotate</span>
+    </div>
+
+    <!-- MOLECULE: Screenshot cards -->
+    <div class="cards">
+      <div class="card-scroll">
+        <div class="card-portafolio card-portafolio-app card-portafolio-be4care card-portafolio-be4care-1">
+          <img src="img/portafolio/be4care-1.png"
+            alt="BE4CARE app — main screen"
+            loading="lazy" width="150" height="auto">
+        </div>
+        <div class="card-portafolio card-portafolio-app card-portafolio-be4care card-portafolio-be4care-2">
+          <img src="img/portafolio/be4care-2.png"
+            alt="BE4CARE app — records screen"
+            loading="lazy" width="150" height="auto">
+        </div>
+        <div class="card-portafolio card-portafolio-app card-portafolio-be4care card-portafolio-be4care-3">
+          <img src="img/portafolio/be4care-3.png"
+            alt="BE4CARE app — dashboard screen"
+            loading="lazy" width="150" height="auto">
+        </div>
+        <div class="card-portafolio card-portafolio-app card-portafolio-be4care card-portafolio-be4care-4">
+          <img src="img/portafolio/be4care-4.png"
+            alt="BE4CARE app — profile screen"
+            loading="lazy" width="150" height="auto">
+        </div>
+      </div>
+    </div>
+
+    <!-- ATOM: Project meta -->
+    <p class="project-meta" id="proj-be4care-title">
+      Be4care by
+      <a href="https://www.linkedin.com/company/be4tech/"
+        target="_blank" rel="noopener noreferrer">BE4TECH</a>
+    </p>
+
+  </div>
+</article>

@@ -1,68 +1,68 @@
 (function () {
-    'use strict';
+  'use strict';
 
-    const root = document.documentElement;
-    root.style.setProperty('--background', '#111111');
-    root.style.setProperty('--color-text', '#F1F4FF');
-    root.style.setProperty('--contrast', '#F1F4FF');
+  const root = document.documentElement;
 
-    const preloadEl = document.getElementById('preload');
-    const barFill = document.getElementById('preload-bar-fill');
-    const percentEl = document.getElementById('preload-percent');
+  /** Apply CSS custom properties for the selected theme. */
+  function applyTheme(bg, text, contrast) {
+    root.style.setProperty('--background',   bg);
+    root.style.setProperty('--color-text',   text);
+    root.style.setProperty('--contrast',     contrast);
+  }
 
-    function setProgress(percent) {
-        const p = Math.min(100, Math.max(0, Math.round(percent)));
-        if (percentEl) percentEl.textContent = p + '%';
-        if (barFill) barFill.style.width = p + '%';
-    }
+  // ── Default theme (matches CSS :root fallback) ──────────────────────────
+  applyTheme('#111111', '#F1F4FF', '#F1F4FF');
 
-    function hidePreload() {
-        if (!preloadEl) return;
-        preloadEl.classList.add('preload--done');
-        setTimeout(function () { preloadEl.style.display = 'none'; }, 520);
-    }
+  // ── Preloader progress ───────────────────────────────────────────────────
+  const preloadEl  = document.getElementById('preload');
+  const barFill    = document.getElementById('preload-bar-fill');
+  const percentEl  = document.getElementById('preload-percent');
 
-    function onLoadDone() {
-        setProgress(100);
-        setTimeout(hidePreload, 380);
-    }
+  function setProgress(percent) {
+    const p = Math.min(100, Math.max(0, Math.round(percent)));
+    if (percentEl) percentEl.textContent = `${p}%`;
+    if (barFill)   barFill.style.width   = `${p}%`;
+  }
 
-    const heroViewer = document.querySelector('#model-viewer');
-    if (heroViewer && barFill && percentEl) {
-        heroViewer.addEventListener('progress', function (evt) {
-            const total = (evt.detail && typeof evt.detail.totalProgress === 'number') ? evt.detail.totalProgress : 0;
-            setProgress(total * 100);
-            if (total >= 1) onLoadDone();
-        });
-        heroViewer.addEventListener('load', onLoadDone);
-    } else {
-        onLoadDone();
-    }
-    setTimeout(function () {
-        if (preloadEl && !preloadEl.classList.contains('preload--done')) hidePreload();
-    }, 10000);
+  function hidePreload() {
+    if (!preloadEl) return;
+    preloadEl.classList.add('preload--done');
+    setTimeout(() => { preloadEl.style.display = 'none'; }, 520);
+  }
 
-    $( '.color-1' ).on('click', function () {
-        root.style.setProperty('--background', '#111111');
-        root.style.setProperty('--color-text', '#ECEBF3');
-        root.style.setProperty('--contrast', '#ECEBF3');
+  function onLoadDone() {
+    setProgress(100);
+    setTimeout(hidePreload, 380);
+  }
+
+  const heroViewer = document.querySelector('#model-viewer');
+  if (heroViewer && barFill && percentEl) {
+    heroViewer.addEventListener('progress', (evt) => {
+      const total = evt.detail?.totalProgress ?? 0;
+      setProgress(total * 100);
+      if (total >= 1) onLoadDone();
     });
+    heroViewer.addEventListener('load', onLoadDone);
+  } else {
+    onLoadDone();
+  }
 
-    $( '.color-2' ).on('click', function () {
-        root.style.setProperty('--background', '#a4c5c5');
-        root.style.setProperty('--color-text', '#F1F4FF');
-        root.style.setProperty('--contrast', '#F1F4FF');
-    });
+  // Fallback: hide loader after 10 s regardless of model state
+  setTimeout(() => {
+    if (preloadEl && !preloadEl.classList.contains('preload--done')) {
+      hidePreload();
+    }
+  }, 10_000);
 
-    $( '.color-3' ).on('click', function () {
-        root.style.setProperty('--background', '#E2C2C6');
-        root.style.setProperty('--color-text', '#1D2B28');
-        root.style.setProperty('--contrast', '#1D2B28');
+  // ── Theme switcher (vanilla JS — no jQuery) ──────────────────────────────
+  // Buttons use data-bg / data-text / data-contrast attributes (set in HTML).
+  document.querySelectorAll('.swatch').forEach((btn) => {
+    btn.addEventListener('click', () => {
+      const bg       = btn.dataset.bg       ?? '#111111';
+      const text     = btn.dataset.text     ?? '#F1F4FF';
+      const contrast = btn.dataset.contrast ?? '#F1F4FF';
+      applyTheme(bg, text, contrast);
     });
+  });
 
-    $( '.color-4' ).on('click', function () {
-        root.style.setProperty('--background', '#FDFFFC');
-        root.style.setProperty('--color-text', '#011627');
-        root.style.setProperty('--contrast', '#011627');
-    });
 })();

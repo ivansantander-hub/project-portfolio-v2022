@@ -1,0 +1,58 @@
+<!-- ── ORGANISM: HeroSection ──────────────────────────────────────────────
+  Full-screen hero: header nav + 3D cosmonaut model + headline + social links.
+  GSAP pins this section and animates the exit (.banner, .title-banner,
+  .model-viewer, .about-me) on scroll.
+──────────────────────────────────────────────────────────────────────────── -->
+<section class="banner" aria-label="Introduction">
+
+  <mini-include src="molecules/SiteHeader" />
+
+  <!-- ORGANISM body: 3D model + headline + about text -->
+  <div class="content-banner">
+
+    <!-- MOLECULE: Hero 3D viewer -->
+    <div class="model-viewer">
+      <div class="black-screen black-index" aria-hidden="true"></div>
+      <div class="hero-model-wrap" id="hero-model-wrap">
+        <model-viewer
+          id="model-viewer"
+          class="gsap-1"
+          camera-orbit="40deg 80deg auto"
+          camera-controls
+          disable-zoom
+          src="models-3d/cosmonaut_on_a_rocket/scene.gltf"
+          ios-src="models-3d/rhetorician/Rhetorician.usdz"
+          autoplay
+          shadow-intensity="1"
+          loading="eager"
+          animation-name="Take 001"
+          aria-label="3D cosmonaut on a rocket — draggable"
+        ></model-viewer>
+        <span class="model-viewer-hint" aria-hidden="true">Drag to rotate</span>
+      </div>
+    </div>
+
+    <!-- MOLECULE: Hero headline + social links -->
+    <div class="text-banner">
+      <h1 class="title-banner"><span>Hi.</span> Making things.</h1>
+      <nav class="rss pin-1" aria-label="Social links">
+        <ul>
+          <li>
+            <a href="https://www.linkedin.com/in/ivan-santander/"
+              target="_blank" rel="noopener noreferrer">LinkedIn</a>
+          </li>
+          <li>
+            <a href="https://github.com/ivansantander-hub"
+              target="_blank" rel="noopener noreferrer">GitHub</a>
+          </li>
+        </ul>
+      </nav>
+    </div>
+
+    <!-- ATOM: Section intro (animated out by GSAP on scroll) -->
+    <div class="about-me">
+      <h2>Some projects I've been part of.</h2>
+    </div>
+
+  </div>
+</section>

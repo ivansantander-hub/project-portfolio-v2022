@@ -1,0 +1,13 @@
+<!-- ── ATOM: Preloader ─────────────────────────────────────────────────────
+  Loading screen shown until the hero model-viewer fires its load event.
+  Controlled by colors.js (progress bar + hide logic).
+──────────────────────────────────────────────────────────────────────────── -->
+<div class="preload" id="preload" aria-hidden="true" role="status" aria-live="polite">
+  <div class="preload-inner">
+    <p class="preload-label">Loading</p>
+    <div class="preload-bar" aria-hidden="true">
+      <div class="preload-bar-fill" id="preload-bar-fill"></div>
+    </div>
+    <p class="preload-percent" id="preload-percent">0%</p>
+  </div>
+</div>
