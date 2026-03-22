@@ -1,12 +1,14 @@
 /**
  * animations.js
- * GSAP + ScrollTrigger — replaces gsap.js + gsap-lite.js.
+ * Cinematic GSAP + ScrollTrigger — inspired by GTA V & Awwwards.
  *
- * Uses gsap.matchMedia() so desktop and mobile timelines are created
- * in separate contexts and cleaned up automatically when the breakpoint
- * no longer matches (no memory leaks from stale ScrollTriggers).
- *
- * GPU-friendly: only animates transform / opacity properties.
+ * Principles:
+ *  - Hero: pinned section with skewX + scale exit (cinematic wipe)
+ *  - Sub-banners: per-trigger bidirectional parallax (counter-speed)
+ *  - Projects: toggleActions (plays at own speed on trigger, not scrub-tied)
+ *    → 3D model slides from left with scale; cards cascade up with stagger
+ *  - Contact: clip-path + blur reveal for depth
+ *  - GPU-only: transform / opacity / filter — no layout properties
  */
 
 (function () {
@@ -19,273 +21,216 @@
 
   gsap.registerPlugin(ScrollTrigger);
 
-  // ── Shared ScrollTrigger defaults ────────────────────────────────────────
-  const ST_DEFAULTS = { markers: false };
+  // ── Easing tokens ──────────────────────────────────────────────────────────
+  const EXPO_OUT  = 'expo.out';
+  const POWER4    = 'power4.out';
+  const POWER3    = 'power3.out';
 
-  // ── matchMedia contexts (GSAP handles cleanup automatically) ─────────────
+  // ── Reduced-motion: skip all animations, reveal elements immediately ───────
+  if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+    gsap.set([
+      '.title-banner', '.model-viewer', '.about-me',
+      '.gsap-2', '.gsap-3', '.gsap-4', '.gsap-5', '.gsap-6',
+      '.contact-title-1', '.contact-title-2', '.aaron', '.footer-contact',
+    ], { clearProps: 'all' });
+    return;
+  }
+
   const mm = gsap.matchMedia();
 
-  // ════════════════════════════════════════════════════════════════════════
+  // ══════════════════════════════════════════════════════════════════════════
   // DESKTOP  (>= 621 px)
-  // ════════════════════════════════════════════════════════════════════════
+  // ══════════════════════════════════════════════════════════════════════════
   mm.add('(min-width: 621px)', () => {
 
-    // ── Hero banner — pin + parallax exit ──────────────────────────────
+    // ── HERO: pinned cinematic exit ─────────────────────────────────────────
+    //  scrub: 1.5  →  smooth 1.5 s lag behind scroll (more responsive than 5)
+    //  skewX on title  →  GTA V–style velocity feel
+    //  about-me slides across viewport while pinned, then banner fades
     const tlBanner = gsap.timeline({
       scrollTrigger: {
-        ...ST_DEFAULTS,
         trigger: '.banner',
         start:   'top top',
         end:     'bottom top',
-        scrub:   5,
+        scrub:   1.5,
         pin:     true,
       },
     });
-    tlBanner
-      .to('.title-banner',  { x: '100vw', opacity: 0, duration: 3 })
-      .to('.model-viewer',  { x: '50vw',              duration: 1 }, '<')
-      .to('.about-me',      { x: '70vw', delay: 0.4,  duration: 3 }, '<')
-      .to('.banner',        { opacity: 0, delay: 2,   duration: 2 }, '<');
 
-    // ── Sub-banner marquee parallax ─────────────────────────────────────
-    const tlSubBanner = gsap.timeline({
-      scrollTrigger: {
-        ...ST_DEFAULTS,
-        trigger: '.portafolio',
+    tlBanner
+      .to('.title-banner', {
+        xPercent: 120, skewX: -8, autoAlpha: 0,
+        ease: 'none', duration: 1.8,
+      }, 0)
+      .to('.model-viewer', {
+        xPercent: 38, scale: 0.82, autoAlpha: 0,
+        ease: 'none', duration: 2.2,
+      }, 0)
+      .to('.about-me', {
+        x: '70vw',
+        ease: 'none', duration: 2.6,
+      }, 0.4)
+      .to('.banner', {
+        autoAlpha: 0,
+        ease: 'none', duration: 0.9,
+      }, '-=0.7');
+
+    // ── SUB-BANNERS: per-trigger counter-speed parallax ────────────────────
+    //  Each sub-banner gets its own ScrollTrigger (not one global trigger).
+    //  title-1 slides right, title-2 slides left → professional depth effect.
+    document.querySelectorAll('.sub-banner').forEach((el) => {
+      const st = {
+        trigger: el,
         start:   'top bottom',
         end:     'bottom top',
-        scrub:   25,
-      },
+        scrub:   2,
+      };
+      gsap.to(el.querySelectorAll('.projects-title-1'), {
+        x: '70vw', ease: 'none', scrollTrigger: st,
+      });
+      gsap.to(el.querySelectorAll('.projects-title-2'), {
+        x: '-70vw', ease: 'none', scrollTrigger: st,
+      });
     });
-    tlSubBanner
-      .from('.sub-banner',       { opacity: 0, duration: 0.1 }, '<')
-      .to('.projects-title-1',   { x: '100vw', duration: 1  }, '<')
-      .to('.projects-title-2',   { x: '-100vw', duration: 1 }, '<');
 
-    // ── BE4CARE ─────────────────────────────────────────────────────────
-    const tlBe4care = gsap.timeline({
-      scrollTrigger: {
-        ...ST_DEFAULTS,
-        trigger: '.be4care',
-        start:   'top bottom',
-        end:     'bottom bottom',
-        scrub:   10,
-      },
-    });
-    tlBe4care
-      .from('.gsap-2',                    { opacity: 0, x: '-50vw', duration: 1 }, '<')
-      .from('.card-portafolio-be4care-1', { opacity: 0, x: '60vw',  duration: 1 }, '>')
-      .from('.card-portafolio-be4care-2', { opacity: 0, x: '60vw',  duration: 1 }, '<')
-      .from('.card-portafolio-be4care-3', { opacity: 0, x: '60vw',  duration: 1 }, '<')
-      .from('.card-portafolio-be4care-4', { opacity: 0, x: '60vw',  duration: 1 }, '<');
+    // ── PROJECT SECTIONS: free-playing entrance ────────────────────────────
+    //  NOT scrub — animation plays at its own designed speed when triggered.
+    //  This is the Awwwards pattern: scroll triggers, animation plays freely.
+    //
+    //  3D model:  slides from left + scale up  (x-axis entrance)
+    //  Cards:     cascade upward with stagger   (y-axis entrance)
+    function revealProject(section, modelSel, cardSels) {
+      const tl = gsap.timeline({
+        scrollTrigger: {
+          trigger: section,
+          start:   'top 78%',
+          toggleActions: 'play none none reverse',
+        },
+      });
 
-    // ── BE4TECH ─────────────────────────────────────────────────────────
-    const tlBe4tech = gsap.timeline({
-      scrollTrigger: {
-        ...ST_DEFAULTS,
-        trigger: '.be4tech',
-        start:   'top bottom',
-        end:     'bottom bottom',
-        scrub:   10,
-      },
-    });
-    tlBe4tech
-      .from('.gsap-3',                    { opacity: 0, x: '-50vw', duration: 1 }, '<')
-      .from('.card-portafolio-be4tech-1', { opacity: 0, x: '60vw',  duration: 2 }, '>')
-      .from('.card-portafolio-be4tech-2', { opacity: 0, x: '60vw',  duration: 2 }, '<');
+      tl.from(modelSel, {
+        autoAlpha: 0,
+        xPercent:  -22,
+        scale:     0.78,
+        duration:  1.4,
+        ease:      EXPO_OUT,
+      });
 
-    // ── IROCKET ─────────────────────────────────────────────────────────
-    const tlIrocket = gsap.timeline({
-      scrollTrigger: {
-        ...ST_DEFAULTS,
-        trigger: '.irocket',
-        start:   'top bottom',
-        end:     'bottom bottom',
-        scrub:   10,
-      },
-    });
-    tlIrocket
-      .from('.gsap-4',                    { opacity: 0, x: '-50vw', duration: 1 }, '<')
-      .from('.card-portafolio-irocket-1', { opacity: 0, x: '60vw',  duration: 2 }, '>')
-      .from('.card-portafolio-irocket-2', { opacity: 0, x: '60vw',  duration: 2 }, '<');
+      tl.from(cardSels, {
+        autoAlpha: 0,
+        yPercent:  65,
+        scale:     0.88,
+        duration:  1.0,
+        stagger:   0.13,
+        ease:      POWER4,
+      }, '-=0.85');
 
-    // ── QR ACCESS ───────────────────────────────────────────────────────
-    const tlQrAccess = gsap.timeline({
-      scrollTrigger: {
-        ...ST_DEFAULTS,
-        trigger: '.qr-access',
-        start:   'top bottom',
-        end:     'bottom bottom',
-        scrub:   10,
-      },
-    });
-    tlQrAccess
-      .from('.gsap-5',                      { opacity: 0, x: '-50vw', duration: 1 }, '<')
-      .from('.card-portafolio-qr-access-1', { opacity: 0, x: '60vw',  duration: 2 }, '>');
+      return tl;
+    }
 
-    // ── LEARUP ──────────────────────────────────────────────────────────
-    const tlLearUp = gsap.timeline({
-      scrollTrigger: {
-        ...ST_DEFAULTS,
-        trigger: '.learup',
-        start:   'top bottom',
-        end:     'bottom bottom',
-        scrub:   10,
-      },
-    });
-    tlLearUp
-      .from('.gsap-6',                    { opacity: 0, x: '-50vw', duration: 1 }, '<')
-      .from('.card-portafolio-learup-1',  { opacity: 0, x: '60vw',  duration: 2 }, '>');
+    revealProject('.be4care', '.gsap-2', [
+      '.card-portafolio-be4care-1',
+      '.card-portafolio-be4care-2',
+      '.card-portafolio-be4care-3',
+      '.card-portafolio-be4care-4',
+    ]);
+    revealProject('.be4tech', '.gsap-3', [
+      '.card-portafolio-be4tech-1',
+      '.card-portafolio-be4tech-2',
+    ]);
+    revealProject('.irocket', '.gsap-4', [
+      '.card-portafolio-irocket-1',
+      '.card-portafolio-irocket-2',
+    ]);
+    revealProject('.qr-access', '.gsap-5', [
+      '.card-portafolio-qr-access-1',
+    ]);
+    revealProject('.learup', '.gsap-6', [
+      '.card-portafolio-learup-1',
+    ]);
 
-    // ── Contact ─────────────────────────────────────────────────────────
-    const tlContact = gsap.timeline({
+    // ── CONTACT: blur + stagger reveal ─────────────────────────────────────
+    //  Titles: skew + slide from left  →  directional weight
+    //  Aaron quote: blur dissolve  →  depth / cinematic focus pull
+    //  Footer: rise from below
+    gsap.timeline({
       scrollTrigger: {
-        ...ST_DEFAULTS,
         trigger: '.contact',
-        start:   'top bottom',
-        end:     'bottom bottom',
-        scrub:   5,
+        start:   'top 75%',
+        toggleActions: 'play none none reverse',
       },
-    });
-    tlContact
-      .from('.contact-title-1', { opacity: 0, x: '-100vw', duration: 2, delay: 0.5 }, '<')
-      .from('.contact-title-2', { opacity: 0, x: '-100vw', duration: 2.2              }, '<')
-      .from('.aaron',           { opacity: 0, x: '50vw',   duration: 1.2              }, '>')
-      .from('.footer-contact',  { opacity: 0, x: '-100vw', duration: 1.2              }, '>');
+    })
+      .from('.contact-title-1', {
+        autoAlpha: 0, xPercent: -55, skewX: 6,
+        duration: 1.1, ease: EXPO_OUT,
+      })
+      .from('.contact-title-2', {
+        autoAlpha: 0, xPercent: -55, skewX: 6,
+        duration: 1.2, ease: EXPO_OUT,
+      }, '-=0.8')
+      .from('.aaron', {
+        autoAlpha: 0, yPercent: 35, filter: 'blur(8px)',
+        duration: 1.3, ease: POWER4,
+      }, '-=0.55')
+      .from('.footer-contact', {
+        autoAlpha: 0, yPercent: 22,
+        duration: 1.0, ease: POWER4,
+      }, '-=0.7');
 
-    // Return cleanup callback (gsap.matchMedia calls this automatically)
-    return () => {
-      ScrollTrigger.getAll().forEach((st) => st.kill());
-    };
+    return () => ScrollTrigger.getAll().forEach((st) => st.kill());
   });
 
-  // ════════════════════════════════════════════════════════════════════════
+  // ══════════════════════════════════════════════════════════════════════════
   // MOBILE  (<= 620 px)
-  // ════════════════════════════════════════════════════════════════════════
+  // ══════════════════════════════════════════════════════════════════════════
   mm.add('(max-width: 620px)', () => {
 
-    // ── Hero banner — subtle vertical scroll ────────────────────────────
-    const tlBanner = gsap.timeline({
+    // Hero: vertical parallax (no pin on mobile — avoids touch conflicts)
+    gsap.timeline({
       scrollTrigger: {
-        ...ST_DEFAULTS,
         trigger: '.banner',
         start:   'top top',
         end:     'bottom top',
         scrub:   true,
       },
-    });
-    tlBanner
-      .to('.title-banner', { y: '6vh', duration: 1 })
-      .to('.model-viewer', { y: '4vh', duration: 2 }, '<');
+    })
+      .to('.title-banner', { yPercent: -16, autoAlpha: 0, ease: 'none', duration: 1 }, 0)
+      .to('.model-viewer',  { yPercent:  -9,              ease: 'none', duration: 1 }, 0);
 
-    // ── Sub-banner marquee parallax ─────────────────────────────────────
-    const tlSubBanner = gsap.timeline({
-      scrollTrigger: {
-        ...ST_DEFAULTS,
-        trigger: '.portafolio',
-        start:   'top bottom',
-        end:     'bottom top',
-        scrub:   5,
-      },
+    // Sub-banners: lighter counter-parallax
+    document.querySelectorAll('.sub-banner').forEach((el) => {
+      const st = { trigger: el, start: 'top bottom', end: 'bottom top', scrub: true };
+      gsap.to(el.querySelectorAll('.projects-title-1'), { x: '45vw',  ease: 'none', scrollTrigger: st });
+      gsap.to(el.querySelectorAll('.projects-title-2'), { x: '-45vw', ease: 'none', scrollTrigger: st });
     });
-    tlSubBanner
-      .to('.projects-title-1', { x: '100vw',  duration: 1 }, '<')
-      .to('.projects-title-2', { x: '-100vw', duration: 1 }, '<');
 
-    // ── BE4CARE ─────────────────────────────────────────────────────────
-    const tlBe4care = gsap.timeline({
-      scrollTrigger: {
-        ...ST_DEFAULTS,
-        trigger: '.be4care',
-        start:   'top bottom',
-        end:     'bottom bottom',
-        scrub:   10,
-      },
+    // Project sections: same pattern, adapted for mobile stack layout
+    const projects = [
+      { sel: '.be4care',   model: '.gsap-2', cards: ['.card-portafolio-be4care-1', '.card-portafolio-be4care-2', '.card-portafolio-be4care-3', '.card-portafolio-be4care-4'] },
+      { sel: '.be4tech',   model: '.gsap-3', cards: ['.card-portafolio-be4tech-1', '.card-portafolio-be4tech-2'] },
+      { sel: '.irocket',   model: '.gsap-4', cards: ['.card-portafolio-irocket-1', '.card-portafolio-irocket-2'] },
+      { sel: '.qr-access', model: '.gsap-5', cards: ['.card-portafolio-qr-access-1'] },
+      { sel: '.learup',    model: '.gsap-6', cards: ['.card-portafolio-learup-1'] },
+    ];
+
+    projects.forEach(({ sel, model, cards }) => {
+      gsap.timeline({
+        scrollTrigger: { trigger: sel, start: 'top 88%', toggleActions: 'play none none reverse' },
+      })
+        .from(model, { autoAlpha: 0, yPercent: 20, scale: 0.88, duration: 0.9, ease: POWER3 })
+        .from(cards,  { autoAlpha: 0, yPercent: 45, stagger: 0.1, duration: 0.8, ease: POWER3 }, '-=0.5');
     });
-    tlBe4care
-      .from('.gsap-2',                    { opacity: 0, x: '50vw',  duration: 1            }, '<')
-      .from('.card-portafolio-be4care-1', { opacity: 0, x: '-50vw', duration: 4, delay: 1  }, '<')
-      .from('.card-portafolio-be4care-2', { opacity: 0, x: '-50vw', duration: 4            }, '<')
-      .from('.card-portafolio-be4care-3', { opacity: 0, x: '-50vw', duration: 4            }, '<')
-      .from('.card-portafolio-be4care-4', { opacity: 0, x: '-50vw', duration: 4            }, '<');
 
-    // ── BE4TECH ─────────────────────────────────────────────────────────
-    const tlBe4tech = gsap.timeline({
-      scrollTrigger: {
-        ...ST_DEFAULTS,
-        trigger: '.be4tech',
-        start:   'top bottom',
-        end:     'bottom bottom',
-        scrub:   10,
-      },
-    });
-    tlBe4tech
-      .from('.gsap-3',                    { opacity: 0, x: '50vw',  duration: 1, delay: 0.5 }, '<')
-      .from('.card-portafolio-be4tech-1', { opacity: 0, x: '-50vw', duration: 2             }, '<')
-      .from('.card-portafolio-be4tech-2', { opacity: 0, x: '-50vw', duration: 2             }, '<');
+    // Contact
+    gsap.timeline({
+      scrollTrigger: { trigger: '.contact', start: 'top 82%', toggleActions: 'play none none reverse' },
+    })
+      .from('.contact-title-1', { autoAlpha: 0, xPercent: -28, duration: 0.85, ease: POWER3 })
+      .from('.contact-title-2', { autoAlpha: 0, xPercent: -28, duration: 0.95, ease: POWER3 }, '-=0.55')
+      .from('.aaron',           { autoAlpha: 0, yPercent: 25, filter: 'blur(6px)', duration: 0.85, ease: POWER3 }, '-=0.4')
+      .from('.footer-contact',  { autoAlpha: 0, yPercent: 18, duration: 0.75, ease: POWER3 }, '-=0.45');
 
-    // ── IROCKET ─────────────────────────────────────────────────────────
-    const tlIrocket = gsap.timeline({
-      scrollTrigger: {
-        ...ST_DEFAULTS,
-        trigger: '.irocket',
-        start:   'top bottom',
-        end:     'bottom bottom',
-        scrub:   10,
-      },
-    });
-    tlIrocket
-      .from('.gsap-4',                    { opacity: 0, x: '50vw',  duration: 1, delay: 0.5 }, '<')
-      .from('.card-portafolio-irocket-1', { opacity: 0, x: '-50vw', duration: 2             }, '<')
-      .from('.card-portafolio-irocket-2', { opacity: 0, x: '-50vw', duration: 2             }, '<');
-
-    // ── QR ACCESS ───────────────────────────────────────────────────────
-    const tlQrAccess = gsap.timeline({
-      scrollTrigger: {
-        ...ST_DEFAULTS,
-        trigger: '.qr-access',
-        start:   'top bottom',
-        end:     'bottom bottom',
-        scrub:   10,
-      },
-    });
-    tlQrAccess
-      .from('.gsap-5',                      { opacity: 0, x: '50vw',  duration: 1, delay: 0.5 }, '<')
-      .from('.card-portafolio-qr-access-1', { opacity: 0, x: '-50vw', duration: 2             }, '<');
-
-    // ── LEARUP ──────────────────────────────────────────────────────────
-    const tlLearUp = gsap.timeline({
-      scrollTrigger: {
-        ...ST_DEFAULTS,
-        trigger: '.learup',
-        start:   'top bottom',
-        end:     'bottom bottom',
-        scrub:   10,
-      },
-    });
-    tlLearUp
-      .from('.gsap-6',                   { opacity: 0, x: '50vw',  duration: 1, delay: 0.5 }, '<')
-      .from('.card-portafolio-learup-1', { opacity: 0, x: '-50vw', duration: 2             }, '<');
-
-    // ── Contact ─────────────────────────────────────────────────────────
-    const tlContact = gsap.timeline({
-      scrollTrigger: {
-        ...ST_DEFAULTS,
-        trigger: '.contact',
-        start:   'top bottom',
-        end:     'bottom bottom',
-        scrub:   5,
-      },
-    });
-    tlContact
-      .from('.contact-title-1', { opacity: 0, x: '-100vw', duration: 2, delay: 0.5 }, '<')
-      .from('.contact-title-2', { opacity: 0, x: '-100vw', duration: 2.2            }, '<')
-      .from('.aaron',           { opacity: 0, x: '50vw',   duration: 1.2            }, '>')
-      .from('.footer-contact',  { opacity: 0, x: '-100vw', duration: 1.2            }, '>');
-
-    return () => {
-      ScrollTrigger.getAll().forEach((st) => st.kill());
-    };
+    return () => ScrollTrigger.getAll().forEach((st) => st.kill());
   });
 
 })();
