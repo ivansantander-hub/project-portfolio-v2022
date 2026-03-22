@@ -6,7 +6,8 @@
     "build": "mini-astro build && node scripts/sync-static.mjs",
     "sync:static": "node scripts/sync-static.mjs",
     "predev": "node scripts/kill-port.mjs && node scripts/sync-static.mjs",
-    "dev": "mini-astro dev"
+    "dev": "mini-astro dev",
+    "og": "node scripts/gen-og.mjs"
   },
   "dependencies": {
     "@fontsource/be-vietnam-pro": "^5.2.8",

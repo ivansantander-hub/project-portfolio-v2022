@@ -9,7 +9,8 @@
       "Bash(node -e \":*)",
       "Bash(node -e \"const p=require\\(''c:/ivan/personal/2026/project-portfolio-v2022/site/node_modules/lenis/package.json''\\); console.log\\(JSON.stringify\\({main:p.main,module:p.module,exports:Object.keys\\(p.exports||{}\\)},null,2\\)\\)\")",
       "Bash(pnpm build:*)",
-      "Bash(npm install:*)"
+      "Bash(npm install:*)",
+      "Bash(python -c \"import json,sys; d=json.load\\(sys.stdin\\); print\\(json.dumps\\(d.get\\(''''scripts'''',{}\\), indent=2\\)\\)\")"
     ]
   }
 }

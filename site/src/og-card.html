@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=1200">
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=VT323&family=Be+Vietnam+Pro:wght@300;700&display=swap');
+
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    body {
+      width: 1200px;
+      height: 630px;
+      background: #111111;
+      font-family: 'Be Vietnam Pro', 'Helvetica Neue', Helvetica, sans-serif;
+      color: #F1F4FF;
+      display: flex;
+      align-items: stretch;
+      overflow: hidden;
+      position: relative;
+    }
+
+    /* Grain noise via SVG filter */
+    body::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      opacity: 0.04;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='256' height='256'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+      background-size: 256px 256px;
+      pointer-events: none;
+      z-index: 1;
+    }
+
+    /* Thin horizontal rule at top */
+    body::after {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 2px;
+      background: #F1F4FF;
+      opacity: 0.9;
+      z-index: 10;
+    }
+
+    .left {
+      flex: 1;
+      padding: 64px 72px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      position: relative;
+      z-index: 2;
+    }
+
+    .right {
+      width: 320px;
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-end;
+      padding: 64px 64px 64px 0;
+      position: relative;
+      z-index: 2;
+    }
+
+    /* Top: monogram */
+    .monogram {
+      font-family: 'Be Vietnam Pro', sans-serif;
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 0.22em;
+      text-transform: uppercase;
+      opacity: 0.5;
+    }
+
+    /* Center: big name */
+    .name {
+      font-family: 'VT323', monospace;
+      font-size: 128px;
+      line-height: 0.88;
+      color: #F1F4FF;
+      letter-spacing: -0.01em;
+    }
+
+    .name-last {
+      opacity: 0.22;
+    }
+
+    /* Role */
+    .role {
+      font-family: 'Be Vietnam Pro', sans-serif;
+      font-size: 13px;
+      font-weight: 300;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      opacity: 0.55;
+      margin-top: 28px;
+    }
+
+    /* Bottom-left: stack pills */
+    .stack {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+      max-width: 580px;
+    }
+
+    .pill {
+      font-family: 'Be Vietnam Pro', sans-serif;
+      font-size: 10px;
+      font-weight: 500;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: #F1F4FF;
+      opacity: 0.42;
+      border: 1px solid rgba(241, 244, 255, 0.18);
+      padding: 4px 10px;
+      border-radius: 2px;
+    }
+
+    /* Right: project list */
+    .project-list {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+    }
+
+    .project-list li {
+      font-family: 'Be Vietnam Pro', sans-serif;
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      opacity: 0.28;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .project-list li::before {
+      content: '';
+      display: block;
+      width: 18px;
+      height: 1px;
+      background: #F1F4FF;
+      opacity: 0.5;
+    }
+
+    /* Bottom-right: URL */
+    .url {
+      font-family: 'VT323', monospace;
+      font-size: 18px;
+      letter-spacing: 0.06em;
+      opacity: 0.35;
+      margin-top: 48px;
+    }
+
+    /* Vertical rule between left/right */
+    .divider {
+      width: 1px;
+      background: rgba(241, 244, 255, 0.08);
+      margin: 48px 0;
+      position: relative;
+      z-index: 2;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="left">
+    <div class="monogram">Iván Santander — Portfolio 2026</div>
+
+    <div>
+      <div class="name">
+        <div>IVÁN</div>
+        <div class="name-last">SANTANDER</div>
+      </div>
+      <div class="role">Tech Lead &amp; TPO — Full-stack · Healthtech · Medellín</div>
+    </div>
+
+    <ul class="stack">
+      <li class="pill">TypeScript</li>
+      <li class="pill">React</li>
+      <li class="pill">Next.js</li>
+      <li class="pill">Node.js</li>
+      <li class="pill">GraphQL</li>
+      <li class="pill">Docker</li>
+      <li class="pill">PostgreSQL</li>
+      <li class="pill">Python</li>
+    </ul>
+  </div>
+
+  <div class="divider"></div>
+
+  <div class="right">
+    <ul class="project-list">
+      <li>LearUp</li>
+      <li>BE4CARE</li>
+      <li>BE4TECH</li>
+      <li>iRocket</li>
+      <li>QR Access</li>
+    </ul>
+    <div class="url">ivansantander.com</div>
+  </div>
+
+</body>
+</html>

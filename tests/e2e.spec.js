@@ -217,3 +217,75 @@ test('hero model-viewer uses eager loading', async ({ page }) => {
   const loading = await page.locator('#model-viewer').getAttribute('loading');
   expect(loading).toBe('eager');
 });
+
+// ─── 13. Scramble + stack chips ──────────────────────────────────────────────
+test('scramble script is included', async ({ page }) => {
+  const scripts = await page.locator('script[src*="scramble"]').count();
+  expect(scripts).toBeGreaterThan(0);
+});
+
+test('data-scramble elements exist on key headings', async ({ page }) => {
+  const els = page.locator('[data-scramble]');
+  const count = await els.count();
+  // about-heading lines (3) + contact titles (2) = at least 5
+  expect(count).toBeGreaterThanOrEqual(5);
+});
+
+test('each project has a tech stack list', async ({ page }) => {
+  const stacks = page.locator('.project-stack');
+  const count = await stacks.count();
+  expect(count).toBe(5);
+  // Each stack has at least 3 chips
+  const chips = page.locator('.project-stack li');
+  const total = await chips.count();
+  expect(total).toBeGreaterThanOrEqual(15);
+});
+
+test('about section bio mentions Tech Lead and Medellin', async ({ page }) => {
+  const bio = page.locator('.about-bio');
+  const text = await bio.textContent();
+  expect(text?.toLowerCase()).toContain('tech lead');
+  expect(text?.toLowerCase()).toContain('medellín');
+});
+
+test('about section year marker shows 07', async ({ page }) => {
+  const yr = page.locator('.about-year-num');
+  const text = await yr.textContent();
+  expect(text?.trim()).toBe('07');
+});
+
+// ─── 14. Grain overlay ───────────────────────────────────────────────────────
+test('film grain overlay is in DOM with aria-hidden', async ({ page }) => {
+  const grain = page.locator('.grain');
+  await expect(grain).toBeAttached();
+  await expect(grain).toHaveAttribute('aria-hidden', 'true');
+});
+
+// ─── 15. Horizontal drag-to-scroll galleries ─────────────────────────────────
+test('each project has a card-scroll gallery', async ({ page }) => {
+  const galleries = page.locator('.app .card-scroll');
+  const count = await galleries.count();
+  expect(count).toBe(5);
+});
+
+test('card-scroll has overflow-x auto (horizontal gallery)', async ({ page }) => {
+  const overflow = await page.locator('.card-scroll').first().evaluate(
+    (el) => getComputedStyle(el).overflowX
+  );
+  expect(overflow).toBe('auto');
+});
+
+// ─── 16. OG meta tags ────────────────────────────────────────────────────────
+test('og:image meta tag is present', async ({ page }) => {
+  const og = page.locator('meta[property="og:image"]');
+  await expect(og).toBeAttached();
+  const content = await og.getAttribute('content');
+  expect(content).toBeTruthy();
+});
+
+test('og:title and og:description are set', async ({ page }) => {
+  const title = await page.locator('meta[property="og:title"]').getAttribute('content');
+  const desc  = await page.locator('meta[property="og:description"]').getAttribute('content');
+  expect(title).toContain('Iván Santander');
+  expect(desc).toBeTruthy();
+});
