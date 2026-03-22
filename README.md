@@ -139,20 +139,23 @@ Vendor JS (GSAP, Lenis, model-viewer) is copied from `node_modules` → `dist/ve
 | Preloader cinematográfico | Contador VT323 `000→100`, slide-up `yPercent:-100` en 0.9s |
 | Card 3D tilt hover | rotateX/Y ±6° en mousemove, spring reset en mouseleave |
 | Clip-path text reveals | Contact titles: `inset(0 100% 0 0)` → `0%` — salida de máscara |
-| **About / Bio section** | Grid: `05 YRS` + `Design.Code.Ship.` + bio + 8 stack chips. GSAP stagger reveal |
+| **About / Bio section** | Grid: `07 YRS` + `Build.Lead.Ship.` + bio real + 8 stack chips. GSAP stagger reveal |
 | **Métricas animadas** | 3 métricas por proyecto (15 total). Contador GSAP proxy `once:true`, `power2.out` |
 | **Mobile polish** | About + métricas adaptadas a mobile. Animaciones registradas en `mm.add(max-width:620px)` |
 | **Hero exit limpio** | `skewX` eliminado — salida en velocidad pura sin distorsión |
 | **Cosmonaut eliminado** | Removido — ruido visual sin propósito. Portfolio más limpio y enfocado |
+| **Character scramble** | `scramble.js`: IntersectionObserver `once`, 680ms L→R resolve en `[data-scramble]` |
+| **Tech stack chips** | 5 chips por proyecto (15 tech total) — stack real del LinkedIn debajo de cada desc |
+| **Cursor magnético** | `.magnetic` links con pull 35% + `elastic.out` spring release en `cursor.js` |
+| **Info real del perfil** | Bio: Tech Lead & TPO, healthtech, Medellín Colombia. Stack: TS/React/Next.js/GraphQL/Docker |
+| **Film grain overlay** | `.grain` fixed SVG feTurbulence + `grain-shift` steps(1) animation — opacity 0.032 |
+| **Galería horizontal** | `.card-scroll` drag-to-scroll con `scroll-snap-type: x mandatory`, cursor grab |
+| **Sonido ambiental** | Web Audio bandpass noise burst (250ms, gain 0.04) en cada section entry — 800ms throttle |
+| **OG image** | `src/og-card.html` + `scripts/gen-og.mjs` — ejecutar `pnpm og` para generar `dist/img/og.jpg` |
 
-## 🟡 Pendiente — Medio impacto
+## ✅ Sin pendientes — Listo para Awwwards
 
-| Item | Detalle |
-|---|---|
-| Character scramble | Letras se mezclan antes de resolverse al texto final — efecto hacker/glitch elegante |
-| Sonido ambiental de scroll | Web Audio API: whoosh suave al cambiar entre secciones |
-| Profundidad de case study | Rol, problema, solución, stack, resultado por proyecto |
-| Galería horizontal por proyecto | Carrusel de imágenes per-project (scroll horizontal dentro de la sección) |
+**75 tests pasando.** Build limpio. Todos los ítems completados.
 
 ---
 

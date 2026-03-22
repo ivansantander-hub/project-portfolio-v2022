@@ -221,10 +221,112 @@
     window.addEventListener('scroll', hide, { passive: true });
   }
 
+  // ── Card gallery drag-to-scroll ───────────────────────────────────────────
+  //  Mousedown captures start position; mousemove translates scrollLeft.
+  //  Uses window listeners for mouseup/mouseleave so fast drags don't escape.
+  //  Touch scroll is handled natively by overflow-x: auto on .card-scroll.
+  function setupDragScroll() {
+    document.querySelectorAll('.card-scroll').forEach((el) => {
+      let dragging  = false;
+      let startX    = 0;
+      let scrollStart = 0;
+
+      el.addEventListener('mousedown', (e) => {
+        dragging    = true;
+        startX      = e.clientX;
+        scrollStart = el.scrollLeft;
+        el.classList.add('is-dragging');
+        e.preventDefault(); // prevents text selection while dragging
+      });
+
+      window.addEventListener('mousemove', (e) => {
+        if (!dragging) return;
+        el.scrollLeft = scrollStart + (startX - e.clientX);
+      });
+
+      const stopDrag = () => {
+        if (!dragging) return;
+        dragging = false;
+        el.classList.remove('is-dragging');
+      };
+      window.addEventListener('mouseup',    stopDrag);
+      window.addEventListener('mouseleave', stopDrag);
+    });
+  }
+
+  // ── Ambient scroll sound ──────────────────────────────────────────────────
+  //  Bandpass-filtered white noise burst (0.25s) at very low gain (0.04).
+  //  Fires on IntersectionObserver section entry — max once per 800ms.
+  //  AudioContext created on first user gesture (browser autoplay policy).
+  //  Skipped entirely if user prefers reduced motion (implies reduced stimuli).
+  function setupScrollSound() {
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+    if (typeof AudioContext === 'undefined' && typeof window.webkitAudioContext === 'undefined') return;
+
+    let ctx      = null;
+    let lastTime = 0;
+
+    function unlock() {
+      if (ctx) return;
+      ctx = new (window.AudioContext || window.webkitAudioContext)();
+    }
+    document.addEventListener('mousedown',  unlock, { once: true });
+    document.addEventListener('touchstart', unlock, { once: true });
+    document.addEventListener('keydown',    unlock, { once: true });
+
+    function playWhoosh() {
+      if (!ctx) return;
+      const now = performance.now();
+      if (now - lastTime < 800) return;
+      lastTime = now;
+
+      if (ctx.state === 'suspended') ctx.resume();
+
+      const t      = ctx.currentTime;
+      const len    = Math.floor(ctx.sampleRate * 0.25);
+      const buf    = ctx.createBuffer(1, len, ctx.sampleRate);
+      const data   = buf.getChannelData(0);
+      for (let i = 0; i < len; i++) data[i] = Math.random() * 2 - 1;
+
+      const src = ctx.createBufferSource();
+      src.buffer = buf;
+
+      const bpf = ctx.createBiquadFilter();
+      bpf.type = 'bandpass';
+      bpf.frequency.setValueAtTime(500, t);
+      bpf.frequency.exponentialRampToValueAtTime(140, t + 0.25);
+      bpf.Q.value = 1.4;
+
+      const gain = ctx.createGain();
+      gain.gain.setValueAtTime(0, t);
+      gain.gain.linearRampToValueAtTime(0.04, t + 0.04);
+      gain.gain.exponentialRampToValueAtTime(0.001, t + 0.25);
+
+      src.connect(bpf);
+      bpf.connect(gain);
+      gain.connect(ctx.destination);
+      src.start(t);
+      src.stop(t + 0.28);
+    }
+
+    const sections = document.querySelectorAll('.app, .about-section, .contact');
+    if (!sections.length) return;
+
+    const obs = new IntersectionObserver((entries) => {
+      entries.forEach((e) => {
+        if (e.isIntersecting && e.intersectionRatio >= 0.35) playWhoosh();
+      });
+    }, { threshold: 0.35 });
+
+    sections.forEach((s) => obs.observe(s));
+  }
+
   // ── Init ──────────────────────────────────────────────────────────────────
   function init() {
     window.scrollTo(0, 0);
     setupDragHints();
+    setupDragScroll();
+    setupScrollSound();
     runHeroEntrance();
     setupScrollProgress();
     setupSectionIndicator();
