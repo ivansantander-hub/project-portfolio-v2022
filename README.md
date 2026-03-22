@@ -139,14 +139,11 @@ Vendor JS (GSAP, Lenis, model-viewer) is copied from `node_modules` → `dist/ve
 | Preloader cinematográfico | Contador VT323 `000→100`, slide-up `yPercent:-100` en 0.9s |
 | Card 3D tilt hover | rotateX/Y ±6° en mousemove, spring reset en mouseleave |
 | Clip-path text reveals | Contact titles: `inset(0 100% 0 0)` → `0%` — salida de máscara |
-
-## 🔴 Pendiente — Alto impacto Awwwards
-
-| Item | Por qué importa | Esfuerzo |
-|---|---|---|
-| **Mobile experience** | Jueces puntúan mobile. Actualmente sin traveler, sin tilt, animaciones básicas | 6-8h |
-| **Sección "About / Bio"** | Score de contenido (20%). Sin intro = sin identidad. Una frase + rol + skills | 1-2h |
-| **Métricas animadas por proyecto** | Diferencia entre mostrar trabajo y demostrar impacto. Ej: `12K+ usuarios`, `60% menos tiempo` | 2h |
+| **About / Bio section** | Grid: `05 YRS` + `Design.Code.Ship.` + bio + 8 stack chips. GSAP stagger reveal |
+| **Métricas animadas** | 3 métricas por proyecto (15 total). Contador GSAP proxy `once:true`, `power2.out` |
+| **Mobile polish** | About + métricas adaptadas a mobile. Animaciones registradas en `mm.add(max-width:620px)` |
+| **Hero exit limpio** | `skewX` eliminado — salida en velocidad pura sin distorsión |
+| **Cosmonaut eliminado** | Removido — ruido visual sin propósito. Portfolio más limpio y enfocado |
 
 ## 🟡 Pendiente — Medio impacto
 
@@ -164,7 +161,6 @@ Vendor JS (GSAP, Lenis, model-viewer) is copied from `node_modules` → `dist/ve
 | Model | Path | Section | Animation |
 |---|---|---|---|
 | Rhetorician | `rhetorician/scene.gltf` | Hero | `Take 01` |
-| Cosmonaut on Rocket | `cosmonaut_on_a_rocket/scene.gltf` | Space traveler | `Take 001` |
 | Computer Monitor | `computer_monitor/scene.gltf` | iRocket | — |
 | Computer Monitor LearUp | `computer_monitor_learup/scene.gltf` | LearUp | — |
 | MacBook Pro | `macbook_pro/scene.gltf` | BE4TECH | — |

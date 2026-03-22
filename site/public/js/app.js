@@ -171,8 +171,9 @@
     if (!textEl) return;
 
     const sections = [
-      { el: document.querySelector('.banner'),  label: 'HOME'     },
-      { el: document.querySelector('.sub-banner'), label: 'WORK'  },
+      { el: document.querySelector('.banner'),         label: 'HOME'    },
+      { el: document.querySelector('.about-section'),  label: 'ABOUT'   },
+      { el: document.querySelector('.sub-banner'),     label: 'WORK'    },
       { el: document.querySelector('.app.be4care'),  label: 'BE4CARE'  },
       { el: document.querySelector('.app.be4tech'),  label: 'BE4TECH'  },
       { el: document.querySelector('.app.irocket'),  label: 'IROCKET'  },
