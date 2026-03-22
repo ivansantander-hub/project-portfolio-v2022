@@ -1,9 +1,17 @@
 {
   "name": "project-portfolio-v2022",
   "private": true,
+  "packageManager": "pnpm@9.15.0",
+  "engines": {
+    "node": ">=20"
+  },
   "scripts": {
-    "build": "cd site && npm run build",
-    "dev": "cd site && npm run dev",
-    "serve": "cd site && npx --yes serve dist -p 3000"
+    "build": "pnpm --filter portfolio-site run build",
+    "dev": "pnpm --filter portfolio-site run dev",
+    "serve": "pnpm --filter portfolio-site exec serve dist -l tcp://127.0.0.1:3000",
+    "start": "node scripts/serve-static.mjs"
+  },
+  "dependencies": {
+    "serve": "^14.2.4"
   }
 }
