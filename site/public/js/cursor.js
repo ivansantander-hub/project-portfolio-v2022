@@ -3,10 +3,17 @@
  * Custom cursor follower with:
  *  - Dot (8px): snaps exactly to mouse position each frame.
  *  - Ring (36px): lerped at factor 0.12 — smooth trailing effect.
- *  - Hover: CSS class swap on any interactive element.
- *  - Click: brief "squish" class on mousedown/up.
+ *  - Hover: ring grows, dot vanishes.
+ *  - Click: ring squish + dot pulse + subtle audio tick.
  *  - Magnetic: elements with .magnetic class pull ring toward them.
  *  - Touch guard: no-op on touch-only devices.
+ *
+ * WHY scale is in the JS transform string (not CSS individual scale:):
+ *   CSS individual `scale` is applied AFTER `transform` but still uses the
+ *   element's layout transform-origin (0,0 in viewport for this fixed element).
+ *   That causes the ring to scale TOWARD the viewport origin, not toward the
+ *   cursor — resulting in a huge position jump on hover/click.
+ *   Fix: keep scale inside the `transform` value so it always pivots at cursor.
  *
  * Requires GSAP (loaded before this script) for magnetic easing.
  */
@@ -14,10 +21,8 @@
 (function () {
   'use strict';
 
-  // ── Guard: skip on touch-only devices ─────────────────────────────────────
+  // ── Guards ─────────────────────────────────────────────────────────────────
   if (!window.matchMedia('(pointer: fine)').matches) return;
-
-  // ── Guard: skip on reduced-motion ─────────────────────────────────────────
   if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
 
   // ── DOM refs ───────────────────────────────────────────────────────────────
@@ -30,7 +35,35 @@
   let mouseY = window.innerHeight / 2;
   let ringX  = mouseX;
   let ringY  = mouseY;
-  const LERP = 0.12;
+  const LERP       = 0.12;
+  const SCALE_LERP = 0.18;
+
+  // Scale tracked in JS — applied inside transform string (pivot = cursor pos)
+  let ringScaleT = 1,  ringScale = 1;
+  let dotScaleT  = 1,  dotScale  = 1;
+
+  // ── Click audio — short sine sweep (tasteful digital tick) ────────────────
+  let audioCtx = null;
+  function playClick() {
+    try {
+      if (!audioCtx) {
+        audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+      }
+      if (audioCtx.state === 'suspended') audioCtx.resume();
+      const t    = audioCtx.currentTime;
+      const osc  = audioCtx.createOscillator();
+      const gain = audioCtx.createGain();
+      osc.type = 'sine';
+      osc.frequency.setValueAtTime(1100, t);
+      osc.frequency.exponentialRampToValueAtTime(180, t + 0.065);
+      gain.gain.setValueAtTime(0.09, t);
+      gain.gain.exponentialRampToValueAtTime(0.001, t + 0.085);
+      osc.connect(gain);
+      gain.connect(audioCtx.destination);
+      osc.start(t);
+      osc.stop(t + 0.1);
+    } catch (_) { /* audio not available — silent fallback */ }
+  }
 
   // ── Mouse move ─────────────────────────────────────────────────────────────
   let initialized = false;
@@ -46,29 +79,29 @@
 
   // ── RAF loop ───────────────────────────────────────────────────────────────
   function tick() {
-    // Dot snaps exactly
-    dot.style.transform = `translate(${mouseX}px, ${mouseY}px)`;
+    // Dot: snaps to mouse, lerped scale
+    dotScale += (dotScaleT - dotScale) * SCALE_LERP;
+    dot.style.transform =
+      `translate(${mouseX}px, ${mouseY}px) scale(${dotScale.toFixed(3)})`;
 
-    // Ring lerps
-    ringX += (mouseX - ringX) * LERP;
-    ringY += (mouseY - ringY) * LERP;
-    ring.style.transform = `translate(${ringX}px, ${ringY}px)`;
+    // Ring: lerped position AND scale — both inside same transform string
+    // so scale pivots at the ring's current position (not the viewport origin)
+    ringX    += (mouseX    - ringX)    * LERP;
+    ringY    += (mouseY    - ringY)    * LERP;
+    ringScale += (ringScaleT - ringScale) * SCALE_LERP;
+    ring.style.transform =
+      `translate(${ringX}px, ${ringY}px) scale(${ringScale.toFixed(3)})`;
 
     requestAnimationFrame(tick);
   }
   requestAnimationFrame(tick);
 
   // ── Hover states ───────────────────────────────────────────────────────────
-  const INTERACTIVE = 'a, button, [role="button"], input, textarea, select, label, .swatch, model-viewer';
+  const INTERACTIVE =
+    'a, button, [role="button"], input, textarea, select, label, .swatch, model-viewer';
 
-  function onEnter() {
-    dot.classList.add('cursor-dot--hover');
-    ring.classList.add('cursor-ring--hover');
-  }
-  function onLeave() {
-    dot.classList.remove('cursor-dot--hover');
-    ring.classList.remove('cursor-ring--hover');
-  }
+  function onEnter() { ringScaleT = 1.55; dotScaleT = 0;   }
+  function onLeave() { ringScaleT = 1;    dotScaleT = 1;   }
 
   document.addEventListener('mouseover', (e) => {
     if (e.target.closest(INTERACTIVE)) onEnter();
@@ -79,49 +112,47 @@
 
   // ── Click feedback ─────────────────────────────────────────────────────────
   document.addEventListener('mousedown', () => {
-    ring.classList.add('cursor-ring--click');
-    dot.classList.add('cursor-dot--click');
+    ringScaleT = 0.62;   // ring squishes inward
+    dotScaleT  = 2.0;    // dot pulses outward — counter-animation
+    playClick();
   });
+
   document.addEventListener('mouseup', () => {
-    ring.classList.remove('cursor-ring--click');
-    dot.classList.remove('cursor-dot--click');
+    // Brief spring overshoot, then settle to hover or default
+    ringScaleT = 1.18;
+    dotScaleT  = 0.7;
+    setTimeout(() => {
+      const over = document.querySelector(':hover');
+      if (over && over.closest(INTERACTIVE)) {
+        ringScaleT = 1.55; dotScaleT = 0;
+      } else {
+        ringScaleT = 1;    dotScaleT = 1;
+      }
+    }, 110);
   });
 
   // ── Magnetic elements ──────────────────────────────────────────────────────
-  // Elements with .magnetic class pull the cursor ring toward them.
   function setupMagnetic() {
     if (typeof gsap === 'undefined') return;
-
     document.querySelectorAll('.magnetic').forEach((el) => {
       el.addEventListener('mousemove', (e) => {
         const rect = el.getBoundingClientRect();
-        const cx   = rect.left + rect.width  / 2;
-        const cy   = rect.top  + rect.height / 2;
-        const dx   = e.clientX - cx;
-        const dy   = e.clientY - cy;
-
+        const dx   = e.clientX - (rect.left + rect.width  / 2);
+        const dy   = e.clientY - (rect.top  + rect.height / 2);
         gsap.to(el, {
-          x:        dx * 0.35,
-          y:        dy * 0.35,
-          duration: 0.35,
-          ease:     'power2.out',
-          overwrite: 'auto',
+          x: dx * 0.35, y: dy * 0.35,
+          duration: 0.35, ease: 'power2.out', overwrite: 'auto',
         });
       });
-
       el.addEventListener('mouseleave', () => {
         gsap.to(el, {
-          x:        0,
-          y:        0,
-          duration: 0.9,
-          ease:     'elastic.out(1, 0.5)',
-          overwrite: 'auto',
+          x: 0, y: 0,
+          duration: 0.9, ease: 'elastic.out(1, 0.5)', overwrite: 'auto',
         });
       });
     });
   }
 
-  // Run magnetic setup after DOM is fully ready
   if (document.readyState === 'loading') {
     document.addEventListener('DOMContentLoaded', setupMagnetic);
   } else {

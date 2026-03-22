@@ -812,9 +812,8 @@ a:hover { text-decoration: underline !important; }
     mix-blend-mode: difference;
     transition: opacity 0.3s ease, scale 0.22s cubic-bezier(0.34,1.56,0.64,1), border-color 0.3s ease;
 }
-.cursor-ring--hover { scale: 1.55; }
-.cursor-dot--hover  { scale: 0; }
-.cursor-ring--click { scale: 0.75; }
+/* Scale states are handled in cursor.js via the transform string to avoid
+   the CSS individual-scale / transform-origin drift bug.                    */
 
 /* ── Scroll Progress Bar ───────────────────────────────────────────────────── */
 #scroll-progress {
