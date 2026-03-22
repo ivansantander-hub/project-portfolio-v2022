@@ -49,23 +49,12 @@
 
 <slot />
 
-<!-- Cosmonaut traveler: fixed-position, journeys through portfolio sections -->
-<div id="traveler-wrap" aria-hidden="true">
-  <model-viewer
-    id="model-viewer-traveler"
-    camera-orbit="40deg 80deg auto"
-    disable-zoom
-    src="models-3d/cosmonaut_on_a_rocket/scene.gltf"
-    autoplay
-    animation-name="Take 001"
-    shadow-intensity="0"
-    exposure="0.85"
-    loading="lazy"
-  ></model-viewer>
-</div>
 
 <!-- model-viewer custom element (local vendor, no CDN) -->
 <script src="vendor/model-viewer.min.js" type="module"></script>
+
+<!-- Lenis smooth scroll (local vendor, no CDN) -->
+<script src="vendor/lenis.min.js"></script>
 
 <!-- GSAP + ScrollTrigger (local vendor, no CDN) -->
 <script src="vendor/gsap.min.js"></script>
@@ -75,6 +64,7 @@
 <script src="js/app.js"></script>
 <script src="js/colors.js"></script>
 <script src="js/cursor.js"></script>
+<script src="js/tilt.js"></script>
 <script src="js/animations.js"></script>
 
 </body>

@@ -9,9 +9,13 @@
     "build": "pnpm --filter portfolio-site run build",
     "dev": "pnpm --filter portfolio-site run dev",
     "serve": "pnpm --filter portfolio-site exec serve dist -l tcp://127.0.0.1:3000",
-    "start": "node scripts/serve-static.mjs"
+    "start": "node scripts/serve-static.mjs",
+    "test": "npx playwright test"
   },
   "dependencies": {
     "serve": "^14.2.4"
+  },
+  "devDependencies": {
+    "@playwright/test": "^1.58.2"
   }
 }

@@ -44,8 +44,9 @@ for (const sub of ['css', 'js', 'img', 'models-3d']) {
 const vendor = join(dist, 'vendor');
 ensureDir(vendor);
 
-copyFile(join(nm, 'gsap', 'dist', 'gsap.min.js'),          join(vendor, 'gsap.min.js'));
-copyFile(join(nm, 'gsap', 'dist', 'ScrollTrigger.min.js'), join(vendor, 'ScrollTrigger.min.js'));
+copyFile(join(nm, 'gsap',  'dist', 'gsap.min.js'),             join(vendor, 'gsap.min.js'));
+copyFile(join(nm, 'gsap',  'dist', 'ScrollTrigger.min.js'),    join(vendor, 'ScrollTrigger.min.js'));
+copyFile(join(nm, 'lenis', 'dist', 'lenis.min.js'),            join(vendor, 'lenis.min.js'));
 copyFile(
   join(nm, '@google', 'model-viewer', 'dist', 'model-viewer.min.js'),
   join(vendor, 'model-viewer.min.js'),

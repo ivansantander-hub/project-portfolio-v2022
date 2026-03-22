@@ -1,13 +1,26 @@
 <!-- ── ATOM: Preloader ─────────────────────────────────────────────────────
-  Loading screen shown until the hero model-viewer fires its load event.
-  Controlled by colors.js (progress bar + hide logic).
+  Cinematic loading screen:
+  - Giant VT323 counter 000 → 100 fills the viewport
+  - Name + tagline below in small caps
+  - Thin progress line at the bottom
+  - Exit: full panel slides UP (translateY -100vh) revealing the site
+  Controlled by colors.js (progress + hide). GSAP drives the exit slide.
 ──────────────────────────────────────────────────────────────────────────── -->
 <div class="preload" id="preload" aria-hidden="true" role="status" aria-live="polite">
-  <div class="preload-inner">
-    <p class="preload-label">Loading</p>
-    <div class="preload-bar" aria-hidden="true">
-      <div class="preload-bar-fill" id="preload-bar-fill"></div>
-    </div>
-    <p class="preload-percent" id="preload-percent">0%</p>
+
+  <!-- Giant progress counter -->
+  <span class="preload-counter" id="preload-counter">000</span>
+
+  <!-- Identity line -->
+  <div class="preload-identity">
+    <span class="preload-name">Iván Santander</span>
+    <span class="preload-sep" aria-hidden="true">—</span>
+    <span class="preload-role">Design &amp; Code</span>
   </div>
+
+  <!-- Progress line (bottom) -->
+  <div class="preload-line" aria-hidden="true">
+    <div class="preload-line-fill" id="preload-line-fill"></div>
+  </div>
+
 </div>
