@@ -81,6 +81,7 @@ test('about section exists with bio content', async ({ page }) => {
   await expect(bio).toBeAttached();
   const text = await bio.textContent();
   expect(text?.toLowerCase()).toContain('iván santander');
+  expect(text?.toLowerCase()).toContain('tech lead');
 });
 
 test('about section has stack chips', async ({ page }) => {
