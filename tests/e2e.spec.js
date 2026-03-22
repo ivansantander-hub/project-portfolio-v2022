@@ -73,6 +73,32 @@ test('hero has scroll CTA', async ({ page }) => {
   await expect(page.locator('.scroll-cta')).toBeAttached();
 });
 
+// ─── 3b. About section ───────────────────────────────────────────────────────
+test('about section exists with bio content', async ({ page }) => {
+  const about = page.locator('.about-section');
+  await expect(about).toBeAttached();
+  const bio = page.locator('.about-bio');
+  await expect(bio).toBeAttached();
+  const text = await bio.textContent();
+  expect(text?.toLowerCase()).toContain('iván santander');
+});
+
+test('about section has stack chips', async ({ page }) => {
+  const chips = page.locator('.about-stack li');
+  const count = await chips.count();
+  expect(count).toBeGreaterThanOrEqual(6);
+});
+
+test('each project has impact metrics', async ({ page }) => {
+  const metrics = page.locator('.project-metrics');
+  const count = await metrics.count();
+  expect(count).toBe(5);
+  // Each metric block has 3 .metric-value elements
+  const values = page.locator('.metric-value');
+  const total = await values.count();
+  expect(total).toBe(15);
+});
+
 // ─── 4. Navigation & UI Chrome ───────────────────────────────────────────────
 test('scroll progress bar exists', async ({ page }) => {
   await expect(page.locator('#scroll-progress')).toBeAttached();

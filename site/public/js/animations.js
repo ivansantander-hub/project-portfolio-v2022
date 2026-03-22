@@ -178,6 +178,57 @@
       '.card-portafolio-learup-1',
     ]);
 
+    // ── ABOUT SECTION: stagger line reveal + bio + stack ──────────────────
+    //  Lines use yPercent (overflow:hidden on .about-line clips the travel).
+    //  Bio and stack chips cascade in after lines settle.
+    gsap.timeline({
+      scrollTrigger: {
+        trigger: '.about-section',
+        start:   'top 78%',
+        toggleActions: 'play none none reverse',
+      },
+    })
+      .from('.about-line', {
+        yPercent: 105, autoAlpha: 0,
+        duration: 1.0, stagger: 0.14, ease: POWER4,
+      })
+      .from('.about-bio', {
+        autoAlpha: 0, yPercent: 18,
+        duration: 0.85, ease: POWER3,
+      }, '-=0.55')
+      .from('.about-stack li', {
+        autoAlpha: 0, yPercent: 28,
+        duration: 0.55, stagger: 0.055, ease: POWER3,
+      }, '-=0.6')
+      .from('.about-year-num', {
+        autoAlpha: 0, duration: 1.4, ease: 'power2.out',
+      }, 0);
+
+    // ── METRICS: count-up on first enter ──────────────────────────────────
+    //  Each .metric-value has data-count (target int) and data-suffix (string).
+    //  GSAP tweens a proxy {val:0} and writes floor(val)+suffix on each tick.
+    //  Once: true — counter only fires once, never resets on scroll back.
+    document.querySelectorAll('.metric-value').forEach((el) => {
+      const target = parseInt(el.dataset.count, 10);
+      const suffix = el.dataset.suffix || '';
+      const proxy  = { val: 0 };
+
+      ScrollTrigger.create({
+        trigger: el,
+        start:   'top 88%',
+        once:    true,
+        onEnter: () => {
+          gsap.to(proxy, {
+            val:      target,
+            duration: 1.9,
+            ease:     'power2.out',
+            onUpdate: () => { el.textContent = Math.round(proxy.val) + suffix; },
+            onComplete: () => { el.textContent = target + suffix; },
+          });
+        },
+      });
+    });
+
     // ── CONTACT: clip-path wipe + blur reveal ──────────────────────────────
     //  Titles use clip-path inset wipe: text "slides out" from behind a mask.
     //  This is the Awwwards-standard text reveal (vs plain opacity fade).
@@ -235,6 +286,33 @@
     })
       .to('.title-banner', { yPercent: -16, autoAlpha: 0, ease: 'none', duration: 1 }, 0)
       .to('.model-viewer',  { yPercent:  -9,              ease: 'none', duration: 1 }, 0);
+
+    // About section: simplified mobile entrance
+    gsap.timeline({
+      scrollTrigger: { trigger: '.about-section', start: 'top 82%', toggleActions: 'play none none reverse' },
+    })
+      .from('.about-line', { autoAlpha: 0, yPercent: 60, duration: 0.75, stagger: 0.12, ease: POWER3 })
+      .from('.about-bio',  { autoAlpha: 0, yPercent: 20, duration: 0.65, ease: POWER3 }, '-=0.4')
+      .from('.about-stack li', { autoAlpha: 0, yPercent: 20, duration: 0.5, stagger: 0.05, ease: POWER3 }, '-=0.4');
+
+    // Metrics counters (shared logic — same on mobile and desktop)
+    document.querySelectorAll('.metric-value').forEach((el) => {
+      const target = parseInt(el.dataset.count, 10);
+      const suffix = el.dataset.suffix || '';
+      const proxy  = { val: 0 };
+      ScrollTrigger.create({
+        trigger: el,
+        start:   'top 92%',
+        once:    true,
+        onEnter: () => {
+          gsap.to(proxy, {
+            val: target, duration: 1.6, ease: 'power2.out',
+            onUpdate:  () => { el.textContent = Math.round(proxy.val) + suffix; },
+            onComplete: () => { el.textContent = target + suffix; },
+          });
+        },
+      });
+    });
 
     // Sub-banners: lighter counter-parallax
     document.querySelectorAll('.sub-banner').forEach((el) => {
