@@ -106,11 +106,13 @@ Vendor JS (GSAP, Lenis, model-viewer) is copied from `node_modules` → `dist/ve
 | **Hover state** | Ring grows 1.55×, dot vanishes |
 | **Click state** | Ring squishes 0.62×, dot pulses 2.0×, spring overshoot on release |
 
-### Audio
+### Audio & Easter Egg
 | Feature | Detail |
 |---|---|
-| **Lo-fi ambient** | "I'm glad you are here with me" — Loyalty Freak Music (CC0, archive.org). Loops at 4% volume |
-| **Tab awareness** | Music fades out on tab hide, fades back on return |
+| **Easter egg** | Click "Design & code" in footer → glitch modal with RGB-split album art, CRT scanlines, noise static |
+| **Music** | Triggered by easter egg, loops with fade-in, tab-aware (fades on hide/show) |
+| **Audio indicator** | Left-margin fixed equalizer + "SOUND" label, appears after easter egg unlock |
+| **TESTING themes** | 2 hidden color palettes (black/yellow) unlocked by easter egg |
 
 ### UI Surfaces
 | Feature | Detail |
@@ -119,7 +121,7 @@ Vendor JS (GSAP, Lenis, model-viewer) is copied from `node_modules` → `dist/ve
 | **Section indicator** | Right margin, `writing-mode: vertical-rl`, fades between section names |
 | **Scroll CTA** | Animated descending line, hides after 50px scroll |
 | **Film grain** | SVG `feTurbulence` data-URI overlay, `opacity: 0.028` |
-| **Theme switcher** | 4 palettes (Dark, Dark Rose, Light, Light Rose), cinematic flash overlay on switch |
+| **Theme switcher** | 2 palettes (Dark, Light) + 2 hidden TESTING palettes, cinematic flash overlay on switch |
 | **Drag galleries** | Horizontal card scroll with momentum (velocity + friction decay) |
 
 ### Performance & Quality
@@ -159,10 +161,10 @@ Vendor JS (GSAP, Lenis, model-viewer) is copied from `node_modules` → `dist/ve
 ### Color Themes
 | Name | Background | Text/Contrast |
 |---|---|---|
-| Dark (default) | `#111111` | `#e8e0ea` |
-| Dark Rose | `#111111` | `#c9a0b8` |
-| Light | `#f2eef4` | `#1a1a1a` |
-| Light Rose | `#f0eaed` | `#5a3a4a` |
+| Dark (default) | `#111111` | `#f0f0f0` |
+| Light | `#f0f0f0` | `#111111` |
+| TESTING Dark (hidden) | `#0a0a0a` | `#C8A82A` |
+| TESTING Yellow (hidden) | `#C8A82A` | `#0a0a0a` |
 
 ### GSAP Animation Tokens
 ```js
