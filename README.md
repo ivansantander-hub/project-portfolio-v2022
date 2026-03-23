@@ -1,6 +1,6 @@
 # Iván Santander — Portfolio
 
-Awwwards-competition portfolio. Vanilla stack, zero runtime frameworks, cinematic scroll-driven experience with live 3D models.
+Vanilla stack, zero runtime frameworks, cinematic scroll-driven experience with live 3D models.
 
 **Live:** [ivansantander.com](https://ivansantander.com)
 
@@ -39,13 +39,14 @@ pnpm test     # Playwright test suite
 project-portfolio-v2022/
 ├── site/
 │   ├── src/
-│   │   ├── templates/Base.html          # HTML shell: cursor, scroll bar, traveler, scripts
+│   │   ├── templates/Base.html          # HTML shell: cursor, scroll bar, scripts
 │   │   ├── atoms/Preloader.html         # Cinematic counter preloader
 │   │   ├── molecules/
 │   │   │   ├── SiteHeader.html          # Logo + marquee + theme swatches
 │   │   │   └── SubBanner.html           # Horizontal parallax section dividers
 │   │   ├── organisms/
 │   │   │   ├── HeroSection.html         # Rhetorician 3D + headline
+│   │   │   ├── AboutSection.html        # Bio + stack chips + year marker
 │   │   │   ├── ProjectBe4care.html
 │   │   │   ├── ProjectBe4tech.html
 │   │   │   ├── ProjectIrocket.html
@@ -56,10 +57,12 @@ project-portfolio-v2022/
 │   ├── public/
 │   │   ├── css/styles.css               # All styles — single file
 │   │   ├── js/
-│   │   │   ├── app.js                   # Scroll progress, section indicator, hero entrance
-│   │   │   ├── animations.js            # GSAP + ScrollTrigger + Lenis + traveler
+│   │   │   ├── app.js                   # Scroll progress, section indicator, hero entrance, lo-fi audio
+│   │   │   ├── animations.js            # GSAP + ScrollTrigger + Lenis
 │   │   │   ├── colors.js                # Theme switcher + preloader progress
-│   │   │   └── cursor.js                # Custom cursor + magnetic + click audio
+│   │   │   ├── cursor.js                # Custom cursor + magnetic + click audio
+│   │   │   └── scramble.js              # Character scramble on [data-scramble]
+│   │   ├── audio/                       # Lo-fi ambient track (CC0)
 │   │   ├── img/portafolio/              # Project screenshots (WebP)
 │   │   └── models-3d/                   # GLTF 3D assets
 │   ├── scripts/sync-static.mjs          # Copies public/ + vendor libs → dist/
@@ -78,31 +81,36 @@ Vendor JS (GSAP, Lenis, model-viewer) is copied from `node_modules` → `dist/ve
 
 ---
 
-## Features ✅ Implemented
+## Features
 
 ### Cinematic Experience
 | Feature | Detail |
 |---|---|
-| **Lenis smooth scroll** | Buttery 60fps scroll, integrated with GSAP ScrollTrigger via `requestAnimationFrame` |
-| **Cinematic preloader** | Full-screen giant VT323 counter 000→100, slides up on load complete |
+| **Lenis smooth scroll** | 60fps scroll, integrated with GSAP ScrollTrigger via `requestAnimationFrame` |
+| **Cinematic preloader** | Full-screen VT323 counter 000→100, slides up on load complete |
 | **Hero 3D model** | Rhetorician draggable GLTF (`camera-controls`, `animation-name: "Take 01"`) |
-| **Cosmonaut space traveler** | Fixed model-viewer, GSAP `scrub:2.8` journey through 5 project sections with camera-orbit tweening |
-| **Hero exit** | GSAP pin + skewX on title + model slide-fade, `.about-me` bridges to projects section |
+| **Hero exit** | GSAP pin + model slide-fade, `.about-me` bridges to projects section |
 | **Sub-banner parallax** | Counter-scroll titles (`scrub:2`), title-1 right / title-2 left |
-| **Project entrances** | Free-playing `toggleActions`, 3D model slides left + cards cascade stagger |
-| **Contact reveal** | clip-path + blur + skewX cascade |
-| **3D tilt hover** | Project cards respond to mousemove with `rotateX/Y` perspective transform |
+| **Project entrances** | Clip-path wipe + blur dissolve reveals, 3D model slides left + cards cascade |
+| **Contact reveal** | Scrubbed clip-path + blur, sticky reveal from behind last project |
 | **Word-by-word reveal** | DOM split + `yPercent:115` stagger on hero load |
+| **Character scramble** | `scramble.js`: IntersectionObserver `once`, 680ms L→R resolve en `[data-scramble]` |
 
 ### Cursor & Interaction
 | Feature | Detail |
 |---|---|
 | **Custom cursor** | Dot (8px snap) + ring (36px lerp 0.12), `mix-blend-mode: difference` |
-| **Scale-in-transform fix** | Scale applied inside JS `transform` string — prevents viewport-origin drift bug on click |
+| **Velocity trail** | Ring stretches in movement direction (`scaleX` up to 1.35×) + rotation |
 | **Magnetic links** | GSAP `elastic.out` on mouseleave, `.magnetic` class |
-| **Click audio** | Web Audio API sine sweep 1100Hz→180Hz / 85ms — tasteful digital tick |
+| **Click audio** | Real WAV click (Kenney CC0) — tactile cursor feedback |
 | **Hover state** | Ring grows 1.55×, dot vanishes |
 | **Click state** | Ring squishes 0.62×, dot pulses 2.0×, spring overshoot on release |
+
+### Audio
+| Feature | Detail |
+|---|---|
+| **Lo-fi ambient** | "I'm glad you are here with me" — Loyalty Freak Music (CC0, archive.org). Loops at 4% volume |
+| **Tab awareness** | Music fades out on tab hide, fades back on return |
 
 ### UI Surfaces
 | Feature | Detail |
@@ -110,9 +118,9 @@ Vendor JS (GSAP, Lenis, model-viewer) is copied from `node_modules` → `dist/ve
 | **Scroll progress bar** | Fixed top, 2px, updates on `scroll` event |
 | **Section indicator** | Right margin, `writing-mode: vertical-rl`, fades between section names |
 | **Scroll CTA** | Animated descending line, hides after 50px scroll |
-| **Noise grain** | SVG `feTurbulence` data-URI body overlay, `opacity: 0.028` |
-| **Theme switcher** | 4 palettes, cinematic flash overlay on switch |
-| **Theme overlay** | `#theme-overlay` black flash during color swap |
+| **Film grain** | SVG `feTurbulence` data-URI overlay, `opacity: 0.028` |
+| **Theme switcher** | 4 palettes (Dark, Dark Rose, Light, Light Rose), cinematic flash overlay on switch |
+| **Drag galleries** | Horizontal card scroll with momentum (velocity + friction decay) |
 
 ### Performance & Quality
 - `loading="lazy"` on all below-fold model-viewers
@@ -124,43 +132,10 @@ Vendor JS (GSAP, Lenis, model-viewer) is copied from `node_modules` → `dist/ve
 
 ### Accessibility
 - `aria-label` on all interactive model-viewers
-- `aria-hidden="true"` on decorative elements (cursor, grain, traveler)
+- `aria-hidden="true"` on decorative elements (cursor, grain)
 - Semantic HTML: `<article>`, `<main>`, `<aside>`, `<footer>`, `<nav>`
 - Focus-visible keyboard navigation preserved
 - `prefers-reduced-motion` respected site-wide
-
----
-
-## ✅ Crítico — Completado
-
-| Item | Detalle |
-|---|---|
-| Lenis smooth scroll | Integrado con GSAP ScrollTrigger via scrollerProxy + RAF compartido |
-| Preloader cinematográfico | Contador VT323 `000→100`, slide-up `yPercent:-100` en 0.9s |
-| Card 3D tilt hover | rotateX/Y ±6° en mousemove, spring reset en mouseleave |
-| Clip-path text reveals | Contact titles: `inset(0 100% 0 0)` → `0%` — salida de máscara |
-| **About / Bio section** | Grid: `07 YRS` + `Build.Lead.Ship.` + bio real + 8 stack chips. GSAP stagger reveal |
-| **Métricas animadas** | 3 métricas por proyecto (15 total). Contador GSAP proxy `once:true`, `power2.out` |
-| **Mobile polish** | About + métricas adaptadas a mobile. Animaciones registradas en `mm.add(max-width:620px)` |
-| **Hero exit limpio** | `skewX` eliminado — salida en velocidad pura sin distorsión |
-| **Cosmonaut eliminado** | Removido — ruido visual sin propósito. Portfolio más limpio y enfocado |
-| **Character scramble** | `scramble.js`: IntersectionObserver `once`, 680ms L→R resolve en `[data-scramble]` |
-| **Tech stack chips** | 5 chips por proyecto (15 tech total) — stack real del LinkedIn debajo de cada desc |
-| **Cursor magnético** | `.magnetic` links con pull 35% + `elastic.out` spring release en `cursor.js` |
-| **Info real del perfil** | Bio: Tech Lead & TPO, healthtech, Medellín Colombia. Stack: TS/React/Next.js/GraphQL/Docker |
-| **Film grain overlay** | `.grain` fixed SVG feTurbulence + `grain-shift` steps(1) animation — opacity 0.032 |
-| **Galería horizontal** | `.card-scroll` drag-to-scroll con `scroll-snap-type: x mandatory`, cursor grab |
-| **Sonido ambiental** | CC0 MP3 reales (`whoosh1/3.mp3` de rse/soundfx). `fetch()` + `decodeAudioData()`, alternancia, vol 0.12 |
-| **OG image** | `src/og-card.html` + `scripts/gen-og.mjs` — ejecutar `pnpm og` para generar `dist/img/og.jpg` |
-| **Scroll velocity skew** | Awwwards signature: `±4° skewY` en secciones proporcional a velocidad de scroll. `gsap.quickSetter` + `clamp` |
-| **Clip-path wipe reveals** | Proyectos entran con `inset(100% 0% 0% 0%)` → `inset(0)` + blur dissolve + scale 0.92 |
-| **Footer sticky reveal** | Contact section: scrubbed clip-path `inset(100%)→inset(0)` + blur, `scrub:1.2` |
-| **Cursor velocity trail** | Ring stretch `scaleX` hasta 1.35× en dirección de movimiento + rotación + dynamic lerp (0.085 vs 0.12) |
-| **Drag momentum** | Galerías con velocity tracking + friction decay (0.92) coast en mouseup vía RAF |
-
-## ✅ Sin pendientes — Listo para Awwwards
-
-**75 tests pasando.** Build limpio. Todos los ítems completados.
 
 ---
 
@@ -184,10 +159,10 @@ Vendor JS (GSAP, Lenis, model-viewer) is copied from `node_modules` → `dist/ve
 ### Color Themes
 | Name | Background | Text/Contrast |
 |---|---|---|
-| Dark (default) | `#111111` | `#F1F4FF` |
-| Light | `#F1F4FF` | `#111111` |
-| Mint | `#1a2e2a` | `#b8f0d8` |
-| Peach | `#2a1a1a` | `#f0c8b8` |
+| Dark (default) | `#111111` | `#e8e0ea` |
+| Dark Rose | `#111111` | `#c9a0b8` |
+| Light | `#f2eef4` | `#1a1a1a` |
+| Light Rose | `#f0eaed` | `#5a3a4a` |
 
 ### GSAP Animation Tokens
 ```js
@@ -198,7 +173,6 @@ POWER3    = 'power3.out'  // secondary moves
 // Scrub values
 hero      = 1.5   // responsive hero exit
 parallax  = 2     // sub-banner counter-scroll
-traveler  = 2.8   // zero-gravity cosmonaut float
 ```
 
 ---
@@ -216,7 +190,7 @@ pnpm test
 npx playwright test --ui
 ```
 
-Playwright tests cover: preloader lifecycle · hero visibility · cursor DOM · scroll behavior · project section entrances · space traveler presence · contact section · mobile viewport (375px).
+Playwright tests cover: preloader lifecycle, hero visibility, cursor DOM, scroll behavior, project sections, about section, contact section, scramble effect, tech stacks, film grain, galleries, OG meta, mobile viewport (375px).
 
 ---
 
