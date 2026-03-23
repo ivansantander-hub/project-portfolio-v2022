@@ -11,7 +11,8 @@
       "Bash(cp click.wav \"$AUDIO_DIR/click.wav\")",
       "Bash(cp transition1.wav \"$AUDIO_DIR/transition1.wav\")",
       "Bash(cp transition2.wav \"$AUDIO_DIR/transition2.wav\")",
-      "Bash(cp transition3.wav \"$AUDIO_DIR/transition3.wav\")"
+      "Bash(cp transition3.wav \"$AUDIO_DIR/transition3.wav\")",
+      "Bash(find . -type f \\\\\\(-name *.js -o -name *.html -o -name *.css -o -name *.md -o -name *.json \\\\\\))"
     ]
   }
 }

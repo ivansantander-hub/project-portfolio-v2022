@@ -2,7 +2,7 @@
 const { test, expect } = require('@playwright/test');
 
 // ─────────────────────────────────────────────────────────────────────────────
-// Portfolio E2E — Awwwards quality gate
+// Portfolio E2E — quality gate
 // Each test validates one critical layer of the page experience.
 // ─────────────────────────────────────────────────────────────────────────────
 

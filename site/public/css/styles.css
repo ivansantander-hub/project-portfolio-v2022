@@ -3,8 +3,8 @@
 /* Default theme — works without JavaScript */
 :root {
     --background: #111111;
-    --color-text: #F1F4FF;
-    --contrast: #F1F4FF;
+    --color-text: #e8e0ea;
+    --contrast: #e8e0ea;
     --fontPrimary: 'Be Vietnam Pro', sans-serif;
     --fontSecond: 'VT323', monospace;
 }
@@ -180,17 +180,17 @@ body{
 .color-2{
     top:0;
     right:0;
-    background: #a4c5c5;
+    background: #c9a0b8;
 }
 .color-3{
     bottom:0;
     left:0;
-    background: #E2C2C6;
+    background: #f2eef4;
 }
 .color-4{
     bottom:0;
     right:0;
-    background: #FDFFFC;
+    background: #f0eaed;
 }
 li{
     list-style: none;
@@ -726,7 +726,7 @@ model-viewer:active {
     pointer-events: none;
 }
 
-/* Giant VT323 counter — Awwwards-style full-viewport number */
+/* Giant VT323 counter — full-viewport number */
 .preload-counter {
     font-family: var(--fontSecond);
     font-size: clamp(18vw, 22vw, 28vh);

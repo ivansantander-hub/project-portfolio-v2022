@@ -1,6 +1,6 @@
 /**
  * scramble.js
- * Character scramble reveal on scroll entry — Awwwards signature effect.
+ * Character scramble reveal on scroll entry.
  *
  * Each character randomizes before resolving L→R over ~680ms.
  * Fires once per element via IntersectionObserver (never on scroll-back).

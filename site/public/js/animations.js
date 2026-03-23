@@ -1,6 +1,6 @@
 /**
  * animations.js
- * Cinematic GSAP + ScrollTrigger — inspired by GTA V & Awwwards.
+ * Cinematic GSAP + ScrollTrigger animations.
  *
  * Principles:
  *  - Hero: pinned section with clean velocity exit
@@ -122,7 +122,7 @@
 
     // ── PROJECT SECTIONS: free-playing entrance ────────────────────────────
     //  NOT scrub — animation plays at its own designed speed when triggered.
-    //  This is the Awwwards pattern: scroll triggers, animation plays freely.
+    //  Scroll triggers the animation, which then plays freely at designed speed.
     //
     //  3D model:  slides from left + scale up  (x-axis entrance)
     //  Cards:     cascade upward with stagger   (y-axis entrance)
@@ -144,7 +144,7 @@
         ease:      EXPO_OUT,
       });
 
-      // Cards: clip-path wipe from bottom + blur dissolve (Awwwards standard)
+      // Cards: clip-path wipe from bottom + blur dissolve
       tl.from(cardSels, {
         clipPath:  'inset(100% 0% 0% 0%)',
         autoAlpha: 0,
@@ -251,7 +251,7 @@
 
     // ── CONTACT: clip-path wipe + blur reveal ──────────────────────────────
     //  Titles use clip-path inset wipe: text "slides out" from behind a mask.
-    //  This is the Awwwards-standard text reveal (vs plain opacity fade).
+    //  Clip-path text reveal (vs plain opacity fade).
     //  Aaron quote: blur dissolve for cinematic depth pull.
     //  Footer links: stagger rise from below.
 
