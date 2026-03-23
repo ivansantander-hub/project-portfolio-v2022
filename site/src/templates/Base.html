@@ -50,6 +50,33 @@
   <span class="section-indicator-text" id="section-indicator-text">HOME</span>
 </aside>
 
+<!-- Audio indicator (left margin) — hidden until easter egg unlocked -->
+<button class="audio-indicator" id="mute-toggle" type="button"
+  aria-label="Mute music" aria-pressed="false">
+  <span class="audio-eq">
+    <span class="audio-eq-bar"></span>
+    <span class="audio-eq-bar"></span>
+    <span class="audio-eq-bar"></span>
+    <span class="audio-eq-bar"></span>
+  </span>
+  <span class="audio-label">SOUND</span>
+</button>
+
+<!-- Easter egg modal — FLACKO glitch reveal -->
+<div class="ee-modal" id="ee-modal" aria-hidden="true">
+  <div class="ee-cover"></div>
+  <!-- Flash images: random ASAP photos that flash during entrance -->
+  <div class="ee-img-flash ee-img-f1"></div>
+  <div class="ee-img-flash ee-img-f2"></div>
+  <div class="ee-img-flash ee-img-f3"></div>
+  <div class="ee-img-flash ee-img-f4"></div>
+  <div class="ee-img-flash ee-img-f5"></div>
+  <div class="ee-text">FLACKO</div>
+  <div class="ee-hint">CLICK ANYWHERE</div>
+  <div class="ee-scanlines"></div>
+  <div class="ee-noise"></div>
+</div>
+
 <slot />
 
 

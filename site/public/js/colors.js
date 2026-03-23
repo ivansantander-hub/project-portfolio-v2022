@@ -11,7 +11,7 @@
   }
 
   // ── Default theme (matches CSS :root fallback) ──────────────────────────
-  applyTheme('#111111', '#e8e0ea', '#e8e0ea');
+  applyTheme('#111111', '#f0f0f0', '#f0f0f0');
 
   // ── Cinematic Preloader ──────────────────────────────────────────────────
   const preloadEl  = document.getElementById('preload');

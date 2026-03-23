@@ -3,8 +3,8 @@
 /* Default theme — works without JavaScript */
 :root {
     --background: #111111;
-    --color-text: #e8e0ea;
-    --contrast: #e8e0ea;
+    --color-text: #f0f0f0;
+    --contrast: #f0f0f0;
     --fontPrimary: 'Be Vietnam Pro', sans-serif;
     --fontSecond: 'VT323', monospace;
 }
@@ -148,8 +148,24 @@ body{
 }
 .colors{
     width: 50px;
-    height: 50px;
+    height: 25px;
     position: relative;
+    overflow: hidden;
+    transition: height 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+}
+.ee-active .colors{
+    height: 50px;
+}
+/* Easter egg: B&W on all visuals when TESTING mode active (hero model excluded) */
+.ee-active img,
+.ee-active model-viewer,
+.ee-active .card-portafolio {
+    filter: grayscale(1) contrast(1.1);
+    transition: filter 0.6s ease;
+}
+.ee-active #model-viewer,
+.ee-active .hero-model-wrap {
+    filter: none;
 }
 .colors .color {
     width: 25px;
@@ -180,17 +196,117 @@ body{
 .color-2{
     top:0;
     right:0;
-    background: #c9a0b8;
+    background: #f0f0f0;
 }
 .color-3{
-    bottom:0;
+    top:25px;
     left:0;
-    background: #f2eef4;
+    background: #0a0a0a;
 }
 .color-4{
-    bottom:0;
+    top:25px;
     right:0;
-    background: #f0eaed;
+    background: #C8A82A;
+}
+/* ── Audio indicator (left margin, mirrors section-indicator) ───────────────── */
+.audio-indicator { display: none !important; }
+.ee-active .audio-indicator { display: none; }
+@media (min-width: 621px) {
+    .ee-active .audio-indicator {
+        display: flex !important;
+        align-items: center;
+        gap: 0.6rem;
+        position: fixed;
+        left: 1.2rem;
+        top: 50%;
+        transform: translateY(-50%);
+        writing-mode: vertical-rl;
+        background: none;
+        border: none;
+        padding: 0.5rem 0.25rem;
+        cursor: pointer;
+        color: var(--color-text);
+        opacity: 0.38;
+        transition: opacity 0.4s ease;
+        z-index: 9990;
+        -webkit-appearance: none;
+        appearance: none;
+    }
+    .audio-indicator:hover {
+        opacity: 0.75;
+    }
+    .audio-indicator:focus-visible {
+        outline: 1px solid var(--contrast);
+        outline-offset: 4px;
+    }
+}
+.audio-label {
+    font-family: var(--fontSecond);
+    font-size: 0.62rem;
+    letter-spacing: 0.25em;
+    color: var(--color-text);
+    pointer-events: none;
+}
+.audio-eq {
+    display: flex;
+    gap: 2px;
+    writing-mode: horizontal-tb;
+    align-items: flex-end;
+    height: 14px;
+    pointer-events: none;
+}
+.audio-eq-bar {
+    display: block;
+    width: 2px;
+    background: var(--contrast);
+    border-radius: 1px;
+    animation: eq-bounce 1.2s ease-in-out infinite alternate;
+}
+.audio-eq-bar:nth-child(1) { height: 4px; animation-delay: 0s; }
+.audio-eq-bar:nth-child(2) { height: 10px; animation-delay: 0.2s; }
+.audio-eq-bar:nth-child(3) { height: 6px; animation-delay: 0.4s; }
+.audio-eq-bar:nth-child(4) { height: 12px; animation-delay: 0.15s; }
+@keyframes eq-bounce {
+    0%   { height: 2px; }
+    100% { height: 14px; }
+}
+/* Muted state — bars freeze at min height */
+.audio-indicator[aria-pressed="true"] .audio-eq-bar {
+    animation: none;
+    height: 2px;
+    transition: height 0.3s ease;
+}
+.audio-indicator[aria-pressed="true"] .audio-label {
+    text-decoration: line-through;
+    text-decoration-thickness: 1px;
+}
+.audio-indicator[aria-pressed="true"] {
+    opacity: 0.22;
+}
+@media (max-width: 620px) {
+    .ee-active .audio-indicator {
+        display: flex !important;
+        align-items: center;
+        gap: 0.4rem;
+        position: fixed;
+        bottom: 1.2rem;
+        left: 1rem;
+        top: auto;
+        transform: none;
+        writing-mode: horizontal-tb;
+        background: none;
+        border: none;
+        padding: 0.4rem;
+        cursor: pointer;
+        color: var(--color-text);
+        opacity: 0.32;
+        z-index: 9990;
+        -webkit-appearance: none;
+        appearance: none;
+    }
+    .audio-indicator:active { opacity: 0.7; }
+    .audio-eq { height: 12px; }
+    .audio-label { font-size: 0.55rem; }
 }
 li{
     list-style: none;
@@ -400,6 +516,7 @@ model-viewer:active {
     margin-left: -200vw;
 }
 .app{
+    position: relative;
     width: 100vw;
     min-height: 100vh;
     color: var(--color-text);
@@ -927,6 +1044,215 @@ a:hover { text-decoration: underline !important; }
     100% { transform: translateY(100%);  opacity: 0; }
 }
 @media (max-width: 620px) { .scroll-cta { bottom: 1rem; } }
+
+/* ── Easter egg — TESTING glitch modal ──────────────────────────────────────── */
+.ee-modal {
+    position: fixed;
+    inset: 0;
+    z-index: 99999;
+    background: #000;
+    display: none;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    gap: 1.5rem;
+    cursor: pointer;
+    overflow: hidden;
+}
+.ee-modal.ee-open { display: flex; }
+
+/* Hero cover with RGB-split glitch */
+.ee-cover {
+    position: relative;
+    width: min(40vw, 55vh, 320px);
+    aspect-ratio: 9/16;
+    background: url('../img/media/flacko-hero.webp') center/cover no-repeat;
+    z-index: 2;
+    animation: ee-jitter 0.12s steps(2) infinite;
+}
+
+/* Flash images — scattered ASAP photos that appear during modal entrance */
+.ee-img-flash {
+    position: absolute;
+    background-size: cover;
+    background-position: center;
+    filter: grayscale(1) contrast(1.4);
+    mix-blend-mode: screen;
+    opacity: 0;
+    z-index: 1;
+}
+.ee-img-f1 { width: 18vw; height: 18vw; top: 5%; left: 5%;  background-image: url('../img/media/asap-1.webp'); }
+.ee-img-f2 { width: 22vw; height: 15vw; top: 8%; right: 8%; background-image: url('../img/media/asap-5.webp'); transform: skewX(-4deg); }
+.ee-img-f3 { width: 16vw; height: 20vw; bottom: 10%; left: 8%; background-image: url('../img/media/asap-3.webp'); }
+.ee-img-f4 { width: 20vw; height: 14vw; bottom: 8%; right: 5%; background-image: url('../img/media/asap-8.webp'); transform: skewX(3deg); }
+.ee-img-f5 { width: 14vw; height: 14vw; top: 40%; left: 70%;  background-image: url('../img/media/asap-2.webp'); }
+.ee-cover::before,
+.ee-cover::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: inherit;
+}
+.ee-cover::before {
+    mix-blend-mode: multiply;
+    background-color: rgba(255, 0, 50, 0.4);
+    animation: ee-slice-a 2.8s steps(1) infinite;
+}
+.ee-cover::after {
+    mix-blend-mode: multiply;
+    background-color: rgba(0, 255, 200, 0.4);
+    animation: ee-slice-b 2.2s steps(1) infinite reverse;
+}
+@keyframes ee-jitter {
+    0%  { transform: translate(0, 0) scale(1); }
+    25% { transform: translate(-1px, 1px) scale(1.001); }
+    50% { transform: translate(1px, 0) scale(0.999); }
+    75% { transform: translate(0, -1px) scale(1.001); }
+}
+@keyframes ee-slice-a {
+    0%   { clip-path: inset(42% 0 40% 0); transform: translate(-5px, 0); }
+    8%   { clip-path: inset(10% 0 82% 0); transform: translate(4px, 0); }
+    16%  { clip-path: inset(68% 0 5% 0);  transform: translate(-3px, 0); }
+    24%  { clip-path: inset(0% 0 0% 0);   transform: translate(0, 0); }
+    32%  { clip-path: inset(25% 0 55% 0); transform: translate(6px, 0); }
+    40%  { clip-path: inset(75% 0 12% 0); transform: translate(-4px, 0); }
+    48%  { clip-path: inset(0% 0 0% 0);   transform: translate(0, 0); }
+    56%  { clip-path: inset(55% 0 30% 0); transform: translate(5px, 0); }
+    64%  { clip-path: inset(8% 0 78% 0);  transform: translate(-3px, 0); }
+    72%  { clip-path: inset(0% 0 0% 0);   transform: translate(0, 0); }
+    80%  { clip-path: inset(88% 0 2% 0);  transform: translate(4px, 0); }
+    88%  { clip-path: inset(35% 0 50% 0); transform: translate(-6px, 0); }
+    100% { clip-path: inset(42% 0 40% 0); transform: translate(-5px, 0); }
+}
+@keyframes ee-slice-b {
+    0%   { clip-path: inset(60% 0 20% 0); transform: translate(4px, 0); }
+    12%  { clip-path: inset(15% 0 70% 0); transform: translate(-5px, 0); }
+    24%  { clip-path: inset(0% 0 0% 0);   transform: translate(0, 0); }
+    36%  { clip-path: inset(80% 0 5% 0);  transform: translate(3px, 0); }
+    48%  { clip-path: inset(30% 0 45% 0); transform: translate(-4px, 0); }
+    60%  { clip-path: inset(0% 0 0% 0);   transform: translate(0, 0); }
+    72%  { clip-path: inset(48% 0 35% 0); transform: translate(5px, 0); }
+    84%  { clip-path: inset(5% 0 85% 0);  transform: translate(-3px, 0); }
+    100% { clip-path: inset(60% 0 20% 0); transform: translate(4px, 0); }
+}
+
+/* TESTING text with RGB text-shadow glitch */
+.ee-text {
+    font-family: var(--fontSecond);
+    font-size: clamp(2.5rem, 10vw, 6rem);
+    color: #C8A82A;
+    letter-spacing: 0.35em;
+    z-index: 2;
+    pointer-events: none;
+    animation: ee-text-glitch 0.25s steps(2) infinite;
+}
+@keyframes ee-text-glitch {
+    0%   { text-shadow: 4px 0 #ff0040, -4px 0 #00ffc8; transform: translate(0, 0); }
+    25%  { text-shadow: -3px 0 #ff0040, 3px 0 #00ffc8;  transform: translate(2px, -1px); }
+    50%  { text-shadow: 4px 0 #ff0040, -4px 0 #00ffc8;  transform: translate(-1px, 0); }
+    75%  { text-shadow: -3px 0 #ff0040, 5px 0 #00ffc8;  transform: translate(0, 1px); }
+}
+
+/* Close hint */
+.ee-hint {
+    font-family: var(--fontSecond);
+    font-size: 0.72rem;
+    letter-spacing: 0.35em;
+    color: rgba(255, 255, 255, 0.3);
+    z-index: 2;
+    pointer-events: none;
+}
+
+/* CRT scanlines */
+.ee-scanlines {
+    position: absolute;
+    inset: 0;
+    background: repeating-linear-gradient(
+        0deg,
+        transparent,
+        transparent 2px,
+        rgba(0, 0, 0, 0.15) 2px,
+        rgba(0, 0, 0, 0.15) 4px
+    );
+    pointer-events: none;
+    z-index: 3;
+}
+
+/* Noise/static overlay */
+.ee-noise {
+    position: absolute;
+    inset: -50%;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='256' height='256'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+    background-size: 256px 256px;
+    opacity: 0.12;
+    animation: ee-noise-shift 0.15s steps(4) infinite;
+    pointer-events: none;
+    z-index: 4;
+}
+@keyframes ee-noise-shift {
+    0%   { transform: translate(0, 0); }
+    25%  { transform: translate(-10px, 8px); }
+    50%  { transform: translate(8px, -5px); }
+    75%  { transform: translate(-5px, -8px); }
+}
+
+/* ── Site-wide beat-synced glitch overlay ───────────────────────────────────── */
+.ee-site-glitch {
+    position: fixed;
+    inset: 0;
+    pointer-events: none;
+    z-index: 9988;
+    opacity: 0;
+    mix-blend-mode: screen;
+}
+.ee-site-glitch.ee-flash-active {
+    opacity: 1;
+}
+.ee-site-glitch-img {
+    position: absolute;
+    background-size: cover;
+    background-position: center;
+    filter: grayscale(1) contrast(1.6) brightness(0.7);
+    opacity: 0.45;
+}
+.ee-site-glitch.ee-flash-active .ee-site-glitch-img {
+    animation: ee-site-flash 0.12s steps(2) forwards;
+}
+@keyframes ee-site-flash {
+    0%   { opacity: 0.5; clip-path: inset(0 0 60% 0); transform: translate(-3px, 0); }
+    25%  { opacity: 0.35; clip-path: inset(30% 0 20% 0); transform: translate(4px, 0); }
+    50%  { opacity: 0.5; clip-path: inset(0 0 0 0); transform: translate(-2px, 0); }
+    75%  { opacity: 0.3; clip-path: inset(50% 0 10% 0); transform: translate(3px, 0); }
+    100% { opacity: 0; }
+}
+
+/* ── Per-element glitch (fixed-position over product cards & 3D models) ────── */
+.ee-element-glitch {
+    position: fixed;
+    pointer-events: none;
+    z-index: 9987;
+    background-size: cover;
+    background-position: center;
+    filter: grayscale(1) contrast(1.5);
+}
+.ee-element-glitch.ee-el-flash {
+    animation: ee-el-flash 0.14s steps(3) forwards;
+}
+@keyframes ee-el-flash {
+    0%   { opacity: 0.85; clip-path: inset(0 0 40% 0); transform: translate(-4px, 0); }
+    33%  { opacity: 0.55; clip-path: inset(25% 0 15% 0); transform: translate(5px, 0); }
+    66%  { opacity: 0.9; clip-path: inset(0); transform: translate(-2px, 0); }
+    100% { opacity: 0; }
+}
+
+/* ── Easter egg trigger hover scramble ─────────────────────────────────────── */
+#ee-trigger {
+    transition: color 0.25s ease;
+}
+#ee-trigger.ee-trigger-hover {
+    color: #C8A82A !important;
+    text-shadow: 0 0 8px rgba(200, 168, 42, 0.4);
+}
 
 /* ── Film grain / noise overlay ────────────────────────────────────────────── */
 body::after {

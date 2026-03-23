@@ -278,59 +278,456 @@
     });
   }
 
-  // ── Lo-fi ambient music — CC0 track by Loyalty Freak Music ──────────────
-  //  "I'm glad you are here with me" by Lack of Color / Loyalty Freak Music.
-  //  CC0 public domain (archive.org). Loops at low volume (~4%).
-  //  Fades in 4s on first user gesture. Fades out on tab hide.
-  //  No SFX, no transitions — just the music setting the mood.
+  // ── Easter egg — FLACKO / TESTING ──────────────────────────────────────
+  //  Hidden feature triggered by clicking "Design & code" in footer.
+  //  1. Hover scramble hint on trigger link
+  //  2. Glitch modal with flacko-hero + ASAP images + RGB split
+  //  3. Music starts (Praise the Lord, ~78 BPM)
+  //  4. Site-wide beat-synced glitch: ASAP images flash over product cards & 3D models
+  //  5. TESTING color themes + audio indicator unlocked
+  //  6. Deactivates when user switches to normal theme (model/text/music revert)
   //
-  function setupScrollSound() {
-    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
-    if (typeof AudioContext === 'undefined' && typeof window.webkitAudioContext === 'undefined') return;
+  function setupEasterEgg() {
+    var trigger = document.getElementById('ee-trigger');
+    var modal   = document.getElementById('ee-modal');
+    if (!trigger || !modal) return;
 
-    var ctx         = null;
-    var ambientSrc  = null;
-    var ambientGain = null;
-    var VOLUME      = 0.04;
+    var activated     = false;  // clicked once — can't re-trigger without reload
+    var testingActive = false;  // currently in TESTING mode (false after deactivate)
+    var ctx       = null;
+    var gain      = null;
+    var source    = null;
+    var analyser  = null;
+    var muted     = false;
+    var VOLUME    = 0.15;
+    var muteBtn   = document.getElementById('mute-toggle');
+    var beatRaf   = 0;
 
-    function unlock() {
-      if (ctx) return;
+    // Pool of ASAP images for glitch flashes
+    var ASAP_IMGS = [
+      'img/media/asap-1.webp', 'img/media/asap-2.webp', 'img/media/asap-3.webp',
+      'img/media/asap-4.webp', 'img/media/asap-5.webp', 'img/media/asap-6.webp',
+      'img/media/asap-7.webp', 'img/media/asap-8.webp', 'img/media/asap-9.webp',
+      'img/media/asap-10.webp', 'img/media/flacko-hero.webp'
+    ];
+
+    // Glitch targets (product cards + 3D models)
+    var glitchTargets = [];
+
+    // Store originals for restoration
+    var originalHeroHTML  = '';
+    var originalTicker    = '';
+    var originalBanners   = [];
+
+    // Preload images
+    ASAP_IMGS.forEach(function(src) {
+      var img = new Image();
+      img.src = src;
+    });
+
+    // ── Hover scramble on trigger ─────────────────────────────────
+    var SCRAMBLE_WORDS = [
+      'TESTING', 'FLACKO', 'PRAISE THE LORD', 'A$AP FOREVER',
+      'FUKK SLEEP', 'DISTORTED RECORDS', 'KID$ TURNED OUT FINE',
+      'HUN43RD', 'LAB RAT', 'LORD PRETTY FLACKO JODYE II', 'A$AP MOB'
+    ];
+    var triggerOriginalText = trigger.textContent;
+    var scrambleInterval = null;
+
+    trigger.addEventListener('mouseenter', function() {
+      if (activated) return;
+      trigger.classList.add('ee-trigger-hover');
+      scrambleInterval = setInterval(function() {
+        trigger.textContent = SCRAMBLE_WORDS[Math.floor(Math.random() * SCRAMBLE_WORDS.length)];
+      }, 100);
+    });
+
+    trigger.addEventListener('mouseleave', function() {
+      if (activated) return;
+      trigger.classList.remove('ee-trigger-hover');
+      clearInterval(scrambleInterval);
+      trigger.textContent = triggerOriginalText;
+    });
+
+    trigger.addEventListener('click', function(e) {
+      e.preventDefault();
+      if (activated) return;
+      activated = true;
+      clearInterval(scrambleInterval);
+      trigger.classList.remove('ee-trigger-hover');
+      trigger.textContent = triggerOriginalText;
+      openModal();
+    });
+
+    // ── Modal ──────────────────────────────────────────────────────────
+    function openModal() {
+      modal.classList.add('ee-open');
+
+      if (typeof gsap !== 'undefined') {
+        var tl = gsap.timeline();
+        tl.fromTo(modal, { opacity: 0 }, { opacity: 1, duration: 0.06 })
+          .to(modal, { opacity: 0, duration: 0.04 })
+          .to(modal, { opacity: 1, duration: 0.06 })
+          .to(modal, { opacity: 0, duration: 0.03 })
+          .to(modal, { opacity: 1, duration: 0.08 })
+          .fromTo('.ee-cover',
+            { scale: 1.6, opacity: 0, filter: 'blur(30px)' },
+            { scale: 1, opacity: 1, filter: 'blur(0px)', duration: 0.9, ease: 'power3.out' },
+            0.3
+          )
+          .fromTo('.ee-img-flash',
+            { opacity: 0, scale: 1.3 },
+            { opacity: 1, scale: 1, duration: 0.15, stagger: { each: 0.08, from: 'random' }, ease: 'none' },
+            0.5
+          )
+          .to('.ee-img-flash',
+            { opacity: 0, duration: 0.12, stagger: { each: 0.06, from: 'random' } },
+            0.8
+          )
+          .fromTo('.ee-text',
+            { yPercent: 80, opacity: 0 },
+            { yPercent: 0, opacity: 1, duration: 0.5, ease: 'power2.out' },
+            0.7
+          )
+          .fromTo('.ee-hint',
+            { opacity: 0 },
+            { opacity: 1, duration: 0.6 },
+            1.6
+          );
+      }
+
+      startMusic();
+
+      setTimeout(function() {
+        modal.addEventListener('click', closeModal);
+      }, 900);
+    }
+
+    function closeModal() {
+      modal.removeEventListener('click', closeModal);
+
+      if (typeof gsap !== 'undefined') {
+        gsap.to(modal, {
+          opacity: 0, duration: 0.25, ease: 'power2.in',
+          onComplete: function() {
+            modal.classList.remove('ee-open');
+            modal.style.opacity = '';
+            unlockTestingMode();
+          }
+        });
+      } else {
+        modal.classList.remove('ee-open');
+        unlockTestingMode();
+      }
+    }
+
+    // ── TESTING site takeover ─────────────────────────────────────────
+    function transformSiteTesting() {
+      // Save originals before replacing
+      var titleEl = document.querySelector('.title-banner');
+      if (titleEl) originalHeroHTML = titleEl.innerHTML;
+
+      var firstSlide = document.querySelector('.slide');
+      if (firstSlide) originalTicker = firstSlide.textContent;
+
+      var subBanners = document.querySelectorAll('.sub-banner');
+      subBanners.forEach(function(banner) {
+        var t1 = banner.querySelector('.projects-title-1');
+        var t2 = banner.querySelector('.projects-title-2');
+        originalBanners.push({
+          t1: t1 ? t1.textContent : '',
+          t2: t2 ? t2.textContent : ''
+        });
+      });
+
+      // 1. Hero headline
+      if (titleEl) titleEl.innerHTML = '<span>I</span> praise the lord';
+
+      // 2. Header ticker
+      var slides = document.querySelectorAll('.slide');
+      var tickerText = ' TSTNG | FLACKO | PRAISE THE LORD | DISTORTED RECORDS | A$AP FOREVER | KID$ TURNED OUT FINE | LAB RAT | ';
+      slides.forEach(function(s) { s.textContent = tickerText; });
+
+      // 3. Sub-banner text — album tracks + iconic phrases
+      var TESTING_BANNERS = [
+        { t1: 'TESTING', t2: 'PRAISE THE LORD' },
+        { t1: 'DISTORTED RECORDS', t2: 'FLACKO' },
+        { t1: 'A$AP FOREVER', t2: 'LORD PRETTY FLACKO JODYE II' },
+        { t1: 'FUKK SLEEP', t2: 'KID$ TURNED OUT FINE' },
+        { t1: 'LAB RAT', t2: 'HUN43RD' },
+        { t1: 'TESTING', t2: 'A$AP MOB' }
+      ];
+      subBanners.forEach(function(banner, i) {
+        var pair = TESTING_BANNERS[i % TESTING_BANNERS.length];
+        var t1s = banner.querySelectorAll('.projects-title-1');
+        var t2s = banner.querySelectorAll('.projects-title-2');
+        var t1Fill = (pair.t1 + ' \u00A0\u00A0\u00A0 ').repeat(20);
+        var t2Fill = (pair.t2 + ' \u00A0\u00A0\u00A0 ').repeat(20);
+        t1s.forEach(function(el) { el.textContent = t1Fill; });
+        t2s.forEach(function(el) { el.textContent = t2Fill; });
+      });
+
+      // 4. Swap hero 3D model to ASAP version
+      var heroModel = document.getElementById('model-viewer');
+      if (heroModel) {
+        heroModel.setAttribute('src', 'models-3d/rhetorician_asap/scene.gltf');
+        heroModel.setAttribute('ios-src', 'models-3d/rhetorician_asap/Rhetorician.usdz');
+      }
+
+      // 5. Collect glitch targets (product images + project 3D models)
+      glitchTargets = Array.from(document.querySelectorAll(
+        '.app .card-portafolio-app, .app .card-portafolio-web-slide, .app .model-3d'
+      ));
+
+      testingActive = true;
+    }
+
+    function revertSiteTesting() {
+      testingActive = false;
+
+      // Restore hero headline
+      var titleEl = document.querySelector('.title-banner');
+      if (titleEl && originalHeroHTML) titleEl.innerHTML = originalHeroHTML;
+
+      // Restore ticker
+      var slides = document.querySelectorAll('.slide');
+      if (originalTicker) slides.forEach(function(s) { s.textContent = originalTicker; });
+
+      // Restore sub-banners
+      var subBanners = document.querySelectorAll('.sub-banner');
+      subBanners.forEach(function(banner, i) {
+        if (!originalBanners[i]) return;
+        banner.querySelectorAll('.projects-title-1').forEach(function(el) {
+          el.textContent = originalBanners[i].t1;
+        });
+        banner.querySelectorAll('.projects-title-2').forEach(function(el) {
+          el.textContent = originalBanners[i].t2;
+        });
+      });
+
+      // Restore hero model
+      var heroModel = document.getElementById('model-viewer');
+      if (heroModel) {
+        heroModel.setAttribute('src', 'models-3d/rhetorician/scene.gltf');
+        heroModel.setAttribute('ios-src', 'models-3d/rhetorician/Rhetorician.usdz');
+      }
+
+      glitchTargets = [];
+    }
+
+    // ── TESTING mode activation ────────────────────────────────────────
+    function unlockTestingMode() {
+      document.body.classList.add('ee-active');
+
+      var root    = document.documentElement;
+      var overlay = document.getElementById('theme-overlay');
+      if (overlay) overlay.style.opacity = '1';
+
+      setTimeout(function() {
+        root.style.setProperty('--background', '#0a0a0a');
+        root.style.setProperty('--color-text', '#C8A82A');
+        root.style.setProperty('--contrast', '#C8A82A');
+        if (overlay) overlay.style.opacity = '0';
+      }, 150);
+
+      transformSiteTesting();
+      createGlitchOverlay();
+      startBeatGlitch();
+    }
+
+    // ── Deactivate TESTING mode (normal swatch click) ─────────────────
+    function deactivateTestingMode() {
+      if (!testingActive) return;
+
+      // Stop music with fade
+      if (gain && ctx) {
+        gain.gain.linearRampToValueAtTime(0, ctx.currentTime + 0.3);
+      }
+      setTimeout(function() {
+        if (source) try { source.stop(); } catch (e) {}
+        if (ctx) try { ctx.close(); } catch (e) {}
+        ctx = null; gain = null; source = null; analyser = null;
+      }, 500);
+
+      // Stop beat loop
+      cancelAnimationFrame(beatRaf);
+
+      // Remove glitch overlay
+      if (glitchEl) { glitchEl.remove(); glitchEl = null; glitchImg = null; }
+
+      // Remove ee-active
+      document.body.classList.remove('ee-active');
+
+      // Revert all content
+      revertSiteTesting();
+    }
+
+    // Listen for normal (non-TESTING) swatch clicks
+    document.querySelectorAll('.color-1, .color-2').forEach(function(btn) {
+      btn.addEventListener('click', deactivateTestingMode);
+    });
+
+    // ── Site-wide glitch overlay ────────────────────────────────────────
+    var glitchEl = null;
+    var glitchImg = null;
+
+    function createGlitchOverlay() {
+      glitchEl = document.createElement('div');
+      glitchEl.className = 'ee-site-glitch';
+      glitchEl.setAttribute('aria-hidden', 'true');
+      glitchImg = document.createElement('div');
+      glitchImg.className = 'ee-site-glitch-img';
+      glitchEl.appendChild(glitchImg);
+      document.body.appendChild(glitchEl);
+    }
+
+    // ── Per-element glitch (fixed-position over product cards & models) ──
+    function flashElementGlitch(target) {
+      var rect = target.getBoundingClientRect();
+      // Skip elements not in viewport
+      if (rect.bottom < 0 || rect.top > window.innerHeight || rect.width === 0) return;
+
+      var src = ASAP_IMGS[Math.floor(Math.random() * ASAP_IMGS.length)];
+      var div = document.createElement('div');
+      div.className = 'ee-element-glitch ee-el-flash';
+      div.style.backgroundImage = 'url(' + src + ')';
+      div.style.top    = rect.top + 'px';
+      div.style.left   = rect.left + 'px';
+      div.style.width  = rect.width + 'px';
+      div.style.height = rect.height + 'px';
+      document.body.appendChild(div);
+
+      setTimeout(function() { div.remove(); }, 150);
+    }
+
+    function flashGlitch() {
+      if (!glitchEl || muted || !testingActive) return;
+
+      // Global overlay flash
+      var src = ASAP_IMGS[Math.floor(Math.random() * ASAP_IMGS.length)];
+      var top = Math.random() * 70;
+      var left = Math.random() * 60;
+      var size = 15 + Math.random() * 25;
+      var skew = -8 + Math.random() * 16;
+
+      glitchImg.style.backgroundImage = 'url(' + src + ')';
+      glitchImg.style.top       = top + 'vh';
+      glitchImg.style.left      = left + 'vw';
+      glitchImg.style.width     = size + 'vw';
+      glitchImg.style.height    = size + 'vw';
+      glitchImg.style.transform = 'skewX(' + skew + 'deg)';
+
+      glitchEl.classList.add('ee-flash-active');
+      setTimeout(function() {
+        glitchEl.classList.remove('ee-flash-active');
+      }, 80 + Math.random() * 60);
+
+      // Per-element: flash 2-4 product cards / 3D models
+      if (glitchTargets.length > 0) {
+        var count = 2 + Math.floor(Math.random() * 3);
+        for (var j = 0; j < count; j++) {
+          var idx = Math.floor(Math.random() * glitchTargets.length);
+          flashElementGlitch(glitchTargets[idx]);
+        }
+      }
+    }
+
+    // ── Beat-synced glitch (Praise the Lord ~78 BPM) ───────────────────
+    var BPM = 78;
+    var BEAT_MS = Math.round(60000 / BPM);
+    var lastBeat = 0;
+    var freqData = null;
+    var prevEnergy = 0;
+
+    function startBeatGlitch() {
+      if (analyser && freqData) {
+        function tick() {
+          if (!testingActive) return;
+          beatRaf = requestAnimationFrame(tick);
+          analyser.getByteFrequencyData(freqData);
+          var energy = 0;
+          for (var i = 0; i < 8; i++) energy += freqData[i];
+          energy /= 8;
+          var now = performance.now();
+          if (energy > 160 && energy - prevEnergy > 30 && now - lastBeat > BEAT_MS * 0.6) {
+            lastBeat = now;
+            flashGlitch();
+          }
+          prevEnergy = energy * 0.7 + prevEnergy * 0.3;
+        }
+        tick();
+      } else {
+        function timerBeat() {
+          if (!testingActive) return;
+          flashGlitch();
+          var jitter = BEAT_MS + (Math.random() - 0.5) * 200;
+          if (Math.random() < 0.35) jitter += BEAT_MS;
+          setTimeout(timerBeat, jitter);
+        }
+        setTimeout(timerBeat, BEAT_MS);
+      }
+    }
+
+    // ── Music ──────────────────────────────────────────────────────────
+    function startMusic() {
+      if (typeof AudioContext === 'undefined' && typeof window.webkitAudioContext === 'undefined') return;
+
       ctx = new (window.AudioContext || window.webkitAudioContext)();
+      ctx.resume();
 
-      fetch('audio/lofi-ambient.mp3')
+      analyser = ctx.createAnalyser();
+      analyser.fftSize = 256;
+      freqData = new Uint8Array(analyser.frequencyBinCount);
+
+      fetch('audio/easter-egg.mp3')
         .then(function(r) { return r.arrayBuffer(); })
         .then(function(b) { return ctx.decodeAudioData(b); })
         .then(function(buffer) {
-          ambientSrc = ctx.createBufferSource();
-          ambientSrc.buffer = buffer;
-          ambientSrc.loop = true;
+          source = ctx.createBufferSource();
+          source.buffer = buffer;
+          source.loop = true;
 
-          ambientGain = ctx.createGain();
-          ambientGain.gain.setValueAtTime(0, ctx.currentTime);
-          ambientGain.gain.linearRampToValueAtTime(VOLUME, ctx.currentTime + 4);
+          gain = ctx.createGain();
+          gain.gain.setValueAtTime(0, ctx.currentTime);
+          gain.gain.linearRampToValueAtTime(VOLUME, ctx.currentTime + 2);
 
-          ambientSrc.connect(ambientGain);
-          ambientGain.connect(ctx.destination);
-          ambientSrc.start(0);
+          source.connect(gain);
+          gain.connect(analyser);
+          analyser.connect(ctx.destination);
+          source.start(0);
         })
-        .catch(function() { /* audio not available — silent fallback */ });
+        .catch(function() {});
     }
 
-    document.addEventListener('mousedown',  unlock, { once: true });
-    document.addEventListener('touchstart', unlock, { once: true });
-    document.addEventListener('keydown',    unlock, { once: true });
-
-    // Mute on tab hide, restore on show
+    // Tab visibility
     document.addEventListener('visibilitychange', function() {
-      if (!ctx || !ambientGain) return;
+      if (!ctx || !gain || muted || !testingActive) return;
       var t = ctx.currentTime;
       if (document.hidden) {
-        ambientGain.gain.linearRampToValueAtTime(0, t + 0.5);
+        gain.gain.linearRampToValueAtTime(0, t + 0.5);
       } else {
         ctx.resume();
-        ambientGain.gain.linearRampToValueAtTime(VOLUME, t + 1.5);
+        gain.gain.linearRampToValueAtTime(VOLUME, t + 1.5);
       }
     });
+
+    // Mute toggle
+    if (muteBtn) {
+      muteBtn.addEventListener('click', function() {
+        if (!testingActive) return;
+        muted = !muted;
+        muteBtn.setAttribute('aria-pressed', String(muted));
+        muteBtn.setAttribute('aria-label', muted ? 'Unmute music' : 'Mute music');
+        if (!gain) return;
+        var t = ctx.currentTime;
+        if (muted) {
+          gain.gain.linearRampToValueAtTime(0, t + 0.3);
+        } else {
+          ctx.resume();
+          gain.gain.linearRampToValueAtTime(VOLUME, t + 0.5);
+        }
+      });
+    }
   }
 
   // ── Init ──────────────────────────────────────────────────────────────────
@@ -338,7 +735,7 @@
     window.scrollTo(0, 0);
     setupDragHints();
     setupDragScroll();
-    setupScrollSound();
+    setupEasterEgg();
     runHeroEntrance();
     setupScrollProgress();
     setupSectionIndicator();
