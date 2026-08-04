@@ -43,3 +43,7 @@ temp/
 dist/
 build/
 out/
+
+# Artefactos de build
+site/dist/
+site/.build/

@@ -1,0 +1,193 @@
+/* ══════════════════════════════════════════════════════════════════════════
+   QUARKS — Design tokens
+   La UI es monocroma a propósito: el color lo pone el shader del fondo, que
+   está vivo. Una paleta plana encima competiría con él y apagaría los dos.
+   ══════════════════════════════════════════════════════════════════════════ */
+
+@layer tokens {
+  :root {
+    /* ── Tipografía ────────────────────────────────────────────────────
+       Una sola familia, llevada al extremo: display enorme y muy apretado,
+       cuerpo normal, mono para datos. El impacto lo da la escala. */
+    --font-display: 'Geist Variable', system-ui, -apple-system, sans-serif;
+    --font-body: 'Geist Variable', system-ui, -apple-system, sans-serif;
+    --font-mono: 'Geist Mono Variable', ui-monospace, 'SF Mono', monospace;
+
+    /* El nombre es corto (14 caracteres): aguanta una escala grande
+       sin partirse. */
+    --type-hero: clamp(3rem, 1.55rem + 6vw, 8rem);
+    --type-4xl: clamp(2.75rem, 1.5rem + 5vw, 6rem);
+    --type-3xl: clamp(2rem, 1.35rem + 2.9vw, 3.75rem);
+    --type-2xl: clamp(1.625rem, 1.3rem + 1.5vw, 2.5rem);
+    --type-xl: clamp(1.375rem, 1.25rem + 0.6vw, 1.75rem);
+    --type-lg: clamp(1.125rem, 1.07rem + 0.28vw, 1.3125rem);
+    --type-md: clamp(1rem, 0.97rem + 0.16vw, 1.0938rem);
+    --type-sm: 0.9375rem;
+    --type-xs: 0.8125rem;
+    --type-2xs: 0.6875rem;
+
+    --leading-hero: 0.86;
+    --leading-tight: 0.98;
+    --leading-snug: 1.18;
+    --leading-normal: 1.62;
+
+    --tracking-hero: -0.045em;
+    --tracking-tight: -0.025em;
+    --tracking-normal: 0;
+    --tracking-wide: 0.08em;
+    --tracking-widest: 0.2em;
+
+    /* ── Espacio ───────────────────────────────────────────────────────── */
+    --space-3xs: 0.25rem;
+    --space-2xs: 0.5rem;
+    --space-xs: 0.75rem;
+    --space-sm: 1rem;
+    --space-md: 1.5rem;
+    --space-lg: 2.5rem;
+    --space-xl: 4rem;
+    --space-2xl: 7rem;
+    --space-3xl: 11rem;
+
+    --measure: 64ch;
+    --gutter: clamp(1.25rem, 4.5vw, 4.5rem);
+    --shell: 1500px;
+
+    --radius-sm: 2px;
+    --radius-md: 6px;
+    --radius-lg: 14px;
+    --radius-pill: 999px;
+
+    /* ── Movimiento ────────────────────────────────────────────────────── */
+    --motion-quick: 240ms;
+    --motion-base: 420ms;
+    --motion-slow: 900ms;
+
+    --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
+    --ease-inout: cubic-bezier(0.76, 0, 0.24, 1);
+
+    /* ── Capas ─────────────────────────────────────────────────────────── */
+    --layer-shader: 0;
+    --layer-grain: 2;
+    --layer-content: 20;
+    --layer-header: 60;
+    --layer-cursor: 90;
+    --layer-preloader: 100;
+
+    /* ══ COLOR ═════════════════════════════════════════════════════════
+       Neutros comunes a todas las paletas. El acento y el fondo los define
+       `data-palette` más abajo; el shader lee la misma paleta por uniform. */
+    color-scheme: dark;
+
+    --surface: rgba(255, 255, 255, 0.035);
+    --surface-hover: rgba(255, 255, 255, 0.07);
+
+    --text: #f4f4f5;
+    --text-muted: #9a9aa2;
+    --text-dim: #5f5f68;
+
+    --border: rgba(255, 255, 255, 0.09);
+    --border-strong: rgba(255, 255, 255, 0.22);
+
+    --shader-opacity: 0.62;
+    --grain-opacity: 0.05;
+
+    --accent-solid: var(--accent);
+    /* Versión apagada del acento, para texto secundario que no debe competir.
+       Cada paleta puede anularla; si no, cae al acento. */
+    --accent-muted: var(--accent);
+    --focus-ring: var(--accent);
+  }
+
+  /* ══ PALETAS ═══════════════════════════════════════════════════════════
+     Un solo acento por paleta. El resto del color lo pone el shader.
+     Chartreuse por defecto: el verde ácido típico es #22C55E, azulado; este
+     es amarillo y agresivo, que es justo lo que lo separa del default. */
+  :root,
+  :root[data-palette='chartreuse'] {
+    --bg: #0a0a08;
+    --accent: #cff32b;
+    --accent-ink: #0a0a08;
+  }
+
+  /* El rojo que se lee bien sobre negro (4.60:1) no da contraste suficiente
+     con texto blanco encima (4.35:1). Por eso el relleno sólido usa un tono
+     propio: --accent para texto, --accent-solid para superficies. */
+  :root[data-palette='vermilion'] {
+    --bg: #080807;
+    --accent: #e5322d;
+    --accent-solid: #cf2420;
+    --accent-ink: #ffffff;
+  }
+
+  :root[data-palette='ultramarine'] {
+    --bg: #060810;
+    --accent: #5470ff;
+    --accent-muted: #8e99bd;
+    --accent-ink: #060810;
+  }
+
+  :root[data-palette='copper'] {
+    --bg: #0b0908;
+    --accent: #d2622a;
+    --accent-ink: #0b0908;
+    --text: #f0ead8;
+  }
+
+  /* El claro es un tema propio, no el oscuro invertido. Fondo lino cálido en
+     vez de blanco puro, y el shader se queda BIEN visible: sin él la página
+     quedaba en blanco plano y parecía otra web. */
+  :root[data-theme='light'] {
+    color-scheme: light;
+
+    --surface: rgba(20, 18, 16, 0.05);
+    --surface-hover: rgba(20, 18, 16, 0.09);
+
+    --text: #14120f;
+    --text-muted: #4d4a44;
+    --text-dim: #7a7670;
+
+    --border: rgba(20, 18, 16, 0.14);
+    --border-strong: rgba(20, 18, 16, 0.34);
+
+    --shader-opacity: 0.5;
+    --grain-opacity: 0.035;
+  }
+
+  /* Los acentos en claro NO son los mismos: el lima o el cobre sobre fondo
+     claro no llegan a 4.5:1 y el texto de acento quedaría ilegible. Cada
+     paleta lleva su versión oscurecida. */
+  :root[data-theme='light'],
+  :root[data-theme='light'][data-palette='chartreuse'] {
+    --bg: #eeece4;
+    --accent: #4a5600;
+    --accent-ink: #ffffff;
+  }
+
+  :root[data-theme='light'][data-palette='vermilion'] {
+    --bg: #f0eeea;
+    --accent: #bf1a15;
+    --accent-ink: #ffffff;
+  }
+
+  :root[data-theme='light'][data-palette='ultramarine'] {
+    --bg: #eaecf4;
+    --accent: #1d31bd;
+    --accent-muted: #454f78;
+    --accent-ink: #ffffff;
+  }
+
+  :root[data-theme='light'][data-palette='copper'] {
+    --bg: #f0e9df;
+    --accent: #8a3c12;
+    --accent-ink: #ffffff;
+    --text: #14120f;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    :root {
+      --motion-quick: 1ms;
+      --motion-base: 1ms;
+      --motion-slow: 1ms;
+    }
+  }
+}
