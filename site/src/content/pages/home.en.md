@@ -27,25 +27,29 @@ AI-driven projects of my own.
 
 ## thesis
 
-**title:** The two halves of the job
+**title:** Systems age too
 
 **body:**
-Building from scratch is one problem. Maintaining something that grew badly is
-another.
+Building is easy. Evolving is the job.
 
-I've done both.
+Not every project starts from scratch.
 
-When you build, the question is which decisions you make early so you don't regret
-them in two years. When you inherit, the question is what stays, what merges and
-what gets switched off.
+Most of my work is walking into systems that already exist, understanding why
+they got there, and deciding what deserves to stay before writing a single
+line.
 
-The second one is more uncomfortable. Nobody applauds you for deleting code.
+Here I had to hold two things at once: keep delivering value while we cut
+years of technical debt and processes that had stopped scaling.
 
-But a system with more parts than people to look after them isn't an architecture
-anymore. It's debt with interest.
+The challenge wasn't shipping faster. It was making sure the system could keep
+growing without breaking.
 
-**note:** Two of the five cases are client work and carry no figures: there's an
-NDA. What's on show there is judgment, which is what actually gets evaluated.
+The best architecture isn't always the one that builds the most. Often it's
+the one that removes complexity without stopping the business.
+
+**note:** Confidentiality. Some cases leave out numbers, names and screenshots
+because of NDAs. What matters here isn't who the client was, but the judgment
+behind each decision.
 
 ---
 

@@ -27,24 +27,29 @@ clínica mientras desarrollo proyectos impulsados por IA.
 
 ## thesis
 
-**title:** Las dos mitades del trabajo
+**title:** Los sistemas también envejecen
 
 **body:**
-Construir desde cero es un problema. Mantener algo que creció mal es otro.
+Construir es fácil. Evolucionar es el trabajo.
 
-Los he hecho los dos.
+No todos los proyectos empiezan desde cero.
 
-Cuando construyes, la pregunta es qué decisiones tomas al principio para no
-arrepentirte en dos años. Cuando heredas, la pregunta es qué se queda, qué se une
-y qué se apaga.
+Gran parte de mi trabajo es entrar a sistemas que ya existen, entender por qué
+llegaron a ese punto, y decidir qué merece quedarse antes de escribir una sola
+línea.
 
-Lo segundo es más incómodo. Nadie te aplaude por borrar código.
+Acá tuve que sostener dos cosas a la vez: seguir entregando valor mientras
+reducíamos años de deuda técnica y procesos que ya no escalaban.
 
-Pero un sistema con más partes que personas para cuidarlas ya no es una
-arquitectura. Es una deuda con intereses.
+El reto no era programar más rápido. Era que el sistema pudiera seguir
+creciendo sin romperse.
 
-**note:** Dos de los cinco casos son de trabajo con clientes y van sin cifras: hay
-NDA. Lo que se cuenta ahí es el criterio, que es lo que de verdad se evalúa.
+La mejor arquitectura no siempre es la que construye más. Muchas veces es la
+que quita complejidad sin frenar el negocio.
+
+**note:** Confidencialidad. Algunos casos omiten cifras, nombres y capturas por
+NDA. Lo que importa acá no es quién era el cliente, sino el criterio detrás de
+cada decisión.
 
 ---
 

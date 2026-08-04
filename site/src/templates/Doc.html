@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="{{ lang }}" data-palette="{{ palette }}">
+<html lang="{{ lang }}" data-palette="{{ palette }}" data-visual="{{ visual }}">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -86,13 +86,14 @@
 
 <script src="/js/shader.js" defer></script>
 <script src="/js/theme.js" defer></script>
-<script src="/js/orb.js" defer></script>
+<script src="/js/hero-visual.js" defer></script>
 <script src="/vendor/gsap.min.js" defer></script>
 <script src="/vendor/ScrollTrigger.min.js" defer></script>
 <script src="/js/motion.js" defer></script>
 
 <!-- Selector de paleta en vivo. Solo se inyecta con PALETTE_PICKER=1 (ver site.config.mjs) -->
 {{ palettePicker }}
+{{ visualPicker }}
 
 </body>
 </html>
