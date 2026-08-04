@@ -7,15 +7,13 @@ description: Iván Santander, Tech Lead y Technical Product Owner en Medellín, 
 
 ## hero
 
-**eyebrow:** Medellín, Colombia · Disponible en remoto
-
 **name:** Iván Santander
+
+**statement:** Construyo software.
 
 **role:** Producto · Ingeniería · IA
 
 **lead:**
-Construyo software.
-
 Desde la estrategia del producto hasta el código, disfruto convertir ideas en
 herramientas útiles. Actualmente trabajo en plataformas para investigación
 clínica mientras desarrollo proyectos impulsados por IA.
@@ -23,7 +21,7 @@ clínica mientras desarrollo proyectos impulsados por IA.
 **cta_primary:** Explorar casos
 **cta_secondary:** Escríbeme
 
-**scroll_hint:** Sigue bajando.
+**stats:** 7+ / años · 20+ / proyectos · 3 / industrias
 
 ---
 

@@ -7,15 +7,13 @@ description: Iván Santander, Tech Lead and Technical Product Owner based in Med
 
 ## hero
 
-**eyebrow:** Medellín, Colombia · Available remotely
-
 **name:** Iván Santander
+
+**statement:** I build software.
 
 **role:** Product · Engineering · AI
 
 **lead:**
-I build software.
-
 From product strategy to the code itself, I enjoy turning ideas into useful
 tools. Right now I work on clinical research platforms while building
 AI-driven projects of my own.
@@ -23,7 +21,7 @@ AI-driven projects of my own.
 **cta_primary:** Explore the work
 **cta_secondary:** Get in touch
 
-**scroll_hint:** Keep scrolling.
+**stats:** 7+ / years · 20+ / projects · 3 / industries
 
 ---
 

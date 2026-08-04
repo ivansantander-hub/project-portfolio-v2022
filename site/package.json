@@ -3,12 +3,13 @@
   "type": "module",
   "private": true,
   "scripts": {
-    "build": "node scripts/build-content.mjs && mini-astro build && node scripts/sync-static.mjs",
+    "build": "node scripts/build-content.mjs && mini-astro build && node scripts/prune-dist.mjs && node scripts/sync-static.mjs",
     "sync:static": "node scripts/sync-static.mjs",
     "predev": "node scripts/kill-port.mjs && node scripts/build-content.mjs && node scripts/sync-static.mjs",
     "dev": "mini-astro dev",
     "og": "node scripts/gen-og.mjs",
-    "build:content": "node scripts/build-content.mjs"
+    "build:content": "node scripts/build-content.mjs",
+    "audit:seo": "node scripts/audit-semantics.mjs && node scripts/check-jsonld.mjs"
   },
   "dependencies": {
     "@fontsource-variable/archivo": "^5.3.0",

@@ -131,6 +131,11 @@ function parseSections(md) {
     };
 
     for (const line of lines) {
+      /* `---` separa secciones en el archivo. Sin esto se colaba dentro del
+         último campo de cada sección — la última cifra salía como
+         "3 industrias\n\n---". */
+      if (line.trim() === '---') { flush(); continue; }
+
       const m = line.match(/^\*\*(.+?):\*\*\s*(.*)$/);
       if (m) {
         flush();
@@ -174,18 +179,72 @@ function urlFor(lang, ...segments) {
  */
 const HOME_SCRIPTS = '';
 
-function emit(relFile, { lang, title, description, canonical, altUrl, body, scripts = '' }) {
+/* ── Datos estructurados ──────────────────────────────────────────────────
+   Van EMBEBIDOS en cada página. Un .jsonld suelto en public/ no lo lee nadie:
+   Google solo interpreta JSON-LD dentro de un <script type="application/ld+json">
+   del documento. Ese fue el error de la versión anterior. */
+
+const PERSONA = {
+  '@type': 'Person',
+  '@id': `${SITE}/#persona`,
+  name: 'Iván Santander',
+  jobTitle: 'Technical Product Owner',
+  url: SITE,
+  address: { '@type': 'PostalAddress', addressLocality: 'Medellín', addressCountry: 'CO' },
+  sameAs: [
+    'https://www.linkedin.com/in/ivan-santander/',
+    'https://github.com/ivansantander-hub',
+  ],
+  knowsAbout: [
+    'Arquitectura de software', 'Liderazgo técnico', 'TypeScript', 'Python',
+    'Sistemas distribuidos', 'Gestión de producto',
+  ],
+};
+
+/** Migas para que el buscador entienda la jerarquía del sitio. */
+function migas(lang, items) {
+  return {
+    '@type': 'BreadcrumbList',
+    itemListElement: items.map((it, i) => ({
+      '@type': 'ListItem',
+      position: i + 1,
+      name: it.name,
+      item: `${SITE}${it.url}`,
+    })),
+  };
+}
+
+function jsonLd(grafo) {
+  return `<script type="application/ld+json">${
+    JSON.stringify({ '@context': 'https://schema.org', '@graph': grafo })
+      .replace(/</g, '\\u003c')
+  }</script>`;
+}
+
+function emit(relFile, { lang, title, description, canonical, altUrl, body, scripts = '', schema = [] }) {
   const L = LANGS[lang];
   const other = lang === 'es' ? 'en' : 'es';
+
+  /* Los descriptivos se recortan aquí y no a mano en el contenido: un título
+     de más de ~60 caracteres o una descripción de más de ~160 se cortan en los
+     resultados de búsqueda, y el corte lo decide el buscador, no nosotros. */
+  const recorta = (s, max) => {
+    const t = String(s).replace(/\s+/g, ' ').trim();
+    if (t.length <= max) return t;
+    const corte = t.slice(0, max - 1);
+    return corte.slice(0, corte.lastIndexOf(' ')).replace(/[,;:.]$/, '') + '…';
+  };
+
   const frontmatter = [
     '---',
     'layout: Doc',
+    `schema: ${schema.length ? jsonLd(schema) : ''}`,
     `palette: ${PALETTE}`,
     `palettePicker: ${PALETTE_PICKER ? '<script src="/js/palette-picker.js" defer></script>' : ''}`,
     `pageScripts: ${scripts.replace(/\n/g, ' ')}`,
     `lang: ${L.htmlLang}`,
-    `title: ${title.replace(/\n/g, ' ')}`,
-    `description: ${description.replace(/\n/g, ' ')}`,
+    `title: ${recorta(title, 60)}`,
+    `description: ${recorta(description, 158)}`,
     `canonical: ${SITE}${canonical}`,
     `altUrl: ${SITE}${altUrl}`,
     `altLang: ${LANGS[other].htmlLang}`,
@@ -214,7 +273,7 @@ function emit(relFile, { lang, title, description, canonical, altUrl, body, scri
 
 /* ── Plantillas de cuerpo ─────────────────────────────────────────────────── */
 
-function renderWorkCard(item, lang) {
+function renderWorkCard(item, lang, nivel = 3) {
   const L = LANGS[lang];
   const d = item.data;
   const confidential = !!d.confidential;
@@ -241,7 +300,7 @@ function renderWorkCard(item, lang) {
             <span>${esc(d.period)}</span>
           </p>
           <div class="work-card__body">
-            <h3 class="work-card__title">${esc(d.title)}</h3>
+            <h${nivel} class="work-card__title">${esc(d.title)}</h${nivel}>
             <p class="work-card__headline">${esc(d.headline)}</p>
             <ul class="work-card__stack" aria-label="Stack">
 ${stack.map(x => `              <li>${esc(x)}</li>`).join('\n')}
@@ -316,12 +375,14 @@ ${marked.parse(item.content)}
 
 function renderWorkIndex(items, lang) {
   const t = UI[lang];
+  /* Aquí el h1 es "Casos", así que las tarjetas son h2. En la home van bajo
+     un h2, así que allí son h3. Saltar de h1 a h3 rompe la jerarquía. */
   return `
 <section class="work-index" data-zone="clear">
   <h1 class="work-index__title">${t.workTitle}</h1>
   <p class="work-index__lead">${t.workDesc}</p>
   <ul class="work-index__list" data-stagger>
-${items.map(i => renderWorkCard(i, lang)).join('\n')}
+${items.map(i => renderWorkCard(i, lang, 2)).join('\n')}
   </ul>
 </section>
 `;
@@ -337,28 +398,41 @@ function renderHome(sections, work, lang) {
 
   const md = s => (s ? marked.parse(s) : '');
 
-  const stats = lang === 'es'
-    ? [['7', 'años construyendo'], ['2', 'liderando equipo'], ['5', 'casos abiertos']]
-    : [['7', 'years building'], ['2', 'leading a team'], ['5', 'case studies']];
+  /* Las cifras viven en el contenido, no aquí: cambiarlas no debería exigir
+     tocar el generador. Formato: "7+ / años · 20+ / proyectos · 3 / industrias" */
+  const stats = String(hero.stats || '').split('·')
+    .map(p => p.split('/').map(x => x.trim()))
+    .filter(p => p.length === 2 && p[0]);
 
   return `
 <section class="hero" id="hero">
-  <p class="eyebrow" data-hero-in>${esc(hero.eyebrow)}</p>
-  <!-- Nombre y rol van dentro del MISMO h1. El nombre gana las búsquedas de
-       marca ("iván santander"); el rol gana las de puesto ("tech lead
-       medellín"). Separarlos en h1 + p tiraría la mitad de la señal. -->
-  <h1 class="hero__title">
-    <span class="hero__name" data-split>${esc(hero.name)}</span>
-    <span class="hero__role" data-hero-in>${esc(hero.role)}</span>
-  </h1>
-  <p class="hero__lead" data-hero-in>${esc(hero.lead)}</p>
-  <p class="hero__actions" data-hero-in>
-    <a class="btn btn--primary" href="${urlFor(lang, L.work)}">${esc(hero.cta_primary)}</a>
-    <a class="btn" href="#contact">${esc(hero.cta_secondary)}</a>
-  </p>
-  <dl class="hero__readout" data-hero-in>
-${stats.map(([v, l], i) => `    <div${i === 2 ? ' class="is-signal"' : ''}><dd>${v}</dd><dt>${l}</dt></div>`).join('\n')}
-  </dl>
+  <!-- Decorativa: no aporta información, así que queda fuera del árbol de
+       accesibilidad. Si WebGL falla, orb.js la retira sola. -->
+  <canvas class="hero__orb" id="hero-orb" aria-hidden="true"></canvas>
+
+  <!-- Toda la copia va en un solo hijo del grid. Suelta, la esfera abarcaba
+       todas las filas y estiraba el primer elemento a su altura. -->
+  <div class="hero__copy">
+    <!-- Nombre, frase y disciplinas van en el MISMO h1: el nombre gana las
+         búsquedas de marca y las otras dos líneas aportan el resto del texto
+         indexable sin añadir otro titular a la página. -->
+    <h1 class="hero__title">
+      <span class="hero__name" data-split>${esc(hero.name)}</span>
+      <span class="hero__statement" data-hero-in>${esc(hero.statement)}</span>
+      <span class="hero__role" data-hero-in>${esc(hero.role)}</span>
+    </h1>
+    <div class="hero__lead" data-hero-in>
+${String(hero.lead || '').split(/\n\s*\n/).filter(p => p.trim())
+  .map(p => `      <p>${esc(p.replace(/\s+/g, ' ').trim())}</p>`).join('\n')}
+    </div>
+    <p class="hero__actions" data-hero-in>
+      <a class="btn btn--primary" href="${urlFor(lang, L.work)}">${esc(hero.cta_primary)}</a>
+      <a class="btn" href="#contact">${esc(hero.cta_secondary)}</a>
+    </p>
+    <dl class="hero__readout" data-hero-in>
+${stats.map(([v, l]) => `      <div><dd>${esc(v)}</dd><dt>${esc(l)}</dt></div>`).join('\n')}
+    </dl>
+  </div>
 </section>
 
 <section class="thesis">
@@ -392,9 +466,12 @@ ${work.map(i => renderWorkCard(i, lang)).join('\n')}
 `;
 }
 
-function renderAbout(md) {
+function renderAbout(md, titulo) {
+  /* El h1 lo pone el generador: el markdown empieza en prosa y la página se
+     quedaba sin encabezado principal. */
   return `
-<article class="about prose" data-zone="clear">
+<article class="about prose">
+  <h1 class="about__title" data-reveal>${esc(titulo)}</h1>
 ${marked.parse(md)}
 </article>
 `;
@@ -444,6 +521,25 @@ for (const lang of Object.keys(LANGS)) {
       altUrl: other === 'es' ? '/' : '/en/',
       body: renderHome(parseSections(homeDoc.content), items, lang),
       scripts: HOME_SCRIPTS,
+      schema: [
+        PERSONA,
+        {
+          '@type': 'WebSite',
+          '@id': `${SITE}/#sitio`,
+          url: SITE,
+          name: 'Iván Santander',
+          inLanguage: L.htmlLang,
+          publisher: { '@id': `${SITE}/#persona` },
+        },
+        {
+          '@type': 'ProfilePage',
+          url: `${SITE}${lang === 'es' ? '/' : '/en/'}`,
+          name: homeDoc.data.title,
+          description: homeDoc.data.description,
+          inLanguage: L.htmlLang,
+          mainEntity: { '@id': `${SITE}/#persona` },
+        },
+      ],
     }));
   }
 
@@ -455,6 +551,26 @@ for (const lang of Object.keys(LANGS)) {
     canonical: urlFor(lang, L.work),
     altUrl: urlFor(other, O.work),
     body: renderWorkIndex(items, lang),
+    schema: [
+      PERSONA,
+      {
+        '@type': 'CollectionPage',
+        url: `${SITE}${urlFor(lang, L.work)}`,
+        name: UI[lang].workTitle,
+        description: UI[lang].workDesc,
+        inLanguage: L.htmlLang,
+        about: { '@id': `${SITE}/#persona` },
+        hasPart: items.map(i => ({
+          '@type': 'CreativeWork',
+          name: i.data.title,
+          url: `${SITE}${urlFor(lang, L.work, i.slug)}`,
+        })),
+      },
+      migas(lang, [
+        { name: lang === 'es' ? 'Inicio' : 'Home', url: lang === 'es' ? '/' : '/en/' },
+        { name: UI[lang].workTitle, url: urlFor(lang, L.work) },
+      ]),
+    ],
   }));
 
   // Casos
@@ -466,6 +582,24 @@ for (const lang of Object.keys(LANGS)) {
       canonical: urlFor(lang, L.work, item.slug),
       altUrl: urlFor(other, O.work, item.slug),
       body: renderCase(item, lang, items),
+      schema: [
+        PERSONA,
+        {
+          '@type': 'Article',
+          headline: item.data.title,
+          description: item.data.headline,
+          url: `${SITE}${urlFor(lang, L.work, item.slug)}`,
+          inLanguage: L.htmlLang,
+          author: { '@id': `${SITE}/#persona` },
+          about: item.data.domain,
+          keywords: (item.data.stack || []).join(', '),
+        },
+        migas(lang, [
+          { name: lang === 'es' ? 'Inicio' : 'Home', url: lang === 'es' ? '/' : '/en/' },
+          { name: UI[lang].workTitle, url: urlFor(lang, L.work) },
+          { name: item.data.project || item.data.title, url: urlFor(lang, L.work, item.slug) },
+        ]),
+      ],
     }));
   }
 
@@ -478,7 +612,22 @@ for (const lang of Object.keys(LANGS)) {
       description: aboutDoc.data.description,
       canonical: urlFor(lang, L.about),
       altUrl: urlFor(other, O.about),
-      body: renderAbout(aboutDoc.content),
+      body: renderAbout(aboutDoc.content, aboutDoc.data.title),
+      schema: [
+        PERSONA,
+        {
+          '@type': 'AboutPage',
+          url: `${SITE}${urlFor(lang, L.about)}`,
+          name: aboutDoc.data.title,
+          description: aboutDoc.data.description,
+          inLanguage: L.htmlLang,
+          mainEntity: { '@id': `${SITE}/#persona` },
+        },
+        migas(lang, [
+          { name: lang === 'es' ? 'Inicio' : 'Home', url: lang === 'es' ? '/' : '/en/' },
+          { name: aboutDoc.data.title, url: urlFor(lang, L.about) },
+        ]),
+      ],
     }));
   }
 }
@@ -521,32 +670,12 @@ writeFileSync(
   'utf8',
 );
 
-const aboutEs = pages.find(p => p.slug === 'about' && p.lang === 'es');
-const jsonLd = {
-  '@context': 'https://schema.org',
-  '@type': 'Person',
-  name: 'Iván Santander',
-  alternateName: 'Iván Dario Santander Figueroa',
-  jobTitle: 'Technical Product Owner',
-  description: aboutEs?.data?.description ?? '',
-  url: SITE,
-  address: { '@type': 'PostalAddress', addressLocality: 'Medellín', addressCountry: 'CO' },
-  sameAs: [
-    'https://www.linkedin.com/in/ivan-santander/',
-    'https://github.com/ivansantander-hub',
-  ],
-  knowsAbout: [
-    'Software architecture', 'Technical leadership', 'TypeScript', 'Python',
-    'Distributed systems', 'Product management',
-  ],
-};
-writeFileSync(
-  join(publicDir, 'person.jsonld'),
-  JSON.stringify(jsonLd, null, 2) + '\n',
-  'utf8',
-);
+/* Antes aquí se escribía public/person.jsonld. Se eliminó: un .jsonld suelto
+   no lo lee ningún buscador — los datos estructurados tienen que ir dentro de
+   un <script type="application/ld+json"> del propio documento, que es lo que
+   hace ahora `jsonLd()` en cada página. */
 
 console.log(`[paleta]  ${PALETTE}${PALETTE_PICKER ? '  (selector en vivo ACTIVO)' : ''}`);
 console.log(`[content] ${written.length} página(s) generada(s) desde src/content/`);
 for (const w of written) console.log(`           ${w.replace(/\\/g, '/')}`);
-console.log(`[seo]     sitemap.xml (${urls.length} URLs), robots.txt, person.jsonld`);
+console.log(`[seo]     sitemap.xml (${urls.length} URLs), robots.txt`);
