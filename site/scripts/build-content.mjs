@@ -28,7 +28,14 @@ import { dirname, join } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import matter from 'gray-matter';
 import { marked } from 'marked';
-import { PALETTE, PALETTE_PICKER, PALETTES, LINK_V1 } from '../site.config.mjs';
+import { PALETTE, PALETTE_PICKER, PALETTES, LINK_V1,
+         HERO_VISUAL, VISUAL_PICKER, HERO_VISUALS } from '../site.config.mjs';
+
+if (!HERO_VISUALS.includes(HERO_VISUAL)) {
+  throw new Error(
+    `HERO_VISUAL="${HERO_VISUAL}" no es válida. Opciones: ${HERO_VISUALS.join(', ')}.`,
+  );
+}
 
 if (!PALETTES.includes(PALETTE)) {
   throw new Error(
@@ -240,6 +247,8 @@ function emit(relFile, { lang, title, description, canonical, altUrl, body, scri
     'layout: Doc',
     `schema: ${schema.length ? jsonLd(schema) : ''}`,
     `palette: ${PALETTE}`,
+    `visual: ${HERO_VISUAL}`,
+    `visualPicker: ${VISUAL_PICKER ? '<script src="/js/visual-picker.js" defer></script>' : ''}`,
     `palettePicker: ${PALETTE_PICKER ? '<script src="/js/palette-picker.js" defer></script>' : ''}`,
     `pageScripts: ${scripts.replace(/\n/g, ' ')}`,
     `lang: ${L.htmlLang}`,
@@ -408,7 +417,7 @@ function renderHome(sections, work, lang) {
 <section class="hero" id="hero">
   <!-- Decorativa: no aporta información, así que queda fuera del árbol de
        accesibilidad. Si WebGL falla, orb.js la retira sola. -->
-  <canvas class="hero__orb" id="hero-orb" aria-hidden="true"></canvas>
+  <canvas class="hero__visual" id="hero-visual" aria-hidden="true"></canvas>
 
   <!-- Toda la copia va en un solo hijo del grid. Suelta, la esfera abarcaba
        todas las filas y estiraba el primer elemento a su altura. -->
@@ -675,7 +684,8 @@ writeFileSync(
    un <script type="application/ld+json"> del propio documento, que es lo que
    hace ahora `jsonLd()` en cada página. */
 
-console.log(`[paleta]  ${PALETTE}${PALETTE_PICKER ? '  (selector en vivo ACTIVO)' : ''}`);
+console.log(`[paleta]  ${PALETTE}${PALETTE_PICKER ? '  (selector ACTIVO)' : ''}`);
+console.log(`[hero]    ${HERO_VISUAL}${VISUAL_PICKER ? '  (selector ACTIVO)' : ''}`);
 console.log(`[content] ${written.length} página(s) generada(s) desde src/content/`);
 for (const w of written) console.log(`           ${w.replace(/\\/g, '/')}`);
 console.log(`[seo]     sitemap.xml (${urls.length} URLs), robots.txt`);
