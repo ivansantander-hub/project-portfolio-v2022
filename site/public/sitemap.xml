@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:xhtml="http://www.w3.org/1999/xhtml">
+  <url>
+    <loc>https://ivansantander.com/</loc>
+    <xhtml:link rel="alternate" hreflang="es" href="https://ivansantander.com/"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://ivansantander.com/en/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://ivansantander.com/en/"/>
+  </url>
+  <url>
+    <loc>https://ivansantander.com/trabajo/</loc>
+    <xhtml:link rel="alternate" hreflang="es" href="https://ivansantander.com/trabajo/"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://ivansantander.com/en/work/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://ivansantander.com/en/work/"/>
+  </url>
+  <url>
+    <loc>https://ivansantander.com/sobre-mi/</loc>
+    <xhtml:link rel="alternate" hreflang="es" href="https://ivansantander.com/sobre-mi/"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://ivansantander.com/en/about/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://ivansantander.com/en/about/"/>
+  </url>
+  <url>
+    <loc>https://ivansantander.com/trabajo/architecture-simplification/</loc>
+    <xhtml:link rel="alternate" hreflang="es" href="https://ivansantander.com/trabajo/architecture-simplification/"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://ivansantander.com/en/work/architecture-simplification/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://ivansantander.com/en/work/architecture-simplification/"/>
+  </url>
+  <url>
+    <loc>https://ivansantander.com/trabajo/blog-26/</loc>
+    <xhtml:link rel="alternate" hreflang="es" href="https://ivansantander.com/trabajo/blog-26/"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://ivansantander.com/en/work/blog-26/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://ivansantander.com/en/work/blog-26/"/>
+  </url>
+  <url>
+    <loc>https://ivansantander.com/trabajo/mini-astro/</loc>
+    <xhtml:link rel="alternate" hreflang="es" href="https://ivansantander.com/trabajo/mini-astro/"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://ivansantander.com/en/work/mini-astro/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://ivansantander.com/en/work/mini-astro/"/>
+  </url>
+  <url>
+    <loc>https://ivansantander.com/trabajo/sgc/</loc>
+    <xhtml:link rel="alternate" hreflang="es" href="https://ivansantander.com/trabajo/sgc/"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://ivansantander.com/en/work/sgc/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://ivansantander.com/en/work/sgc/"/>
+  </url>
+  <url>
+    <loc>https://ivansantander.com/trabajo/workflow-engine/</loc>
+    <xhtml:link rel="alternate" hreflang="es" href="https://ivansantander.com/trabajo/workflow-engine/"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://ivansantander.com/en/work/workflow-engine/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://ivansantander.com/en/work/workflow-engine/"/>
+  </url>
+  <url>
+    <loc>https://ivansantander.com/en/</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://ivansantander.com/en/"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://ivansantander.com/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://ivansantander.com/en/"/>
+  </url>
+  <url>
+    <loc>https://ivansantander.com/en/work/</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://ivansantander.com/en/work/"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://ivansantander.com/trabajo/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://ivansantander.com/en/work/"/>
+  </url>
+  <url>
+    <loc>https://ivansantander.com/en/about/</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://ivansantander.com/en/about/"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://ivansantander.com/sobre-mi/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://ivansantander.com/en/about/"/>
+  </url>
+  <url>
+    <loc>https://ivansantander.com/en/work/architecture-simplification/</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://ivansantander.com/en/work/architecture-simplification/"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://ivansantander.com/trabajo/architecture-simplification/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://ivansantander.com/en/work/architecture-simplification/"/>
+  </url>
+  <url>
+    <loc>https://ivansantander.com/en/work/blog-26/</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://ivansantander.com/en/work/blog-26/"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://ivansantander.com/trabajo/blog-26/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://ivansantander.com/en/work/blog-26/"/>
+  </url>
+  <url>
+    <loc>https://ivansantander.com/en/work/mini-astro/</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://ivansantander.com/en/work/mini-astro/"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://ivansantander.com/trabajo/mini-astro/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://ivansantander.com/en/work/mini-astro/"/>
+  </url>
+  <url>
+    <loc>https://ivansantander.com/en/work/sgc/</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://ivansantander.com/en/work/sgc/"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://ivansantander.com/trabajo/sgc/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://ivansantander.com/en/work/sgc/"/>
+  </url>
+  <url>
+    <loc>https://ivansantander.com/en/work/workflow-engine/</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://ivansantander.com/en/work/workflow-engine/"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://ivansantander.com/trabajo/workflow-engine/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://ivansantander.com/en/work/workflow-engine/"/>
+  </url>
+</urlset>

@@ -1,0 +1,26 @@
+{
+  "@context": "https://schema.org",
+  "@type": "Person",
+  "name": "Iván Santander",
+  "alternateName": "Iván Dario Santander Figueroa",
+  "jobTitle": "Technical Product Owner",
+  "description": "Iván Santander — Tech Lead y Technical Product Owner en plataformas de salud. De full stack a liderar el equipo en dos años. Medellín, Colombia.",
+  "url": "https://ivansantander.com",
+  "address": {
+    "@type": "PostalAddress",
+    "addressLocality": "Medellín",
+    "addressCountry": "CO"
+  },
+  "sameAs": [
+    "https://www.linkedin.com/in/ivan-santander/",
+    "https://github.com/ivansantander-hub"
+  ],
+  "knowsAbout": [
+    "Software architecture",
+    "Technical leadership",
+    "TypeScript",
+    "Python",
+    "Distributed systems",
+    "Product management"
+  ]
+}
