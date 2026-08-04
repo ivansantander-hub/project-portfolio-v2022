@@ -147,12 +147,16 @@
     mix-blend-mode: difference;
   }
   /* difference funciona sobre oscuro; sobre claro deja el header casi
-     invisible. En tema claro se usa color sólido con un velo de fondo. */
+     invisible (blanco sobre blanco). En tema claro no se puede resolver con
+     blend mode, así que el header lleva color sólido de verdad.
+     Antes iba a 72% + blur: con la lavanda tan clara del fondo, esa
+     transparencia dejaba pasar las curvas de nivel a medio difuminar
+     — se leía sucio, no liviano. Sin blur y con más cuerpo el header
+     se lee como una superficie propia, no como un velo sobre el ruido. */
   :root[data-theme='light'] .site-header {
     mix-blend-mode: normal;
     color: var(--text);
-    background: color-mix(in srgb, var(--bg) 72%, transparent);
-    backdrop-filter: blur(12px) saturate(120%);
+    background: color-mix(in srgb, var(--bg) 94%, transparent);
     border-bottom: 1px solid var(--border);
   }
   .site-header__mark {
@@ -221,6 +225,10 @@
 
   /* ── HERO ─────────────────────────────────────────────────────────── */
   .hero {
+    /* Contexto de posicionamiento para .hero__visual. Sin esto el canvas se
+       ancla al body y se estira sobre TODA la página, tapando los casos. */
+    position: relative;
+    overflow: hidden;
     min-height: 100svh;
     display: grid;
     align-content: center;
@@ -229,40 +237,42 @@
     padding-block: clamp(3.5rem, 9vh, 7rem) var(--space-2xl);
   }
 
-  /* La esfera ocupa el hueco de la derecha. En móvil no hay hueco, así que
-     pasa a ser textura de fondo muy tenue detrás del texto. */
-  .hero__orb {
+  /* La pieza ocupa el hero ENTERO, no una caja a la derecha. Ese era el
+     defecto de la versión anterior: por muy distinta que fuera la técnica,
+     seguía siendo un objeto circular metido en un recuadro. */
+  .hero__visual {
     position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
     z-index: var(--layer-glow);
+    /* Decorativa: no debe interceptar clics ni hover de lo que hay encima. */
     pointer-events: none;
-    top: 50%;
-    right: 0;
-    transform: translateY(-50%);
-    width: min(78vw, 30rem);
-    aspect-ratio: 1;
-    opacity: 0.22;
+
+    /* Presencia baja a propósito. A plena opacidad se leía como una segunda
+       animación encima de las nubes en vez de como textura del mismo fondo. */
+    opacity: var(--visual-opacity);
+
+    /* Se desvanece antes de acabar el hero. Con overflow:hidden las líneas se
+       cortaban en seco y aparecía un borde recto justo sobre la sección
+       siguiente. */
+    -webkit-mask-image: linear-gradient(to bottom,
+      transparent 0%, #000 14%, #000 62%, transparent 96%);
+    mask-image: linear-gradient(to bottom,
+      transparent 0%, #000 14%, #000 62%, transparent 96%);
   }
-  @media (min-width: 62rem) {
-    /* La columna izquierda tiene que caber el nombre a tamaño completo:
-       con 1fr se salía y pisaba la esfera. */
-    .hero {
-      grid-template-columns: minmax(0, 1.6fr) minmax(0, 1fr);
-      column-gap: var(--space-lg);
-      align-items: center;
-    }
-    .hero__copy { grid-column: 1; }
-    .hero__orb {
-      position: relative;
-      grid-column: 2;
-      grid-row: 1 / -1;
-      top: auto;
-      right: auto;
-      transform: none;
-      justify-self: center;
-      align-self: center;
-      width: min(100%, 32rem);
-      opacity: 1;
-    }
+
+  /* El fondo NO se atenúa: es la atmósfera de toda la página y debe ser
+     continuo. Si cambiara solo en el hero se vería la costura al hacer
+     scroll. La pieza se integra bajando su propia opacidad, no apagando lo
+     que hay debajo. */
+
+  /* El canvas está posicionado, así que sin z-index propio taparía al texto
+     pese a ir antes en el DOM. */
+  .hero__copy {
+    position: relative;
+    z-index: var(--layer-content);
+    max-width: 46rem;
   }
 
   /* El h1 lleva nombre y rol. Se maquetan como dos bloques distintos pero
@@ -733,4 +743,60 @@
     margin-bottom: var(--space-2xs);
   }
   .case__summary dd { font-size: var(--type-sm); color: var(--text); line-height: 1.5; }
+}
+
+/* ── Selector de pieza visual del hero — solo con VISUAL_PICKER=1 ──────── */
+@layer components {
+  .visual-picker {
+    position: fixed;
+    right: var(--space-sm);
+    bottom: var(--space-sm);
+    z-index: var(--layer-cursor);
+    display: flex;
+    align-items: center;
+    gap: var(--space-xs);
+    padding: var(--space-3xs) var(--space-xs);
+    background: color-mix(in srgb, var(--bg) 82%, transparent);
+    backdrop-filter: blur(14px);
+    border: 1px solid var(--border-strong);
+    border-radius: var(--radius-pill);
+    font-family: var(--font-mono);
+    font-size: var(--type-2xs);
+    letter-spacing: var(--tracking-wide);
+    text-transform: uppercase;
+    color: var(--text-dim);
+  }
+  .visual-picker__opciones { display: flex; gap: var(--space-3xs); }
+  .visual-picker button {
+    min-height: 44px;
+    padding: 0 var(--space-xs);
+    background: none;
+    border: 1px solid transparent;
+    border-radius: var(--radius-pill);
+    font: inherit;
+    color: var(--text-muted);
+    cursor: pointer;
+    transition: color var(--motion-quick) var(--ease-out),
+                border-color var(--motion-quick) var(--ease-out);
+  }
+  .visual-picker button:hover { color: var(--text); }
+  .visual-picker button[aria-checked='true'] {
+    color: var(--accent);
+    border-color: var(--accent);
+  }
+  @media (max-width: 52rem) { .visual-picker__label { display: none; } }
+}
+
+/* En la variante `texto` el nombre lo pinta el shader. El del DOM se oculta a
+   la vista pero sigue en el documento: el h1 tiene que existir para el
+   buscador y para un lector de pantalla, que no ven el canvas. */
+@layer components {
+  :root[data-visual='texto'] .hero__name {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+    clip-path: inset(50%);
+    white-space: nowrap;
+  }
 }
