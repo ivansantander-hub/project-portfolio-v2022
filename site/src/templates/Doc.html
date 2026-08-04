@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="{{ lang }}" data-palette="{{ palette }}">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>{{ title }}</title>
+  <meta name="description" content="{{ description }}">
+  <meta name="author" content="Iván Santander">
+
+  <link rel="canonical" href="{{ canonical }}">
+  <link rel="alternate" hreflang="{{ lang }}" href="{{ canonical }}">
+  <link rel="alternate" hreflang="{{ altLang }}" href="{{ altUrl }}">
+
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="{{ canonical }}">
+  <meta property="og:title" content="{{ title }}">
+  <meta property="og:description" content="{{ description }}">
+  <meta property="og:site_name" content="Iván Santander">
+  <meta property="og:locale" content="{{ ogLocale }}">
+  <meta property="og:image" content="https://ivansantander.com/img/og.png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:image" content="https://ivansantander.com/img/og.png">
+  <meta name="twitter:title" content="{{ title }}">
+  <meta name="twitter:description" content="{{ description }}">
+
+  <link rel="icon" type="image/svg+xml"
+    href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' fill='%23060607'/%3E%3Ctext x='50' y='70' text-anchor='middle' font-family='monospace' font-weight='700' font-size='54' fill='%23b9a2ff'%3EIS%3C/text%3E%3C/svg%3E">
+
+  <link rel="preload" href="/fonts/geist-latin-wght-normal.woff2" as="font" type="font/woff2" crossorigin>
+
+  {{ schema }}
+
+  <link rel="stylesheet" href="/css/quarks/tokens.css">
+  <link rel="stylesheet" href="/css/quarks/fonts.css">
+  <link rel="stylesheet" href="/css/base.css">
+
+  <!-- data-theme antes del primer pintado: evita el parpadeo de tema -->
+  <script>
+    try {
+      var t = localStorage.getItem('is-theme');
+      if (t === 'light' || t === 'dark') document.documentElement.dataset.theme = t;
+    } catch (e) {}
+    document.documentElement.classList.add('js');
+    document.addEventListener('DOMContentLoaded', function () {
+      document.body.classList.add('is-loading');
+    });
+  </script>
+</head>
+<body class="is-loading">
+
+<a class="skip-link" href="#main">Saltar al contenido</a>
+
+<canvas class="bg-shader" id="shader-bg" aria-hidden="true"></canvas>
+<div class="grain" aria-hidden="true"></div>
+<div class="cursor" aria-hidden="true"></div>
+
+<div class="curtain" aria-hidden="true">
+  <span class="curtain__label">Iván Santander</span>
+</div>
+
+<header class="site-header">
+  <a class="site-header__mark" href="/" aria-label="Iván Santander — inicio">IS</a>
+  <nav class="site-header__nav" aria-label="Principal">
+    <a class="site-header__lang" href="{{ langToggleHref }}" hreflang="{{ altLang }}"
+       lang="{{ altLang }}">{{ langToggleLabel }}</a>
+    <button class="site-header__theme" type="button" id="theme-toggle"
+      aria-label="Cambiar tema" aria-pressed="false"></button>
+  </nav>
+</header>
+
+<main id="main">
+<slot />
+</main>
+
+<footer class="site-footer">
+  <p>Iván Santander · Medellín, Colombia</p>
+  <p>
+    <a href="https://www.linkedin.com/in/ivan-santander/" rel="noopener noreferrer" target="_blank">LinkedIn</a>
+    <a href="https://github.com/ivansantander-hub" rel="noopener noreferrer" target="_blank">GitHub</a>
+    {{ linkV1 }}
+  </p>
+</footer>
+
+<script src="/js/shader.js" defer></script>
+<script src="/js/theme.js" defer></script>
+<script src="/js/orb.js" defer></script>
+<script src="/vendor/gsap.min.js" defer></script>
+<script src="/vendor/ScrollTrigger.min.js" defer></script>
+<script src="/js/motion.js" defer></script>
+
+<!-- Selector de paleta en vivo. Solo se inyecta con PALETTE_PICKER=1 (ver site.config.mjs) -->
+{{ palettePicker }}
+
+</body>
+</html>
