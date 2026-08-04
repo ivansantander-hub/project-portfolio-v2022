@@ -224,15 +224,64 @@
     min-height: 100svh;
     display: grid;
     align-content: center;
-    padding-block: var(--space-3xl) var(--space-2xl);
+    /* Relleno proporcional a la altura de la ventana, no fijo: con 11rem el
+       botón principal caía por debajo del pliegue en pantallas de portátil. */
+    padding-block: clamp(3.5rem, 9vh, 7rem) var(--space-2xl);
+  }
+
+  /* La esfera ocupa el hueco de la derecha. En móvil no hay hueco, así que
+     pasa a ser textura de fondo muy tenue detrás del texto. */
+  .hero__orb {
+    position: absolute;
+    z-index: var(--layer-glow);
+    pointer-events: none;
+    top: 50%;
+    right: 0;
+    transform: translateY(-50%);
+    width: min(78vw, 30rem);
+    aspect-ratio: 1;
+    opacity: 0.22;
+  }
+  @media (min-width: 62rem) {
+    /* La columna izquierda tiene que caber el nombre a tamaño completo:
+       con 1fr se salía y pisaba la esfera. */
+    .hero {
+      grid-template-columns: minmax(0, 1.6fr) minmax(0, 1fr);
+      column-gap: var(--space-lg);
+      align-items: center;
+    }
+    .hero__copy { grid-column: 1; }
+    .hero__orb {
+      position: relative;
+      grid-column: 2;
+      grid-row: 1 / -1;
+      top: auto;
+      right: auto;
+      transform: none;
+      justify-self: center;
+      align-self: center;
+      width: min(100%, 32rem);
+      opacity: 1;
+    }
   }
 
   /* El h1 lleva nombre y rol. Se maquetan como dos bloques distintos pero
      siguen siendo un solo titular para el buscador. */
   .hero__title {
-    margin-top: var(--space-md);
     display: grid;
-    gap: var(--space-xs);
+    gap: var(--space-2xs);
+  }
+
+  /* Tres escalones de peso: el nombre manda, la frase acompaña, las
+     disciplinas apenas susurran. Sin esa diferencia el hero se ve cargado
+     porque tres líneas seguidas piden la misma atención. */
+  .hero__statement {
+    display: block;
+    font-size: var(--type-2xl);
+    font-weight: 500;
+    line-height: var(--leading-snug);
+    letter-spacing: var(--tracking-tight);
+    color: var(--text);
   }
 
   .hero__name {
@@ -251,44 +300,58 @@
 
   .hero__role {
     display: block;
-    font-family: var(--font-body);
-    font-size: var(--type-xl);
-    font-weight: 500;
+    font-family: var(--font-mono);
+    font-size: var(--type-xs);
+    font-weight: 400;
     line-height: var(--leading-snug);
-    letter-spacing: var(--tracking-tight);
-    color: var(--accent);
+    letter-spacing: var(--tracking-wide);
+    text-transform: uppercase;
+    margin-top: var(--space-2xs);
+    /* Azul desaturado propio: el acento a plena saturación competía con
+       el nombre. Sigue leyéndose azul, deja de gritar. */
+    color: var(--accent-muted);
   }
 
   .hero__lead {
-    max-width: 44ch;
+    max-width: 46ch;
     margin-top: var(--space-lg);
     color: var(--text-muted);
     font-size: var(--type-lg);
     line-height: 1.5;
   }
-  .hero__actions { display: flex; flex-wrap: wrap; gap: var(--space-xs); margin-top: var(--space-xl); }
+  .hero__lead p + p { margin-top: var(--space-sm); }
+  /* "Construyo software." es la frase ancla: va en el color pleno */
+  .hero__actions { display: flex; flex-wrap: wrap; gap: var(--space-xs); margin-top: var(--space-lg); }
 
+  /* Cifras en una fila compacta: en bloques grandes competían con el nombre y
+     el hero se leía sobrecargado. Aquí informan sin pedir turno. */
   .hero__readout {
-    display: flex; flex-wrap: wrap; gap: var(--space-xl);
-    margin-top: var(--space-2xl);
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-md) var(--space-lg);
+    margin-top: var(--space-xl);
     padding-top: var(--space-md);
     border-top: 1px solid var(--border);
   }
+  .hero__readout > div {
+    display: flex;
+    align-items: baseline;
+    gap: var(--space-2xs);
+  }
   .hero__readout dd {
     font-family: var(--font-display);
-    font-size: var(--type-2xl);
+    font-size: var(--type-lg);
     font-weight: 600;
     line-height: 1;
+    color: var(--accent-muted);
     font-variant-numeric: tabular-nums;
   }
-  .hero__readout .is-signal dd { color: var(--accent); }
   .hero__readout dt {
     font-family: var(--font-mono);
     font-size: var(--type-2xs);
     letter-spacing: var(--tracking-wide);
     text-transform: uppercase;
     color: var(--text-dim);
-    margin-top: var(--space-2xs);
   }
 
   /* ── BOTONES ──────────────────────────────────────────────────────── */

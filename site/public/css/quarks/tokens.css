@@ -15,7 +15,7 @@
 
     /* El nombre es corto (14 caracteres): aguanta una escala grande
        sin partirse. */
-    --type-hero: clamp(3rem, 1.6rem + 6.4vw, 8.5rem);
+    --type-hero: clamp(3rem, 1.55rem + 6vw, 8rem);
     --type-4xl: clamp(2.75rem, 1.5rem + 5vw, 6rem);
     --type-3xl: clamp(2rem, 1.35rem + 2.9vw, 3.75rem);
     --type-2xl: clamp(1.625rem, 1.3rem + 1.5vw, 2.5rem);
@@ -92,6 +92,9 @@
     --grain-opacity: 0.05;
 
     --accent-solid: var(--accent);
+    /* Versión apagada del acento, para texto secundario que no debe competir.
+       Cada paleta puede anularla; si no, cae al acento. */
+    --accent-muted: var(--accent);
     --focus-ring: var(--accent);
   }
 
@@ -119,6 +122,7 @@
   :root[data-palette='ultramarine'] {
     --bg: #060810;
     --accent: #5470ff;
+    --accent-muted: #8e99bd;
     --accent-ink: #060810;
   }
 
@@ -168,6 +172,7 @@
   :root[data-theme='light'][data-palette='ultramarine'] {
     --bg: #eaecf4;
     --accent: #1d31bd;
+    --accent-muted: #454f78;
     --accent-ink: #ffffff;
   }
 
