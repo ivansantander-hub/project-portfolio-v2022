@@ -225,10 +225,6 @@
 
   /* ── HERO ─────────────────────────────────────────────────────────── */
   .hero {
-    /* Contexto de posicionamiento para .hero__visual. Sin esto el canvas se
-       ancla al body y se estira sobre TODA la página, tapando los casos. */
-    position: relative;
-    overflow: hidden;
     min-height: 100svh;
     display: grid;
     align-content: center;
@@ -237,38 +233,7 @@
     padding-block: clamp(3.5rem, 9vh, 7rem) var(--space-2xl);
   }
 
-  /* La pieza ocupa el hero ENTERO, no una caja a la derecha. Ese era el
-     defecto de la versión anterior: por muy distinta que fuera la técnica,
-     seguía siendo un objeto circular metido en un recuadro. */
-  .hero__visual {
-    position: absolute;
-    inset: 0;
-    width: 100%;
-    height: 100%;
-    z-index: var(--layer-glow);
-    /* Decorativa: no debe interceptar clics ni hover de lo que hay encima. */
-    pointer-events: none;
-
-    /* Presencia baja a propósito. A plena opacidad se leía como una segunda
-       animación encima de las nubes en vez de como textura del mismo fondo. */
-    opacity: var(--visual-opacity);
-
-    /* Se desvanece antes de acabar el hero. Con overflow:hidden las líneas se
-       cortaban en seco y aparecía un borde recto justo sobre la sección
-       siguiente. */
-    -webkit-mask-image: linear-gradient(to bottom,
-      transparent 0%, #000 14%, #000 62%, transparent 96%);
-    mask-image: linear-gradient(to bottom,
-      transparent 0%, #000 14%, #000 62%, transparent 96%);
-  }
-
-  /* El fondo NO se atenúa: es la atmósfera de toda la página y debe ser
-     continuo. Si cambiara solo en el hero se vería la costura al hacer
-     scroll. La pieza se integra bajando su propia opacidad, no apagando lo
-     que hay debajo. */
-
-  /* El canvas está posicionado, así que sin z-index propio taparía al texto
-     pese a ir antes en el DOM. */
+  /* Por encima del fondo generativo de toda la página (.bg-shader). */
   .hero__copy {
     position: relative;
     z-index: var(--layer-content);
@@ -629,8 +594,21 @@
   }
   .ln-in { display: inline-block; will-change: transform; }
 
-  /* Estado inicial solo si JS va a animar: sin JS todo se ve completo */
-  .js [data-reveal] { clip-path: inset(0% 0% 100% 0%); }
+  /* Estado inicial solo si JS va a animar: sin JS todo se ve completo.
+     Mismo problema que en .ln: h1/h2/h3 llevan interlineado 0.98, más
+     apretado que la altura real del glifo. clip-path recorta al borde de
+     la propia caja — incluso ya revelado del todo (inset 0 0 0 0 sigue
+     siendo el límite del elemento), así que cualquier título con
+     descendente (g, j, q, y) quedaba con la cola cortada de forma
+     permanente, no solo durante la animación. Pasó desapercibido mientras
+     los títulos no tenían esas letras; "Systems age too" y "envejecen" sí.
+     Mismo arreglo: relleno que cubre la descendente + margen negativo que
+     devuelve el espacio para que el interlineado no se mueva. */
+  .js [data-reveal] {
+    clip-path: inset(0% 0% 100% 0%);
+    padding-bottom: 0.3em;
+    margin-bottom: -0.3em;
+  }
   .js [data-reveal].is-in { clip-path: inset(0% 0% 0% 0%); }
   .js body.is-loading [data-hero-in] { opacity: 0; }
 
@@ -745,58 +723,3 @@
   .case__summary dd { font-size: var(--type-sm); color: var(--text); line-height: 1.5; }
 }
 
-/* ── Selector de pieza visual del hero — solo con VISUAL_PICKER=1 ──────── */
-@layer components {
-  .visual-picker {
-    position: fixed;
-    right: var(--space-sm);
-    bottom: var(--space-sm);
-    z-index: var(--layer-cursor);
-    display: flex;
-    align-items: center;
-    gap: var(--space-xs);
-    padding: var(--space-3xs) var(--space-xs);
-    background: color-mix(in srgb, var(--bg) 82%, transparent);
-    backdrop-filter: blur(14px);
-    border: 1px solid var(--border-strong);
-    border-radius: var(--radius-pill);
-    font-family: var(--font-mono);
-    font-size: var(--type-2xs);
-    letter-spacing: var(--tracking-wide);
-    text-transform: uppercase;
-    color: var(--text-dim);
-  }
-  .visual-picker__opciones { display: flex; gap: var(--space-3xs); }
-  .visual-picker button {
-    min-height: 44px;
-    padding: 0 var(--space-xs);
-    background: none;
-    border: 1px solid transparent;
-    border-radius: var(--radius-pill);
-    font: inherit;
-    color: var(--text-muted);
-    cursor: pointer;
-    transition: color var(--motion-quick) var(--ease-out),
-                border-color var(--motion-quick) var(--ease-out);
-  }
-  .visual-picker button:hover { color: var(--text); }
-  .visual-picker button[aria-checked='true'] {
-    color: var(--accent);
-    border-color: var(--accent);
-  }
-  @media (max-width: 52rem) { .visual-picker__label { display: none; } }
-}
-
-/* En la variante `texto` el nombre lo pinta el shader. El del DOM se oculta a
-   la vista pero sigue en el documento: el h1 tiene que existir para el
-   buscador y para un lector de pantalla, que no ven el canvas. */
-@layer components {
-  :root[data-visual='texto'] .hero__name {
-    position: absolute;
-    width: 1px;
-    height: 1px;
-    overflow: hidden;
-    clip-path: inset(50%);
-    white-space: nowrap;
-  }
-}
