@@ -67,13 +67,6 @@
 
     /* ── Capas ─────────────────────────────────────────────────────────── */
     --layer-shader: 0;
-    /* Nunca se había definido: la pieza del hero (.hero__visual) llevaba
-       z-index:var(--layer-glow), que se resolvía a nada, así que el navegador
-       caía en el z-index inicial "auto". Por casualidad del modelo de
-       apilamiento CSS (auto se pinta antes que un z-index positivo dentro del
-       mismo contexto) el texto seguía ganando — pero dependía de un accidente
-       del motor de render, no de una regla explícita. */
-    --layer-glow: 1;
     --layer-grain: 2;
     --layer-content: 20;
     --layer-header: 60;
@@ -97,9 +90,6 @@
 
     --shader-opacity: 0.62;
     --grain-opacity: 0.05;
-    /* Presencia de la pieza del hero. Es lo primero que hay que tocar si
-       llama demasiado la atención o si se pierde. */
-    --visual-opacity: 0.42;
 
     --accent-solid: var(--accent);
     /* Versión apagada del acento, para texto secundario que no debe competir.
@@ -161,8 +151,6 @@
 
     --shader-opacity: 0.5;
     --grain-opacity: 0.035;
-    /* En claro el contraste juega en contra: la misma opacidad se ve menos */
-    --visual-opacity: 0.55;
   }
 
   /* Los acentos en claro NO son los mismos: el lima o el cobre sobre fondo

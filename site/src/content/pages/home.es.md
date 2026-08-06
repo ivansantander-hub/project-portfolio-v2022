@@ -32,24 +32,12 @@ clínica mientras desarrollo proyectos impulsados por IA.
 **body:**
 Construir es fácil. Evolucionar es el trabajo.
 
-No todos los proyectos empiezan desde cero.
-
 Gran parte de mi trabajo es entrar a sistemas que ya existen, entender por qué
 llegaron a ese punto, y decidir qué merece quedarse antes de escribir una sola
 línea.
 
-Acá tuve que sostener dos cosas a la vez: seguir entregando valor mientras
-reducíamos años de deuda técnica y procesos que ya no escalaban.
-
-El reto no era programar más rápido. Era que el sistema pudiera seguir
-creciendo sin romperse.
-
 La mejor arquitectura no siempre es la que construye más. Muchas veces es la
 que quita complejidad sin frenar el negocio.
-
-**note:** Confidencialidad. Algunos casos omiten cifras, nombres y capturas por
-NDA. Lo que importa acá no es quién era el cliente, sino el criterio detrás de
-cada decisión.
 
 ---
 
