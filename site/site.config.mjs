@@ -30,19 +30,3 @@ export const LINK_V1 = process.env.LINK_V1 !== '0';
 /** Paletas válidas — el build falla si PALETTE no está aquí, en vez de
  *  generar un sitio sin acento y que nadie se entere hasta verlo. */
 export const PALETTES = ['ultramarine', 'chartreuse', 'vermilion', 'copper'];
-
-/**
- * Pieza visual del hero. Las cuatro conviven en public/js/hero-visual.js;
- * cambiar de una a otra es cambiar esta constante.
- *
- *   'texto'  el nombre renderizado a textura y distorsionado
- *   'topo'   curvas de nivel a sangre; el puntero levanta una cresta
- *   'ascii'  el campo cuantizado a glifos
- *   'malla'  plano en perspectiva que se aleja, ondulando despacio
- */
-export const HERO_VISUAL = process.env.HERO_VISUAL || 'topo';
-
-/** Selector en vivo para comparar las cuatro. VISUAL_PICKER=1 pnpm dev */
-export const VISUAL_PICKER = process.env.VISUAL_PICKER === '1';
-
-export const HERO_VISUALS = ['texto', 'topo', 'ascii', 'malla'];
