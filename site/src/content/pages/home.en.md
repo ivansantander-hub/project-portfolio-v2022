@@ -32,24 +32,12 @@ AI-driven projects of my own.
 **body:**
 Building is easy. Evolving is the job.
 
-Not every project starts from scratch.
-
 Most of my work is walking into systems that already exist, understanding why
 they got there, and deciding what deserves to stay before writing a single
 line.
 
-Here I had to hold two things at once: keep delivering value while we cut
-years of technical debt and processes that had stopped scaling.
-
-The challenge wasn't shipping faster. It was making sure the system could keep
-growing without breaking.
-
 The best architecture isn't always the one that builds the most. Often it's
 the one that removes complexity without stopping the business.
-
-**note:** Confidentiality. Some cases leave out numbers, names and screenshots
-because of NDAs. What matters here isn't who the client was, but the judgment
-behind each decision.
 
 ---
 
