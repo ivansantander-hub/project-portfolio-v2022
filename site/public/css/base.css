@@ -579,6 +579,7 @@
      margin:0 en todo): cuando el título rompe a dos líneas, la segunda línea
      se monta sobre la primera línea del párrafo. */
   .contact .prose { margin-top: var(--space-lg); }
+  .contact__actions { display: flex; flex-wrap: wrap; gap: var(--space-xs); margin-top: var(--space-lg); }
   .contact__location {
     margin-top: var(--space-lg);
     font-family: var(--font-mono); font-size: var(--type-2xs);
