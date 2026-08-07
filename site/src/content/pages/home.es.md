@@ -1,7 +1,7 @@
 ---
 slug: home
 lang: es
-title: Iván Santander — Tech Lead & Technical Product Owner
+title: Iván Santander - Tech Lead & Technical Product Owner
 description: Iván Santander, Tech Lead y Technical Product Owner en Medellín, Colombia. Arquitectura de software, liderazgo técnico y producto en HealthTech, fintech y plataformas SaaS.
 ---
 
