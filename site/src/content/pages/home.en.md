@@ -48,8 +48,8 @@ the one that removes complexity without stopping the business.
 **title:** Work
 
 **body:**
-Five pieces. Two from client work, told without data that isn't mine to publish.
-Three personal projects, with the code and the numbers open.
+Three first. Two from client work, told without data that isn't mine to publish.
+One personal project, with the numbers open.
 
 Each one covers the problem, the decision and how it ended.
 

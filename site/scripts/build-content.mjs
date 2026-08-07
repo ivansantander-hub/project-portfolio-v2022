@@ -277,9 +277,12 @@ function renderWorkCard(item, lang, nivel = 3) {
   const L = LANGS[lang];
   const d = item.data;
   const confidential = !!d.confidential;
+  /* "abierto"/"open" sugería código visible, y de los proyectos propios solo
+     mini-astro enlaza a un repo — sgc y blog-26 enlazan al producto en vivo.
+     La etiqueta ahora separa "sin NDA" de "código visible", que no son lo mismo. */
   const stateLabel = confidential
     ? (lang === 'es' ? 'bajo NDA' : 'under NDA')
-    : (lang === 'es' ? 'abierto' : 'open');
+    : (lang === 'es' ? 'proyecto propio' : 'personal project');
 
   const metrics = Array.isArray(d.metrics) ? d.metrics : [];
   const stack = Array.isArray(d.stack) ? d.stack.slice(0, 5) : [];
@@ -310,7 +313,7 @@ ${stack.map(x => `              <li>${esc(x)}</li>`).join('\n')}
             <div class="work-card__figures">
 ${extra}
             </div>
-            <p class="work-card__arrow" aria-hidden="true">Ver caso &rarr;</p>
+            <p class="work-card__arrow" aria-hidden="true">${lang === 'es' ? 'Ver caso' : 'See case'} &rarr;</p>
           </div>
         </a>
       </li>`;
@@ -443,6 +446,9 @@ ${stats.map(([v, l]) => `      <div><dd>${esc(v)}</dd><dt>${esc(l)}</dt></div>`)
   <ul class="work-index__list" data-stagger>
 ${work.map(i => renderWorkCard(i, lang)).join('\n')}
   </ul>
+  <p class="work-preview__more">
+    <a class="link-back" href="${urlFor(lang, L.work)}">${lang === 'es' ? 'Ver todos los casos' : 'See all the work'} &rarr;</a>
+  </p>
 </section>
 
 <section class="secondary">
@@ -513,7 +519,7 @@ for (const lang of Object.keys(LANGS)) {
       description: homeDoc.data.description,
       canonical: lang === 'es' ? '/' : '/en/',
       altUrl: other === 'es' ? '/' : '/en/',
-      body: renderHome(parseSections(homeDoc.content), items, lang),
+      body: renderHome(parseSections(homeDoc.content), items.filter(i => i.data.featured), lang),
       scripts: HOME_SCRIPTS,
       schema: [
         PERSONA,
