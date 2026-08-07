@@ -37,80 +37,42 @@ tags:
   - producto
 ---
 
-## El contexto
+No podía escribir sin desplegar.
 
-Empezó como un blog estático con entradas en Markdown.
+Empezó como un blog estático con entradas en Markdown, y el problema práctico apareció rápido: cada nota era un commit, un push y esperar un build. Eso mata el hábito de escribir.
 
-El problema práctico apareció rápido:
-
-> no podía escribir sin desplegar.
-
-Cada nota era un commit, un push y esperar un build. Eso mata el hábito de escribir.
-
-Así que lo convertí en un CMS. Base de datos propia, editor visual, borradores, historial de versiones, subida de imágenes y conteo de vistas.
+Así que lo convertí en un CMS: base de datos propia, editor visual, borradores, historial de versiones, subida de imágenes y conteo de vistas.
 
 ## Las decisiones
 
-**Base de datos en vez de archivos.**
+**Base de datos en vez de archivos.** Postgres gestionado. La consecuencia es una dependencia de proveedor que me incomoda, y que está anotada como pendiente: un job de respaldo periódico a almacenamiento de objetos. Prefiero tener el riesgo escrito que fingir que no existe.
 
-Postgres gestionado. La consecuencia es una dependencia de proveedor que me incomoda, y que está anotada como pendiente: un job de respaldo periódico a almacenamiento de objetos.
+**Editor visual, no un textarea de Markdown.** Un editor tipo bloque, con imágenes que suben directo al almacenamiento y se optimizan solas. La escritura tiene que ser sin fricción — si no, el proyecto muere de desuso, no de bugs.
 
-Prefiero tener el riesgo escrito que fingir que no existe.
-
-**Editor visual, no un textarea de Markdown.**
-
-Un editor tipo bloque, con imágenes que suben directo al almacenamiento y se optimizan solas.
-
-La escritura tiene que ser sin fricción. Si no, el proyecto muere de desuso, no de bugs.
-
-**Analítica propia.**
-
-Un contador de vistas hecho a mano en vez de un script de terceros. Sin cuentas, sin cookies, sin nada que consentir.
-
-Para un blog personal, un entero en una tabla es toda la analítica que necesito.
+**Analítica propia.** Un contador de vistas hecho a mano en vez de un script de terceros. Sin cuentas, sin cookies, sin nada que consentir. Para un blog personal, un entero en una tabla es toda la analítica que necesito.
 
 ## El historial que me dio guerra
 
 Esta es la parte que vale la pena contar. El error no fue técnico. Fue de método.
 
-**Primer intento.** Guardaba el estado anterior a cada cambio.
+**Primer intento.** Guardaba el estado anterior a cada cambio. El contenido de una versión y su fecha no correspondían — cada entrada del historial mentía sobre cuándo había existido.
 
-El contenido de una versión y su fecha no correspondían. Cada entrada del historial mentía sobre cuándo había existido.
+**Segundo intento.** Lo cambié para guardar el resultado después de cada guardado. Arregló las fechas y rompió otra cosa: comparar la versión más reciente contra el estado actual no mostraba nada. Eran literalmente lo mismo.
 
-**Segundo intento.** Lo cambié para guardar el resultado después de cada guardado.
+**Tercer intento.** Comparé la última versión contra la anterior. Y apareció un tercer problema, más sutil: el texto agregado se mostraba tachado en rojo, como borrado, en vez de en verde, y cualquier reacomodo invisible del editor —un salto de línea, un espacio— marcaba como modificado un párrafo idéntico.
 
-Arregló las fechas y rompió otra cosa: comparar la versión más reciente contra el estado actual no mostraba nada. Eran literalmente lo mismo.
+Tres arreglos, tres problemas nuevos. Esa es la señal de que el problema no está en el parche — está en el modelo.
 
-**Tercer intento.** Comparé la última versión contra la anterior.
+**La solución fue quitar, no agregar.** Dejé de intentar que una sola vista hiciera dos trabajos. Cada versión se muestra tal cual quedó guardada, sin comparar nada, y las diferencias pasan a un botón aparte. El diff compara el texto ya renderizado, no el Markdown crudo — con eso, el ruido de formato del editor desaparece por construcción.
 
-Y apareció un tercer problema, más sutil. El texto agregado se mostraba tachado en rojo, como borrado, en vez de en verde. Y cualquier reacomodo invisible del editor —un salto de línea, un espacio— marcaba como modificado un párrafo idéntico.
+## Lo que quedó funcionando
 
-Ahí llevaba tres arreglos y cada uno había generado un problema nuevo.
+Un CMS con editor visual, borradores, historial con restauración, auditoría, imágenes optimizadas al subir, RSS, sitemap, 404 real, integración continua y analítica propia.
 
-Esa es la señal:
+La lógica que más me costó —historial, diffs, almacenamiento, tiempo de lectura— está cubierta con tests unitarios. Los de punta a punta siguen pendientes, y está anotado.
 
-> cuando cada parche produce un bug distinto, el problema no está en el parche. Está en el modelo.
+## Quince minutos que me habría ahorrado
 
-**La solución fue quitar, no agregar.**
-
-Dejé de intentar que una sola vista hiciera dos trabajos.
-
-Cada versión se muestra tal cual quedó guardada, sin comparar nada. Y las diferencias pasan a un botón aparte.
-
-El diff compara el texto ya renderizado, no el Markdown crudo. Con eso, el ruido de formato del editor desaparece por construcción.
-
-## En qué terminó
-
-Un CMS funcional con editor visual, borradores, historial con restauración, auditoría, imágenes optimizadas al subir, RSS, sitemap, 404 real, integración continua y analítica propia.
-
-La lógica que más me costó —historial, diffs, almacenamiento, tiempo de lectura— está cubierta con tests unitarios.
-
-Los de punta a punta siguen pendientes. Y está anotado.
-
-## Qué haría distinto
-
-Debí modelar el historial en papel antes de escribirlo.
-
-Los tres intentos fallidos fueron el mismo error: implementar una idea de versionado sin haber definido qué representa exactamente una versión.
+Debí modelar el historial en papel antes de escribirlo. Los tres intentos fallidos fueron el mismo error: implementar una idea de versionado sin haber definido qué representa exactamente una versión.
 
 Quince minutos dibujando la línea de tiempo me habrían ahorrado tres reescrituras.

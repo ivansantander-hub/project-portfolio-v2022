@@ -104,6 +104,14 @@
     color: var(--text-dim);
   }
 
+  /* `mix-blend-mode: difference` se probó y se descartó: difference(negro, X)
+     = X — un no-op. En claro `--text` es casi negro, así que el cursor
+     devolvía el color de fondo intacto, invisible de verdad, no solo sutil.
+     El header ya había resuelto este mismo problema apagando `difference` en
+     claro (ver `.site-header` más abajo); el cursor sigue el mismo patrón:
+     color sólido de `--text`/`--accent`, ya verificado con contraste AA/AAA
+     contra `--bg` en los dos temas porque es el mismo par que usa todo el
+     texto del sitio. Nada que dependa de qué haya debajo. */
   .cursor {
     position: fixed;
     top: 0; left: 0;
@@ -113,18 +121,14 @@
     border-radius: 50%;
     z-index: var(--layer-cursor);
     pointer-events: none;
-    mix-blend-mode: difference;
     transition: width var(--motion-quick) var(--ease-out),
                 height var(--motion-quick) var(--ease-out),
                 margin var(--motion-quick) var(--ease-out),
+                border-color var(--motion-quick) var(--ease-out),
                 background var(--motion-quick) var(--ease-out);
   }
-  /* Un anillo de 1px con difference es casi invisible sobre el shader: solo
-     el trazo se invierte, y contra un fondo medio-tono el resultado también
-     queda medio-tono. Un punto sólido en el centro invierte un área real,
-     no una línea, y se ve sin importar qué color tenga el fondo debajo —
-     es el "dot" que el cursor de v1 ya tenía y que v3 perdió al simplificar
-     a un solo elemento. */
+  /* El punto es el ancla de posición exacta — igual que el "dot" del cursor
+     de v1. El anillo solo. */
   .cursor::after {
     content: '';
     position: absolute;
@@ -133,12 +137,14 @@
     margin: -3px 0 0 -3px;
     border-radius: 50%;
     background: var(--text);
-    mix-blend-mode: difference;
+    transition: background var(--motion-quick) var(--ease-out);
   }
   .cursor.is-active {
     width: 62px; height: 62px; margin: -31px 0 0 -31px;
-    background: rgba(255, 255, 255, 0.12);
+    border-color: var(--accent);
+    background: color-mix(in srgb, var(--accent) 12%, transparent);
   }
+  .cursor.is-active::after { background: var(--accent); }
   @media (pointer: coarse) { .cursor { display: none; } }
 }
 
