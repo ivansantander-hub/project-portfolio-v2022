@@ -9,14 +9,16 @@ description: Iván Santander, Tech Lead and Technical Product Owner based in Med
 
 **name:** Iván Santander
 
-**statement:** I build software.
+**statement:** I simplify what became complex.
 
 **role:** Product · Engineering · AI
 
 **lead:**
-From product strategy to the code itself, I enjoy turning ideas into useful
-tools. Right now I work on clinical research platforms while building
-AI-driven projects of my own.
+From writing code to leading the team, then to deciding what the whole
+platform builds next. In a year and a half, at the same company.
+
+Today I measure before I propose, and choose which complexity is worth
+keeping.
 
 **cta_primary:** Explore the work
 **cta_secondary:** Get in touch
@@ -27,7 +29,7 @@ AI-driven projects of my own.
 
 ## thesis
 
-**title:** Systems age too
+**title:** Systems age
 
 **body:**
 Building is easy. Evolving is the job.
