@@ -61,9 +61,10 @@ Cada uno cuenta el problema, la decisión y en qué terminó.
 **body:**
 Antes de liderar equipos hice trabajo de producto que sigue en pie.
 
-Una pasarela de pagos con cobros automáticos y por demanda, integrada en una app
-móvil. Un gestor de APIs en Azure y automatización de procesos para el sector
-salud. Aplicaciones móviles de monitoreo clínico. Control de acceso con códigos QR.
+- Una pasarela de pagos con cobros automáticos y por demanda, integrada en una app móvil.
+- Un gestor de APIs en Azure y automatización de procesos para el sector salud.
+- Aplicaciones móviles de monitoreo clínico.
+- Control de acceso con códigos QR.
 
 No son casos de estudio. Son la razón por la que cuando alguien dice "esto es
 solo integrar un pago" ya sé que no.
@@ -79,5 +80,8 @@ Busco un rol de liderazgo técnico donde el problema sea de arquitectura y de
 equipo, no solo de features.
 
 Si eso es lo que tienes sobre la mesa, hablemos.
+
+**cta_primary:** Escríbeme en LinkedIn
+**cta_secondary:** Ver GitHub
 
 **location:** Medellín, Colombia · Disponible en remoto
