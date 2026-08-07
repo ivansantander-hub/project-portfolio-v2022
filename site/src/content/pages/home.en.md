@@ -62,9 +62,10 @@ Each one covers the problem, the decision and how it ended.
 **body:**
 Before leading teams I did product work that's still standing.
 
-A payment gateway with automatic and on-demand charges, integrated into a mobile
-app. API management on Azure and process automation for healthcare. Mobile apps
-for clinical monitoring. QR-based access control.
+- A payment gateway with automatic and on-demand charges, integrated into a mobile app.
+- API management on Azure and process automation for healthcare.
+- Mobile apps for clinical monitoring.
+- QR-based access control.
 
 They aren't case studies. They're the reason that when someone says "it's just
 integrating a payment", I already know it isn't.
@@ -80,5 +81,8 @@ I'm looking for a technical leadership role where the problem is architecture an
 team, not just features.
 
 If that's what you have on the table, let's talk.
+
+**cta_primary:** Message me on LinkedIn
+**cta_secondary:** View GitHub
 
 **location:** Medellín, Colombia · Available remotely

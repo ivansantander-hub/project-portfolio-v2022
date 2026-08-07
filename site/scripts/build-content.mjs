@@ -57,6 +57,8 @@ const buildDir = join(root, '.build');
 const buildPagesDir = join(buildDir, 'pages');
 
 const SITE = 'https://ivansantander.com';
+const LINKEDIN_URL = 'https://www.linkedin.com/in/ivan-santander/';
+const GITHUB_URL = 'https://github.com/ivansantander-hub';
 
 /** ES vive en la raíz; EN bajo /en/. x-default apunta a EN: un visitante cuyo
  *  idioma no coincide con ninguno es, casi siempre, internacional. */
@@ -191,10 +193,7 @@ const PERSONA = {
   jobTitle: 'Technical Product Owner',
   url: SITE,
   address: { '@type': 'PostalAddress', addressLocality: 'Medellín', addressCountry: 'CO' },
-  sameAs: [
-    'https://www.linkedin.com/in/ivan-santander/',
-    'https://github.com/ivansantander-hub',
-  ],
+  sameAs: [LINKEDIN_URL, GITHUB_URL],
   knowsAbout: [
     'Arquitectura de software', 'Liderazgo técnico', 'TypeScript', 'Python',
     'Sistemas distribuidos', 'Gestión de producto',
@@ -461,6 +460,10 @@ ${work.map(i => renderWorkCard(i, lang)).join('\n')}
 <section class="contact" id="contact">
   <h2 class="section-title" data-reveal>${esc(contact.title)}</h2>
   <div class="prose">${md(contact.body)}</div>
+  <p class="contact__actions">
+    <a class="btn btn--primary" href="${LINKEDIN_URL}" rel="noopener noreferrer" target="_blank">${esc(contact.cta_primary)}</a>
+    <a class="btn" href="${GITHUB_URL}" rel="noopener noreferrer" target="_blank">${esc(contact.cta_secondary)}</a>
+  </p>
   <p class="contact__location">${esc(contact.location)}</p>
 </section>
 `;
