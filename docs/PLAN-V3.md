@@ -2,6 +2,11 @@
 
 > Documento de plan. Decisiones tomadas, concepto, fases y presupuestos.
 > Estado: propuesta para aprobación. Fecha: 2026-08-02.
+>
+> **Este documento describe la intención, no necesariamente lo que existe hoy.**
+> El hero visual (grafo caos → orden) de §3.2 se implementó y se revirtió; el
+> hero de v3 es texto puro. Ver [`BITACORA.md`](./BITACORA.md) para el estado
+> real y las desviaciones, con fecha y motivo de cada una.
 
 ---
 

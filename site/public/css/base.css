@@ -119,6 +119,22 @@
                 margin var(--motion-quick) var(--ease-out),
                 background var(--motion-quick) var(--ease-out);
   }
+  /* Un anillo de 1px con difference es casi invisible sobre el shader: solo
+     el trazo se invierte, y contra un fondo medio-tono el resultado también
+     queda medio-tono. Un punto sólido en el centro invierte un área real,
+     no una línea, y se ve sin importar qué color tenga el fondo debajo —
+     es el "dot" que el cursor de v1 ya tenía y que v3 perdió al simplificar
+     a un solo elemento. */
+  .cursor::after {
+    content: '';
+    position: absolute;
+    top: 50%; left: 50%;
+    width: 6px; height: 6px;
+    margin: -3px 0 0 -3px;
+    border-radius: 50%;
+    background: var(--text);
+    mix-blend-mode: difference;
+  }
   .cursor.is-active {
     width: 62px; height: 62px; margin: -31px 0 0 -31px;
     background: rgba(255, 255, 255, 0.12);
@@ -167,18 +183,20 @@
   }
   .site-header__nav { display: flex; align-items: center; gap: var(--space-2xs); }
 
-  .site-header__lang, .site-header__theme {
+  .site-header__lang, .site-header__theme, .site-header__link {
     display: inline-flex; align-items: center; justify-content: center;
     min-width: 44px; min-height: 44px;
+    padding: 0 var(--space-2xs);
     font-family: var(--font-mono);
     font-size: var(--type-2xs);
     letter-spacing: var(--tracking-wide);
+    text-transform: uppercase;
     background: none; border: 1px solid transparent;
     border-radius: var(--radius-pill);
     cursor: pointer;
     transition: border-color var(--motion-quick) var(--ease-out);
   }
-  .site-header__lang:hover, .site-header__theme:hover { border-color: currentColor; }
+  .site-header__lang:hover, .site-header__theme:hover, .site-header__link:hover { border-color: currentColor; }
   .site-header__theme::before { content: '◐'; font-size: var(--type-lg); }
 
   main { position: relative; z-index: var(--layer-content); }
