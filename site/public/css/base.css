@@ -413,7 +413,7 @@
   }
   @media (min-width: 60rem) {
     .work-card__link {
-      grid-template-columns: 5rem minmax(0, 1.6fr) minmax(0, 1fr);
+      grid-template-columns: 7rem minmax(0, 1.6fr) minmax(0, 1fr);
       grid-template-areas: 'meta title extra';
       align-items: start;
       padding: var(--space-xl) var(--space-md);
@@ -439,6 +439,13 @@
     text-transform: none;
     letter-spacing: var(--tracking-normal);
     font-size: var(--type-xs);
+    /* La regla global `p { overflow-wrap: break-word }` parte nombres largos
+       ("Consolidación de arquitectura") a media palabra en esta columna
+       angosta. Con guion silábico se lee "Con­soli­da­ción" en vez de
+       "Consolidaci" + "ón" sueltos. */
+    overflow-wrap: normal;
+    word-break: normal;
+    hyphens: auto;
   }
   .work-card__state { color: var(--accent); }
 
@@ -541,6 +548,7 @@
   }
   .case__body { margin-top: var(--space-2xl); }
   .case__foot { margin-top: var(--space-2xl); padding-top: var(--space-md); border-top: 1px solid var(--border); }
+  .work-preview__more { margin-top: var(--space-lg); }
   .link-back { font-family: var(--font-mono); font-size: var(--type-xs); letter-spacing: var(--tracking-wide); color: var(--text-muted); }
   .link-back:hover { color: var(--accent); }
 
@@ -567,6 +575,10 @@
   .about h2 { font-size: var(--type-2xl); margin-top: var(--space-2xl); }
 
   .contact .section-title { max-width: 15ch; }
+  /* Sin esto el <h2> y el <div class="prose"> quedan pegados (el reset pone
+     margin:0 en todo): cuando el título rompe a dos líneas, la segunda línea
+     se monta sobre la primera línea del párrafo. */
+  .contact .prose { margin-top: var(--space-lg); }
   .contact__location {
     margin-top: var(--space-lg);
     font-family: var(--font-mono); font-size: var(--type-2xs);
@@ -576,6 +588,20 @@
 
 /* ══ MOTION ═════════════════════════════════════════════════════════════ */
 @layer motion {
+  /* El anillo `.cursor` de motion.js sigue al mouse con lerp — hay que
+     apagar el cursor nativo o se ven los dos a la vez: la flecha real y el
+     anillo con retraso detrás, como un segundo cursor suelto.
+     `*` (no `html`) porque `cursor` no se hereda cuando un descendiente
+     declara el suyo propio: botones y links ya traen `cursor: pointer`
+     (layer `layout`/`components`), y eso gana sobre un valor heredado sin
+     importar el layer. Solo apagando el cursor en cada elemento por igual
+     compite de verdad — y como `motion` es el último layer (ver el orden
+     arriba), gana ahí también, sin necesitar !important.
+     Mismo guard que motion.js: solo cuando el anillo se activa de verdad. */
+  @media (pointer: fine) and (prefers-reduced-motion: no-preference) {
+    * { cursor: none; }
+  }
+
   /* Máscara por palabra. inline-block para que el texto siga fluyendo y
      rompiendo línea con normalidad.
      El padding tiene que cubrir la descendente completa (p, q, j, g) o

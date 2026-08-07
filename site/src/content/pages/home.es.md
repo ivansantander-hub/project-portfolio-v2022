@@ -47,9 +47,8 @@ que quita complejidad sin frenar el negocio.
 **title:** Casos
 
 **body:**
-Cinco piezas. Dos del trabajo con clientes, contadas sin datos que no me
-corresponde publicar. Tres proyectos propios, con el código y los números
-abiertos.
+Tres primero. Dos del trabajo con clientes, contados sin datos que no me
+corresponde publicar. Uno propio, con los números abiertos.
 
 Cada uno cuenta el problema, la decisión y en qué terminó.
 
