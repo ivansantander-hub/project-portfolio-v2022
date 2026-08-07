@@ -2,6 +2,12 @@
 
 Fecha: 2026-08-02 · Concepto: **Complejidad → Claridad**
 
+> **§4 (color) quedó obsoleto.** Describe tres tokens de estado para colorear
+> nodos del grafo (`--signal`/`--live`/`--orphan`). El grafo se revirtió; el
+> sistema de color que corre hoy es el de 4 paletas nombradas en
+> `site.config.mjs` sobre una UI monocroma (el shader del fondo pone el
+> color). Ver [`BITACORA.md`](./BITACORA.md).
+
 ---
 
 ## 1. El default que rechacé, y por qué
