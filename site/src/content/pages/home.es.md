@@ -9,14 +9,15 @@ description: Iván Santander, Tech Lead y Technical Product Owner en Medellín, 
 
 **name:** Iván Santander
 
-**statement:** Construyo software.
+**statement:** Simplifico lo que se volvió complejo.
 
 **role:** Producto · Ingeniería · IA
 
 **lead:**
-Desde la estrategia del producto hasta el código, disfruto convertir ideas en
-herramientas útiles. Actualmente trabajo en plataformas para investigación
-clínica mientras desarrollo proyectos impulsados por IA.
+De escribir código a liderar el equipo, y después a decidir qué construye
+toda la plataforma. En año y medio, en la misma empresa.
+
+Hoy mido antes de proponer, y elijo qué complejidad vale la pena mantener.
 
 **cta_primary:** Explorar casos
 **cta_secondary:** Escríbeme
@@ -27,7 +28,7 @@ clínica mientras desarrollo proyectos impulsados por IA.
 
 ## thesis
 
-**title:** Los sistemas también envejecen
+**title:** Los sistemas envejecen
 
 **body:**
 Construir es fácil. Evolucionar es el trabajo.
