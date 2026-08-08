@@ -160,6 +160,78 @@ logo + toggle de idioma + toggle de tema.
 
 ---
 
+## 2026-08-07 — Cloudflare servía CSS/JS de hasta 4 horas atrás
+
+**Síntoma:** local (`pnpm dev`) se veía bien, producción (`ivansantander.com`)
+mostraba el nav sin estilo (texto plano, sin mayúsculas ni mono) después de
+un deploy con cambios de CSS.
+
+**Causa:** Railway pone Cloudflare delante del dominio. `serve` (el server
+estático de `pnpm start`) no manda `Cache-Control` propio, así que Cloudflare
+aplica su default para extensiones "estáticas" — `max-age=14400` (4h) — a
+`/css/*` y `/js/*`. El HTML no se cachea (`cf-cache-status: DYNAMIC`), pero
+CSS/JS sí, y como los nombres de archivo no llevan hash de contenido, la
+misma URL sigue sirviendo bytes viejos hasta que el caché expira solo.
+Confirmado con `curl -I` contra prod: `cf-cache-status: HIT` +
+`grep -c "site-header__link" base.css` → 0 en el CSS servido.
+
+**Arreglo:** `site/public/serve.json` (mini-astro copia `public/` completo a
+`dist/`, donde `serve` lo autodetecta) fijando `Cache-Control: max-age=60`
+para CSS/JS. Ojo con el schema de `serve.json`: `"etag"` como propiedad de
+nivel superior es inválido (lo controla el CLI, no el archivo) — con
+`--debug` tira `must NOT have additional properties`; sin `--debug` falla en
+silencio y el header simplemente no se aplica. Verificado contra el comando
+real de producción (`pnpm start`), no contra `pnpm serve` (son invocaciones
+distintas del mismo paquete).
+
+**No resuelto por este fix:** el caché que Cloudflare ya tenía en producción
+al momento de este cambio no se limpia solo — hace falta un deploy nuevo +
+esperar el TTL viejo, o purgar el caché a mano desde el dashboard.
+
+---
+
+## 2026-08-07 — Cursor imperceptible en modo claro
+
+**Síntoma:** el punto/anillo del cursor (agregado el mismo día para
+reemplazar el cursor nativo del sistema) se veía bien en oscuro pero era
+"completamente imperceptible" en claro.
+
+**Causa:** el punto usaba `background: var(--text)` con
+`mix-blend-mode: difference`. En oscuro `--text` es casi blanco → invierte
+fuerte. En claro `--text` es casi negro, y `difference(negro, X) = X` — un
+no-op matemático. El cursor literalmente devolvía el color de fondo sin
+tocarlo.
+
+**Arreglo:** se quitó `mix-blend-mode` del cursor por completo. Ahora usa
+color sólido de `--text`/`--accent` (sin blend), el mismo par que ya usa
+todo el texto del sitio y que `DESIGN-DIRECTION.md` §4 tenía verificado con
+contraste AA/AAA en los dos temas. Es el mismo patrón que `.site-header` ya
+aplicaba (difference en oscuro, color sólido en claro) — no una idea nueva.
+Verificado con capturas en oscuro, claro y hover (`.is-active`).
+
+---
+
+## 2026-08-07 — Los 5 casos de estudio: misma plantilla, se sentía a archivador
+
+**Hallazgo (calificado por Iván como "pésimo", debía cambiar):** el
+contenido de cada caso era sólido — específico, honesto, con cifras y
+trade-offs reales — pero los 5 seguían exactamente el mismo esqueleto de
+encabezados, en el mismo orden, con el mismo cierre (`## El contexto` →
+`## El problema` → `## Las decisiones` → `## En qué terminó` →
+`## Qué haría distinto`, literal en los 5). Investigación de agosto 2026
+confirma el riesgo: una estructura repetida "lee como un archivador, no como
+una historia", incluso cuando cada frase individual es buena.
+
+**Arreglo:** se reescribieron los 10 archivos (5 casos × ES/EN) con
+encabezados propios de cada historia — sin dos casos compartiendo el mismo
+título de sección de cierre — y se redujo el tic retórico "No era X. Era Y",
+repetido en los 5. No se inventó contenido nuevo: cifras, decisiones y
+trade-offs quedaron intactos, solo cambió cómo se organizan y qué tanto se
+apoyan en la misma fórmula. Verificado con build + tests de Playwright +
+capturas (caso confidencial, caso con métricas, página en inglés).
+
+---
+
 ## Pendiente de decisión (no se tocó, requiere que Iván decida)
 
 - Momento 3D y easter egg para v3 (o formalizar que no van).
