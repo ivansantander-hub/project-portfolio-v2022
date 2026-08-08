@@ -57,7 +57,7 @@ const svg = `<svg xmlns="http://www.w3.org/2000/svg" width="${W}" height="${H}" 
         font-size="94" font-weight="700" fill="#f4f4f5" letter-spacing="-4">Iván Santander</text>
 
   <text x="80" y="352" font-family="Geist, Helvetica, Arial, sans-serif"
-        font-size="38" font-weight="500" fill="#f4f4f5" fill-opacity="0.92">Construyo lo que dura.</text>
+        font-size="38" font-weight="500" fill="#f4f4f5" fill-opacity="0.92">Simplifico lo que se volvió complejo.</text>
 
   <text x="80" y="406" font-family="ui-monospace, Menlo, Consolas, monospace"
         font-size="20" fill="${C.muted}" letter-spacing="3">PRODUCTO · INGENIERÍA · IA</text>

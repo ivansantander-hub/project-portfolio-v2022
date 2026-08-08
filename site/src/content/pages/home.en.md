@@ -2,7 +2,7 @@
 slug: home
 lang: en
 title: Iván Santander - Tech Lead & Technical Product Owner
-description: Iván Santander, Tech Lead and Technical Product Owner based in Medellín, Colombia. Software architecture, technical leadership and product in healthtech, fintech and SaaS platforms.
+description: "I simplify complex systems: architecture, technical leadership and product. Real cases in health, fintech and SaaS, with numbers and documented decisions."
 ---
 
 ## hero
@@ -48,8 +48,8 @@ the one that removes complexity without stopping the business.
 **title:** Work
 
 **body:**
-Three first. Two from client work, told without data that isn't mine to publish.
-One personal project, with the numbers open.
+Client cases, told without data that isn't mine to publish. Personal
+projects, with the numbers open.
 
 Each one covers the problem, the decision and how it ended.
 
