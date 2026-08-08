@@ -119,10 +119,20 @@
     --accent-ink: #ffffff;
   }
 
+  /* "Sky Blue" — inspirado en el acabado del MacBook Air, no una réplica
+     literal: ese azul es metálico y desaturado a propósito porque es
+     aluminio bajo luz variable, no un token de UI. Copiado tal cual (probado
+     antes) se ve plano en pantalla — pierde la saturación que hacía que el
+     acento original tuviera peso. Esta versión mantiene la saturación alta
+     (92%, casi la misma que el azul-violeta anterior) y solo mueve el matiz
+     más frío — de índigo (230°) a celeste (208°) — para quedar impactante
+     Y fiel a la referencia. Contraste contra --bg verificado: 7.8:1 oscuro,
+     6.1:1 claro. El brillo metálico real vive en el degradado sutil de
+     `.btn--primary` (ver base.css), no en este token plano. */
   :root[data-palette='ultramarine'] {
     --bg: #060810;
-    --accent: #5470ff;
-    --accent-muted: #8e99bd;
+    --accent: #2e9bf5;
+    --accent-muted: #93acc9;
     --accent-ink: #060810;
   }
 
@@ -171,8 +181,8 @@
 
   :root[data-theme='light'][data-palette='ultramarine'] {
     --bg: #eaecf4;
-    --accent: #1d31bd;
-    --accent-muted: #454f78;
+    --accent: #0a56ac;
+    --accent-muted: #445f7e;
     --accent-ink: #ffffff;
   }
 
