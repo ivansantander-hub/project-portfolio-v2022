@@ -30,54 +30,27 @@ tags:
   - migración
 ---
 
-## El contexto
+> Había más componentes que mantener que personas para mantenerlos.
 
-Una plataforma para gestionar ensayos clínicos. Gestión de proyectos, control documental, captura de datos y analítica.
+No era una sensación. Era lo que encontré al contar.
 
-Dominio regulado. Hay auditorías. Un dato mal migrado tiene consecuencias reales.
+Una plataforma para gestionar ensayos clínicos: proyectos, control documental, captura de datos, analítica. Dominio regulado, con auditorías — un dato mal migrado tiene consecuencias reales.
 
-El sistema había crecido por acumulación durante años. Cada necesidad nueva, un servicio nuevo. Cada cliente nuevo, un proceso programado nuevo.
+El sistema había crecido por acumulación durante años. Cada necesidad nueva, un servicio nuevo. Cada cliente nuevo, un proceso programado nuevo. Ninguna de esas decisiones fue mala. El conjunto sí.
 
-Ninguna de esas decisiones fue mala.
+Los síntomas eran los de siempre cuando esa relación se rompe: un cambio transversal obligaba a repetir el mismo trabajo en varios repositorios, el onboarding se medía en semanas y no en días, había debugging distribuido para problemas que no eran distribuidos. Y el patrón de "un proceso por cliente" garantizaba que el problema creciera con el negocio.
 
-El conjunto sí.
+Nada de eso importaba por separado. Importaba que todos apuntaban a lo mismo, y que nadie le había puesto un número encima.
 
-## El problema
+## Contar antes de proponer
 
-No era rendimiento. No eran bugs.
+Revisé el código servicio por servicio y armé un inventario real: qué existe, qué sigue vivo, qué lleva un año sin un commit, qué depende de qué.
 
-Era otra cosa:
+Ese inventario cambió la conversación. Pasamos de "el sistema se siente pesado" a una tabla donde cualquiera veía la desproporción — un argumento que puede evaluar alguien que no es técnico. Una sensación, no.
 
-> había más componentes que mantener que personas para mantenerlos.
+## Dos caminos, a propósito
 
-Los síntomas eran los de siempre cuando esa relación se rompe.
-
-- Un cambio transversal obligaba a repetir el mismo trabajo en muchos repositorios
-- Entender un flujo de punta a punta exigía saltar entre varios servicios
-- El onboarding se medía en semanas, no en días
-- Debugging distribuido para problemas que no eran distribuidos
-
-Y el patrón de "un proceso por cliente" garantizaba que el problema creciera con el negocio.
-
-Lo importante no era ninguno de esos síntomas por separado.
-
-Era que todos apuntaban a lo mismo y nadie había puesto el número encima.
-
-## Lo primero no fue proponer. Fue contar.
-
-Revisé el código servicio por servicio y armé un inventario real. Qué existe, qué sigue vivo, qué lleva un año sin un commit, qué depende de qué.
-
-Ese inventario cambió la conversación.
-
-Pasamos de "el sistema se siente pesado" a una tabla donde cualquiera veía la desproporción.
-
-Un argumento con datos lo puede evaluar alguien que no es técnico. Una sensación, no.
-
-## Dos caminos, no uno
-
-Llegué con dos propuestas a propósito.
-
-Una sola opción pide un sí o un no. Dos opciones con sus costos piden una decisión.
+Llegué con dos propuestas. Una sola opción pide un sí o un no; dos opciones con sus costos piden una decisión.
 
 **El camino conservador.** Consolidar los servicios manteniendo el estilo actual. Menos ruptura, terreno conocido, se puede empezar la semana siguiente. No resuelve la fragmentación de fondo.
 
@@ -85,42 +58,22 @@ Una sola opción pide un sí o un no. Dos opciones con sus costos piden una deci
 
 Para cada uno definí alcance, secuencia, responsables y criterios de vuelta atrás.
 
-## Tres decisiones que sostengo
+## Lo que no negocié
 
-**Migración incremental, nunca big bang.**
+**Migración incremental, nunca big bang.** Strangler Fig con proxy inverso: el sistema nuevo absorbe rutas una por una mientras el viejo sigue sirviendo el resto. En un dominio regulado, un corte total no es una opción que puedas defender.
 
-Strangler Fig con proxy inverso. El sistema nuevo absorbe rutas una por una mientras el viejo sigue sirviendo el resto.
+**Alguien dedicado a la operación, siempre.** En los dos planes reservé una persona para bugs y soporte durante toda la migración. Las migraciones no se mueren por problemas técnicos — se mueren porque el día a día se come al equipo y el proyecto se queda sin nadie.
 
-En un dominio regulado, un corte total no es una opción que puedas defender.
+**Lo comprometido antes que lo estructural.** El plan decía explícitamente que las entregas ya prometidas iban antes que la refactorización. Una propuesta que ignora los compromisos del negocio no se ejecuta. Se archiva.
 
-**Siempre alguien dedicado a la operación.**
+## Dónde quedó
 
-En los dos planes reservé una persona para bugs y soporte durante toda la migración.
+La propuesta es hoy el documento de referencia para la decisión de arquitectura. El inventario dejó de ser conocimiento de dos o tres personas y pasó a ser algo que se puede consultar.
 
-Las migraciones no se mueren por problemas técnicos. Se mueren porque la operación del día a día se come al equipo y el proyecto se queda sin nadie.
+Antes de tocar lo grande, ejecutamos lo trivial: retirar lo que ya no se desplegaba, absorber los servicios de catálogo que no justificaban existir aparte. Empezar por lo aburrido genera la confianza que después necesitas para lo caro.
 
-**Primero lo comprometido, después lo estructural.**
+En paralelo diseñé el reemplazo del frontend sobre la misma lógica: en vez de un archivo por vista, un motor de registro — una ruta genérica que resuelve contra un mapa de configuración, con unos pocos armazones reutilizables para todos los patrones de pantalla. Agregar una vista pasa a ser agregar un objeto de configuración, no crear archivos.
 
-El plan decía explícitamente que las entregas ya prometidas iban antes que la refactorización.
+## Un año tarde
 
-Una propuesta de arquitectura que ignora los compromisos del negocio no se ejecuta. Se archiva.
-
-## En qué terminó
-
-La propuesta quedó como el documento de referencia para la decisión de arquitectura.
-
-El inventario dejó de ser conocimiento de dos o tres personas y pasó a ser algo que se puede consultar.
-
-Antes de tocar lo grande ejecutamos lo trivial: retirar lo que ya no se desplegaba y absorber los servicios de catálogo que no justificaban existir aparte.
-
-Empezar por lo aburrido genera la confianza que después necesitas para lo caro.
-
-En paralelo diseñé el reemplazo del frontend sobre otra idea. En vez de un archivo por vista, un motor de registro: una ruta genérica que resuelve contra un mapa de configuración, y unos pocos armazones reutilizables para todos los patrones de pantalla.
-
-Agregar una vista pasa a ser agregar un objeto de configuración. No crear archivos.
-
-## Qué haría distinto
-
-El inventario debí hacerlo un año antes.
-
-La propuesta no fue difícil de escribir. Lo difícil es que para cuando existió, el costo de la deuda ya estaba pagado.
+El inventario debí hacerlo un año antes. La propuesta no fue difícil de escribir — lo difícil es que para cuando existió, el costo de la deuda ya estaba pagado.

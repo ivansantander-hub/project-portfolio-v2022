@@ -138,6 +138,17 @@ JSON-LD is embedded inline in every page's `<script type="application/ld+json">`
 `dist/` (heading hierarchy, landmarks, metadata completeness) and exit 1 on failure; run them
 after a build, not against source.
 
+**Every content/positioning change must be reflected in SEO, in the same pass — not as a
+follow-up.** This bit us once already (2026-08-07, see `docs/BITACORA.md`): the hero statement
+changed but `home.{es,en}.md`'s frontmatter `title`/`description` and `scripts/gen-og.mjs`'s
+hardcoded OG-image tagline stayed on the old copy for a full session, so Google's indexed
+snippet and the LinkedIn/X share card both quoted a line that no longer existed on the page.
+When you change hero/thesis copy or the core positioning, check and update in the same pass:
+`title`/`description` in `site/src/content/pages/home.es.md` and `home.en.md`, the tagline
+string in `site/scripts/gen-og.mjs` (then run `npm run og` to regenerate `public/img/og.png`),
+and the `favicon` — it's a real crawlable file (`public/img/favicon.svg`/`.png`), not a `data:`
+URI, specifically so Google can index it instead of falling back to a generic icon.
+
 ### Root-level scripts (`/scripts`, not `site/scripts`)
 
 - `scripts/serve-static.mjs` — production server entrypoint (`pnpm start`), spawns `serve` on

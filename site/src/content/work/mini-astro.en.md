@@ -34,75 +34,46 @@ tags:
   - open source
 ---
 
-## Context
+## What it is
 
-mini-astro is a static site generator: HTML components composed with
-`<mini-include src="organisms/Hero" />`, file-based routing, templates with slots, an Atomic
-Design structure and a dev server with live reload. One production dependency. Zero browser
-runtime.
+A static site generator. HTML components composed with `<mini-include src="organisms/Hero" />`, file-based routing, templates with slots, an Atomic Design structure and a dev server with live reload. One production dependency, zero browser runtime.
 
 This portfolio is built with it.
 
 ## The uncomfortable question first
 
-**Is it better than Astro? No.** Astro has islands, integrations, image optimization, an
-ecosystem and full-time people. mini-astro is in alpha and I maintain it.
+Is it better than Astro?
 
-If the criterion were "pick the best available tool", the correct answer would be to use
-Astro and close the subject. So the decision deserves a real justification, not an excuse.
+No. Astro has islands, integrations, image optimization, an ecosystem and full-time people. mini-astro is in alpha and I maintain it alone. If the criterion were "pick the best available tool," the right answer would be to use Astro and close the subject.
+
+So the decision deserves a real justification. Not an excuse.
 
 ## Why I wrote it anyway
 
-**To understand the category, not to replace it.** There's a difference between knowing how
-to use a site generator and knowing what one does inside: component resolution, composition
-order, template substitution, watcher invalidation, static asset syncing. Those decisions are
-invisible until you're the one making them.
+**To understand the category, not to replace it.** There's a difference between knowing how to use a site generator and knowing what one does inside: component resolution, composition order, template substitution, watcher invalidation, static asset syncing. Those decisions are invisible until you're the one making them.
 
-**Because the cost was bounded.** An SSG that composes HTML is a small, well-defined problem.
-I know what maintaining it costs, and it's little. Writing my own ORM or my own UI framework
-would be the opposite decision with the same apparent logic — and I haven't, because there
-the cost isn't bounded.
+**Because the cost was bounded.** An SSG that composes HTML is a small, well-defined problem — I know what maintaining it costs, and it's little. Writing my own ORM or my own UI framework would be the opposite decision with the same apparent logic. I haven't, because there the cost isn't bounded.
 
-**Because owning the compiler changes what I can build.** This portfolio needs Markdown
-content collections, bilingual routing and its own image pipeline. With someone else's
-framework, those are plugins and accommodation to decisions I didn't make. With mine,
-they're functions.
+**Because owning the compiler changes what I can build.** This portfolio needs Markdown content collections, bilingual routing and its own image pipeline. With someone else's framework, those are plugins and accommodating decisions I didn't make. With mine, they're functions.
 
-## Design decisions
+## The rules I gave it
 
-**Atomic Design as filesystem structure, not as convention.** The `atoms/`, `molecules/`,
-`organisms/`, `templates/` and `pages/` folders are part of the tool's contract. It enforces
-the discipline rather than suggesting it.
+**Atomic Design as filesystem structure, not convention.** The `atoms/`, `molecules/`, `organisms/`, `templates/` and `pages/` folders are part of the tool's contract. It enforces the discipline instead of suggesting it.
 
-**Security-first defaults.** Content policy headers, a cookie consent banner and policy pages
-are generated if enabled at project creation. The reasoning is simple: these are the things
-everyone postpones. A default skips the argument.
+**Security-first defaults.** Content policy headers, a cookie banner and policy pages get generated if you enable them at project creation — they're the things everyone postpones, and a default skips the argument.
 
-**Zero client JavaScript except what you write.** No hydration, no runtime, no bundle. What
-ships is HTML, CSS and whatever scripts you added by hand. It's the constraint that makes
-everything else simple.
+**Zero client JavaScript except what you write.** No hydration, no runtime, no bundle. What ships is HTML, CSS and whatever scripts you added by hand. It's the constraint that makes everything else simple.
 
-**One dependency.** Just the file watcher, and only in dev mode. Every dependency that isn't
-there is a vulnerability I don't have to patch.
+**One dependency.** Just the file watcher, and only in development. Every dependency that isn't there is a vulnerability I don't have to patch.
 
-## Outcome
+## Published, and in use
 
-Published under MIT. Installed from GitHub, with interactive initialization and commands to
-scaffold routes and components.
+Under the MIT license. Installs from GitHub, with interactive setup and commands to scaffold routes and components.
 
-And it has the best possible test for a tool: **I use it for something I care about.**
-I find mini-astro's limits by building my own portfolio, not by reading issues.
+And it has the best possible test for a tool: I use it for something I care about. I find mini-astro's limits by building my own portfolio, not by reading issues.
 
-## What I'd do differently
+## What shouldn't grow
 
-**I'd have written the tests first.** A compiler is exactly the kind of software where tests
-are cheap — text in, text out — and I still built it by hand, checking in the browser.
+The tests should have come first. A compiler is exactly the kind of software where tests are cheap — text in, text out — and I still built it by hand, checking in the browser.
 
-**Alpha versioning is a debt to whoever installs it.** It's stated in the README, but while
-the API can change, anyone adopting it today takes on a risk I control and they don't. Either
-the API stabilizes, or it's made clear this is a personal tool published for transparency
-rather than a product.
-
-**It shouldn't grow.** The temptation with your own tool is to add whatever the current
-project needs. If mini-astro starts looking like Astro, the decision to have written it stops
-making sense.
+And there's something that shouldn't happen: that it grows. The temptation with your own tool is to bolt on whatever the current project needs. If mini-astro starts looking like Astro, the reason for having written it stops making sense.
