@@ -14,9 +14,7 @@ description: "Tech Lead and Technical Product Owner. Architecture, technical lea
 **role:** Product · Engineering · AI
 
 **lead:**
-Tech Lead and Technical Product Owner at a clinical trial platform.
-
-Architecture of systems in production, phased migrations and technical prioritization.
+Architecture of systems in production and technical prioritization at a clinical trial platform.
 
 **cta_primary:** See the work
 **cta_secondary:** Get in touch
@@ -30,9 +28,7 @@ Architecture of systems in production, phased migrations and technical prioritiz
 **title:** Focus
 
 **body:**
-Systems in production that grew faster than the team maintaining them.
-
-Understanding how they got there, deciding what to simplify and in what order, without slowing delivery.
+Simplifying production systems that grew faster than their team, without slowing delivery.
 
 ---
 
