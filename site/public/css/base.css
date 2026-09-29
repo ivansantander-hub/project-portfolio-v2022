@@ -683,6 +683,86 @@
     font-family: var(--font-mono); font-size: var(--type-2xs);
     letter-spacing: var(--tracking-wide); text-transform: uppercase; color: var(--text-dim);
   }
+
+  /* ── COMPOSICIÓN EDITORIAL EN PANTALLAS ANCHAS ──────────────────────
+     Todo iba alineado a la izquierda y la mitad derecha quedaba vacía. En
+     pantallas anchas cada sección se reparte en dos columnas: el título a la
+     izquierda y el contenido a la derecha. El hero reparte peso en diagonal
+     (nombre arriba a la izquierda, cifras abajo a la derecha) y el cierre va
+     centrado. En móvil nada cambia: todo sigue en una columna. */
+  @media (min-width: 64rem) {
+    .hero__copy {
+      max-width: none;
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) minmax(11rem, 15rem);
+      /* La última fila absorbe la altura de las cifras: así la descripción y
+         los botones quedan juntos en vez de repartirse por la columna. */
+      grid-template-rows: auto auto auto 1fr;
+      grid-template-areas:
+        'title   title'
+        'lead    readout'
+        'actions readout'
+        '.       readout';
+      column-gap: var(--space-2xl);
+      align-items: end;
+    }
+    .hero__title   { grid-area: title; }
+    .hero__lead    { grid-area: lead; align-self: start; }
+    .hero__actions { grid-area: actions; align-self: start; }
+    .hero__readout {
+      grid-area: readout;
+      flex-direction: column; flex-wrap: nowrap; align-self: end;
+      gap: var(--space-sm);
+      margin-top: var(--space-lg); padding: 0 0 0 var(--space-lg);
+      border-top: 0; border-left: 1px solid var(--border);
+    }
+    .hero__readout > div { display: grid; gap: var(--space-3xs); }
+    .hero__readout dd { font-size: var(--type-2xl); font-weight: 500; color: var(--text); }
+
+    .thesis, .section-head {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) minmax(0, 2fr);
+      column-gap: var(--space-2xl);
+      align-items: baseline;
+    }
+    .thesis__title, .section-title { font-size: var(--type-3xl); max-width: none; }
+    .thesis__body { margin-top: 0; max-width: 30ch; font-size: var(--type-2xl); line-height: 1.3; color: var(--text); }
+    .thesis__body p { color: inherit; }
+    .thesis__note { grid-column: 2; }
+    .section-head .prose { max-width: 40rem; }
+    /* El margen va en la lista: [data-reveal] (capa motion) pisa el del título. */
+    .work-preview > .work-index__list { margin-top: var(--space-xl); }
+    .secondary .section-head .prose { max-width: none; }
+
+    .secondary .prose ul {
+      list-style: none; padding: 0;
+      display: grid; grid-template-columns: repeat(2, minmax(0, 1fr));
+      column-gap: var(--space-xl);
+      border-top: 1px solid var(--border);
+    }
+    .secondary .prose li {
+      margin: 0; padding: var(--space-md) 0;
+      border-bottom: 1px solid var(--border); color: var(--text);
+    }
+
+    .contact { text-align: center; display: grid; justify-items: center; }
+    .contact .section-title { font-size: var(--type-4xl); max-width: none; }
+    .contact__actions { justify-content: center; }
+
+    /* /trabajo/: título a la izquierda y la entradilla abajo a la derecha. */
+    .work-index {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) minmax(0, 2fr);
+      column-gap: var(--space-2xl);
+      align-items: end;
+    }
+    .work-index > .work-index__list { grid-column: 1 / -1; margin-top: var(--space-xl); }
+    .work-index__lead { color: var(--text-muted); }
+  }
+
+  /* En pantallas muy anchas el contenido se centra en --shell; la cabecera
+     iba pegada a los bordes y el logo no se alineaba con nada. */
+  .site-header { padding-inline: max(var(--gutter), calc((100% - var(--shell)) / 2 + var(--gutter))); }
 }
 
 /* ══ MOTION ═════════════════════════════════════════════════════════════ */
