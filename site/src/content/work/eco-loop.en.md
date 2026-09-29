@@ -8,7 +8,7 @@ headline: "Two language models left to talk on their own get stuck offering each
 domain: "Personal project · Open source"
 role: "Sole author · experimental design and development"
 period: September 2026
-featured: false
+featured: true
 links:
   - label: Source on GitHub
     href: https://github.com/ivansantander-hub/eco-loop

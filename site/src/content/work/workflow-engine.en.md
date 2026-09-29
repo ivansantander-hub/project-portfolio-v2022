@@ -7,7 +7,7 @@ project: Flow engine
 headline: Every data integration was solved with custom code. I designed a configurable flow engine so the people who know the data can build flows without going through engineering.
 domain: Clinical trial management platform
 role: Technical Lead · engine and preview design
-featured: true
+featured: false
 summary:
   - k: The problem
     v: "Each new integration required code nearly identical to the previous one."

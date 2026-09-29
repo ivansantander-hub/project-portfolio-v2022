@@ -46,7 +46,7 @@ comprometidas.
 **title:** Casos
 
 **body:**
-Proyectos en los que he trabajado, en equipo y por mi cuenta.
+Algunos proyectos propios.
 
 Cada caso resume el contexto, el problema, las decisiones y el resultado.
 
