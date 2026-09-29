@@ -28,9 +28,9 @@ export const PALETTE_PICKER = process.env.PALETTE_PICKER === '1';
 export const LINK_V1 = process.env.LINK_V1 !== '0';
 
 /**
- * Enlace en el footer a la v3 — CRUDO//2000, una versión experimental del
- * portafolio servida en /v3/ como página estática independiente
- * (public/v3/). No comparte CSS ni JS con el sitio.
+ * Enlace en el footer a la v3 — una versión experimental del portafolio,
+ * servida en /v3/ como página estática independiente (public/v3/).
+ * No comparte CSS ni JS con el sitio.
  *   LINK_V3=0 pnpm build   ← lo quita del footer
  */
 export const LINK_V3 = process.env.LINK_V3 !== '0';
