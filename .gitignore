@@ -47,3 +47,4 @@ out/
 # Artefactos de build
 site/dist/
 site/.build/
+site/.mini-astro/
