@@ -4,7 +4,7 @@ lang: es
 order: 2
 title: Un ERP multi-tenant para Colombia
 project: SGC
-headline: 85 modelos, 164 endpoints y 383 tests. Punto de venta, inventario, nómina y contabilidad colombiana real. Construido de cero, por una persona.
+headline: 85 modelos, 164 endpoints y 383 tests. Punto de venta, inventario, nómina y contabilidad colombiana, en un proyecto que desarrollo por mi cuenta.
 domain: Proyecto propio
 role: Diseño, arquitectura y desarrollo
 period: 2025 – presente
@@ -15,11 +15,11 @@ links:
     href: https://business-system.up.railway.app/landing
 summary:
   - k: El problema
-    v: "En el software administrativo colombiano la contabilidad es un módulo pegado al final. Los libros y el negocio no cuadran."
+    v: "En mucho software administrativo colombiano la contabilidad es un módulo añadido al final, y los libros no cuadran con el negocio."
   - k: La decisión
-    v: "La contabilidad como función central. Ningún camino del código permite registrar una venta sin su asiento."
+    v: "Poner la contabilidad en el centro: cada venta se registra junto con su asiento contable, en la misma transacción."
   - k: En qué terminó
-    v: "Sistema desplegado y funcionando. 85 modelos, 164 endpoints, 383 tests. Verificado sobre el código."
+    v: "Está desplegado y funcionando, con 85 modelos, 164 endpoints y 383 tests."
 metrics:
   - value: "85"
     label: "modelos de datos"
@@ -43,29 +43,27 @@ tags:
   - fintech
 ---
 
-> ¿Cuánto de un ERP real puede sostener una sola persona, si las decisiones de arquitectura son correctas desde el principio?
+SGC es un sistema de gestión comercial multi-tenant que estoy construyendo para negocios colombianos: restaurantes, bares, gimnasios y tiendas. Tiene punto de venta, inventario, contabilidad, nómina, facturación electrónica, membresías, mensajería y un agente que responde preguntas en lenguaje natural. En parte lo empecé para ver cuánto de un ERP real puede mantener una sola persona si la arquitectura se piensa bien desde el principio.
 
-Esa es la pregunta que quería responder. SGC es la respuesta en construcción: un sistema de gestión comercial multi-tenant para negocios colombianos — restaurantes, bares, gimnasios, tiendas. Punto de venta, inventario, contabilidad, nómina, facturación electrónica, membresías, mensajería, y un agente que responde preguntas en lenguaje natural.
+## El problema de partida
 
-## El problema que quería evitar
+En el software administrativo para pymes colombianas es habitual que la contabilidad sea un módulo que se añade al final, en vez de estar en el centro del sistema. Entonces los números del negocio y los libros no coinciden, y alguien acaba cuadrándolos a mano.
 
-El software administrativo para pymes colombianas falla casi siempre en el mismo punto: la contabilidad es un módulo pegado al final, no el centro del sistema. El resultado es que los números del negocio y los libros contables no coinciden, y alguien termina cuadrando a mano.
+Además hay restricciones locales que hay que cumplir tal cual: el plan único de cuentas, el IVA del 19% con sus excepciones y la facturación electrónica ante la DIAN.
 
-A eso se suman restricciones locales que no se pueden simplificar: el plan único de cuentas, el 19% de IVA con sus excepciones, la facturación electrónica ante la DIAN.
+## Cinco decisiones de arquitectura y lo que cuestan
 
-## Cinco decisiones, con sus costos
+**Multi-tenancy por esquemas, no por base de datos.** Uso dos esquemas de Postgres en una sola base: uno global para usuarios y empresas, y otro para todo lo que pertenece a cada empresa. La contrapartida es que no hay seguridad a nivel de fila, así que el aislamiento depende de que el código lo respete. A cambio, el modelo es simple, las migraciones son únicas y las consultas entre módulos no tienen costo. Con un solo mantenedor y tests que cubren el aislamiento me parece un buen equilibrio; con un equipo lo haría de otra forma.
 
-**Multi-tenancy por esquemas, no por base de datos.** Dos esquemas de Postgres en una sola base: uno global para usuarios y empresas, otro para todo lo que pertenece a una empresa. El trade-off es explícito — no hay seguridad a nivel de fila que me proteja de mí mismo. A cambio obtengo un modelo simple, migraciones únicas y consultas entre módulos sin costo. Para un sistema con un solo mantenedor y tests que cubren el aislamiento, es la relación correcta. Con un equipo, la respuesta sería otra.
+**Transacciones Serializable para todo lo que toca dinero o stock.** Ventas, recepción de compras, apertura y cierre de caja y asientos contables corren así, con reintentos, espera exponencial y actualizaciones atómicas de saldos. Es la decisión que tengo más clara: un punto de venta tiene concurrencia real (dos cajeros vendiendo la última unidad), y con inventario y dinero no basta con que funcione casi siempre. El costo es algo más de latencia y la complejidad de gestionar reintentos, y creo que compensa.
 
-**Todo lo que toca dinero o stock corre en transacciones Serializable.** Ventas, recepción de compras, apertura y cierre de caja, asientos contables — con reintentos, espera exponencial y mutaciones atómicas de saldos. Es la decisión de la que estoy más seguro: un punto de venta tiene concurrencia real, dos cajeros vendiendo el último producto, y "casi siempre correcto" no es una opción cuando hablas de inventario y dinero. El costo es latencia y complejidad de reintentos. Lo pago sin discutir.
+**La contabilidad como función central, no como módulo.** Cada evento que mueve dinero pasa por la misma función que crea el asiento contable, dentro de la misma transacción que la operación. Así no se puede registrar una venta sin su asiento: no hay un proceso que lo revise después, sino que el código no ofrece otra forma de hacerlo. Por eso los libros y el negocio no se desincronizan.
 
-**La contabilidad es una función central, no un módulo.** Todo evento que mueve dinero pasa por la misma función que crea el asiento contable, dentro de la misma transacción que la operación. La consecuencia: es imposible registrar una venta sin su asiento — no porque haya un proceso que lo revise después, sino porque no existe un camino en el código que lo permita. Los libros no se desincronizan del negocio porque no son dos sistemas.
+**Facturación electrónica a través de proveedores, no directamente contra la DIAN.** Integré cuatro proveedores autorizados detrás de una interfaz común. Conectarme directo a la DIAN habría sido más limpio en teoría, pero también un mantenimiento regulatorio constante que no veo viable llevar yo solo.
 
-**Facturación electrónica a través de proveedores, no contra la DIAN.** Integré cuatro proveedores autorizados detrás de una interfaz común. Integrar directo habría sido más "puro" y una fuente permanente de mantenimiento regulatorio que no me interesa sostener solo.
+**Un agente de IA con acceso muy acotado.** SGC incluye un agente que traduce preguntas en lenguaje natural a SQL. Es la parte más delicada del sistema, porque una consulta mal acotada puede mostrar datos de una empresa a otra. Por eso tiene su propia suite de tests, dedicada a intentar romper ese aislamiento.
 
-**El agente de IA está encerrado a propósito.** SGC incluye un agente que traduce preguntas en lenguaje natural a SQL — la parte más peligrosa del sistema, donde una consulta mal acotada es una fuga de datos entre empresas. Tiene una suite de tests dedicada solo a intentar romper ese aislamiento.
-
-## Verificado sobre el código, no estimado
+## El sistema en números
 
 | | |
 |---|---|
@@ -76,8 +74,8 @@ A eso se suman restricciones locales que no se pueden simplificar: el plan únic
 
 Cubre punto de venta, inventario, contabilidad con plan único de cuentas, nómina, facturación electrónica, membresías de gimnasio con control de acceso, mensajería, suscripciones con Stripe, control de acceso por roles y generación de PDFs. Está desplegado y funcionando.
 
-## Lo que cambiaría
+## Lo que haría distinto
 
-Habría empezado por el modelo contable. Lo construí después del punto de venta y tuve que volver sobre operaciones ya escritas para engancharlas — si el asiento contable hubiera sido la primera abstracción, cada operación habría nacido conectada.
+Empezaría por el modelo contable. Lo hice después del punto de venta y tuve que volver sobre operaciones ya escritas para conectarlas. Si el asiento contable hubiera sido la primera pieza, cada operación habría quedado conectada desde el principio.
 
-Y el aislamiento por convención tiene fecha de caducidad. Hoy es correcto para un mantenedor; el día que entre alguien más, migro a seguridad a nivel de fila. Prefiero decirlo ahora que descubrirlo con una fuga.
+Además, el aislamiento por convención tiene un límite: vale mientras el proyecto lo mantenga yo solo, pero cuando entre alguien más lo migraré a seguridad a nivel de fila.

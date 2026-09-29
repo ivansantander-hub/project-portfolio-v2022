@@ -2,9 +2,9 @@
 slug: mini-astro
 lang: en
 order: 4
-title: Why I wrote my own site generator
+title: A static site generator of my own
 project: mini-astro
-headline: A single-dependency SSG with Atomic Design and security-first defaults. This portfolio runs on it.
+headline: A static site generator with one dependency, Atomic Design and secure defaults. It doesn't compete with Astro; I built it to learn, and this portfolio runs on it.
 domain: Personal project · Open source (MIT)
 role: Author
 period: 2026 – present
@@ -15,11 +15,11 @@ links:
     href: https://github.com/ivansantander-hub/mini-astro
 summary:
   - k: The problem
-    v: "I knew how to use a site generator. I didn't know what one does inside."
+    v: "I knew how to use a site generator, but not really how one works inside."
   - k: The decision
-    v: "Write it because the cost was bounded. An SSG that composes HTML is a small, closed problem."
+    v: "Write one, since an SSG that composes HTML is a small problem and cheap to maintain."
   - k: How it ended
-    v: "Published under MIT. And with the best possible test: I use it for something I care about."
+    v: "It's published under MIT and I use it to build this portfolio."
 metrics:
   - value: "1"
     label: "production dependency"
@@ -36,44 +36,42 @@ tags:
 
 ## What it is
 
-A static site generator. HTML components composed with `<mini-include src="organisms/Hero" />`, file-based routing, templates with slots, an Atomic Design structure and a dev server with live reload. One production dependency, zero browser runtime.
+A static site generator. HTML components are composed with `<mini-include src="organisms/Hero" />`, and it has file-based routing, templates with slots, an Atomic Design structure and a dev server with live reload. It uses a single production dependency and ships no runtime to the browser.
 
 This portfolio is built with it.
 
-## The uncomfortable question first
+## Why not just use Astro?
 
-Is it better than Astro?
+Astro is better, by a wide margin: it has islands, integrations, image optimization, an ecosystem and people working on it full-time. mini-astro is in alpha and I maintain it on my own. If the only question were which tool is best, the sensible answer would be Astro.
 
-No. Astro has islands, integrations, image optimization, an ecosystem and full-time people. mini-astro is in alpha and I maintain it alone. If the criterion were "pick the best available tool," the right answer would be to use Astro and close the subject.
+So I needed to be clear about why it was worth building anyway.
 
-So the decision deserves a real justification. Not an excuse.
+## Why I wrote it
 
-## Why I wrote it anyway
+**To understand how one works inside.** I wasn't trying to replace anything. I wanted a close look at things like component resolution, composition order, template substitution, watcher invalidation and static asset syncing. You don't really see those decisions until you have to make them yourself.
 
-**To understand the category, not to replace it.** There's a difference between knowing how to use a site generator and knowing what one does inside: component resolution, composition order, template substitution, watcher invalidation, static asset syncing. Those decisions are invisible until you're the one making them.
+**Because the cost was bounded.** An SSG that composes HTML is a small, well-defined problem, and maintaining it costs me little. My own ORM or UI framework would be a different story, since there the cost isn't bounded, which is why I haven't done that.
 
-**Because the cost was bounded.** An SSG that composes HTML is a small, well-defined problem — I know what maintaining it costs, and it's little. Writing my own ORM or my own UI framework would be the opposite decision with the same apparent logic. I haven't, because there the cost isn't bounded.
+**Because it lets me build what I need directly.** This portfolio needs Markdown content collections, bilingual routing and its own image pipeline. With a third-party framework that means plugins and working around other people's decisions; with mine, they're just functions.
 
-**Because owning the compiler changes what I can build.** This portfolio needs Markdown content collections, bilingual routing and its own image pipeline. With someone else's framework, those are plugins and accommodating decisions I didn't make. With mine, they're functions.
+## How it's set up
 
-## The rules I gave it
+**Atomic Design as the folder structure.** The `atoms/`, `molecules/`, `organisms/`, `templates/` and `pages/` folders are part of how the tool works, so the organization is built in rather than left to convention.
 
-**Atomic Design as filesystem structure, not convention.** The `atoms/`, `molecules/`, `organisms/`, `templates/` and `pages/` folders are part of the tool's contract. It enforces the discipline instead of suggesting it.
+**Secure defaults.** If you enable them when creating the project, it generates content policy headers, a cookie banner and policy pages. These tend to get put off, and having them as defaults helps make sure they don't get forgotten.
 
-**Security-first defaults.** Content policy headers, a cookie banner and policy pages get generated if you enable them at project creation — they're the things everyone postpones, and a default skips the argument.
+**No client JavaScript except what you write.** No hydration, no runtime, no bundle: what ships is HTML, CSS and any scripts you added by hand. That constraint keeps the rest a lot simpler.
 
-**Zero client JavaScript except what you write.** No hydration, no runtime, no bundle. What ships is HTML, CSS and whatever scripts you added by hand. It's the constraint that makes everything else simple.
+**A single dependency.** The file watcher, and only in development. Fewer dependencies also means fewer vulnerabilities to patch.
 
-**One dependency.** Just the file watcher, and only in development. Every dependency that isn't there is a vulnerability I don't have to patch.
+## Release and use
 
-## Published, and in use
+It's MIT-licensed and installs from GitHub, with interactive setup and commands to scaffold routes and components.
 
-Under the MIT license. Installs from GitHub, with interactive setup and commands to scaffold routes and components.
+I use it for this portfolio, and I find most of its limits that way, while building, rather than through issues.
 
-And it has the best possible test for a tool: I use it for something I care about. I find mini-astro's limits by building my own portfolio, not by reading issues.
+## What I'd do differently, and what I want to avoid
 
-## What shouldn't grow
+I should have written the tests first. For a compiler they're easy to write (text in, text out), and I still tested it by hand in the browser.
 
-The tests should have come first. A compiler is exactly the kind of software where tests are cheap — text in, text out — and I still built it by hand, checking in the browser.
-
-And there's something that shouldn't happen: that it grows. The temptation with your own tool is to bolt on whatever the current project needs. If mini-astro starts looking like Astro, the reason for having written it stops making sense.
+I also want to keep it from growing too much. With your own tool it's tempting to keep adding whatever each project asks for, but if mini-astro ends up looking like Astro, there's no point in having written it.

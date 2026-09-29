@@ -2,20 +2,12 @@
 slug: about
 lang: es
 title: Sobre mí
-description: Iván Santander — Tech Lead y Technical Product Owner en plataformas de salud. De full stack a liderar el equipo en dos años. Medellín, Colombia.
+description: Iván Santander — Tech Lead y Technical Product Owner en plataformas de salud. Medellín, Colombia.
 ---
 
-Soy Iván Santander.
+Soy Iván Santander. Escribo software desde 2019, lidero equipos técnicos desde 2025 y vivo en Medellín.
 
-Escribo software desde 2019 y lidero equipos técnicos desde 2025. Vivo en Medellín.
-
-Los últimos dos años los pasé en una plataforma de ensayos clínicos. Dominio regulado, con auditorías, donde un dato mal migrado no se arregla con un rollback.
-
-Ahí aprendí algo que no se aprende en un proyecto personal:
-
-> la decisión técnica correcta y la que se puede ejecutar casi nunca son la misma.
-
-Tu trabajo es encontrar la que es las dos.
+Los últimos dos años he trabajado en una plataforma de ensayos clínicos. Es un dominio regulado, con auditorías, donde migrar mal un dato tiene consecuencias serias. Ahí aprendí a buscar soluciones técnicas que el equipo pueda ejecutar de verdad con el tiempo y la gente que tiene, aunque no sean las ideales.
 
 ## Trayectoria
 
@@ -49,41 +41,17 @@ Aplicaciones híbridas y web, casi todas en salud digital.
 
 ## Cómo trabajo
 
-Mido antes de opinar.
-
-"El sistema se siente pesado" no es un argumento. Una tabla con el inventario sí.
-
-La mayoría de las discusiones de arquitectura se destraban solas cuando alguien se toma el trabajo de contar.
-
-Llego con dos opciones, no con una.
-
-Una sola propuesta pide un sí o un no. Dos propuestas con sus costos piden una decisión. Y dejan que la tome quien tiene el contexto de negocio.
-
-No creo en las reescrituras totales.
-
-El sistema nuevo va absorbiendo partes mientras el viejo sigue sirviendo el resto. Con criterios de vuelta atrás escritos antes de empezar.
-
-Escribo lo que decido y por qué.
-
-Una decisión sin su razonamiento no se puede revisar. En seis meses, cuando el contexto cambie, alguien tiene que poder entender si sigue siendo válida.
+- Antes de proponer cambios grandes, levanto un inventario de lo que hay. Con datos concretos es más fácil ponerse de acuerdo.
+- Cuando hay que decidir algo importante, llevo al menos dos opciones con sus costos, para que decida quien tiene el contexto de negocio.
+- Prefiero migrar por partes antes que reescribir todo de una vez, con criterios para dar marcha atrás definidos desde el principio.
+- Dejo por escrito qué se decidió y por qué, para poder revisarlo cuando cambie el contexto.
 
 ## Cómo lidero
 
-Siempre dejo a alguien en la operación.
-
-Las migraciones no se mueren por problemas técnicos. Se mueren porque los bugs del día a día se comen al equipo y el proyecto se queda sin nadie.
-
-Lo prometido va antes que lo estructural.
-
-Una propuesta de arquitectura que ignora las entregas comprometidas no se ejecuta. Se archiva.
-
-Empiezo por lo aburrido.
-
-Antes de pedir presupuesto para lo caro, ejecuto lo trivial y sin riesgo. La confianza se construye entregando, no presentando.
-
-Reviso código y entrevisto.
-
-Son las dos palancas con más efecto compuesto que tiene un líder técnico. No las delego.
+- Durante una migración, siempre hay alguien del equipo dedicado a soporte y bugs del día a día.
+- Las entregas ya comprometidas van antes que los cambios de arquitectura.
+- Empiezo por los cambios pequeños y de bajo riesgo; así el equipo y el negocio ganan confianza antes de lo más costoso.
+- Reviso código y participo en las entrevistas. Me parecen dos de las cosas con más impacto en un equipo.
 
 ## Stack
 
@@ -97,8 +65,4 @@ Son las dos palancas con más efecto compuesto que tiene un líder técnico. No 
 
 ## Fuera del trabajo
 
-Mantengo un ERP multi-tenant, un generador de sitios estáticos y un blog que reconstruí desde cero.
-
-Están en la sección de casos, con el código abierto donde se puede.
-
-Es donde pruebo las ideas que después defiendo en una reunión.
+Mantengo algunos proyectos propios: un ERP multi-tenant, un generador de sitios estáticos y mi blog. Están en la sección de casos, con el código abierto cuando se puede. Me sirven para probar ideas antes de usarlas en el trabajo.

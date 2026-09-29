@@ -4,7 +4,7 @@ lang: es
 order: 5
 title: El historial de versiones que rehice tres veces
 project: blog-26
-headline: Tres arreglos, tres bugs nuevos. Cuando cada parche produce un problema distinto, el problema no está en el parche.
+headline: Convertí mi blog estático en un CMS propio. La parte difícil fue el historial de versiones, que tuve que rehacer tres veces.
 domain: Proyecto propio
 role: Diseño y desarrollo
 period: 2026
@@ -17,7 +17,7 @@ summary:
   - k: El problema
     v: "No podía escribir sin desplegar. Cada nota era un commit, un push y esperar un build."
   - k: La decisión
-    v: "Dejar de parchar el diff y simplificar el modelo. Una vista, un trabajo."
+    v: "Dejar de parchar el diff y simplificar: una vista para ver cada versión y otra para comparar."
   - k: En qué terminó
     v: "CMS propio con editor visual, borradores, historial y analítica sin terceros."
 metrics:
@@ -37,42 +37,38 @@ tags:
   - producto
 ---
 
-No podía escribir sin desplegar.
-
-Empezó como un blog estático con entradas en Markdown, y el problema práctico apareció rápido: cada nota era un commit, un push y esperar un build. Eso mata el hábito de escribir.
+El blog empezó siendo estático, con entradas en Markdown. El problema apareció rápido: para publicar una nota tenía que hacer un commit, un push y esperar un build, y así se me quitaban las ganas de escribir.
 
 Así que lo convertí en un CMS: base de datos propia, editor visual, borradores, historial de versiones, subida de imágenes y conteo de vistas.
 
-## Las decisiones
+## Decisiones principales
 
-**Base de datos en vez de archivos.** Postgres gestionado. La consecuencia es una dependencia de proveedor que me incomoda, y que está anotada como pendiente: un job de respaldo periódico a almacenamiento de objetos. Prefiero tener el riesgo escrito que fingir que no existe.
+**Base de datos en vez de archivos.** Uso Postgres gestionado. Eso me deja atado a un proveedor, y no me termina de gustar. Tengo anotado como pendiente un job de respaldo periódico a almacenamiento de objetos.
 
-**Editor visual, no un textarea de Markdown.** Un editor tipo bloque, con imágenes que suben directo al almacenamiento y se optimizan solas. La escritura tiene que ser sin fricción — si no, el proyecto muere de desuso, no de bugs.
+**Editor visual en vez de un textarea de Markdown.** Un editor por bloques, con imágenes que se suben directo al almacenamiento y se optimizan solas. Quería que escribir fuera cómodo, porque si no, dejaría de usarlo.
 
-**Analítica propia.** Un contador de vistas hecho a mano en vez de un script de terceros. Sin cuentas, sin cookies, sin nada que consentir. Para un blog personal, un entero en una tabla es toda la analítica que necesito.
+**Analítica propia.** Un contador de vistas hecho a mano en lugar de un script de terceros: sin cuentas, sin cookies, sin banner de consentimiento. Para un blog personal me basta con un entero en una tabla.
 
-## El historial que me dio guerra
+## El historial de versiones
 
-Esta es la parte que vale la pena contar. El error no fue técnico. Fue de método.
+Esta parte me costó más de lo esperado, y sobre todo por cómo la abordé.
 
-**Primer intento.** Guardaba el estado anterior a cada cambio. El contenido de una versión y su fecha no correspondían — cada entrada del historial mentía sobre cuándo había existido.
+**Primer intento.** Guardaba el estado anterior a cada cambio. El problema era que el contenido de cada versión no correspondía con su fecha, así que el historial mostraba fechas equivocadas.
 
-**Segundo intento.** Lo cambié para guardar el resultado después de cada guardado. Arregló las fechas y rompió otra cosa: comparar la versión más reciente contra el estado actual no mostraba nada. Eran literalmente lo mismo.
+**Segundo intento.** Pasé a guardar el resultado después de cada guardado. Las fechas quedaron bien, pero comparar la versión más reciente con el estado actual no mostraba nada, porque eran exactamente lo mismo.
 
-**Tercer intento.** Comparé la última versión contra la anterior. Y apareció un tercer problema, más sutil: el texto agregado se mostraba tachado en rojo, como borrado, en vez de en verde, y cualquier reacomodo invisible del editor —un salto de línea, un espacio— marcaba como modificado un párrafo idéntico.
+**Tercer intento.** Comparé la última versión con la anterior. Apareció otro problema: el texto agregado salía tachado en rojo, como si se hubiera borrado, en vez de en verde. Además, cualquier cambio invisible del editor (un salto de línea, un espacio) marcaba como modificado un párrafo que era idéntico.
 
-Tres arreglos, tres problemas nuevos. Esa es la señal de que el problema no está en el parche — está en el modelo.
+Después de tres arreglos que traían tres problemas distintos, me di cuenta de que el fallo estaba en cómo había planteado el historial, no en cada parche.
 
-**La solución fue quitar, no agregar.** Dejé de intentar que una sola vista hiciera dos trabajos. Cada versión se muestra tal cual quedó guardada, sin comparar nada, y las diferencias pasan a un botón aparte. El diff compara el texto ya renderizado, no el Markdown crudo — con eso, el ruido de formato del editor desaparece por construcción.
+**Lo que hice fue simplificar.** Estaba pidiéndole a una sola vista que hiciera dos cosas. Ahora cada versión se muestra tal como se guardó, sin comparar nada, y las diferencias están en un botón aparte. El diff compara el texto ya renderizado, no el Markdown crudo, y así desaparece el ruido de formato que mete el editor.
 
-## Lo que quedó funcionando
+## Estado actual
 
-Un CMS con editor visual, borradores, historial con restauración, auditoría, imágenes optimizadas al subir, RSS, sitemap, 404 real, integración continua y analítica propia.
+Un CMS con editor visual, borradores, historial con restauración, auditoría, imágenes optimizadas al subir, RSS, sitemap, página 404, integración continua y analítica propia.
 
-La lógica que más me costó —historial, diffs, almacenamiento, tiempo de lectura— está cubierta con tests unitarios. Los de punta a punta siguen pendientes, y está anotado.
+La lógica que más trabajo me dio (historial, diffs, almacenamiento, tiempo de lectura) tiene tests unitarios. Los tests de punta a punta están pendientes y anotados.
 
-## Quince minutos que me habría ahorrado
+## Qué haría distinto
 
-Debí modelar el historial en papel antes de escribirlo. Los tres intentos fallidos fueron el mismo error: implementar una idea de versionado sin haber definido qué representa exactamente una versión.
-
-Quince minutos dibujando la línea de tiempo me habrían ahorrado tres reescrituras.
+Dibujaría el historial en papel antes de programarlo. Los tres intentos fallaron por lo mismo: empecé a implementar sin haber definido qué representa exactamente una versión. Con unos quince minutos pensando la línea de tiempo me habría ahorrado las tres reescrituras.

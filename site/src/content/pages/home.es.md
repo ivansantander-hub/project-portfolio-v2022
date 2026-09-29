@@ -2,24 +2,25 @@
 slug: home
 lang: es
 title: Iván Santander - Tech Lead & Technical Product Owner
-description: "Simplifico sistemas complejos: arquitectura, liderazgo técnico y producto. Casos reales en salud, fintech y SaaS, con cifras y decisiones documentadas."
+description: "Tech Lead y Technical Product Owner. Arquitectura, liderazgo técnico y producto en salud, fintech y SaaS, con casos y proyectos propios."
 ---
 
 ## hero
 
 **name:** Iván Santander
 
-**statement:** Simplifico lo que se volvió complejo.
+**statement:** Tech Lead y Product Owner.
 
 **role:** Producto · Ingeniería · IA
 
 **lead:**
-De escribir código a liderar el equipo, y después a decidir qué construye
-toda la plataforma. En año y medio, en la misma empresa.
+En mi empresa actual, una plataforma de ensayos clínicos, entré como
+desarrollador full stack, después lideré el equipo técnico y hoy trabajo
+en producto.
 
-Hoy mido antes de proponer, y elijo qué complejidad vale la pena mantener.
+Me gusta sobre todo el trabajo de mejorar sistemas que ya existen.
 
-**cta_primary:** Explorar casos
+**cta_primary:** Ver casos
 **cta_secondary:** Escríbeme
 
 **stats:** 7+ / años · 20+ / proyectos · 3 / industrias
@@ -28,17 +29,14 @@ Hoy mido antes de proponer, y elijo qué complejidad vale la pena mantener.
 
 ## thesis
 
-**title:** Los sistemas envejecen
+**title:** En qué me enfoco
 
 **body:**
-Construir es fácil. Evolucionar es el trabajo.
+Casi todo mi trabajo ha sido sobre sistemas que ya estaban en producción.
 
-Gran parte de mi trabajo es entrar a sistemas que ya existen, entender por qué
-llegaron a ese punto, y decidir qué merece quedarse antes de escribir una sola
-línea.
-
-La mejor arquitectura no siempre es la que construye más. Muchas veces es la
-que quita complejidad sin frenar el negocio.
+Suelo empezar por entender cómo llegaron a su estado actual, y después
+proponer qué simplificar y en qué orden, sin frenar las entregas que ya
+están comprometidas.
 
 ---
 
@@ -47,10 +45,10 @@ que quita complejidad sin frenar el negocio.
 **title:** Casos
 
 **body:**
-Casos de clientes, contados sin datos que no me corresponde publicar.
-Proyectos propios, con los números abiertos.
+Algunos son de clientes y omito los datos que no puedo publicar. Otros son
+proyectos propios, con el código y los números abiertos.
 
-Cada uno cuenta el problema, la decisión y en qué terminó.
+En cada uno cuento el problema, lo que decidimos y cómo salió.
 
 ---
 
@@ -59,27 +57,26 @@ Cada uno cuenta el problema, la decisión y en qué terminó.
 **title:** Antes de esto
 
 **body:**
-Antes de liderar equipos hice trabajo de producto que sigue en pie.
+Antes de liderar equipos trabajé como desarrollador en varios productos:
 
 - Una pasarela de pagos con cobros automáticos y por demanda, integrada en una app móvil.
 - Un gestor de APIs en Azure y automatización de procesos para el sector salud.
 - Aplicaciones móviles de monitoreo clínico.
 - Control de acceso con códigos QR.
 
-No son casos de estudio. Son la razón por la que cuando alguien dice "esto es
-solo integrar un pago" ya sé que no.
+De ahí viene buena parte de lo que sé sobre integraciones y pagos.
 
 ---
 
 ## contact
 
-**title:** ¿Trabajamos juntos?
+**title:** ¿Hablamos?
 
 **body:**
-Busco un rol de liderazgo técnico donde el problema sea de arquitectura y de
-equipo, no solo de features.
+Me interesan roles de liderazgo técnico en los que haya trabajo de
+arquitectura y de equipo.
 
-Si eso es lo que tienes sobre la mesa, hablemos.
+Si tienes algo así, escríbeme.
 
 **cta_primary:** Escríbeme en LinkedIn
 **cta_secondary:** Ver GitHub

@@ -2,9 +2,9 @@
 slug: architecture-simplification
 lang: es
 order: 1
-title: Cuando el sistema es más grande que el equipo
+title: Consolidar una arquitectura de microservicios
 project: Consolidación de arquitectura
-headline: Una arquitectura de microservicios que había crecido más rápido que el equipo que debía mantenerla. Medí primero, propuse dos caminos y empecé por lo aburrido.
+headline: Una arquitectura de microservicios que había crecido más rápido que el equipo que la mantenía. Hice un inventario, propuse dos planes y empezamos por lo más sencillo.
 domain: Plataforma SaaS de gestión de ensayos clínicos
 role: Technical Lead → Technical Product Owner
 period: 2025 – 2026
@@ -12,11 +12,11 @@ confidential: true
 featured: true
 summary:
   - k: El problema
-    v: "Más componentes que personas para mantenerlos. No era rendimiento ni bugs: era una relación rota."
+    v: "Había más componentes que personas para mantenerlos. El problema no era el rendimiento ni los bugs, sino esa proporción."
   - k: La decisión
-    v: "Dos propuestas con sus costos, no una. Migración por partes con Strangler Fig, nunca un corte total."
+    v: "Dos propuestas con sus costos. En ambas, migración por partes con Strangler Fig en lugar de un corte total."
   - k: En qué terminó
-    v: "Documento de referencia para la decisión de arquitectura. Empezamos por retirar lo que ya no se desplegaba."
+    v: "La propuesta es el documento de referencia para la decisión de arquitectura. Empezamos retirando lo que ya no se desplegaba."
 stack:
   - Arquitectura de microservicios
   - GraphQL Federation
@@ -30,50 +30,46 @@ tags:
   - migración
 ---
 
-> Había más componentes que mantener que personas para mantenerlos.
+La plataforma sirve para gestionar ensayos clínicos: proyectos, control documental, captura de datos y analítica. Es un dominio regulado y auditado, así que un dato mal migrado tiene consecuencias reales.
 
-No era una sensación. Era lo que encontré al contar.
+El sistema había crecido por acumulación durante años. Cada necesidad nueva traía un servicio nuevo y cada cliente nuevo, un proceso programado nuevo. Cada decisión tenía sentido por separado, pero en conjunto habían dejado más componentes que personas para mantenerlos. Lo comprobé cuando me puse a contarlos.
 
-Una plataforma para gestionar ensayos clínicos: proyectos, control documental, captura de datos, analítica. Dominio regulado, con auditorías — un dato mal migrado tiene consecuencias reales.
+Se notaba en el día a día: un cambio transversal obligaba a repetir el mismo trabajo en varios repositorios, el onboarding tardaba semanas en vez de días y depurábamos en sistemas distribuidos problemas que no eran distribuidos. Además, el patrón de "un proceso por cliente" hacía que el problema creciera con el negocio.
 
-El sistema había crecido por acumulación durante años. Cada necesidad nueva, un servicio nuevo. Cada cliente nuevo, un proceso programado nuevo. Ninguna de esas decisiones fue mala. El conjunto sí.
+Todos esos síntomas tenían la misma causa, pero nadie la había cuantificado.
 
-Los síntomas eran los de siempre cuando esa relación se rompe: un cambio transversal obligaba a repetir el mismo trabajo en varios repositorios, el onboarding se medía en semanas y no en días, había debugging distribuido para problemas que no eran distribuidos. Y el patrón de "un proceso por cliente" garantizaba que el problema creciera con el negocio.
+## Hacer un inventario antes de proponer
 
-Nada de eso importaba por separado. Importaba que todos apuntaban a lo mismo, y que nadie le había puesto un número encima.
+Revisé el código servicio por servicio y armé un inventario: qué existe, qué sigue en uso, qué lleva un año sin commits y qué depende de qué.
 
-## Contar antes de proponer
+Con eso la conversación cambió. En lugar de "el sistema se siente pesado" teníamos una tabla donde se veía la desproporción, y que también podía evaluar alguien no técnico.
 
-Revisé el código servicio por servicio y armé un inventario real: qué existe, qué sigue vivo, qué lleva un año sin un commit, qué depende de qué.
+## Dos propuestas
 
-Ese inventario cambió la conversación. Pasamos de "el sistema se siente pesado" a una tabla donde cualquiera veía la desproporción — un argumento que puede evaluar alguien que no es técnico. Una sensación, no.
+Presenté dos opciones, cada una con sus costos, para que la discusión fuera sobre cuál elegir y no solo sobre aprobar o rechazar una.
 
-## Dos caminos, a propósito
+**Opción conservadora.** Consolidar servicios manteniendo el estilo actual. Menos ruptura, terreno conocido y se podía empezar la semana siguiente. No resuelve la fragmentación de fondo.
 
-Llegué con dos propuestas. Una sola opción pide un sí o un no; dos opciones con sus costos piden una decisión.
+**Opción de fondo.** Reducir a unos pocos procesos en un monorepo, con tipado de punta a punta, quitando la capa de federación y unificando los procesos programados en un worker dirigido por eventos. Ataca la causa, pero cuesta más y toca más cosas.
 
-**El camino conservador.** Consolidar los servicios manteniendo el estilo actual. Menos ruptura, terreno conocido, se puede empezar la semana siguiente. No resuelve la fragmentación de fondo.
+Para cada una definí alcance, secuencia, responsables y criterios para dar marcha atrás.
 
-**El camino de fondo.** Reducir a un puñado de procesos en monorepo, tipado de punta a punta, quitando la capa de federación y unificando los procesos programados en un worker dirigido por eventos. Resuelve la causa. Cuesta más y toca más cosas.
+## Condiciones comunes a los dos planes
 
-Para cada uno definí alcance, secuencia, responsables y criterios de vuelta atrás.
+**Migración incremental, sin big bang.** Strangler Fig con un proxy inverso: el sistema nuevo va absorbiendo rutas una a una mientras el viejo sigue sirviendo el resto. En un dominio regulado, un corte total era difícil de justificar.
 
-## Lo que no negocié
+**Una persona dedicada a la operación.** En ambos planes reservé a alguien para bugs y soporte durante toda la migración. Si el trabajo diario absorbe a todo el equipo, la migración se queda sin gente y se estanca.
 
-**Migración incremental, nunca big bang.** Strangler Fig con proxy inverso: el sistema nuevo absorbe rutas una por una mientras el viejo sigue sirviendo el resto. En un dominio regulado, un corte total no es una opción que puedas defender.
-
-**Alguien dedicado a la operación, siempre.** En los dos planes reservé una persona para bugs y soporte durante toda la migración. Las migraciones no se mueren por problemas técnicos — se mueren porque el día a día se come al equipo y el proyecto se queda sin nadie.
-
-**Lo comprometido antes que lo estructural.** El plan decía explícitamente que las entregas ya prometidas iban antes que la refactorización. Una propuesta que ignora los compromisos del negocio no se ejecuta. Se archiva.
+**Primero los compromisos ya adquiridos.** El plan dejaba claro que las entregas ya prometidas iban antes que la refactorización. Si no, la propuesta no habría sido realista para el negocio.
 
 ## Dónde quedó
 
-La propuesta es hoy el documento de referencia para la decisión de arquitectura. El inventario dejó de ser conocimiento de dos o tres personas y pasó a ser algo que se puede consultar.
+La propuesta es hoy el documento de referencia para la decisión de arquitectura. El inventario, que antes estaba en la cabeza de dos o tres personas, ahora lo puede consultar cualquiera.
 
-Antes de tocar lo grande, ejecutamos lo trivial: retirar lo que ya no se desplegaba, absorber los servicios de catálogo que no justificaban existir aparte. Empezar por lo aburrido genera la confianza que después necesitas para lo caro.
+Antes de tocar lo grande, el equipo hizo lo sencillo: retirar lo que ya no se desplegaba y absorber los servicios de catálogo que no justificaban existir por separado. Eso nos dio algo de confianza para las partes más caras.
 
-En paralelo diseñé el reemplazo del frontend sobre la misma lógica: en vez de un archivo por vista, un motor de registro — una ruta genérica que resuelve contra un mapa de configuración, con unos pocos armazones reutilizables para todos los patrones de pantalla. Agregar una vista pasa a ser agregar un objeto de configuración, no crear archivos.
+En paralelo diseñé el reemplazo del frontend con la misma idea: en vez de un archivo por vista, un motor de registro. Una ruta genérica resuelve contra un mapa de configuración, con unos pocos armazones reutilizables que cubren todos los patrones de pantalla. Agregar una vista pasa a ser agregar un objeto de configuración, no crear archivos.
 
-## Un año tarde
+## Qué haría distinto
 
-El inventario debí hacerlo un año antes. La propuesta no fue difícil de escribir — lo difícil es que para cuando existió, el costo de la deuda ya estaba pagado.
+Haría el inventario un año antes. Escribir la propuesta no fue lo difícil; el problema es que, cuando llegó, ya habíamos pagado el costo de esa deuda.

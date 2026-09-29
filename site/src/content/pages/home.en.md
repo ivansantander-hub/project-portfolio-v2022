@@ -2,25 +2,24 @@
 slug: home
 lang: en
 title: Iván Santander - Tech Lead & Technical Product Owner
-description: "I simplify complex systems: architecture, technical leadership and product. Real cases in health, fintech and SaaS, with numbers and documented decisions."
+description: "Tech Lead and Technical Product Owner. Architecture, technical leadership and product in healthcare, fintech and SaaS, with case studies and personal projects."
 ---
 
 ## hero
 
 **name:** Iván Santander
 
-**statement:** I simplify what became complex.
+**statement:** Tech Lead and Product Owner.
 
 **role:** Product · Engineering · AI
 
 **lead:**
-From writing code to leading the team, then to deciding what the whole
-platform builds next. In a year and a half, at the same company.
+At my current company, a clinical trial platform, I joined as a full stack
+developer, then led the engineering team, and today I work on product.
 
-Today I measure before I propose, and choose which complexity is worth
-keeping.
+The work I enjoy most is improving systems that already exist.
 
-**cta_primary:** Explore the work
+**cta_primary:** See the work
 **cta_secondary:** Get in touch
 
 **stats:** 7+ / years · 20+ / projects · 3 / industries
@@ -29,17 +28,14 @@ keeping.
 
 ## thesis
 
-**title:** Systems age
+**title:** What I focus on
 
 **body:**
-Building is easy. Evolving is the job.
+Most of my work has been on systems that were already in production.
 
-Most of my work is walking into systems that already exist, understanding why
-they got there, and deciding what deserves to stay before writing a single
-line.
-
-The best architecture isn't always the one that builds the most. Often it's
-the one that removes complexity without stopping the business.
+I usually start by understanding how they got to where they are, then
+propose what to simplify and in what order, without holding up the work
+that's already been committed.
 
 ---
 
@@ -48,10 +44,10 @@ the one that removes complexity without stopping the business.
 **title:** Work
 
 **body:**
-Client cases, told without data that isn't mine to publish. Personal
-projects, with the numbers open.
+Some are client projects, where I leave out data I can't publish. Others
+are personal projects, with the code and numbers open.
 
-Each one covers the problem, the decision and how it ended.
+Each one covers the problem, what we decided and how it went.
 
 ---
 
@@ -60,27 +56,26 @@ Each one covers the problem, the decision and how it ended.
 **title:** Before this
 
 **body:**
-Before leading teams I did product work that's still standing.
+Before leading teams I worked as a developer on several products:
 
 - A payment gateway with automatic and on-demand charges, integrated into a mobile app.
 - API management on Azure and process automation for healthcare.
 - Mobile apps for clinical monitoring.
 - QR-based access control.
 
-They aren't case studies. They're the reason that when someone says "it's just
-integrating a payment", I already know it isn't.
+That's where a good part of what I know about integrations and payments comes from.
 
 ---
 
 ## contact
 
-**title:** Want to work together?
+**title:** Let's talk
 
 **body:**
-I'm looking for a technical leadership role where the problem is architecture and
-team, not just features.
+I'm interested in technical leadership roles that involve architecture and
+team work.
 
-If that's what you have on the table, let's talk.
+If you have something like that, get in touch.
 
 **cta_primary:** Message me on LinkedIn
 **cta_secondary:** View GitHub
