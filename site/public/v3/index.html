@@ -1,0 +1,157 @@
+<!doctype html>
+<html lang="es" data-channel="0" class="is-booting">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>CRUDO//2000 — Iván Santander · v3</title>
+<meta name="description" content="CRUDO//2000: una versión experimental del portafolio de Iván Santander. Un artefacto digital perdido del año 2000: líquido, espacio, cromo, ruido y señal.">
+<meta name="robots" content="noindex, follow">
+<meta name="theme-color" content="#07010f">
+<link rel="canonical" href="https://ivansantander.com/v3/">
+<link rel="alternate" hreflang="es" href="https://ivansantander.com/v3/">
+<link rel="alternate" hreflang="en" href="https://ivansantander.com/v3/">
+<link rel="alternate" hreflang="x-default" href="https://ivansantander.com/v3/">
+<meta property="og:type" content="website">
+<meta property="og:title" content="CRUDO//2000 — Iván Santander">
+<meta property="og:description" content="Un artefacto digital perdido del año 2000 que casualmente es navegable.">
+<meta property="og:url" content="https://ivansantander.com/v3/">
+<meta property="og:image" content="https://ivansantander.com/img/og.png">
+<link rel="icon" href="/favicon.ico">
+<link rel="preload" href="/fonts/archivo-latin-wdth-normal.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="/fonts/vt323-latin-400-normal.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="stylesheet" href="/v3/crudo.css">
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "WebPage",
+  "name": "CRUDO//2000",
+  "url": "https://ivansantander.com/v3/",
+  "inLanguage": "es",
+  "description": "Versión experimental del portafolio de Iván Santander.",
+  "isPartOf": { "@type": "WebSite", "name": "Iván Santander", "url": "https://ivansantander.com/" },
+  "author": { "@type": "Person", "name": "Iván Santander", "url": "https://ivansantander.com/" }
+}
+</script>
+</head>
+<body>
+
+<!-- El mundo: un render en baja resolución, estirado a pantalla completa. -->
+<canvas id="world" aria-hidden="true"></canvas>
+<div class="fallback-world" aria-hidden="true"></div>
+
+<!-- Filtros para que la tipografía se derrita. -->
+<svg class="defs" aria-hidden="true" focusable="false" width="0" height="0">
+  <filter id="liquid" x="-10%" y="-20%" width="120%" height="140%">
+    <feTurbulence type="fractalNoise" baseFrequency="0.006 0.018" numOctaves="2" seed="7" result="n">
+      <animate attributeName="baseFrequency" dur="23s" values="0.006 0.018;0.011 0.03;0.004 0.012;0.006 0.018" repeatCount="indefinite"/>
+    </feTurbulence>
+    <feDisplacementMap in="SourceGraphic" in2="n" scale="26" xChannelSelector="R" yChannelSelector="G"/>
+  </filter>
+  <filter id="melt" x="-20%" y="-40%" width="140%" height="180%">
+    <feTurbulence type="turbulence" baseFrequency="0.02 0.09" numOctaves="1" seed="3" result="n">
+      <animate attributeName="seed" dur="0.6s" values="3;9;17;3" repeatCount="indefinite"/>
+    </feTurbulence>
+    <feDisplacementMap in="SourceGraphic" in2="n" scale="14" xChannelSelector="R" yChannelSelector="B"/>
+  </filter>
+</svg>
+
+<!-- Pantalla: scanlines, máscara LCD y parpadeo a resolución nativa. -->
+<div class="crt" aria-hidden="true"><i class="crt__lines"></i><i class="crt__mask"></i><i class="crt__roll"></i></div>
+
+<!-- Arranque -->
+<div class="boot" id="boot" role="presentation">
+  <pre class="boot__log" id="boot-log">CRUDO//2000 BIOS v0.3 (c) 1999-2026
+</pre>
+  <button class="boot__enter" id="boot-enter" type="button">[ ENTRAR ]</button>
+</div>
+
+<header class="hud">
+  <a class="hud__home" href="/" title="Volver al portafolio actual">← PRESENTE</a>
+  <nav class="hud__nav" aria-label="Canales">
+    <a href="#ch1">CH01</a>
+    <a href="#ch2">CH02</a>
+    <a href="#ch3">CH03</a>
+    <a href="#ch4">CH04</a>
+  </nav>
+  <p class="hud__meta" aria-hidden="true">
+    <span class="hud__rec">● REC</span>
+    <span id="hud-tc">00:00:00:00</span>
+    <button class="hud__freq" id="hud-freq" type="button" tabindex="-1">CANAL 1 · 101.3 MHz</button>
+  </p>
+</header>
+
+<main>
+
+  <section class="scene scene--hero" id="ch0" aria-label="Entrada">
+    <h1 class="title">
+      <span class="title__raw" data-text="RAW">RAW</span>
+      <span class="title__crudo">CRUDO//2000</span>
+      <span class="title__sub">DIGITAL RAW · SEÑAL DE PRUEBA · IVÁN SANTANDER</span>
+    </h1>
+    <p class="scene__drift" aria-hidden="true">↓ baja despacio ↓</p>
+  </section>
+
+  <section class="scene scene--who" id="ch1" aria-labelledby="ch1-t">
+    <p class="tag">▶ CH01 // QUIÉN TRANSMITE</p>
+    <h2 class="big" id="ch1-t" data-text="SEÑAL">SEÑAL</h2>
+    <div class="lower-third">
+      <p><b>IVÁN SANTANDER</b></p>
+      <p>Tech Lead y Technical Product Owner. Sistemas clínicos en producción, arquitectura, producto e IA.</p>
+      <p>Medellín, 2026 — emitiendo como si fuera 2000.</p>
+    </div>
+  </section>
+
+  <section class="scene scene--objects" id="ch2" aria-labelledby="ch2-t">
+    <p class="tag">▶ CH02 // OBJETOS ENCONTRADOS</p>
+    <h2 class="big big--right" id="ch2-t" data-text="OBJETOS">OBJETOS</h2>
+    <ul class="objects">
+      <li style="--x:6%;--y:4%;--d:11s;--r:-4deg"><a class="chrome" href="/trabajo/architecture-simplification/">SIMPLIFICACIÓN<br>DE ARQUITECTURA</a></li>
+      <li style="--x:58%;--y:0%;--d:14s;--r:3deg"><a class="chrome" href="/trabajo/workflow-engine/">MOTOR DE FLUJOS</a></li>
+      <li style="--x:30%;--y:18%;--d:9s;--r:-2deg"><a class="chrome" href="/trabajo/sgc/">TALONARIA</a></li>
+      <li style="--x:70%;--y:28%;--d:13s;--r:5deg"><a class="chrome" href="/trabajo/ai-integration/">INTEGRACIÓN<br>DE IA</a></li>
+      <li style="--x:4%;--y:40%;--d:12s;--r:2deg"><a class="chrome" href="/trabajo/ai-coding-assistant/">ASISTENTE<br>DE CÓDIGO</a></li>
+      <li style="--x:44%;--y:48%;--d:16s;--r:-6deg"><a class="chrome" href="/trabajo/eco-loop/">ECO-LOOP</a></li>
+      <li style="--x:74%;--y:62%;--d:10s;--r:-3deg"><a class="chrome" href="/trabajo/mini-astro/">MINI-ASTRO</a></li>
+      <li style="--x:16%;--y:70%;--d:15s;--r:4deg"><a class="chrome" href="/trabajo/dev-platform/">ENTORNO<br>DE DESARROLLO</a></li>
+      <li style="--x:50%;--y:82%;--d:12.5s;--r:-1deg"><a class="chrome chrome--small" href="/trabajo/">…Y OTROS 10 →</a></li>
+    </ul>
+  </section>
+
+  <section class="scene scene--signal" id="ch3" aria-labelledby="ch3-t">
+    <p class="tag">▶ CH03 // MANIFIESTO DE SEÑAL</p>
+    <h2 class="visually-hidden" id="ch3-t">Manifiesto de señal</h2>
+    <div class="marquee" aria-hidden="true">
+      <div class="marquee__row"><span>LÍQUIDO ◉ ESPACIO ◉ CROMO ◉ RUIDO ◉ RAVE ◉ LCD ◉ FLASH ◉ CGI BARATO ◉ 3 AM ◉ 2001 ◉ </span><span>LÍQUIDO ◉ ESPACIO ◉ CROMO ◉ RUIDO ◉ RAVE ◉ LCD ◉ FLASH ◉ CGI BARATO ◉ 3 AM ◉ 2001 ◉ </span></div>
+      <div class="marquee__row marquee__row--rev"><span>SEÑAL PERDIDA ≋ CD-ROM ≋ INTERLACED ≋ 56K ≋ BUFFERING ≋ AMBIENT ≋ DIGITAL RAW ≋ </span><span>SEÑAL PERDIDA ≋ CD-ROM ≋ INTERLACED ≋ 56K ≋ BUFFERING ≋ AMBIENT ≋ DIGITAL RAW ≋ </span></div>
+    </div>
+    <div class="lower-third lower-third--right">
+      <p>Esto no es la versión seria.</p>
+      <p>La versión seria está <a href="/">aquí</a>. Esta es la otra: la que se queda abierta a las 3 AM.</p>
+    </div>
+  </section>
+
+  <section class="scene scene--end" id="ch4" aria-labelledby="ch4-t">
+    <p class="tag">▶ CH04 // FIN DE LA TRANSMISIÓN</p>
+    <h2 class="big" id="ch4-t" data-text="FIN?">FIN?</h2>
+    <ul class="exits">
+      <li><a href="https://www.linkedin.com/in/ivan-santander/" rel="noopener noreferrer" target="_blank">LINKEDIN ↗</a></li>
+      <li><a href="https://github.com/ivansantander-hub" rel="noopener noreferrer" target="_blank">GITHUB ↗</a></li>
+      <li><a href="/">VOLVER AL PRESENTE</a></li>
+      <li><a href="/v1/">V1 · 2022</a></li>
+    </ul>
+  </section>
+
+</main>
+
+<footer class="foot">
+  <p>CRUDO//2000 · v3 · experimento · hecho en 2026 como si fuera 2000</p>
+  <p class="foot__keys">[1–4] canal · [click] distorsionar · escribe algo</p>
+</footer>
+
+<p class="eggs" id="egg" aria-live="polite"></p>
+
+<noscript><p class="noscript">Sin JavaScript no hay mundo. Hay <a href="/">una versión seria</a>.</p></noscript>
+
+<script src="/v3/crudo.js" defer></script>
+</body>
+</html>

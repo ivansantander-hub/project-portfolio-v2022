@@ -56,7 +56,7 @@ function copyFile(from, to) {
 
 // ─── public/ static dirs ──────────────────────────────────────────────────────
 ensureDir(dist);
-for (const sub of ['css', 'js', 'img', 'audio', 'proto']) {
+for (const sub of ['css', 'js', 'img', 'audio', 'proto', 'v3']) {
   syncDir(join(root, 'public', sub), join(dist, sub));
 }
 
@@ -113,6 +113,12 @@ const variableFonts = [
 for (const [pkg, file] of variableFonts) {
   copyFile(join(nm, '@fontsource-variable', pkg, 'files', file), join(fontsOut, file));
 }
+
+// /v3/ (CRUDO//2000): Archivo con eje de anchura, para la tipografía estirada.
+copyFile(
+  join(nm, '@fontsource-variable', 'archivo', 'files', 'archivo-latin-wdth-normal.woff2'),
+  join(fontsOut, 'archivo-latin-wdth-normal.woff2'),
+);
 
 for (const file of ['instrument-serif-latin-400-normal.woff2', 'instrument-serif-latin-400-italic.woff2']) {
   copyFile(join(nm, '@fontsource', 'instrument-serif', 'files', file), join(fontsOut, file));
