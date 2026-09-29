@@ -19,6 +19,18 @@
     <xhtml:link rel="alternate" hreflang="x-default" href="https://ivansantander.com/en/about/"/>
   </url>
   <url>
+    <loc>https://ivansantander.com/trabajo/ai-coding-assistant/</loc>
+    <xhtml:link rel="alternate" hreflang="es" href="https://ivansantander.com/trabajo/ai-coding-assistant/"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://ivansantander.com/en/work/ai-coding-assistant/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://ivansantander.com/en/work/ai-coding-assistant/"/>
+  </url>
+  <url>
+    <loc>https://ivansantander.com/trabajo/ai-integration/</loc>
+    <xhtml:link rel="alternate" hreflang="es" href="https://ivansantander.com/trabajo/ai-integration/"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://ivansantander.com/en/work/ai-integration/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://ivansantander.com/en/work/ai-integration/"/>
+  </url>
+  <url>
     <loc>https://ivansantander.com/trabajo/architecture-simplification/</loc>
     <xhtml:link rel="alternate" hreflang="es" href="https://ivansantander.com/trabajo/architecture-simplification/"/>
     <xhtml:link rel="alternate" hreflang="en" href="https://ivansantander.com/en/work/architecture-simplification/"/>
@@ -29,12 +41,6 @@
     <xhtml:link rel="alternate" hreflang="es" href="https://ivansantander.com/trabajo/avatar-studio/"/>
     <xhtml:link rel="alternate" hreflang="en" href="https://ivansantander.com/en/work/avatar-studio/"/>
     <xhtml:link rel="alternate" hreflang="x-default" href="https://ivansantander.com/en/work/avatar-studio/"/>
-  </url>
-  <url>
-    <loc>https://ivansantander.com/trabajo/bedrock-ai-strategy/</loc>
-    <xhtml:link rel="alternate" hreflang="es" href="https://ivansantander.com/trabajo/bedrock-ai-strategy/"/>
-    <xhtml:link rel="alternate" hreflang="en" href="https://ivansantander.com/en/work/bedrock-ai-strategy/"/>
-    <xhtml:link rel="alternate" hreflang="x-default" href="https://ivansantander.com/en/work/bedrock-ai-strategy/"/>
   </url>
   <url>
     <loc>https://ivansantander.com/trabajo/blog-26/</loc>
@@ -61,10 +67,10 @@
     <xhtml:link rel="alternate" hreflang="x-default" href="https://ivansantander.com/en/work/digital-signatures/"/>
   </url>
   <url>
-    <loc>https://ivansantander.com/trabajo/dms/</loc>
-    <xhtml:link rel="alternate" hreflang="es" href="https://ivansantander.com/trabajo/dms/"/>
-    <xhtml:link rel="alternate" hreflang="en" href="https://ivansantander.com/en/work/dms/"/>
-    <xhtml:link rel="alternate" hreflang="x-default" href="https://ivansantander.com/en/work/dms/"/>
+    <loc>https://ivansantander.com/trabajo/document-management/</loc>
+    <xhtml:link rel="alternate" hreflang="es" href="https://ivansantander.com/trabajo/document-management/"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://ivansantander.com/en/work/document-management/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://ivansantander.com/en/work/document-management/"/>
   </url>
   <url>
     <loc>https://ivansantander.com/trabajo/dynamic-forms/</loc>
@@ -83,12 +89,6 @@
     <xhtml:link rel="alternate" hreflang="es" href="https://ivansantander.com/trabajo/english/"/>
     <xhtml:link rel="alternate" hreflang="en" href="https://ivansantander.com/en/work/english/"/>
     <xhtml:link rel="alternate" hreflang="x-default" href="https://ivansantander.com/en/work/english/"/>
-  </url>
-  <url>
-    <loc>https://ivansantander.com/trabajo/learup-agent/</loc>
-    <xhtml:link rel="alternate" hreflang="es" href="https://ivansantander.com/trabajo/learup-agent/"/>
-    <xhtml:link rel="alternate" hreflang="en" href="https://ivansantander.com/en/work/learup-agent/"/>
-    <xhtml:link rel="alternate" hreflang="x-default" href="https://ivansantander.com/en/work/learup-agent/"/>
   </url>
   <url>
     <loc>https://ivansantander.com/trabajo/megabyte/</loc>
@@ -145,6 +145,18 @@
     <xhtml:link rel="alternate" hreflang="x-default" href="https://ivansantander.com/en/about/"/>
   </url>
   <url>
+    <loc>https://ivansantander.com/en/work/ai-coding-assistant/</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://ivansantander.com/en/work/ai-coding-assistant/"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://ivansantander.com/trabajo/ai-coding-assistant/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://ivansantander.com/en/work/ai-coding-assistant/"/>
+  </url>
+  <url>
+    <loc>https://ivansantander.com/en/work/ai-integration/</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://ivansantander.com/en/work/ai-integration/"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://ivansantander.com/trabajo/ai-integration/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://ivansantander.com/en/work/ai-integration/"/>
+  </url>
+  <url>
     <loc>https://ivansantander.com/en/work/architecture-simplification/</loc>
     <xhtml:link rel="alternate" hreflang="en" href="https://ivansantander.com/en/work/architecture-simplification/"/>
     <xhtml:link rel="alternate" hreflang="es" href="https://ivansantander.com/trabajo/architecture-simplification/"/>
@@ -155,12 +167,6 @@
     <xhtml:link rel="alternate" hreflang="en" href="https://ivansantander.com/en/work/avatar-studio/"/>
     <xhtml:link rel="alternate" hreflang="es" href="https://ivansantander.com/trabajo/avatar-studio/"/>
     <xhtml:link rel="alternate" hreflang="x-default" href="https://ivansantander.com/en/work/avatar-studio/"/>
-  </url>
-  <url>
-    <loc>https://ivansantander.com/en/work/bedrock-ai-strategy/</loc>
-    <xhtml:link rel="alternate" hreflang="en" href="https://ivansantander.com/en/work/bedrock-ai-strategy/"/>
-    <xhtml:link rel="alternate" hreflang="es" href="https://ivansantander.com/trabajo/bedrock-ai-strategy/"/>
-    <xhtml:link rel="alternate" hreflang="x-default" href="https://ivansantander.com/en/work/bedrock-ai-strategy/"/>
   </url>
   <url>
     <loc>https://ivansantander.com/en/work/blog-26/</loc>
@@ -187,10 +193,10 @@
     <xhtml:link rel="alternate" hreflang="x-default" href="https://ivansantander.com/en/work/digital-signatures/"/>
   </url>
   <url>
-    <loc>https://ivansantander.com/en/work/dms/</loc>
-    <xhtml:link rel="alternate" hreflang="en" href="https://ivansantander.com/en/work/dms/"/>
-    <xhtml:link rel="alternate" hreflang="es" href="https://ivansantander.com/trabajo/dms/"/>
-    <xhtml:link rel="alternate" hreflang="x-default" href="https://ivansantander.com/en/work/dms/"/>
+    <loc>https://ivansantander.com/en/work/document-management/</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://ivansantander.com/en/work/document-management/"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://ivansantander.com/trabajo/document-management/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://ivansantander.com/en/work/document-management/"/>
   </url>
   <url>
     <loc>https://ivansantander.com/en/work/dynamic-forms/</loc>
@@ -209,12 +215,6 @@
     <xhtml:link rel="alternate" hreflang="en" href="https://ivansantander.com/en/work/english/"/>
     <xhtml:link rel="alternate" hreflang="es" href="https://ivansantander.com/trabajo/english/"/>
     <xhtml:link rel="alternate" hreflang="x-default" href="https://ivansantander.com/en/work/english/"/>
-  </url>
-  <url>
-    <loc>https://ivansantander.com/en/work/learup-agent/</loc>
-    <xhtml:link rel="alternate" hreflang="en" href="https://ivansantander.com/en/work/learup-agent/"/>
-    <xhtml:link rel="alternate" hreflang="es" href="https://ivansantander.com/trabajo/learup-agent/"/>
-    <xhtml:link rel="alternate" hreflang="x-default" href="https://ivansantander.com/en/work/learup-agent/"/>
   </url>
   <url>
     <loc>https://ivansantander.com/en/work/megabyte/</loc>
