@@ -2,71 +2,51 @@
 slug: shell-system
 lang: en
 order: 9
-title: Serving trackers from a generic component and endpoint
-project: Shell system
-headline: Every tracker in the platform had its own component folder and resolver. I built an experiment to check whether a generic grid and endpoint, driven by a registry, can replace them.
+title: Tracking screens from configuration
+project: Configurable screens
+headline: Every tracking screen was built by hand. I designed an approach where a generic grid and service serve these screens from configuration.
 domain: Clinical trial management platform
-role: Technical Lead · design and implementation of the experiment
-period: 2026
+role: Technical Lead · design and implementation
 featured: false
 summary:
   - k: The problem
-    v: "A new tracker screen meant new components, hook, page, form and resolver."
+    v: "Each new tracking screen repeated the same work in frontend and backend."
   - k: The decision
-    v: "A server-side registry, a generic route and a configurable grid, with configuration stored as a cascade."
+    v: "A generic grid and service driven by cascading configuration."
   - k: How it ended
-    v: "Working experiment with two trackers. It doesn't replace any real screen yet."
-metrics:
-  - value: "2"
-    label: trackers wired up; adding another is two registry entries
-  - value: "15"
-    label: GraphQL operations (9 queries, 6 mutations) for every tracker
-  - value: "262"
-    label: unit tests (121 backend, 141 frontend)
-  - value: "34"
-    label: e2e tests against the local database
+    v: "Adding a screen becomes adding a configuration entry."
 stack:
-  - Next.js
-  - React
   - TypeScript
-  - MUI X DataGrid Pro
-  - GraphQL
-  - Prisma
+  - React
+  - Next.js
   - PostgreSQL
-  - Jest
-  - Playwright
-  - k6
 tags:
   - architecture
   - frontend
-  - experiment
+  - configuration
 ---
 
 ## The problem
 
-Each tracker in the platform (sites, trial master file documents, and so on) was built by hand: a component folder, a hook, a page, a form and a backend resolver. The screens were very similar, yet each repeated the work.
+In the platform, each tracking screen (lists of records the team edits and reviews) was built by hand, with its own components, form and backend logic. The screens were very similar, yet each one repeated the work.
 
-In the consolidation proposal I suggested replacing that with a registry engine. This case is the experiment to test it: a separate branch, with its own routes, that doesn't touch any existing screen. The question was whether a generic component and endpoint could serve the trackers.
+The question was whether a generic component and service, driven by configuration, could serve all of them.
 
 ## Decisions
 
-**The client asks by registry key, not by model.** An endpoint that accepts a model name is open to all 176 models in the schema, users and sessions included. The server registry declares which model each key serves, which field paths it exposes, which can be written and which panels (comments, documents, history) hang off a row. Every path is validated against metadata generated from the schema: at most three hops, no list relations in the middle, and no credential-like fields. On writes, system-managed fields (id, authorship, soft delete) are excluded. Cost: a metadata generator that has to stay in sync with the schema.
+**Configuration instead of code.** A single definition declares what data each screen shows, what can be edited and which panels go with each row. The create and edit form comes from the same definition. Cost: that configuration has to stay in step with the data model, so I added a test that validates it.
 
-**Use the grid the app already had.** The first attempt rewrote the table by hand, with its own toolbar. I moved to DataGrid Pro, which the current trackers already use, in server mode for paging, sorting and filtering. The shell adds a filter translation that only offers operators the server answers correctly, and a bar that asks, after columns are moved or resized, whether to save the layout for everyone or just this project. Cost: I didn't reuse the existing grid organism, because it is tied to the saved-views model the shell replaces.
+**Reuse the existing grid library.** My first attempt was to write the table by hand. I switched to the library the application already used, with paging, sorting and filtering handled on the server. Cost: the design is tied to that library's conventions.
 
-**Cascading configuration that stores only differences.** Registry in code, then system configuration, then project configuration, on a table that already existed in the schema, so no migration. At project level only what differs from the inherited value is saved; otherwise editing one title copied every column and the project stopped receiving system changes. Cost: the comparison had to be canonical, because Postgres reorders keys in JSON fields.
+**Cascading configuration that stores only differences.** First the base definition, then general settings, then per-project settings. Each level stores only what changes from the one before, so a project keeps receiving general improvements. Cost: configurations have to be compared carefully to avoid saving false differences.
 
-**Visible errors instead of a blank screen.** Anything that can't be served comes back as a rejection with a reason, shown in the UI. A rejected filter widens the result, so the warning can't just go to the console. Cost: more states to handle in the UI.
-
-**Measure before optimizing.** I ran a load test with 200,000 synthetic rows. Configuration shape barely matters; what costs is the exact count, text search and deep paging. I replaced the exact count with one capped at 1,000 rows: from 63 to 90 requests per second with 30 virtual users. Cost: the total is no longer exact on large tables and the UI has to know that.
+**Measure before optimizing.** I ran load tests with synthetic data. The cost was in counting and paging large tables, not in the configuration. I replaced the exact count with an approximate one. Cost: the interface has to show when the total is approximate.
 
 ## Outcome
 
-- The experiment works with two trackers. Adding a third is two registry entries, one on the server and one in the frontend, with no new resolver, hook, page or form.
-- The create/edit form is generated from the same configuration.
-- A registry test checks every entry against the generated schema; it caught mistakes in the first entries I wrote by hand.
-- It is still an experiment. Per-project and per-company permissions, per-user preferences, relation pickers in the form and the indexes the load test pointed to are still missing. For now only the grid shell exists.
+- Adding a tracking screen means adding a configuration entry, with no new components or logic.
+- Configuration errors are shown in the interface with their reason, instead of a blank screen.
 
 ## What I'd do differently
 
-I'd start directly on DataGrid Pro instead of writing the table by hand. And I'd solve per-project permissions before the configuration screen, since they are the first thing blocking its use on a real tracker.
+I'd start directly on the existing grid library instead of writing the table by hand, and I'd validate the design with the people who use these screens before building the configuration.
