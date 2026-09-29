@@ -27,6 +27,14 @@ export const PALETTE_PICKER = process.env.PALETTE_PICKER === '1';
  */
 export const LINK_V1 = process.env.LINK_V1 !== '0';
 
+/**
+ * Enlace en el footer a la v3 — una versión experimental del portafolio,
+ * servida en /v3/ como página estática independiente (public/v3/).
+ * No comparte CSS ni JS con el sitio.
+ *   LINK_V3=0 pnpm build   ← lo quita del footer
+ */
+export const LINK_V3 = process.env.LINK_V3 !== '0';
+
 /** Paletas válidas — el build falla si PALETTE no está aquí, en vez de
  *  generar un sitio sin acento y que nadie se entere hasta verlo. */
 export const PALETTES = ['ultramarine', 'chartreuse', 'vermilion', 'copper'];

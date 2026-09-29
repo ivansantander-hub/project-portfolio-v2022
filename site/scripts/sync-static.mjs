@@ -56,7 +56,7 @@ function copyFile(from, to) {
 
 // ─── public/ static dirs ──────────────────────────────────────────────────────
 ensureDir(dist);
-for (const sub of ['css', 'js', 'img', 'audio', 'proto']) {
+for (const sub of ['css', 'js', 'img', 'audio', 'proto', 'v3']) {
   syncDir(join(root, 'public', sub), join(dist, sub));
 }
 
@@ -112,6 +112,20 @@ const variableFonts = [
 ];
 for (const [pkg, file] of variableFonts) {
   copyFile(join(nm, '@fontsource-variable', pkg, 'files', file), join(fontsOut, file));
+}
+
+// /v3/: graffiti (Rubik Spray Paint, Sedgwick Ave Display), blackletter (UnifrakturMaguntia)
+// y condensada pesada (Anton). Todas OFL; latin y, cuando existe, latin-ext.
+for (const [pkg, files] of [
+  ['rubik-spray-paint', ['latin', 'latin-ext']],
+  ['sedgwick-ave-display', ['latin', 'latin-ext']],
+  ['unifrakturmaguntia', ['latin']],
+  ['anton', ['latin', 'latin-ext']],
+]) {
+  for (const sub of files) {
+    const file = `${pkg}-${sub}-400-normal.woff2`;
+    copyFile(join(nm, '@fontsource', pkg, 'files', file), join(fontsOut, file));
+  }
 }
 
 for (const file of ['instrument-serif-latin-400-normal.woff2', 'instrument-serif-latin-400-italic.woff2']) {
