@@ -4,9 +4,9 @@ lang: es
 order: 4
 title: Un generador de sitios estáticos propio
 project: mini-astro
-headline: Un generador de sitios estáticos con una dependencia y sin JavaScript en el cliente. No compite con Astro; lo hice para aprender y este portafolio corre sobre él.
+headline: "Entender cómo funciona por dentro un generador de sitios estáticos construyendo uno: una sola dependencia y sin JavaScript en el cliente. No compite con Astro; este portafolio corre sobre él."
 domain: Proyecto propio · Código abierto (MIT)
-role: Autor
+role: Autor único · diseño, desarrollo y mantenimiento
 period: 2026 – presente
 confidential: false
 featured: false
@@ -15,11 +15,11 @@ links:
     href: https://github.com/ivansantander-hub/mini-astro
 summary:
   - k: El problema
-    v: "Sabía usar un generador de sitios, pero no sabía bien cómo funciona uno por dentro."
+    v: "Sabía usar un generador de sitios, no cómo funciona uno por dentro."
   - k: La decisión
-    v: "Escribir uno, porque un SSG que compone HTML es un problema pequeño y el costo de mantenerlo es bajo."
+    v: "Escribir uno: componer HTML es un problema pequeño y barato de mantener."
   - k: En qué terminó
-    v: "Está publicado con licencia MIT y lo uso para construir este portafolio."
+    v: "Publicado con licencia MIT; con él se construye este portafolio."
 metrics:
   - value: "1"
     label: "dependencia en producción"
@@ -34,44 +34,30 @@ tags:
   - código abierto
 ---
 
-## Qué es
+mini-astro compone componentes HTML con `<mini-include src="organisms/Hero" />` y ofrece enrutamiento por archivos, plantillas con slots, estructura de Atomic Design y un servidor de desarrollo con recarga en vivo. No envía runtime al navegador.
 
-Un generador de sitios estáticos. Los componentes HTML se componen con `<mini-include src="organisms/Hero" />`, y tiene enrutamiento por archivos, plantillas con slots, estructura de Atomic Design y un servidor de desarrollo con recarga en vivo. Usa una sola dependencia de producción y no manda runtime al navegador.
+## Por qué no usar Astro
 
-Este portafolio está hecho con él.
+Astro es mejor, y por mucho: islas, integraciones, optimización de imágenes, un ecosistema y un equipo a tiempo completo. mini-astro está en alfa y lo mantengo yo solo. Si la pregunta fuera cuál es la mejor herramienta disponible, la respuesta sería Astro. Escribir uno propio se justifica por otras razones:
 
-## ¿Por qué no usar Astro?
+- **Entender el mecanismo.** Resolución de componentes, orden de composición, sustitución de plantillas, invalidación en el watcher, sincronización de estáticos: son decisiones que no se ven hasta que toca tomarlas. El objetivo no es reemplazar nada.
+- **Costo acotado.** Un SSG que compone HTML es un problema pequeño y bien delimitado, y mantenerlo cuesta poco. Un ORM o un framework de UI propios no cumplen esa condición, y por eso no los he escrito.
+- **Necesidades concretas sin rodeos.** Este portafolio necesita colecciones de contenido en Markdown, rutas bilingües y un pipeline de imágenes propio. Con un framework de terceros eso significa plugins y adaptarse a decisiones ajenas; aquí son funciones.
 
-Astro es mejor, y por mucho: tiene islas, integraciones, optimización de imágenes, un ecosistema y gente trabajando en él a tiempo completo. mini-astro está en alfa y lo mantengo yo solo. Si solo se tratara de elegir la mejor herramienta disponible, lo razonable sería usar Astro.
+## Decisiones de diseño
 
-Así que tenía que tener claro por qué valía la pena hacerlo igual.
+**Atomic Design como estructura de archivos.** Las carpetas `atoms/`, `molecules/`, `organisms/`, `templates/` y `pages/` forman parte del funcionamiento de la herramienta. La organización viene impuesta en lugar de depender de una convención; a cambio, el proyecto tiene que encajar en esa estructura.
 
-## Por qué lo escribí
+**Valores seguros por defecto.** Si se activan al crear el proyecto, se generan cabeceras de política de contenido, banner de cookies y páginas de política. Son piezas que se suelen dejar para después; tenerlas desde el inicio evita que se olviden.
 
-**Para entender cómo funciona uno por dentro.** No pretendía reemplazar nada. Quería ver de cerca cosas como la resolución de componentes, el orden de composición, la sustitución de plantillas, la invalidación en el watcher o la sincronización de estáticos. Son decisiones que no ves hasta que te toca tomarlas.
-
-**Porque el costo era acotado.** Un SSG que compone HTML es un problema pequeño y bien delimitado, y mantenerlo me cuesta poco. Con un ORM o un framework de UI propio la cuenta sería otra, porque ahí el costo no está acotado, y por eso no lo he hecho.
-
-**Porque me deja construir lo que necesito sin rodeos.** Este portafolio necesita colecciones de contenido en Markdown, rutas bilingües y un pipeline de imágenes propio. Con un framework de terceros eso significa plugins y adaptarse a decisiones de otros; con el mío son funciones.
-
-## Cómo está planteado
-
-**Atomic Design como estructura de archivos.** Las carpetas `atoms/`, `molecules/`, `organisms/`, `templates/` y `pages/` son parte de cómo funciona la herramienta, así que la organización viene impuesta y no depende de una convención.
-
-**Valores por defecto seguros.** Si los activas al crear el proyecto, se generan cabeceras de política de contenido, banner de cookies y páginas de política. Son cosas que se suelen dejar para después, y tenerlas por defecto ayuda a que no se olviden.
-
-**Sin JavaScript en el cliente salvo el que escribas tú.** No hay hidratación, runtime ni bundle: sale HTML, CSS y los scripts que hayas puesto a mano. Esta restricción simplifica mucho el resto.
+**Sin JavaScript en el cliente salvo el que escribas tú.** Sin hidratación, runtime ni bundle: sale HTML, CSS y los scripts añadidos a mano. Se renuncia a la interactividad por islas que ofrece Astro, y a cambio el resto del sistema se simplifica mucho.
 
 **Una sola dependencia.** El watcher de archivos, y solo en desarrollo. Menos dependencias también significa menos vulnerabilidades que parchar.
 
-## Publicación y uso
+## Resultado
 
-Tiene licencia MIT y se instala desde GitHub, con una inicialización interactiva y comandos para generar rutas y componentes.
+Publicado con licencia MIT e instalable desde GitHub, con una inicialización interactiva y comandos para generar rutas y componentes. Este portafolio está construido con él, y la mayoría de sus límites aparecen así, al usarlo, más que por issues.
 
-Lo uso para este portafolio, y la mayoría de sus límites los voy encontrando así, al construirlo, más que por issues.
+## Qué haría distinto
 
-## Qué haría distinto y qué quiero evitar
-
-Debí escribir los tests primero. En un compilador son fáciles de hacer (entra texto, sale texto) y aun así lo fui probando a mano en el navegador.
-
-Y quiero evitar que crezca de más. Con una herramienta propia es tentador ir agregándole todo lo que pide cada proyecto, pero si mini-astro termina pareciéndose a Astro, deja de tener sentido haberlo escrito.
+Escribir los tests primero: en un compilador son fáciles de hacer (entra texto, sale texto), y aun así lo probé a mano en el navegador. El riesgo a vigilar es que crezca de más; con una herramienta propia es tentador añadir todo lo que pide cada proyecto, y si mini-astro acaba pareciéndose a Astro, deja de tener sentido haberlo escrito.

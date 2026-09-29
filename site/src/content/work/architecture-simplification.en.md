@@ -4,19 +4,19 @@ lang: en
 order: 1
 title: Consolidating a microservice architecture
 project: Architecture consolidation
-headline: A microservice architecture that had grown faster than the team maintaining it. I built an inventory, proposed two plans, and we started with the simple parts.
+headline: A microservice architecture with more components than people to maintain them. A system inventory and two costed proposals turned it into a decision that could be evaluated, starting with retiring what no longer deployed.
 domain: Clinical trial management SaaS platform
-role: Technical Lead → Technical Product Owner
+role: Technical Lead → Technical Product Owner · inventory and architecture proposal
 period: 2025 – 2026
 confidential: true
 featured: true
 summary:
   - k: The problem
-    v: "There were more components than people to maintain them. The issue wasn't performance or bugs, it was that ratio."
+    v: "More components than people to maintain them. The issue wasn't performance or bugs, it was that ratio."
   - k: The decision
-    v: "Two proposals with their costs. Both used incremental migration with Strangler Fig instead of a hard cutover."
+    v: "Two proposals with their costs. Both use incremental migration (Strangler Fig), no hard cutover."
   - k: How it ended
-    v: "The proposal is the reference document for the architecture decision. We started by retiring what no longer deployed."
+    v: "The proposal is the reference document for the architecture decision. First step: retiring what no longer deployed."
 stack:
   - Microservice architecture
   - GraphQL Federation
@@ -30,46 +30,41 @@ tags:
   - migration
 ---
 
-The platform is used to run clinical trials: project management, document control, data capture and analytics. It's a regulated, audited domain, so a badly migrated record has real consequences.
+## The problem
 
-The system had grown by accumulation over several years. Each new need brought a new service, and each new client a new scheduled job. Every decision made sense on its own, but together they had left us with more components than people to maintain them. I confirmed that when I sat down and counted.
+The platform covers project management, document control, data capture and analytics in a regulated, audited domain: a badly migrated record has real consequences.
 
-You could see it day to day: a cross-cutting change meant repeating the same work across several repositories, onboarding took weeks instead of days, and we were debugging problems across distributed systems that weren't distributed problems. On top of that, the "one job per client" pattern meant the problem grew along with the business.
+The system had grown by accumulation over several years. Each new need brought a new service, and each new client a new scheduled job. Decisions that made sense on their own had, together, left more components than people to maintain them:
 
-All of these symptoms had the same cause, but nobody had put a number on it.
+- A cross-cutting change had to be repeated across several repositories.
+- Onboarding took weeks instead of days.
+- Problems that weren't distributed were being debugged across distributed systems.
+- The "one job per client" pattern meant the problem grew along with the business.
 
-## Building an inventory before proposing anything
+They all had the same cause, but nobody had put a number on it.
 
-I went through the code service by service and built an inventory: what exists, what's still in use, what hasn't had a commit in a year, and what depends on what.
+## Decisions
 
-That changed the conversation. Instead of "the system feels heavy" we had a table that showed the imbalance, and that a non-technical person could also evaluate.
+**Inventory before proposal.** I went through the code service by service and built an inventory: what exists, what's still in use, what hasn't had a commit in a year, and what depends on what. The conversation moved from "the system feels heavy" to a table that showed the imbalance, readable by non-technical people too. Cost: review time before anything could be proposed.
 
-## Two proposals
+**Two options instead of one.** I proposed two plans with their costs, so the discussion was about which to pick rather than approving or rejecting one. For each one I defined scope, sequence, owners and rollback criteria.
 
-I presented two options, each with its costs, so the discussion would be about which one to pick rather than just approving or rejecting a single plan.
+- *Conservative:* consolidate services while keeping the current style. Less disruption, familiar ground, could start the following week; doesn't fix the underlying fragmentation.
+- *Structural:* reduce to a handful of processes in a monorepo with end-to-end type safety, drop the federation layer and unify scheduled jobs into an event-driven worker. It addresses the cause, but costs more and touches more.
 
-**Conservative option.** Consolidate services while keeping the current style. Less disruption, familiar ground, and work could start the following week. It doesn't fix the underlying fragmentation.
+**Incremental migration in both plans.** Strangler Fig with a reverse proxy: the new system takes over routes one at a time while the old one serves the rest. It means running two systems at once, but in a regulated domain a hard cutover would have been hard to justify.
 
-**Structural option.** Reduce to a handful of processes in a monorepo with end-to-end type safety, dropping the federation layer and unifying scheduled jobs into an event-driven worker. It addresses the cause, but costs more and touches more.
+**One person dedicated to operations.** Someone reserved for bugs and support throughout the migration. It reduces capacity, but keeps day-to-day work from absorbing the team and stalling the migration.
 
-For each one I defined scope, sequence, owners and rollback criteria.
+**Existing commitments first.** Deliverables already promised come before refactoring. The migration moves more slowly, in exchange for a plan that is realistic for the business.
 
-## Conditions shared by both plans
+## Outcome
 
-**Incremental migration, no big bang.** Strangler Fig with a reverse proxy: the new system takes over routes one at a time while the old one keeps serving the rest. In a regulated domain, a hard cutover would have been hard to justify.
-
-**One person dedicated to operations.** Both plans reserved someone for bugs and support throughout the migration. If day-to-day work pulls in the whole team, the migration ends up with nobody on it and stalls.
-
-**Existing commitments first.** The plan stated clearly that deliverables already promised came before refactoring. Otherwise the proposal wouldn't have been realistic for the business.
-
-## Where it landed
-
-The proposal is now the reference document for the architecture decision. The inventory, which used to live in the heads of two or three people, is now something anyone can look up.
-
-Before touching the big pieces, the team did the simple ones: retiring what was no longer deployed and folding in catalog services that didn't justify existing separately. That gave us some confidence for the more expensive parts.
-
-In parallel I designed the frontend replacement around the same idea: instead of one file per view, a registry engine. A generic route resolves against a configuration map, with a few reusable shells covering every screen pattern. Adding a view means adding a config object, not creating files.
+- The proposal is the reference document for the architecture decision.
+- The inventory, which used to live in two or three people's heads, is now available to anyone.
+- The team started with the simple parts: retiring what was no longer deployed and folding in catalog services that didn't justify existing separately. That built confidence for the more expensive parts.
+- I designed the frontend replacement around the same idea: a registry engine instead of one file per view. A generic route resolves against a configuration map and a few reusable shells cover every screen pattern; adding a view means adding a config object.
 
 ## What I'd do differently
 
-I'd build the inventory a year earlier. Writing the proposal wasn't the hard part; the problem is that by the time it existed, we had already paid the cost of that debt.
+I'd build the inventory a year earlier. By the time the proposal existed, we had already paid the cost of that debt.

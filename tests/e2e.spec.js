@@ -48,8 +48,8 @@ test('hero CTAs point to work index and the contact anchor', async ({ page }) =>
 
 // ─── 4. Thesis ────────────────────────────────────────────────────────────────
 test('thesis section states the core argument', async ({ page }) => {
-  await expect(page.locator('.thesis__title')).toHaveText('En qué me enfoco');
-  await expect(page.locator('.thesis__body')).toContainText('sistemas que ya estaban en producción');
+  await expect(page.locator('.thesis__title')).toHaveText('Enfoque');
+  await expect(page.locator('.thesis__body')).toContainText('Sistemas que ya están en producción');
 });
 
 // ─── 5. Work preview (home) — only featured cases ───────────────────────────

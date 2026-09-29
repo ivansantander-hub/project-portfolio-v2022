@@ -14,10 +14,10 @@ description: "Tech Lead and Technical Product Owner. Architecture, technical lea
 **role:** Product · Engineering · AI
 
 **lead:**
-At my current company, a clinical trial platform, I joined as a full stack
-developer, then led the engineering team, and today I work on product.
+Tech Lead and Technical Product Owner at a SaaS clinical trial platform.
 
-The work I enjoy most is improving systems that already exist.
+Architecture for production systems, phased migrations and technical
+prioritization alongside the business.
 
 **cta_primary:** See the work
 **cta_secondary:** Get in touch
@@ -28,14 +28,14 @@ The work I enjoy most is improving systems that already exist.
 
 ## thesis
 
-**title:** What I focus on
+**title:** Focus
 
 **body:**
-Most of my work has been on systems that were already in production.
+Systems that are already in production and have grown faster than the
+team maintaining them.
 
-I usually start by understanding how they got to where they are, then
-propose what to simplify and in what order, without holding up the work
-that's already been committed.
+The work is understanding how they got there, deciding what to simplify
+and in what order, and doing it without holding up committed work.
 
 ---
 
@@ -44,10 +44,10 @@ that's already been committed.
 **title:** Work
 
 **body:**
-Some are client projects, where I leave out data I can't publish. Others
-are personal projects, with the code and numbers open.
+Client projects, without the data that can't be published, and personal
+projects, with the code and numbers open.
 
-Each one covers the problem, what we decided and how it went.
+Each case summarizes the context, the problem, the decisions and the outcome.
 
 ---
 
@@ -56,14 +56,14 @@ Each one covers the problem, what we decided and how it went.
 **title:** Before this
 
 **body:**
-Before leading teams I worked as a developer on several products:
+Earlier work as a developer:
 
 - A payment gateway with automatic and on-demand charges, integrated into a mobile app.
 - API management on Azure and process automation for healthcare.
 - Mobile apps for clinical monitoring.
 - QR-based access control.
 
-That's where a good part of what I know about integrations and payments comes from.
+Hands-on experience with integrations, payments and digital health.
 
 ---
 
@@ -72,10 +72,10 @@ That's where a good part of what I know about integrations and payments comes fr
 **title:** Let's talk
 
 **body:**
-I'm interested in technical leadership roles that involve architecture and
-team work.
+Open to technical leadership roles that involve architecture and team
+work.
 
-If you have something like that, get in touch.
+If your team has a system like that, let's talk.
 
 **cta_primary:** Message me on LinkedIn
 **cta_secondary:** View GitHub
