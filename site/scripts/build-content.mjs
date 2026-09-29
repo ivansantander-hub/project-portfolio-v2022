@@ -72,11 +72,13 @@ const UI = {
     workTitle: 'Casos', workDesc: 'Casos de arquitectura, liderazgo técnico y producto.',
     backToWork: 'Volver a casos', role: 'Rol', period: 'Periodo', context: 'Contexto',
     stack: 'Stack', confidential: 'Detalles bajo acuerdo de confidencialidad',
+    groupClient: 'En LearUp', groupOwn: 'Proyectos propios',
   },
   en: {
     workTitle: 'Work', workDesc: 'Case studies in architecture, technical leadership and product.',
     backToWork: 'Back to work', role: 'Role', period: 'Period', context: 'Context',
     stack: 'Stack', confidential: 'Details under non-disclosure agreement',
+    groupClient: 'At LearUp', groupOwn: 'Personal projects',
   },
 };
 
@@ -404,15 +406,21 @@ ${marked.parse(item.content)}
 
 function renderWorkIndex(items, lang) {
   const t = UI[lang];
-  /* Aquí el h1 es "Casos", así que las tarjetas son h2. En la home van bajo
-     un h2, así que allí son h3. Saltar de h1 a h3 rompe la jerarquía. */
+  /* Con más de una decena de casos, una sola lista mezclaba el trabajo en
+     LearUp (bajo NDA) con los proyectos propios. Se agrupan por esa marca.
+     h1 "Casos" → h2 del grupo → h3 en cada tarjeta, igual que en la home. */
+  const grupos = [
+    { titulo: t.groupClient, items: items.filter(i => i.data.confidential) },
+    { titulo: t.groupOwn, items: items.filter(i => !i.data.confidential) },
+  ].filter(g => g.items.length);
   return `
 <section class="work-index" data-zone="clear">
   <h1 class="work-index__title">${t.workTitle}</h1>
   <p class="work-index__lead">${t.workDesc}</p>
+${grupos.map(g => `  <h2 class="work-index__group">${g.titulo} <span>${g.items.length}</span></h2>
   <ul class="work-index__list" data-stagger>
-${items.map(i => renderWorkCard(i, lang, 2)).join('\n')}
-  </ul>
+${g.items.map(i => renderWorkCard(i, lang, 3)).join('\n')}
+  </ul>`).join('\n')}
 </section>
 `;
 }
