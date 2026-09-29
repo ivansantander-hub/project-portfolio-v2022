@@ -74,12 +74,10 @@ Experiencia práctica en integraciones, pagos y salud digital.
 **title:** ¿Hablamos?
 
 **body:**
-Abierto a roles de liderazgo técnico con trabajo de arquitectura y de
-equipo.
-
-Si tu equipo tiene un sistema así, hablemos.
+Para hablar de arquitectura, liderazgo técnico o de alguno de estos casos,
+escríbeme.
 
 **cta_primary:** Escríbeme en LinkedIn
 **cta_secondary:** Ver GitHub
 
-**location:** Medellín, Colombia · Disponible en remoto
+**location:** Medellín, Colombia · Trabajo en remoto

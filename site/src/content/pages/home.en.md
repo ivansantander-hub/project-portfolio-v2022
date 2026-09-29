@@ -72,12 +72,10 @@ Hands-on experience with integrations, payments and digital health.
 **title:** Let's talk
 
 **body:**
-Open to technical leadership roles that involve architecture and team
-work.
-
-If your team has a system like that, let's talk.
+To talk about architecture, technical leadership or any of these cases,
+get in touch.
 
 **cta_primary:** Message me on LinkedIn
 **cta_secondary:** View GitHub
 
-**location:** Medellín, Colombia · Available remotely
+**location:** Medellín, Colombia · Works remotely
