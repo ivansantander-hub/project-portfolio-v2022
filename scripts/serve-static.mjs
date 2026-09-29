@@ -16,9 +16,12 @@ if (!existsSync(dist)) {
 const require = createRequire(path.join(root, 'package.json'));
 const serveCli = require.resolve('serve/build/main.js');
 
+// Sin `-s`: el sitio es multipágina (dist/<ruta>/index.html). En modo SPA
+// `serve` reescribe TODA ruta a /index.html antes de buscar el archivo, así
+// que /trabajo/, /sobre-mi/, /en/… servían la home en español.
 const child = spawn(
   process.execPath,
-  [serveCli, dist, '-s', '-l', `tcp://0.0.0.0:${port}`],
+  [serveCli, dist, '-l', `tcp://0.0.0.0:${port}`],
   { stdio: 'inherit', cwd: root }
 );
 
