@@ -1,7 +1,7 @@
 ---
 slug: workflow-engine
 lang: es
-order: 3
+order: 2
 title: Un motor de workflows para dejar de escribir un script por cliente
 project: Motor de workflows
 headline: Incorporar un cliente exigía escribir y desplegar un script nuevo. Un motor de grafos configurable lo convierte en una tarea de configuración para quienes conocen los datos.

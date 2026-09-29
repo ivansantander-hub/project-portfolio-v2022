@@ -1,7 +1,7 @@
 ---
 slug: workflow-engine
 lang: en
-order: 3
+order: 2
 title: A workflow engine to replace per-client scripts
 project: Workflow engine
 headline: Onboarding a client meant writing and deploying a new script. A configurable graph engine turns it into a configuration task for the people who know the data.
