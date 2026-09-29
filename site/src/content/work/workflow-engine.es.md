@@ -4,19 +4,19 @@ lang: es
 order: 3
 title: Un motor de workflows para dejar de escribir un script por cliente
 project: Motor de workflows
-headline: Cada cliente nuevo necesitaba que un ingeniero escribiera código. Construí un motor de grafos para que lo configuren las personas que conocen los datos.
+headline: Incorporar un cliente exigía escribir y desplegar un script nuevo. Un motor de grafos configurable lo convierte en una tarea de configuración para quienes conocen los datos.
 domain: Plataforma SaaS de gestión de ensayos clínicos
-role: Technical Lead
+role: Technical Lead · diseño del motor, decisión de arquitectura y optimización de la vista previa
 period: 2026
 confidential: true
 featured: true
 summary:
   - k: El problema
-    v: "Había un script por cliente, casi iguales entre sí, e ingeniería era el cuello de botella para incorporar clientes."
+    v: "Un script casi idéntico por cliente. Cada incorporación pasaba por ingeniería."
   - k: La decisión
-    v: "Un motor de grafos con la definición guardada en base de datos, con vista previa por nodo."
+    v: "Un motor de grafos con la definición en base de datos y vista previa por nodo."
   - k: En qué terminó
-    v: "Incorporar un cliente pasa a ser una tarea de configuración en lugar de una tarea de ingeniería."
+    v: "Incorporar un cliente pasa a ser configuración, no desarrollo."
 stack:
   - Python
   - FastAPI
@@ -30,36 +30,34 @@ tags:
   - producto
 ---
 
-Cada cliente nuevo requería que un ingeniero escribiera código: repositorio, pipeline de despliegue y código nuevo cada vez, no una configuración.
+## El problema
 
-La plataforma tiene que sincronizarse con sistemas externos de captura de datos clínicos, y cada cliente usa el suyo, con su propia estructura de formularios y su forma de nombrar las cosas. La solución que había era un script por cliente: extraer, transformar, cargar, notificar. Funcionaba bien mientras había pocos clientes.
+La plataforma se sincroniza con sistemas externos de captura de datos clínicos. Cada cliente usa uno distinto, con su propia estructura de formularios y su nomenclatura. La solución existente era un script por cliente (extraer, transformar, cargar, notificar), con su repositorio y su pipeline de despliegue.
 
-Los scripts compartían casi toda la lógica y se diferenciaban justo en la parte importante. Arreglar un bug significaba buscarlo en todas las copias, y casi siempre quedaba alguna sin arreglar. El equipo técnico se había convertido en el cuello de botella para incorporar clientes, y los data managers, que son quienes mejor entienden los datos, no podían tocar nada.
+- Los scripts compartían casi toda la lógica y se diferenciaban justo en la parte importante.
+- Un bug había que corregirlo en todas las copias, y casi siempre quedaba alguna sin corregir.
+- Cada cliente nuevo pasaba por ingeniería. Los data managers, que son quienes mejor entienden los datos, no podían tocar nada.
 
-## El enfoque
+Lo planteé como un problema de producto, no de escribir mejores scripts: que quien conoce los datos pueda construir el flujo sin depender de ingeniería.
 
-En vez de intentar escribir mejores scripts, lo planteé como un problema de producto: que quien conoce los datos pueda construir el flujo sin depender de ingeniería.
+## Decisiones
 
-## Cómo lo construimos
+**Motor de grafos con la definición en base de datos.** El flujo es un DAG guardado en base de datos, no en código. Un catálogo de siete tipos de tarea (extraer, transformar, cargar, notificar, comparar, condicional, mapear) se combina en tiempo de ejecución: una capacidad nueva es un tipo de tarea registrado; un cliente nuevo, un grafo. La alternativa, un framework de scripts compartido, habría reducido la duplicación, pero cada cliente seguiría pasando por ingeniería.
 
-**Un motor de grafos en lugar de un framework de scripts.** El flujo se modela como un DAG y su definición se guarda en base de datos, no en el código. Hay un catálogo de tipos de tarea (extraer, transformar, cargar, notificar, comparar, condicional, mapear) que se combinan en tiempo de ejecución. Para agregar una capacidad se registra un tipo de tarea nuevo; para agregar un cliente se dibuja un grafo.
+**Construir sobre la plataforma en lugar de adoptar un orquestador.** Evalué una herramienta establecida del ecosistema y la descarté: integrarla con la autenticación y los permisos de la plataforma habría sido un parche permanente, y hacía falta una interfaz de dominio (formularios clínicos, mapeos semánticos), no un editor de DAG genérico. Es una decisión discutible en ambos sentidos; dejé el razonamiento documentado para poder revisarla.
 
-**Construir sobre la plataforma en vez de adoptar un orquestador.** Evalué usar una herramienta establecida del ecosistema y la descarté por dos motivos: integrarla con la autenticación y los permisos de la plataforma habría sido un parche permanente, y necesitábamos una interfaz específica del dominio, que entendiera de formularios clínicos y mapeos semánticos, no un editor de DAG genérico. Es una decisión discutible en los dos sentidos, así que dejé documentado el razonamiento para poder revisarla más adelante.
+**Vista previa por nodo con muestreo.** Ejecuta un solo nodo con muestreo limitado y muestra su salida al momento. Sin ella, cada cambio obligaba a correr el flujo completo, un ciclo demasiado lento para una herramienta visual. El costo: se valida sobre una muestra, no sobre el volumen completo.
 
-**Probar un nodo sin ejecutar todo el pipeline.** Esto fue lo que hizo que la herramienta fuera práctica. Hay un modo de vista previa con muestreo limitado que ejecuta un solo nodo y muestra su salida al momento. Sin eso, cada cambio obligaba a correr el flujo completo y esperar, y con un ciclo tan lento la herramienta visual no se habría usado.
+**Inspector entre nodos.** El resultado de cada nodo se guarda en el propio nodo y pasa como contexto al siguiente. Un inspector desplegable muestra qué entra y qué sale en cada paso, algo que los scripts no permitían.
 
-**Ver los datos entre nodos.** El resultado de cada nodo se guarda en el propio nodo y se pasa como contexto al siguiente, con un inspector desplegable en cada uno. Así se ve qué entra y qué sale en cada paso, algo que con los scripts no era posible.
-
-## El problema de rendimiento en la vista previa
-
-La primera versión de la vista previa era demasiado lenta para usarla. Al cargar los datos de configuración se lanzaba una cascada de consultas individuales, un N+1 que la capa de acceso a datos ocultaba en el código.
-
-La reescribí con consultas por lotes usando cláusulas `IN` y una caché de vida corta. Mejoró un orden de magnitud: pasamos de una espera que cortaba el trabajo a una respuesta inmediata.
-
-Lo que aprendí: la funcionalidad estaba completa, pero si la vista previa era lenta nadie la iba a usar, así que el rendimiento era un requisito y no una optimización para el final. Si lo hiciera otra vez, lo mediría antes de construir la interfaz encima.
+**Rendimiento como requisito, no como optimización final.** La primera versión de la vista previa era demasiado lenta para usarse: al cargar la configuración se disparaba una cascada de consultas individuales, un N+1 oculto por la capa de acceso a datos. La reescribí con consultas por lotes (cláusulas `IN`) y una caché de vida corta. La mejora fue de un orden de magnitud: de una espera que cortaba el trabajo a una respuesta inmediata.
 
 ## Resultado
 
-El motor se usa para pipelines de sincronización reales y es la base sobre la que se irá migrando la lógica duplicada de los scripts por cliente.
+- El motor está en uso en pipelines de sincronización reales.
+- Es la base a la que se irá migrando la lógica duplicada de los scripts por cliente.
+- Ingeniería deja de ser el cuello de botella y los data managers trabajan directamente sobre los flujos.
 
-Incorporar un cliente pasa a ser una tarea de configuración en lugar de una tarea de ingeniería. El equipo técnico deja de ser el cuello de botella y los data managers pueden trabajar directamente con los flujos.
+## Qué haría distinto
+
+Mediría el rendimiento de la vista previa antes de construir la interfaz encima. La funcionalidad estaba completa, pero una vista previa lenta no se habría usado.

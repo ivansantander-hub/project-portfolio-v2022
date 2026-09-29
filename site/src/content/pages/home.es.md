@@ -14,11 +14,11 @@ description: "Tech Lead y Technical Product Owner. Arquitectura, liderazgo técn
 **role:** Producto · Ingeniería · IA
 
 **lead:**
-En mi empresa actual, una plataforma de ensayos clínicos, entré como
-desarrollador full stack, después lideré el equipo técnico y hoy trabajo
-en producto.
+Tech Lead y Technical Product Owner en una plataforma SaaS de ensayos
+clínicos.
 
-Me gusta sobre todo el trabajo de mejorar sistemas que ya existen.
+Arquitectura de sistemas en producción, migraciones por fases y
+priorización técnica junto a negocio.
 
 **cta_primary:** Ver casos
 **cta_secondary:** Escríbeme
@@ -29,14 +29,15 @@ Me gusta sobre todo el trabajo de mejorar sistemas que ya existen.
 
 ## thesis
 
-**title:** En qué me enfoco
+**title:** Enfoque
 
 **body:**
-Casi todo mi trabajo ha sido sobre sistemas que ya estaban en producción.
+Sistemas que ya están en producción y crecieron más rápido que el equipo
+que los mantiene.
 
-Suelo empezar por entender cómo llegaron a su estado actual, y después
-proponer qué simplificar y en qué orden, sin frenar las entregas que ya
-están comprometidas.
+El trabajo consiste en entender cómo llegaron a su estado actual, decidir
+qué simplificar y en qué orden, y hacerlo sin frenar las entregas ya
+comprometidas.
 
 ---
 
@@ -45,10 +46,10 @@ están comprometidas.
 **title:** Casos
 
 **body:**
-Algunos son de clientes y omito los datos que no puedo publicar. Otros son
-proyectos propios, con el código y los números abiertos.
+Proyectos de clientes, sin los datos que no se pueden publicar, y proyectos
+propios, con el código y los números abiertos.
 
-En cada uno cuento el problema, lo que decidimos y cómo salió.
+Cada caso resume el contexto, el problema, las decisiones y el resultado.
 
 ---
 
@@ -57,14 +58,14 @@ En cada uno cuento el problema, lo que decidimos y cómo salió.
 **title:** Antes de esto
 
 **body:**
-Antes de liderar equipos trabajé como desarrollador en varios productos:
+Trabajo anterior como desarrollador:
 
 - Una pasarela de pagos con cobros automáticos y por demanda, integrada en una app móvil.
 - Un gestor de APIs en Azure y automatización de procesos para el sector salud.
 - Aplicaciones móviles de monitoreo clínico.
 - Control de acceso con códigos QR.
 
-De ahí viene buena parte de lo que sé sobre integraciones y pagos.
+Experiencia práctica en integraciones, pagos y salud digital.
 
 ---
 
@@ -73,10 +74,10 @@ De ahí viene buena parte de lo que sé sobre integraciones y pagos.
 **title:** ¿Hablamos?
 
 **body:**
-Me interesan roles de liderazgo técnico en los que haya trabajo de
-arquitectura y de equipo.
+Abierto a roles de liderazgo técnico con trabajo de arquitectura y de
+equipo.
 
-Si tienes algo así, escríbeme.
+Si tu equipo tiene un sistema así, hablemos.
 
 **cta_primary:** Escríbeme en LinkedIn
 **cta_secondary:** Ver GitHub
