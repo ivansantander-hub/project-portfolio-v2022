@@ -23,7 +23,7 @@ Lideré al equipo en diseño e implementación. Arquitectura de servicios y deci
 
 **LearUp** · Associate Product Full Stack Developer
 
-Núcleo de la plataforma en JavaScript y Python. Entrega continua con Kubernetes, ArgoCD y Docker.
+Núcleo de la plataforma en JavaScript y Python. Entrega continua.
 
 **CogenTech** · Product Full Stack Developer · jun 2023 – jul 2024
 
