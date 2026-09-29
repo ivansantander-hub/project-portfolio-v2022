@@ -703,7 +703,14 @@
   }
   .hero__readout > div { display: grid; justify-items: center; gap: var(--space-3xs); padding: var(--space-md) var(--space-sm); }
   .hero__readout > div + div { border-left: 1px solid var(--border); }
-  .hero__readout dd { font-size: var(--type-3xl); font-weight: 600; line-height: 1; color: var(--text); }
+  .hero__readout dd { font-size: var(--type-2xl); font-weight: 600; line-height: 1; color: var(--text); }
+  /* Tamaños contenidos: nombre, subtítulo, texto y cifras caben en la
+     primera pantalla sin que ninguno grite más que el nombre. */
+  .hero__name { font-size: clamp(2.75rem, 1.2rem + 5vw, 6rem); }
+  .hero__statement { font-size: var(--type-xl); }
+  .hero__lead { max-width: 36rem; font-size: var(--type-lg); }
+  .hero__readout { max-width: 36rem; margin-top: var(--space-xl); }
+  .hero__readout > div { padding-block: var(--space-sm); }
   @media (max-width: 30rem) {
     .hero__readout > div { padding-inline: var(--space-3xs); }
     .hero__readout dt { letter-spacing: 0.04em; }
@@ -713,7 +720,8 @@
   .thesis, .section-head { text-align: center; justify-items: center; }
   .thesis { display: grid; }
   .thesis__title, .section-title { max-width: none; margin-inline: auto; }
-  .thesis__body { max-width: 46rem; margin-inline: auto; font-size: var(--type-2xl); line-height: 1.35; color: var(--text); }
+  .thesis__title { font-size: var(--type-2xl); }
+  .thesis__body { max-width: 38rem; margin-inline: auto; margin-top: var(--space-md); font-size: var(--type-xl); line-height: 1.4; color: var(--text); }
   .thesis__body p { color: inherit; }
   .thesis__body p + p { margin-top: var(--space-sm); }
   .section-head .prose { max-width: 44rem; margin-inline: auto; }
