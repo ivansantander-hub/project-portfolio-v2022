@@ -684,81 +684,90 @@
     letter-spacing: var(--tracking-wide); text-transform: uppercase; color: var(--text-dim);
   }
 
-  /* ── COMPOSICIÓN EDITORIAL EN PANTALLAS ANCHAS ──────────────────────
-     Todo iba alineado a la izquierda y la mitad derecha quedaba vacía. En
-     pantallas anchas cada sección se reparte en dos columnas: el título a la
-     izquierda y el contenido a la derecha. El hero reparte peso en diagonal
-     (nombre arriba a la izquierda, cifras abajo a la derecha) y el cierre va
-     centrado. En móvil nada cambia: todo sigue en una columna. */
-  @media (min-width: 64rem) {
-    .hero__copy {
-      max-width: none;
-      display: grid;
-      grid-template-columns: minmax(0, 1fr) minmax(11rem, 15rem);
-      /* La última fila absorbe la altura de las cifras: así la descripción y
-         los botones quedan juntos en vez de repartirse por la columna. */
-      grid-template-rows: auto auto auto 1fr;
-      grid-template-areas:
-        'title   title'
-        'lead    readout'
-        'actions readout'
-        '.       readout';
-      column-gap: var(--space-2xl);
-      align-items: end;
-    }
-    .hero__title   { grid-area: title; }
-    .hero__lead    { grid-area: lead; align-self: start; }
-    .hero__actions { grid-area: actions; align-self: start; }
-    .hero__readout {
-      grid-area: readout;
-      flex-direction: column; flex-wrap: nowrap; align-self: end;
-      gap: var(--space-sm);
-      margin-top: var(--space-lg); padding: 0 0 0 var(--space-lg);
-      border-top: 0; border-left: 1px solid var(--border);
-    }
-    .hero__readout > div { display: grid; gap: var(--space-3xs); }
-    .hero__readout dd { font-size: var(--type-2xl); font-weight: 500; color: var(--text); }
+  /* ── LAYOUT CENTRADO ─────────────────────────────────────────────────
+     Antes todo cargaba a la izquierda y la mitad derecha quedaba vacía. Ahora
+     la composición es simétrica: hero y encabezados centrados, cifras en una
+     banda a lo ancho y los casos en una rejilla de tarjetas que ocupa todo el
+     ancho. Casos y "sobre mí" conservan su texto con índice lateral. */
 
-    .thesis, .section-head {
-      display: grid;
-      grid-template-columns: minmax(0, 1fr) minmax(0, 2fr);
-      column-gap: var(--space-2xl);
-      align-items: baseline;
-    }
-    .thesis__title, .section-title { font-size: var(--type-3xl); max-width: none; }
-    .thesis__body { margin-top: 0; max-width: 30ch; font-size: var(--type-2xl); line-height: 1.3; color: var(--text); }
-    .thesis__body p { color: inherit; }
-    .thesis__note { grid-column: 2; }
-    .section-head .prose { max-width: 40rem; }
-    /* El margen va en la lista: [data-reveal] (capa motion) pisa el del título. */
-    .work-preview > .work-index__list { margin-top: var(--space-xl); }
-    .secondary .section-head .prose { max-width: none; }
-
-    .secondary .prose ul {
-      list-style: none; padding: 0;
-      display: grid; grid-template-columns: repeat(2, minmax(0, 1fr));
-      column-gap: var(--space-xl);
-      border-top: 1px solid var(--border);
-    }
-    .secondary .prose li {
-      margin: 0; padding: var(--space-md) 0;
-      border-bottom: 1px solid var(--border); color: var(--text);
-    }
-
-    .contact { text-align: center; display: grid; justify-items: center; }
-    .contact .section-title { font-size: var(--type-4xl); max-width: none; }
-    .contact__actions { justify-content: center; }
-
-    /* /trabajo/: título a la izquierda y la entradilla abajo a la derecha. */
-    .work-index {
-      display: grid;
-      grid-template-columns: minmax(0, 1fr) minmax(0, 2fr);
-      column-gap: var(--space-2xl);
-      align-items: end;
-    }
-    .work-index > .work-index__list { grid-column: 1 / -1; margin-top: var(--space-xl); }
-    .work-index__lead { color: var(--text-muted); }
+  /* Hero */
+  .hero { justify-items: center; text-align: center; }
+  .hero__copy { max-width: 72rem; width: 100%; margin-inline: auto; display: grid; justify-items: center; }
+  .hero__title { justify-items: center; }
+  .hero__lead { max-width: 42rem; margin-inline: auto; }
+  .hero__actions { justify-content: center; }
+  .hero__readout {
+    width: 100%; max-width: 54rem; margin: var(--space-2xl) auto 0;
+    display: grid; grid-template-columns: repeat(3, minmax(0, 1fr));
+    padding: 0; border-block: 1px solid var(--border);
   }
+  .hero__readout > div { display: grid; justify-items: center; gap: var(--space-3xs); padding: var(--space-md) var(--space-sm); }
+  .hero__readout > div + div { border-left: 1px solid var(--border); }
+  .hero__readout dd { font-size: var(--type-3xl); font-weight: 600; line-height: 1; color: var(--text); }
+  @media (max-width: 30rem) {
+    .hero__readout > div { padding-inline: var(--space-3xs); }
+    .hero__readout dt { letter-spacing: 0.04em; }
+  }
+
+  /* Encabezados de sección */
+  .thesis, .section-head { text-align: center; justify-items: center; }
+  .thesis { display: grid; }
+  .thesis__title, .section-title { max-width: none; margin-inline: auto; }
+  .thesis__body { max-width: 46rem; margin-inline: auto; font-size: var(--type-2xl); line-height: 1.35; color: var(--text); }
+  .thesis__body p { color: inherit; }
+  .thesis__body p + p { margin-top: var(--space-sm); }
+  .section-head .prose { max-width: 44rem; margin-inline: auto; }
+
+  /* Casos: rejilla de tarjetas (home y /trabajo/) */
+  .work-index__title, .work-index__lead { text-align: center; margin-inline: auto; }
+  .work-index__lead { max-width: 44rem; color: var(--text-muted); margin-top: var(--space-sm); }
+  .work-index__list {
+    display: grid; gap: var(--space-md);
+    grid-template-columns: repeat(auto-fill, minmax(min(100%, 22rem), 1fr));
+    background: none; border: 0; margin-top: var(--space-xl);
+  }
+  .work-card { border: 1px solid var(--border); border-radius: var(--radius-lg); background: var(--surface); transition: border-color .25s, transform .25s; }
+  .work-card:hover { border-color: color-mix(in srgb, var(--accent) 55%, var(--border)); transform: translateY(-3px); }
+  .work-card::before { transform-origin: bottom; transform: scaleY(0); }
+  .work-card:hover::before { transform: scaleY(1); }
+  .work-card { display: flex; }
+  .work-card__link { flex: 1; display: flex; flex-direction: column; gap: var(--space-md); padding: var(--space-lg); }
+  .work-card__meta-top { flex-direction: row; justify-content: space-between; gap: var(--space-sm); }
+  .work-card__title { font-size: var(--type-xl); line-height: 1.2; }
+  .work-card:hover .work-card__title { transform: none; color: var(--accent); }
+  .work-card:hover .work-card__arrow { transform: translateX(4px); }
+  .work-card__headline {
+    display: -webkit-box; -webkit-box-orient: vertical; -webkit-line-clamp: 4; overflow: hidden;
+  }
+  .work-card__extra { margin-top: auto; height: auto; display: grid; gap: var(--space-md); padding-top: var(--space-md); border-top: 1px solid var(--border); }
+  .work-card__figures { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: var(--space-sm); }
+  .work-card__figures > div { display: grid; gap: var(--space-3xs); align-content: start; }
+  .work-card__figures b { font-size: var(--type-lg); }
+  .work-card__figures span { font-size: var(--type-2xs); line-height: 1.3; }
+  /* Sin cifras, la tarjeta muestra el rol a lo ancho */
+  .work-card__figures > div:only-child { grid-column: 1 / -1; }
+  .work-card__figures > div:only-child b { display: none; }
+
+  /* Antes de esto: tarjetas en rejilla */
+  .secondary .section-head .prose { max-width: 72rem; width: 100%; }
+  .work-preview__more { text-align: center; }
+  .secondary .prose ul {
+    list-style: none; padding: 0; text-align: left;
+    display: grid; gap: var(--space-md);
+    grid-template-columns: repeat(auto-fit, minmax(min(100%, 14rem), 1fr));
+    margin-top: var(--space-lg);
+  }
+  .secondary .prose li {
+    margin: 0; padding: var(--space-md);
+    border: 1px solid var(--border); border-radius: var(--radius-lg); background: var(--surface);
+    color: var(--text); font-size: var(--type-sm);
+  }
+
+  /* Contacto: cierre centrado */
+  .contact { text-align: center; display: grid; justify-items: center; }
+  .contact .section-title { max-width: none; }
+  .contact .prose { margin-inline: auto; max-width: 40rem; }
+  .contact__actions { justify-content: center; }
 
   /* En pantallas muy anchas el contenido se centra en --shell; la cabecera
      iba pegada a los bordes y el logo no se alineaba con nada. */
