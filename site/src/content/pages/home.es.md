@@ -14,9 +14,7 @@ description: "Tech Lead y Technical Product Owner. Arquitectura, liderazgo técn
 **role:** Producto · Ingeniería · IA
 
 **lead:**
-Tech Lead y Technical Product Owner en una plataforma de ensayos clínicos.
-
-Arquitectura de sistemas en producción, migraciones por fases y priorización técnica.
+Arquitectura de sistemas en producción y priorización técnica en una plataforma de ensayos clínicos.
 
 **cta_primary:** Ver casos
 **cta_secondary:** Escríbeme
@@ -30,9 +28,7 @@ Arquitectura de sistemas en producción, migraciones por fases y priorización t
 **title:** Enfoque
 
 **body:**
-Sistemas en producción que crecieron más rápido que el equipo que los mantiene.
-
-Entender cómo llegaron ahí, decidir qué simplificar y en qué orden, sin frenar las entregas.
+Simplificar sistemas en producción que crecieron más rápido que su equipo, sin frenar las entregas.
 
 ---
 
