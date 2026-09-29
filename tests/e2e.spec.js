@@ -136,10 +136,18 @@ test('sitemap.xml and robots.txt are served', async ({ request }) => {
   expect(await robots.text()).toContain('Sitemap:');
 });
 
-// ─── 10. Work index (/trabajo/) — all 5 cases ────────────────────────────────
-test('work index lists all 5 cases', async ({ page }) => {
+// ─── 10. Work index (/trabajo/) — 18 cases in two groups ──────────────────────
+test('work index lists all 18 cases, grouped into LearUp and personal', async ({ page }) => {
   await page.goto('/trabajo/', { waitUntil: 'domcontentloaded' });
-  await expect(page.locator('.work-index__list .work-card')).toHaveCount(5);
+  await expect(page.locator('.work-index__list .work-card')).toHaveCount(18);
+  const groups = page.locator('.work-index__group');
+  await expect(groups).toHaveCount(2);
+  await expect(groups.nth(0)).toContainText('En LearUp');
+  await expect(groups.nth(1)).toContainText('Proyectos propios');
+  await expect(page.locator('.work-index__list').nth(0).locator('.work-card')).toHaveCount(10);
+  await expect(page.locator('.work-index__list').nth(1).locator('.work-card')).toHaveCount(8);
+  await expect(page.locator('.work-index__list').nth(0).locator('.work-card__state').first()).toHaveText('bajo NDA');
+  await expect(page.locator('.work-index__list').nth(1).locator('.work-card__state').first()).toHaveText('proyecto propio');
 });
 
 // ─── 11. Case pages — NDA vs. open ────────────────────────────────────────────
@@ -186,9 +194,11 @@ test('EN contact CTAs are translated', async ({ page }) => {
   await expect(page.locator('.contact__actions .btn:not(.btn--primary)')).toHaveText('View GitHub');
 });
 
-test('EN work index still lists all 5 cases', async ({ page }) => {
+test('EN work index lists all 18 cases in two groups', async ({ page }) => {
   await page.goto('/en/work/', { waitUntil: 'domcontentloaded' });
-  await expect(page.locator('.work-index__list .work-card')).toHaveCount(5);
+  await expect(page.locator('.work-index__list .work-card')).toHaveCount(18);
+  await expect(page.locator('.work-index__group').nth(0)).toContainText('At LearUp');
+  await expect(page.locator('.work-index__group').nth(1)).toContainText('Personal projects');
 });
 
 // ─── 14. Theme toggle ─────────────────────────────────────────────────────────
