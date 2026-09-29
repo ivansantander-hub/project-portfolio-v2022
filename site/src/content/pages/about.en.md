@@ -23,7 +23,7 @@ Led the team through design and implementation. Service architecture and core te
 
 **LearUp** · Associate Product Full Stack Developer
 
-Core platform work in JavaScript and Python. Continuous delivery with Kubernetes, ArgoCD and Docker.
+Core platform work in JavaScript and Python. Continuous delivery.
 
 **CogenTech** · Product Full Stack Developer · Jun 2023 – Jul 2024
 

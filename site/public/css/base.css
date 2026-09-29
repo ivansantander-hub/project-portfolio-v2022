@@ -537,7 +537,8 @@
   .work-card:hover .work-card__arrow { transform: translateX(8px); color: var(--accent); }
 
   /* ── CASO ─────────────────────────────────────────────────────────── */
-  .case__head { max-width: var(--measure); padding-bottom: var(--space-xl); border-bottom: 1px solid var(--border); }
+  .case__head { padding-bottom: var(--space-xl); border-bottom: 1px solid var(--border); }
+  .case__intro { max-width: var(--measure); }
   .case__title { font-size: var(--type-4xl); font-weight: 650; margin-top: var(--space-sm); }
   .case__headline { font-size: var(--type-lg); color: var(--text-muted); margin-top: var(--space-md); line-height: 1.5; }
 
@@ -608,6 +609,68 @@
   .prose > table { display: block; overflow-x: auto; }
 
   .about h2 { font-size: var(--type-2xl); margin-top: var(--space-2xl); }
+
+  /* ── DOS COLUMNAS EN PANTALLAS ANCHAS ────────────────────────────────
+     Caso y "sobre mí": texto a la izquierda con su ancho de lectura y, a la
+     derecha, la ficha arriba y un índice fijo que acompaña el scroll. */
+  .case__panel { margin-top: var(--space-xl); }
+  .case__panel .case__facts { margin-top: 0; }
+  .case__layout { margin-top: var(--space-2xl); }
+  .case__layout .case__body { margin-top: 0; }
+  .case__aside, .about__aside { margin-top: var(--space-2xl); display: grid; gap: var(--space-md); align-content: start; }
+
+  .toc__title {
+    font-family: var(--font-mono); font-size: var(--type-2xs);
+    letter-spacing: var(--tracking-widest); text-transform: uppercase; color: var(--text-dim);
+  }
+  .toc__list { list-style: none; padding: 0; margin-top: var(--space-xs); display: grid; gap: var(--space-3xs); border-left: 1px solid var(--border); }
+  .toc__list a {
+    display: block; padding: 0.35rem 0 0.35rem var(--space-sm); margin-left: -1px;
+    border-left: 1px solid transparent; font-size: var(--type-sm); color: var(--text-muted); text-decoration: none;
+    transition: color .2s, border-color .2s;
+  }
+  .toc__list a:hover { color: var(--text); }
+  .toc__list a[aria-current='true'] { color: var(--accent); border-left-color: var(--accent); }
+  .about__contact { list-style: none; padding: 0; display: grid; gap: var(--space-2xs); font-size: var(--type-sm); }
+  .about__contact a { color: var(--text-muted); }
+  .about__contact a:hover { color: var(--accent); }
+  .prose h2[id] { scroll-margin-top: 6rem; }
+
+  @media (min-width: 64rem) {
+    .case__head {
+      display: grid; grid-template-columns: minmax(0, 1fr) minmax(16rem, 22rem);
+      column-gap: var(--space-2xl); align-items: end;
+    }
+    .case__intro { max-width: 52rem; }
+    .case__panel {
+      margin-top: 0; padding: var(--space-lg);
+      border: 1px solid var(--border); border-radius: var(--radius-lg); background: var(--surface);
+    }
+    .case__panel .case__facts { grid-template-columns: 1fr; gap: var(--space-sm); }
+    .case__metrics { grid-column: 1 / -1; }
+
+    .case__layout, .about {
+      display: grid; grid-template-columns: minmax(0, var(--measure)) minmax(14rem, 20rem);
+      justify-content: space-between; column-gap: var(--space-2xl);
+    }
+    .about { max-width: var(--shell); }
+    .about__main { max-width: var(--measure); }
+    .case__aside, .about__aside {
+      margin-top: 0; position: sticky; top: 6rem; align-self: start;
+      max-height: calc(100vh - 8rem); overflow-y: auto;
+    }
+    .about__aside { margin-top: calc(var(--type-4xl) * 1.6); }
+  }
+
+  /* Cabecera: al hacer scroll gana fondo para que el contenido no pase por
+     debajo del logo y del menú (page.js pone .is-scrolled). */
+  .site-header { transition: background-color .25s, border-color .25s; border-bottom: 1px solid transparent; }
+  .site-header.is-scrolled {
+    mix-blend-mode: normal; color: var(--text);
+    background: color-mix(in srgb, var(--bg) 88%, transparent);
+    backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px);
+    border-bottom-color: var(--border);
+  }
 
   .contact .section-title { max-width: 15ch; }
   /* Sin esto el <h2> y el <div class="prose"> quedan pegados (el reset pone
