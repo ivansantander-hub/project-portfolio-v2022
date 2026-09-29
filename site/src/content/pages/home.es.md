@@ -14,7 +14,7 @@ description: "Tech Lead y Technical Product Owner. Arquitectura, liderazgo técn
 **role:** Producto · Ingeniería · IA
 
 **lead:**
-Tech Lead y Technical Product Owner en una plataforma SaaS de ensayos
+Tech Lead y Technical Product Owner en una plataforma de ensayos
 clínicos.
 
 Arquitectura de sistemas en producción, migraciones por fases y

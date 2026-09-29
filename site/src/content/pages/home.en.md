@@ -14,7 +14,7 @@ description: "Tech Lead and Technical Product Owner. Architecture, technical lea
 **role:** Product · Engineering · AI
 
 **lead:**
-Tech Lead and Technical Product Owner at a SaaS clinical trial platform.
+Tech Lead and Technical Product Owner at a clinical trial platform.
 
 Architecture for production systems, phased migrations and technical
 prioritization alongside the business.

@@ -5,7 +5,7 @@ title: Sobre mí
 description: Iván Santander — Tech Lead y Technical Product Owner en plataformas de salud. Medellín, Colombia.
 ---
 
-Tech Lead y Technical Product Owner en LearUp, una plataforma SaaS de ensayos clínicos. Medellín, Colombia · remoto.
+Tech Lead y Technical Product Owner en LearUp, una plataforma de ensayos clínicos. Medellín, Colombia · remoto.
 
 **Foco actual:** arquitectura de sistemas en producción, migraciones incrementales y priorización técnica en un dominio regulado, con auditorías y datos que no admiten errores de migración.
 

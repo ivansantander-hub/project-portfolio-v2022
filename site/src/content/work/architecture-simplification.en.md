@@ -5,7 +5,7 @@ order: 1
 title: Consolidating a microservice architecture
 project: Architecture consolidation
 headline: A microservice architecture with more components than people to maintain them. A system inventory and two costed proposals turned it into a decision that could be evaluated, starting with retiring what no longer deployed.
-domain: Clinical trial management SaaS platform
+domain: Clinical trial management platform
 role: Technical Lead → Technical Product Owner · inventory and architecture proposal
 period: 2025 – 2026
 confidential: true

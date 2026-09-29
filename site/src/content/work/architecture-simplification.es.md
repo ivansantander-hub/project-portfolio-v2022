@@ -5,7 +5,7 @@ order: 1
 title: Consolidar una arquitectura de microservicios
 project: Consolidación de arquitectura
 headline: Una arquitectura de microservicios con más componentes que personas para mantenerlos. Un inventario del sistema y dos propuestas con sus costos la convirtieron en una decisión evaluable, empezando por retirar lo que ya no se desplegaba.
-domain: Plataforma SaaS de gestión de ensayos clínicos
+domain: Plataforma de gestión de ensayos clínicos
 role: Technical Lead → Technical Product Owner · inventario y propuesta de arquitectura
 period: 2025 – 2026
 confidential: true

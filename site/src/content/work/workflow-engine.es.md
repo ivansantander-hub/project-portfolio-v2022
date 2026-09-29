@@ -5,7 +5,7 @@ order: 3
 title: Un motor de workflows para dejar de escribir un script por cliente
 project: Motor de workflows
 headline: Incorporar un cliente exigía escribir y desplegar un script nuevo. Un motor de grafos configurable lo convierte en una tarea de configuración para quienes conocen los datos.
-domain: Plataforma SaaS de gestión de ensayos clínicos
+domain: Plataforma de gestión de ensayos clínicos
 role: Technical Lead · diseño del motor, decisión de arquitectura y optimización de la vista previa
 period: 2026
 confidential: true
