@@ -241,3 +241,46 @@ test('header nav fits without wrapping on mobile', async ({ page, isMobile }) =>
   const box = await nav.boundingBox();
   expect(box.height).toBeLessThan(60); // one row, not wrapped
 });
+
+// ─── Keyboard navigation (public/js/keys.js) ─────────────────────────────────
+test('case pages link to the previous and next project in index order', async ({ page }) => {
+  await page.goto('/trabajo/english/', { waitUntil: 'domcontentloaded' });
+  await expect(page.locator('a.case__pager-link[rel="prev"]')).toHaveAttribute('href', '/trabajo/sgc/');
+  await expect(page.locator('a.case__pager-link[rel="next"]')).toHaveAttribute('href', '/trabajo/eco-loop/');
+
+  await page.goto('/trabajo/sgc/', { waitUntil: 'domcontentloaded' });
+  await expect(page.locator('a.case__pager-link[rel="prev"]')).toHaveCount(0);
+
+  await page.goto('/trabajo/dev-platform/', { waitUntil: 'domcontentloaded' });
+  await expect(page.locator('a.case__pager-link[rel="next"]')).toHaveCount(0);
+});
+
+test('← and → move between projects on a case page', async ({ page }) => {
+  await page.goto('/trabajo/english/', { waitUntil: 'load' });
+  await page.keyboard.press('ArrowRight');
+  await expect(page).toHaveURL(/\/trabajo\/eco-loop\/$/);
+  await page.waitForLoadState('load');
+  await page.keyboard.press('ArrowLeft');
+  await expect(page).toHaveURL(/\/trabajo\/english\/$/);
+});
+
+test('arrows with a modifier are left to the browser', async ({ page }) => {
+  await page.goto('/trabajo/english/', { waitUntil: 'load' });
+  await page.keyboard.press('Alt+ArrowRight');
+  await page.waitForTimeout(300);
+  await expect(page).toHaveURL(/\/trabajo\/english\/$/);
+});
+
+test('on the work index, arrows move focus across projects and Enter opens one', async ({ page }) => {
+  await page.goto('/trabajo/', { waitUntil: 'load' });
+  const links = page.locator('.work-index__list .work-card__link');
+  await page.keyboard.press('ArrowRight');
+  await expect(links.nth(0)).toBeFocused();
+  await page.keyboard.press('ArrowDown');
+  await expect(links.nth(1)).toBeFocused();
+  await page.keyboard.press('ArrowLeft');
+  await expect(links.nth(0)).toBeFocused();
+  await page.keyboard.press('ArrowDown');
+  await page.keyboard.press('Enter');
+  await expect(page).toHaveURL(/\/trabajo\/english\/$/);
+});

@@ -71,11 +71,15 @@ const UI = {
   es: {
     workTitle: 'Casos', workDesc: 'Casos de arquitectura, liderazgo técnico y producto.',
     backToWork: 'Volver a casos', role: 'Rol', period: 'Periodo', context: 'Contexto',
+    prev: 'Anterior', next: 'Siguiente', pager: 'Navegación entre proyectos',
+    keysHint: 'Usa ← y → para cambiar de proyecto',
     stack: 'Stack',
   },
   en: {
     workTitle: 'Work', workDesc: 'Case studies in architecture, technical leadership and product.',
     backToWork: 'Back to work', role: 'Role', period: 'Period', context: 'Context',
+    prev: 'Previous', next: 'Next', pager: 'Project navigation',
+    keysHint: 'Use ← and → to switch projects',
     stack: 'Stack',
   },
 };
@@ -337,6 +341,17 @@ ${extra}
 
 function renderCase(item, lang, all) {
   const L = LANGS[lang], t = UI[lang], d = item.data;
+
+  /* Anterior / siguiente en el mismo orden que /trabajo/. Llevan rel="prev" y
+     rel="next": public/js/keys.js los usa para navegar con ← y →. */
+  const pos = all.findIndex(i => i.slug === item.slug);
+  const prev = all[pos - 1], next = all[pos + 1];
+  const pagerLink = (target, dir) => target
+    ? `      <a class="case__pager-link case__pager-link--${dir}" rel="${dir}" href="${urlFor(lang, L.work, target.slug)}">
+        <span class="case__pager-dir">${dir === 'prev' ? `&larr; ${t.prev}` : `${t.next} &rarr;`}</span>
+        <span class="case__pager-title">${esc(target.data.title)}</span>
+      </a>`
+    : `      <span class="case__pager-link case__pager-link--empty" aria-hidden="true"></span>`;
   const metrics = Array.isArray(d.metrics) ? d.metrics : [];
 
   const metricsHtml = metrics.length ? `
@@ -382,7 +397,12 @@ ${marked.parse(item.content)}
   </div>
 
   <footer class="case__foot">
+    <nav class="case__pager" aria-label="${t.pager}">
+${pagerLink(prev, 'prev')}
+${pagerLink(next, 'next')}
+    </nav>
     <a class="link-back" href="${urlFor(lang, L.work)}">${t.backToWork}</a>
+    <p class="case__keys" aria-hidden="true">${t.keysHint}</p>
   </footer>
 </article>
 `;
