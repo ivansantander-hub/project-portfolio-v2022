@@ -1,7 +1,7 @@
 ---
 slug: dashboards
 lang: en
-order: 7
+order: 10
 title: Per-project configurable dashboards
 project: Configurable dashboards
 headline: Dashboards were hand-coded one by one. We replaced them with an engine where a dashboard is configuration and the data is resolved on the server.

@@ -1,7 +1,7 @@
 ---
 slug: shell-system
 lang: en
-order: 9
+order: 16
 title: Tracking screens from configuration
 project: Configurable screens
 headline: Every tracking screen was built by hand. I designed an approach where a generic grid and service serve these screens from configuration.

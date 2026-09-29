@@ -1,7 +1,7 @@
 ---
 slug: sgc
 lang: es
-order: 11
+order: 1
 title: "Talonaria: un ERP multi-tenant para pymes colombianas"
 project: Talonaria
 headline: "En muchas pymes colombianas los libros no cuadran con el negocio. Talonaria es un ERP multi-tenant donde cada operación con dinero genera su asiento contable en la misma transacción."

@@ -1,7 +1,7 @@
 ---
 slug: mini-astro
 lang: en
-order: 14
+order: 5
 title: A static site generator of my own
 project: mini-astro
 headline: "Understanding how a static site generator works inside by building one: a single dependency, used only by the dev server, and no client-side runtime. It doesn't compete with Astro; this portfolio runs on it."

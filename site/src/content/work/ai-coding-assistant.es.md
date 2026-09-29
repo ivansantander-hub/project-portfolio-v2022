@@ -1,7 +1,7 @@
 ---
 slug: ai-coding-assistant
 lang: es
-order: 3
+order: 6
 title: Un asistente de código con IA adaptado a la forma de trabajar del equipo
 project: Asistente de código con IA
 headline: Un asistente de programación que parte del contexto del equipo, con roles especializados, convenciones escritas y verificación humana antes de integrar cambios.

@@ -1,7 +1,7 @@
 ---
 slug: document-management
 lang: es
-order: 5
+order: 9
 title: Gestión documental con permisos y trazabilidad
 project: Gestión documental
 headline: Trabajé en el gestor documental de una plataforma de ensayos clínicos, donde cada archivo debe tener claro quién puede verlo y cada acción queda registrada.
