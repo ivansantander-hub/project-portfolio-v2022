@@ -8,7 +8,6 @@ headline: "Una app personal para practicar Present Simple con ejercicios reales,
 domain: Proyecto propio
 role: Desarrollador único · diseño y desarrollo
 period: Agosto 2026
-confidential: false
 featured: true
 links:
   - label: Código en GitHub

@@ -8,7 +8,6 @@ headline: Every tracker form was a hand-written modal. For adverse events and re
 domain: Clinical trial management platform
 role: Technical Lead · shared form builder, conditional logic and EDC integration
 period: 2025 – 2026
-confidential: true
 featured: false
 summary:
   - k: The problem

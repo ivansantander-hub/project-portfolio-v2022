@@ -8,7 +8,6 @@ headline: "Understanding how a static site generator works inside by building on
 domain: Personal project · Open source (MIT)
 role: Sole author · design, development and maintenance
 period: 2026 – present
-confidential: false
 featured: false
 links:
   - label: Source on GitHub

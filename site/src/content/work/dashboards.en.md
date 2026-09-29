@@ -8,7 +8,6 @@ headline: Every dashboard was hand-coded and fed by a per-study ETL. We replaced
 domain: Clinical trial management platform
 role: Technical Lead · solution design, data pipeline and engine foundation
 period: 2026
-confidential: true
 featured: false
 summary:
   - k: The problem

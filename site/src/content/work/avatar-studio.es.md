@@ -8,7 +8,6 @@ headline: "Probar si se pueden producir videos cortos de personajes ficticios he
 domain: Proyecto propio
 role: Desarrollador único · investigación, scripts y pruebas
 period: "2026"
-confidential: false
 featured: false
 summary:
   - k: El problema

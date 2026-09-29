@@ -8,7 +8,6 @@ headline: Los flujos de firma del gestor documental terminan en un certificado c
 domain: Plataforma de gestión de ensayos clínicos
 role: Technical Lead · orquestación del flujo, servicio de certificados y firma digital
 period: 2025 – 2026
-confidential: true
 featured: false
 summary:
   - k: El problema

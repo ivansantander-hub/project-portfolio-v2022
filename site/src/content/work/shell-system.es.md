@@ -8,7 +8,6 @@ headline: Cada tracker de la plataforma tenía su carpeta de componentes y su re
 domain: Plataforma de gestión de ensayos clínicos
 role: Technical Lead · diseño e implementación del experimento
 period: 2026
-confidential: true
 featured: false
 summary:
   - k: El problema

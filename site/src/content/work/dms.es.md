@@ -8,7 +8,6 @@ headline: El gestor documental de una plataforma de ensayos clínicos, donde cad
 domain: Plataforma de gestión de ensayos clínicos
 role: Technical Lead · modelo de permisos, carga de archivos, caché y autorización en servidor
 period: 2024 – 2026
-confidential: true
 featured: false
 summary:
   - k: El problema

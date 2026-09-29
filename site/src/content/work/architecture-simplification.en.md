@@ -8,7 +8,6 @@ headline: A microservice architecture with more components than people to mainta
 domain: Clinical trial management platform
 role: Technical Lead → Technical Product Owner · inventory and architecture proposal
 period: 2025 – 2026
-confidential: true
 featured: true
 summary:
   - k: The problem

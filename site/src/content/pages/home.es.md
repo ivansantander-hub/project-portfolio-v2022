@@ -46,8 +46,7 @@ comprometidas.
 **title:** Casos
 
 **body:**
-Proyectos de clientes, sin los datos que no se pueden publicar, y proyectos
-propios, con el código y los números abiertos.
+Proyectos en los que he trabajado, en equipo y por mi cuenta.
 
 Cada caso resume el contexto, el problema, las decisiones y el resultado.
 

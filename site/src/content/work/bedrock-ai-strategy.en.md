@@ -8,7 +8,6 @@ headline: The platform had no AI in production and handles data that can't leave
 domain: Clinical trial management platform
 role: Technical Lead / Technical Product Owner · integration strategy and spike
 period: 2026
-confidential: true
 featured: false
 summary:
   - k: The problem
