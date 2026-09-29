@@ -9,19 +9,19 @@ Tech Lead y Technical Product Owner en LearUp, una plataforma de ensayos clínic
 
 **Foco actual:** arquitectura de sistemas en producción, migraciones incrementales y priorización técnica en un dominio regulado, con auditorías y datos que no admiten errores de migración.
 
-**Experiencia:** software desde 2019, liderazgo técnico desde 2025. Salud digital, fintech y SaaS.
+**Experiencia:** software desde 2019, con liderazgo técnico en los últimos años. Salud digital, fintech y SaaS.
 
 ## Trayectoria
 
-**LearUp** · Sr. Associate Technical Product Owner · nov 2025 – hoy
+**LearUp** · Sr. Associate Technical Product Owner
 
 Defino y priorizo las iniciativas de la plataforma. Coordino desarrollo, QA y operaciones.
 
-**LearUp** · Sr. Associate Tech Lead · ene 2025 – nov 2025
+**LearUp** · Sr. Associate Tech Lead
 
 Lideré al equipo en diseño e implementación. Arquitectura de servicios y decisiones técnicas de fondo.
 
-**LearUp** · Associate Product Full Stack Developer · jul 2024 – ene 2025
+**LearUp** · Associate Product Full Stack Developer
 
 Núcleo de la plataforma en JavaScript y Python. Entrega continua con Kubernetes, ArgoCD y Docker.
 
