@@ -8,7 +8,6 @@ headline: "In many Colombian small businesses, the books don't match the busines
 domain: Personal project
 role: Sole developer · design, architecture and development
 period: 2026 – present
-confidential: false
 featured: false
 links:
   - label: See Talonaria

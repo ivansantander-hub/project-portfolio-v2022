@@ -8,7 +8,6 @@ headline: Cada dashboard estaba escrito a mano y se alimentaba de un ETL por est
 domain: Plataforma de gestión de ensayos clínicos
 role: Technical Lead · diseño de la solución, pipeline de datos y base del motor
 period: 2026
-confidential: true
 featured: false
 summary:
   - k: El problema

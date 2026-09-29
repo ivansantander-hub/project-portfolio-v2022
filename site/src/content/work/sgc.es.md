@@ -8,7 +8,6 @@ headline: "En muchas pymes colombianas los libros no cuadran con el negocio. Tal
 domain: Proyecto propio
 role: Desarrollador único · diseño, arquitectura y desarrollo
 period: 2026 – presente
-confidential: false
 featured: false
 links:
   - label: Ver Talonaria

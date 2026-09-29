@@ -8,7 +8,6 @@ headline: "Entender cómo funciona por dentro un generador de sitios estáticos 
 domain: Proyecto propio · Código abierto (MIT)
 role: Autor único · diseño, desarrollo y mantenimiento
 period: 2026 – presente
-confidential: false
 featured: false
 links:
   - label: Código en GitHub

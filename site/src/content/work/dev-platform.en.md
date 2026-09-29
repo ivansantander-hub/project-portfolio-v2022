@@ -8,7 +8,6 @@ headline: Running the platform locally meant cloning, configuring and starting d
 domain: Clinical trial management platform
 role: Technical Lead · CLI design and implementation
 period: 2026
-confidential: true
 featured: false
 summary:
   - k: The problem

@@ -8,7 +8,6 @@ headline: The document management system of a clinical trial platform, where eve
 domain: Clinical trial management platform
 role: Technical Lead · permission model, file uploads, caching and server-side authorization
 period: 2024 – 2026
-confidential: true
 featured: false
 summary:
   - k: The problem
