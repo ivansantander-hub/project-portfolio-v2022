@@ -53,7 +53,7 @@ importers:
         version: 1.3.19
       mini-astro:
         specifier: github:ivansantander-hub/mini-astro
-        version: https://codeload.github.com/ivansantander-hub/mini-astro/tar.gz/48c66a0e647b256b19827ad2a6884f5e3e2893a2
+        version: https://codeload.github.com/ivansantander-hub/mini-astro/tar.gz/7f5643063e86022e3dc2a77f13bbd5839fef483b
     devDependencies:
       gray-matter:
         specifier: ^4.0.3
@@ -566,9 +566,9 @@ packages:
     resolution: {integrity: sha512-OqbOk5oEQeAZ8WXWydlu9HJjz9WVdEIvamMCcXmuqUYjTknH/sqsWvhQ3vgwKFRR1HpjvNBKQ37nbJgYzGqGcg==}
     engines: {node: '>=6'}
 
-  mini-astro@https://codeload.github.com/ivansantander-hub/mini-astro/tar.gz/48c66a0e647b256b19827ad2a6884f5e3e2893a2:
-    resolution: {tarball: https://codeload.github.com/ivansantander-hub/mini-astro/tar.gz/48c66a0e647b256b19827ad2a6884f5e3e2893a2}
-    version: 0.1.0
+  mini-astro@https://codeload.github.com/ivansantander-hub/mini-astro/tar.gz/7f5643063e86022e3dc2a77f13bbd5839fef483b:
+    resolution: {tarball: https://codeload.github.com/ivansantander-hub/mini-astro/tar.gz/7f5643063e86022e3dc2a77f13bbd5839fef483b}
+    version: 0.2.0
     engines: {node: '>=18'}
     hasBin: true
 
@@ -1168,7 +1168,7 @@ snapshots:
 
   mimic-fn@2.1.0: {}
 
-  mini-astro@https://codeload.github.com/ivansantander-hub/mini-astro/tar.gz/48c66a0e647b256b19827ad2a6884f5e3e2893a2:
+  mini-astro@https://codeload.github.com/ivansantander-hub/mini-astro/tar.gz/7f5643063e86022e3dc2a77f13bbd5839fef483b:
     dependencies:
       chokidar: 3.6.0
 

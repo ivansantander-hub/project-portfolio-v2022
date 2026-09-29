@@ -87,6 +87,29 @@ marked.setOptions({ mangle: false, headerIds: false });
 
 /* ── Lectura del contenido ────────────────────────────────────────────────── */
 
+/* ── Marquee del SubBanner (v1) ───────────────────────────────────────────── */
+
+/**
+ * mini-astro 0.2 ya no genera el texto del marquee: antes lo hacía su núcleo al
+ * ver `title1`/`title2` en un include. Ahora se arma aquí, sobre las páginas
+ * escritas a mano, y llega al componente como `line1content`/`line2content`.
+ * Mismo resultado que el de mini-astro 0.1, carácter por carácter.
+ */
+function repetirMarquee(titulo, conProjects = true) {
+  const segmento = `<span>${titulo}</span> ${titulo} `;
+  const bloque = segmento.repeat(4) + (conProjects ? ' <span> PROJECTS </span> ' : ' ') + segmento.repeat(4);
+  return bloque.repeat(6).trim();
+}
+
+function expandirSubBanners(html) {
+  return html.replace(
+    /<mini-include src="molecules\/SubBanner" title1="([^"]*)" title2="([^"]*)" \/>/g,
+    (_, t1, t2) =>
+      `<mini-include src="molecules/SubBanner" line1content="${repetirMarquee(t1)}" ` +
+      `line2content="${repetirMarquee(t2, t1 !== t2)}" />`
+  );
+}
+
 function readCollection(sub) {
   const dir = join(contentDir, sub);
   if (!existsSync(dir)) return [];
@@ -503,6 +526,11 @@ for (const sub of ['templates', 'atoms', 'molecules', 'organisms', 'data']) {
 // cuenta: de ahí salen las generadas.
 if (existsSync(pagesDir)) {
   cpSync(pagesDir, buildPagesDir, { recursive: true });
+  for (const file of readdirSync(buildPagesDir, { recursive: true })) {
+    if (!String(file).endsWith('.html')) continue;
+    const path = join(buildPagesDir, String(file));
+    writeFileSync(path, expandirSubBanners(readFileSync(path, 'utf8')), 'utf8');
+  }
 }
 
 const work = readCollection('work');
