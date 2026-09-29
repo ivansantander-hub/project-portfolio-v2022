@@ -48,8 +48,8 @@ test('hero CTAs point to work index and the contact anchor', async ({ page }) =>
 
 // ─── 4. Thesis ────────────────────────────────────────────────────────────────
 test('thesis section states the core argument', async ({ page }) => {
-  await expect(page.locator('.thesis__title')).toHaveText('Los sistemas envejecen');
-  await expect(page.locator('.thesis__body')).toContainText('Evolucionar es el trabajo');
+  await expect(page.locator('.thesis__title')).toHaveText('Enfoque');
+  await expect(page.locator('.thesis__body')).toContainText('Sistemas que ya están en producción');
 });
 
 // ─── 5. Work preview (home) — only featured cases ───────────────────────────
@@ -79,7 +79,7 @@ test('secondary section lists earlier work as a scannable list', async ({ page }
 
 // ─── 7. Contact — real CTAs, no email ────────────────────────────────────────
 test('contact section has LinkedIn + GitHub buttons and no mailto', async ({ page }) => {
-  await expect(page.locator('.contact .section-title')).toHaveText('¿Trabajamos juntos?');
+  await expect(page.locator('.contact .section-title')).toHaveText('¿Hablamos?');
 
   const primary = page.locator('.contact__actions .btn--primary');
   await expect(primary).toHaveAttribute('href', /linkedin\.com/);
@@ -173,7 +173,7 @@ test('EN home has translated nav, statement and arrow text', async ({ page }) =>
   await expect(nav.locator('.site-header__link').nth(1)).toHaveAttribute('href', '/en/about/');
   await expect(nav.locator('.site-header__lang')).toHaveAttribute('href', '/');
 
-  await expect(page.locator('.hero__statement')).toContainText('simplify');
+  await expect(page.locator('.hero__statement')).toContainText('Tech Lead');
 
   // Regression guard: the work-card arrow used to be hardcoded in Spanish
   // even on English pages ("Ver caso" instead of "See case").

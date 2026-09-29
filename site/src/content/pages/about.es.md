@@ -2,20 +2,14 @@
 slug: about
 lang: es
 title: Sobre mí
-description: Iván Santander — Tech Lead y Technical Product Owner en plataformas de salud. De full stack a liderar el equipo en dos años. Medellín, Colombia.
+description: Iván Santander — Tech Lead y Technical Product Owner en plataformas de salud. Medellín, Colombia.
 ---
 
-Soy Iván Santander.
+Tech Lead y Technical Product Owner en LearUp, una plataforma de ensayos clínicos. Medellín, Colombia · remoto.
 
-Escribo software desde 2019 y lidero equipos técnicos desde 2025. Vivo en Medellín.
+**Foco actual:** arquitectura de sistemas en producción, migraciones incrementales y priorización técnica en un dominio regulado, con auditorías y datos que no admiten errores de migración.
 
-Los últimos dos años los pasé en una plataforma de ensayos clínicos. Dominio regulado, con auditorías, donde un dato mal migrado no se arregla con un rollback.
-
-Ahí aprendí algo que no se aprende en un proyecto personal:
-
-> la decisión técnica correcta y la que se puede ejecutar casi nunca son la misma.
-
-Tu trabajo es encontrar la que es las dos.
+**Experiencia:** software desde 2019, liderazgo técnico desde 2025. Salud digital, fintech y SaaS.
 
 ## Trayectoria
 
@@ -49,41 +43,17 @@ Aplicaciones híbridas y web, casi todas en salud digital.
 
 ## Cómo trabajo
 
-Mido antes de opinar.
-
-"El sistema se siente pesado" no es un argumento. Una tabla con el inventario sí.
-
-La mayoría de las discusiones de arquitectura se destraban solas cuando alguien se toma el trabajo de contar.
-
-Llego con dos opciones, no con una.
-
-Una sola propuesta pide un sí o un no. Dos propuestas con sus costos piden una decisión. Y dejan que la tome quien tiene el contexto de negocio.
-
-No creo en las reescrituras totales.
-
-El sistema nuevo va absorbiendo partes mientras el viejo sigue sirviendo el resto. Con criterios de vuelta atrás escritos antes de empezar.
-
-Escribo lo que decido y por qué.
-
-Una decisión sin su razonamiento no se puede revisar. En seis meses, cuando el contexto cambie, alguien tiene que poder entender si sigue siendo válida.
+- **Inventario antes de proponer.** Un listado real de servicios, dependencias y uso convierte "el sistema se siente pesado" en datos que cualquiera puede evaluar.
+- **Dos opciones con sus costos.** Las decisiones grandes llegan con alternativas, para que decida quien tiene el contexto de negocio.
+- **Migración por partes.** El sistema nuevo absorbe piezas mientras el viejo sigue funcionando, con criterios de vuelta atrás definidos desde el inicio.
+- **Decisiones por escrito.** Qué se decidió y por qué, para poder revisarlo cuando cambie el contexto.
 
 ## Cómo lidero
 
-Siempre dejo a alguien en la operación.
-
-Las migraciones no se mueren por problemas técnicos. Se mueren porque los bugs del día a día se comen al equipo y el proyecto se queda sin nadie.
-
-Lo prometido va antes que lo estructural.
-
-Una propuesta de arquitectura que ignora las entregas comprometidas no se ejecuta. Se archiva.
-
-Empiezo por lo aburrido.
-
-Antes de pedir presupuesto para lo caro, ejecuto lo trivial y sin riesgo. La confianza se construye entregando, no presentando.
-
-Reviso código y entrevisto.
-
-Son las dos palancas con más efecto compuesto que tiene un líder técnico. No las delego.
+- **Operación cubierta.** Durante una migración, una persona del equipo se dedica a soporte y bugs del día a día.
+- **Compromisos primero.** Las entregas ya comprometidas van antes que los cambios de arquitectura.
+- **De lo pequeño a lo grande.** Primero los cambios de bajo riesgo, para ganar confianza antes de lo costoso.
+- **Revisión de código y entrevistas.** Dos de las tareas con más impacto en un equipo; se hacen en persona.
 
 ## Stack
 
@@ -95,10 +65,6 @@ Son las dos palancas con más efecto compuesto que tiene un líder técnico. No 
 
 **También** · FastAPI · Astro · React Native · Auth0 · Stripe
 
-## Fuera del trabajo
+## Proyectos propios
 
-Mantengo un ERP multi-tenant, un generador de sitios estáticos y un blog que reconstruí desde cero.
-
-Están en la sección de casos, con el código abierto donde se puede.
-
-Es donde pruebo las ideas que después defiendo en una reunión.
+Un ERP multi-tenant, un generador de sitios estáticos y un blog con CMS propio. Están en la sección de casos, con el código abierto cuando se puede; sirven para probar ideas antes de llevarlas a un equipo.

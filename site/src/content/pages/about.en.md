@@ -2,20 +2,14 @@
 slug: about
 lang: en
 title: About
-description: Iván Santander — Tech Lead and Technical Product Owner on healthcare platforms. From full stack to leading the team in two years. Medellín, Colombia.
+description: Iván Santander — Tech Lead and Technical Product Owner on healthcare platforms. Medellín, Colombia.
 ---
 
-I'm Iván Santander.
+Tech Lead and Technical Product Owner at LearUp, a clinical trial platform. Medellín, Colombia · remote.
 
-I've been writing software since 2019 and leading engineering teams since 2025. I live in Medellín, Colombia.
+**Current focus:** architecture for production systems, incremental migrations and technical prioritization in a regulated domain, with audits and data that leaves no room for migration errors.
 
-The last two years were on a clinical trial platform. Regulated domain, audits, where a badly migrated record doesn't get fixed with a rollback.
-
-That's where I learned something you don't learn on a side project:
-
-> the correct technical decision and the one you can actually execute are almost never the same.
-
-Your job is to find the one that's both.
+**Experience:** software since 2019, technical leadership since 2025. Digital health, fintech and SaaS.
 
 ## Experience
 
@@ -49,41 +43,17 @@ Hybrid and web applications, nearly all in digital health.
 
 ## How I work
 
-I measure before I opine.
-
-"The system feels heavy" isn't an argument. A table with the inventory is.
-
-Most architecture debates unblock themselves when someone bothers to count.
-
-I arrive with two options, not one.
-
-One proposal asks for a yes or a no. Two proposals with their costs ask for a decision. And they let the person with the business context make it.
-
-I don't believe in total rewrites.
-
-The new system absorbs pieces while the old one keeps serving the rest. With rollback criteria written before starting.
-
-I write down what I decide and why.
-
-A decision without its reasoning can't be reviewed. Six months from now, when the context has changed, someone has to be able to tell whether it still holds.
+- **Inventory before proposals.** A real list of services, dependencies and usage turns "the system feels heavy" into data anyone can evaluate.
+- **Two options with their costs.** Big decisions come with alternatives, so the people with the business context can make the call.
+- **Migrate in pieces.** The new system takes over parts while the old one keeps running, with rollback criteria defined up front.
+- **Decisions in writing.** What was decided and why, so it can be revisited when the context changes.
 
 ## How I lead
 
-I always leave someone on operations.
-
-Migrations don't die of technical problems. They die because day-to-day bugs eat the team and the project is left with nobody.
-
-Commitments come before refactoring.
-
-An architecture proposal that ignores promised deliverables doesn't get executed. It gets filed.
-
-I start with the boring part.
-
-Before asking for budget for the expensive work, I ship the trivial, zero-risk pieces. Trust is built by delivering, not by presenting.
-
-I review code and I interview.
-
-They're the two highest-compounding levers a technical lead has. I don't delegate them.
+- **Operations covered.** During a migration, one person on the team handles support and day-to-day bugs.
+- **Commitments first.** Work that's already been committed comes before architecture changes.
+- **Small before big.** Low-risk changes first, to build confidence before the expensive work.
+- **Code review and interviews.** Two of the tasks with the most impact on a team; done in person.
 
 ## Stack
 
@@ -95,10 +65,6 @@ They're the two highest-compounding levers a technical lead has. I don't delegat
 
 **Also** · FastAPI · Astro · React Native · Auth0 · Stripe
 
-## Outside work
+## Personal projects
 
-I maintain a multi-tenant ERP, a static site generator and a blog I rebuilt from scratch.
-
-They're in the work section, with the source open where it can be.
-
-That's where I test the ideas I later defend in a meeting.
+A multi-tenant ERP, a static site generator and a blog with its own CMS. They're in the work section, with the source open where possible; they're a place to try ideas before bringing them to a team.

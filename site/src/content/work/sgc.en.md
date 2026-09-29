@@ -4,9 +4,9 @@ lang: en
 order: 2
 title: A multi-tenant ERP for Colombia
 project: SGC
-headline: 85 models, 164 endpoints and 383 tests. A business management system with real Colombian accounting, built from scratch.
+headline: "In many Colombian small businesses, the books don't match the business. SGC is a multi-tenant ERP where every sale creates its journal entry in the same transaction."
 domain: Personal project
-role: Design, architecture and development
+role: Sole developer · design, architecture and development
 period: 2025 – present
 confidential: false
 featured: true
@@ -15,11 +15,11 @@ links:
     href: https://business-system.up.railway.app/landing
 summary:
   - k: The problem
-    v: "In Colombian admin software, accounting is a module bolted on at the end. The books and the business don't match."
+    v: "Accounting is usually a module added at the end; the books don't match the business."
   - k: The decision
-    v: "Accounting as a core function. No code path allows recording a sale without its journal entry."
+    v: "Accounting as a core function: every money operation creates its entry in the same transaction."
   - k: How it ended
-    v: "Deployed and running. 85 models, 164 endpoints, 383 tests. Verified against the code."
+    v: "ERP deployed and running, maintained by one person."
 metrics:
   - value: "85"
     label: "data models"
@@ -43,41 +43,30 @@ tags:
   - fintech
 ---
 
-> How much of a real ERP can one person sustain, if the architectural decisions are right from the start?
+SGC is a multi-tenant business management system for restaurants, bars, gyms and retail in Colombia. It covers point of sale, inventory, accounting on the national chart of accounts, payroll, electronic invoicing, gym memberships with access control, messaging, Stripe subscriptions, role-based access and PDF generation, plus an agent that answers questions in natural language.
 
-That's the question I wanted to answer. SGC is the answer in progress: a multi-tenant business management system for Colombian businesses — restaurants, bars, gyms, retail. Point of sale, inventory, accounting, payroll, electronic invoicing, memberships, messaging, and a natural-language query agent.
+## The problem
 
-## The problem I wanted to avoid
+In admin software for Colombian small businesses, accounting is usually a module added at the end. The business numbers and the books don't match, and someone ends up reconciling them by hand.
 
-Administrative software for Colombian small businesses tends to fail at the same point: accounting is a module bolted on at the end, not the center of the system. The result is that the business numbers and the books don't match, and someone ends up reconciling by hand.
+On top of that come local rules that leave no room for interpretation: the national chart of accounts, 19% VAT with its exceptions, and electronic invoicing filed with the tax authority (DIAN). And one constraint of its own: a single person maintains the system, so the architecture has to keep maintenance work down from the start.
 
-On top of that sit local constraints you can't simplify away: the national chart of accounts, 19% VAT with its exceptions, electronic invoicing filed with the tax authority.
+## Decisions
 
-## Five decisions, with their costs
+**Accounting as a core function, not a module.** Every event that moves money goes through the same function that creates the journal entry, inside the same transaction as the operation. There is no way to record a sale without its entry, so no after-the-fact reconciliation process is needed.
 
-**Multi-tenancy by schema, not by database.** Two Postgres schemas in a single database: one global for users and companies, another for everything that belongs to a company. The trade-off is explicit — there's no row-level security protecting me from myself. In exchange I get a simple model, single migrations and cross-module queries at no cost. For a single-maintainer system with tests covering isolation, that's the right ratio. With a team, the answer would be different.
+**Serializable, with retries, for money and stock.** Sales, purchase receiving, opening and closing cash sessions, and journal entries run in Serializable transactions with retries, exponential backoff and atomic balance updates. A point of sale has real concurrency (two cashiers selling the last unit). *Trade-off:* some extra latency and the complexity of handling retries.
 
-**Anything touching money or stock runs in Serializable transactions.** Sales, purchase receiving, cash session open and close, journal entries — with retries, exponential backoff and atomic balance mutations. This is the decision I'm most confident about: a point of sale has real concurrency, two cashiers selling the last unit, and "almost always correct" isn't an option when the subject is inventory and money. The cost is latency and retry complexity. I pay it without argument.
+**Multi-tenancy through Postgres schemas, without RLS.** A global schema for users and companies and another for each company's data, in a single database. *Trade-off:* without row-level security, isolation depends on the code respecting it; in return, the model is simple, there's one set of migrations, and cross-module queries cost nothing. With one maintainer and isolation tests it's a reasonable balance; with a team it wouldn't be.
 
-**Accounting is a core function, not a module.** Every event that moves money goes through the same function that creates the journal entry, inside the same transaction as the operation. The consequence: it's impossible to record a sale without its journal entry — not because a process checks afterward, but because no code path allows it. The books don't drift from the business because they aren't two systems.
+**Electronic invoicing through providers, not directly against DIAN.** I integrated four authorized providers behind a common interface. *Trade-off:* a direct connection would be cleaner on paper, but it means ongoing regulatory maintenance that one person can't sustain.
 
-**Electronic invoicing through providers, not against the tax authority directly.** I integrated four authorized providers behind a common interface. Integrating directly would have been more "pure" and a permanent source of regulatory maintenance I have no interest in carrying alone.
+**A tightly scoped AI agent.** The agent turns natural-language questions into SQL, and it's the most sensitive part: a badly scoped query could expose one company's data to another. It has its own test suite dedicated to trying to break that isolation.
 
-**The AI agent is caged by design.** SGC includes an agent that translates natural-language questions into SQL — the most dangerous part of the system, where a badly scoped query is a data leak across companies. It has a test suite dedicated solely to trying to break that isolation.
+## Result
 
-## Verified against the code, not estimated
-
-| | |
-|---|---|
-| Data models | 85 |
-| REST endpoints | 164 |
-| Automated tests | 383 |
-| Lines of TypeScript | ~59,700 across 389 files |
-
-Covers point of sale, inventory, accounting on the national chart of accounts, payroll, electronic invoicing, gym memberships with access control, messaging, Stripe subscriptions, role-based access control and PDF generation. Deployed and running.
+It's deployed and running. The figures in the header come from roughly 59,700 lines of TypeScript across 389 files.
 
 ## What I'd do differently
 
-I'd have started with the accounting model. I built it after the point of sale and had to go back over already-written operations to hook them in — if the journal entry had been the first abstraction, every operation would have been born connected.
-
-And isolation by convention has an expiry date. Today it's correct for one maintainer; the moment someone else joins, I migrate to row-level security. I'd rather say that now than discover it through a leak.
+I'd start with the accounting model: I built it after the point of sale and had to go back over operations already written to hook them in. And once someone else joins the project, I'll move isolation to row-level security.
