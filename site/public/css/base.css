@@ -418,6 +418,8 @@
 
   /* ── TARJETAS ─────────────────────────────────────────────────────── */
   .work-index__list { display: grid; gap: 1px; background: var(--border); border-block: 1px solid var(--border); }
+  .work-index__group { margin-block: var(--space-xl) var(--space-sm); font-size: var(--type-xl, 1.25rem); font-weight: 600; }
+  .work-index__group span { color: var(--text-muted); font-weight: 400; margin-inline-start: 0.35em; }
 
   .work-card {
     position: relative;

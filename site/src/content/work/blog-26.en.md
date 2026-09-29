@@ -1,7 +1,7 @@
 ---
 slug: blog-26
 lang: en
-order: 5
+order: 15
 title: The version history I rebuilt three times
 project: blog-26
 headline: Publishing on a static blog meant commit, push and build. The fix was a self-built CMS; its hard part, the version history, took three attempts.
