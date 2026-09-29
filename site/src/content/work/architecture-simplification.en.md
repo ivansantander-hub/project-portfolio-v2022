@@ -7,7 +7,7 @@ project: Architecture simplification
 headline: A system that had grown piece by piece over the years. I built an inventory and prepared costed options so that simplifying it became a decision that could be evaluated.
 domain: Clinical trial management platform
 role: Technical Lead → Technical Product Owner · inventory and architecture proposal
-featured: true
+featured: false
 summary:
   - k: The problem
     v: "The system had more pieces than the team could comfortably maintain."

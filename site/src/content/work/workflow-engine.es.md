@@ -7,7 +7,7 @@ project: Motor de flujos
 headline: Cada integración de datos se resolvía con código escrito a medida. Diseñé un motor de flujos configurable para que quienes conocen los datos puedan armarlos sin pasar por ingeniería.
 domain: Plataforma de gestión de ensayos clínicos
 role: Technical Lead · diseño del motor y de la vista previa
-featured: true
+featured: false
 summary:
   - k: El problema
     v: "Cada integración nueva requería código casi idéntico al de la anterior."

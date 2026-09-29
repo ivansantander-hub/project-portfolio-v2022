@@ -8,7 +8,7 @@ headline: "Dos modelos de lenguaje que hablan solos se atascan ofreciéndose ayu
 domain: "Proyecto propio · Código abierto"
 role: "Autor único · diseño experimental y desarrollo"
 period: Septiembre 2026
-featured: false
+featured: true
 links:
   - label: Código en GitHub
     href: https://github.com/ivansantander-hub/eco-loop
