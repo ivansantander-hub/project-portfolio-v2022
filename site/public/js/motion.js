@@ -135,15 +135,24 @@
       });
 
       // Las tarjetas llegan escalonadas, como un solo golpe
-      gsap.utils.toArray('[data-stagger]').forEach(group => {
+      const reveals = gsap.utils.toArray('[data-stagger]').map(group =>
         gsap.fromTo(group.children,
           { autoAlpha: 0, y: 40 },
           {
             autoAlpha: 1, y: 0, duration: 0.85, ease: 'expo.out',
             stagger: { each: 0.07, from: 'start' },
             scrollTrigger: { trigger: group, start: 'top 85%', once: true },
-          });
-      });
+          }));
+
+      /* Una tarjeta que aún no ha entrado tiene visibility: hidden y no puede
+         recibir el foco. Quien navega con teclado (Tab o flechas, ver keys.js)
+         las ve todas ya reveladas; en captura, antes que keys.js. */
+      const revealAll = e => {
+        if (!['Tab', 'ArrowUp', 'ArrowDown', 'ArrowLeft', 'ArrowRight'].includes(e.key)) return;
+        reveals.forEach(t => { t.scrollTrigger?.kill(); t.progress(1); });
+        removeEventListener('keydown', revealAll, true);
+      };
+      addEventListener('keydown', revealAll, true);
 
       ScrollTrigger.refresh();
     }
