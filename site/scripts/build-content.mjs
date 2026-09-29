@@ -73,6 +73,7 @@ const UI = {
     backToWork: 'Volver a casos', role: 'Rol', period: 'Periodo', context: 'Contexto',
     prev: 'Anterior', next: 'Siguiente', pager: 'Navegación entre proyectos',
     keysHint: 'Usa ← y → para cambiar de proyecto',
+    toc: 'En este caso', tocAbout: 'En esta página', details: 'Ficha del caso', contact: 'Contacto',
     stack: 'Stack',
   },
   en: {
@@ -80,6 +81,7 @@ const UI = {
     backToWork: 'Back to work', role: 'Role', period: 'Period', context: 'Context',
     prev: 'Previous', next: 'Next', pager: 'Project navigation',
     keysHint: 'Use ← and → to switch projects',
+    toc: 'In this case', tocAbout: 'On this page', details: 'Case details', contact: 'Contact',
     stack: 'Stack',
   },
 };
@@ -378,22 +380,37 @@ ${d.links.map(l => `        <li><a href="${esc(l.href)}" rel="noopener noreferre
 ${d.summary.map(s => `    <div><dt>${esc(s.k)}</dt><dd>${esc(s.v)}</dd></div>`).join('\n')}
   </dl>` : '';
 
+  const { html: bodyHtml, toc } = conAnclas(marked.parse(item.content));
+
+  /* En pantallas anchas: cabecera con la ficha a la derecha y, debajo, el
+     texto con un índice fijo al lado. Así la columna derecha acompaña todo
+     el scroll en vez de quedar vacía. En móvil todo vuelve a una columna. */
   return `
 <article class="case" data-zone="clear">
   <header class="case__head">
-    <p class="eyebrow">${esc(d.project || d.domain)}</p>
-    <h1 class="case__title" data-reveal>${esc(d.title)}</h1>
-    <p class="case__headline">${esc(d.headline)}</p>
-
-    <dl class="case__facts">
-      <div><dt>${t.context}</dt><dd>${esc(d.domain)}</dd></div>
-      <div><dt>${t.role}</dt><dd>${esc(d.role)}</dd></div>
-${d.period ? `      <div><dt>${t.period}</dt><dd>${esc(d.period)}</dd></div>\n` : ''}    </dl>
-${stackHtml}${links}${metricsHtml}
+    <div class="case__intro">
+      <p class="eyebrow">${esc(d.project || d.domain)}</p>
+      <h1 class="case__title" data-reveal>${esc(d.title)}</h1>
+      <p class="case__headline">${esc(d.headline)}</p>
+    </div>
+    <aside class="case__panel" aria-label="${t.details}">
+      <dl class="case__facts">
+        <div><dt>${t.context}</dt><dd>${esc(d.domain)}</dd></div>
+        <div><dt>${t.role}</dt><dd>${esc(d.role)}</dd></div>
+${d.period ? `        <div><dt>${t.period}</dt><dd>${esc(d.period)}</dd></div>\n` : ''}      </dl>
+${stackHtml}${links}
+    </aside>
+${metricsHtml}
   </header>
 ${summary}
-  <div class="case__body prose">
-${marked.parse(item.content)}
+  <div class="case__layout">
+    <div class="case__body prose">
+${bodyHtml}
+    </div>
+    <aside class="case__aside">
+${renderToc(toc, t.toc)}
+      <a class="link-back" href="${urlFor(lang, L.work)}">${t.backToWork}</a>
+    </aside>
   </div>
 
   <footer class="case__foot">
@@ -401,7 +418,6 @@ ${marked.parse(item.content)}
 ${pagerLink(prev, 'prev')}
 ${pagerLink(next, 'next')}
     </nav>
-    <a class="link-back" href="${urlFor(lang, L.work)}">${t.backToWork}</a>
     <p class="case__keys" aria-hidden="true">${t.keysHint}</p>
   </footer>
 </article>
@@ -502,15 +518,58 @@ ${work.map(i => renderWorkCard(i, lang)).join('\n')}
 `;
 }
 
-function renderAbout(md, titulo) {
+function renderAbout(md, titulo, lang) {
   /* El h1 lo pone el generador: el markdown empieza en prosa y la página se
-     quedaba sin encabezado principal. */
+     quedaba sin encabezado principal. Al lado, en pantallas anchas, un índice
+     fijo con las secciones y los enlaces de contacto. */
+  const t = UI[lang];
+  const { html, toc } = conAnclas(marked.parse(md));
   return `
-<article class="about prose">
-  <h1 class="about__title" data-reveal>${esc(titulo)}</h1>
-${marked.parse(md)}
+<article class="about">
+  <div class="about__main prose">
+    <h1 class="about__title" data-reveal>${esc(titulo)}</h1>
+${html}
+  </div>
+  <aside class="about__aside">
+${renderToc(toc, t.tocAbout)}
+    <p class="toc__title">${t.contact}</p>
+    <ul class="about__contact">
+      <li><a href="https://www.linkedin.com/in/ivan-santander/" rel="noopener noreferrer" target="_blank">LinkedIn <span aria-hidden="true">&#8599;</span></a></li>
+      <li><a href="https://github.com/ivansantander-hub" rel="noopener noreferrer" target="_blank">GitHub <span aria-hidden="true">&#8599;</span></a></li>
+    </ul>
+  </aside>
 </article>
 `;
+}
+
+/* ── Índice de secciones ───────────────────────────────────────────────────
+   marked no pone id a los encabezados. Se les da uno a partir del texto para
+   poder enlazarlos desde el índice lateral (public/js/page.js marca el activo). */
+function conAnclas(html) {
+  const toc = [];
+  const usados = new Set();
+  const out = html.replace(/<h2>([\s\S]*?)<\/h2>/g, (_, inner) => {
+    const texto = inner.replace(/<[^>]+>/g, '').trim();
+    let id = texto.normalize('NFD').replace(/[\u0300-\u036f]/g, '').toLowerCase()
+      .replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '') || 'seccion';
+    while (usados.has(id)) id += '-2';
+    usados.add(id);
+    toc.push({ id, texto });
+    return `<h2 id="${id}">${inner}</h2>`;
+  });
+  /* mini-astro interpreta {{ }} y {{{ }}} como variables; en el texto de un
+     caso son literales (el de mini-astro los explica), así que se escapan. */
+  return { html: out.replace(/\{/g, '&#123;').replace(/\}/g, '&#125;'), toc };
+}
+
+function renderToc(toc, titulo) {
+  if (!toc.length) return '';
+  return `      <nav class="toc" aria-label="${titulo}">
+        <p class="toc__title">${titulo}</p>
+        <ol class="toc__list">
+${toc.map(s => `          <li><a href="#${s.id}">${esc(s.texto)}</a></li>`).join('\n')}
+        </ol>
+      </nav>`;
 }
 
 /* ── Ejecución ────────────────────────────────────────────────────────────── */
@@ -653,7 +712,7 @@ for (const lang of Object.keys(LANGS)) {
       description: aboutDoc.data.description,
       canonical: urlFor(lang, L.about),
       altUrl: urlFor(other, O.about),
-      body: renderAbout(aboutDoc.content, aboutDoc.data.title),
+      body: renderAbout(aboutDoc.content, aboutDoc.data.title, lang),
       schema: [
         PERSONA,
         {
