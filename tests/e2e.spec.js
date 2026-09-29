@@ -284,3 +284,35 @@ test('on the work index, arrows move focus across projects and Enter opens one',
   await page.keyboard.press('Enter');
   await expect(page).toHaveURL(/\/trabajo\/english\/$/);
 });
+
+// ─── Two-column layout: case aside, TOC, header on scroll ────────────────────
+test('case pages have a TOC with one entry per section, beside the text on wide screens', async ({ page, isMobile }) => {
+  await page.goto('/trabajo/mini-astro/', { waitUntil: 'load' });
+  const sections = page.locator('.case__body h2[id]');
+  const tocLinks = page.locator('.case__aside .toc__list a');
+  await expect(tocLinks).toHaveCount(await sections.count());
+  await expect(tocLinks.first()).toHaveAttribute('href', '#' + await sections.first().getAttribute('id'));
+  // Las llaves del texto se ven literales, no como variables vacías
+  await expect(page.locator('.case__body')).toContainText('{{{ var }}}');
+  if (!isMobile) {
+    const body = await page.locator('.case__body').boundingBox();
+    const aside = await page.locator('.case__aside').boundingBox();
+    expect(aside.x).toBeGreaterThan(body.x + body.width);
+    const intro = await page.locator('.case__intro').boundingBox();
+    const panel = await page.locator('.case__panel').boundingBox();
+    expect(panel.x).toBeGreaterThan(intro.x + intro.width);
+  }
+});
+
+test('the header gets a solid background once the page scrolls', async ({ page }) => {
+  await page.goto('/trabajo/mini-astro/', { waitUntil: 'load' });
+  await expect(page.locator('.site-header')).not.toHaveClass(/is-scrolled/);
+  await page.evaluate(() => window.scrollTo(0, 800));
+  await expect(page.locator('.site-header')).toHaveClass(/is-scrolled/);
+});
+
+test('about page has a section TOC and contact links', async ({ page }) => {
+  await page.goto('/sobre-mi/', { waitUntil: 'load' });
+  await expect(page.locator('.about__aside .toc__list a')).toHaveCount(await page.locator('.about__main h2[id]').count());
+  await expect(page.locator('.about__contact a')).toHaveCount(2);
+});
