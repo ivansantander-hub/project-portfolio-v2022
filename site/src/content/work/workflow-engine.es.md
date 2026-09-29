@@ -2,27 +2,24 @@
 slug: workflow-engine
 lang: es
 order: 2
-title: Un motor de workflows para dejar de escribir un script por cliente
-project: Motor de workflows
-headline: Incorporar un cliente exigía escribir y desplegar un script nuevo. Un motor de grafos configurable lo convierte en una tarea de configuración para quienes conocen los datos.
+title: Un motor de flujos configurable para integraciones de datos
+project: Motor de flujos
+headline: Cada integración de datos se resolvía con código escrito a medida. Diseñé un motor de flujos configurable para que quienes conocen los datos puedan armarlos sin pasar por ingeniería.
 domain: Plataforma de gestión de ensayos clínicos
-role: Technical Lead · diseño del motor, decisión de arquitectura y optimización de la vista previa
-period: 2026
+role: Technical Lead · diseño del motor y de la vista previa
 featured: true
 summary:
   - k: El problema
-    v: "Un script casi idéntico por cliente. Cada incorporación pasaba por ingeniería."
+    v: "Cada integración nueva requería código casi idéntico al de la anterior."
   - k: La decisión
-    v: "Un motor de grafos con la definición en base de datos y vista previa por nodo."
+    v: "Un motor de flujos definido por configuración, con vista previa paso a paso."
   - k: En qué terminó
-    v: "Incorporar un cliente pasa a ser configuración, no desarrollo."
+    v: "Una integración nueva pasa a ser configuración, no desarrollo."
 stack:
   - Python
   - FastAPI
   - React
-  - React Flow
   - PostgreSQL
-  - Prisma
 tags:
   - arquitectura
   - datos
@@ -31,32 +28,28 @@ tags:
 
 ## El problema
 
-La plataforma se sincroniza con sistemas externos de captura de datos clínicos. Cada cliente usa uno distinto, con su propia estructura de formularios y su nomenclatura. La solución existente era un script por cliente (extraer, transformar, cargar, notificar), con su repositorio y su pipeline de despliegue.
+La plataforma intercambia datos con sistemas externos de captura de datos clínicos, cada uno con su propia estructura y nomenclatura. Cada integración se resolvía con código a medida, muy parecido entre sí pero distinto justo en la parte importante.
 
-- Los scripts compartían casi toda la lógica y se diferenciaban justo en la parte importante.
-- Un bug había que corregirlo en todas las copias, y casi siempre quedaba alguna sin corregir.
-- Cada cliente nuevo pasaba por ingeniería. Los data managers, que son quienes mejor entienden los datos, no podían tocar nada.
+Una corrección había que repetirla en varias copias, y cada integración nueva pasaba por ingeniería. Las personas que mejor entienden los datos no podían cambiar nada por su cuenta.
 
-Lo planteé como un problema de producto, no de escribir mejores scripts: que quien conoce los datos pueda construir el flujo sin depender de ingeniería.
+Lo planteé como un problema de producto: que quien conoce los datos pueda construir el flujo sin depender de ingeniería.
 
 ## Decisiones
 
-**Motor de grafos con la definición en base de datos.** El flujo es un DAG guardado en base de datos, no en código. Un catálogo de siete tipos de tarea (extraer, transformar, cargar, notificar, comparar, condicional, mapear) se combina en tiempo de ejecución: una capacidad nueva es un tipo de tarea registrado; un cliente nuevo, un grafo. La alternativa, un framework de scripts compartido, habría reducido la duplicación, pero cada cliente seguiría pasando por ingeniería.
+**Configuración en lugar de código.** El flujo es un grafo de pasos guardado como configuración. Un catálogo de tipos de paso (extraer, transformar, cargar, comparar, entre otros) se combina al ejecutar. Una capacidad nueva es un tipo de paso; una integración nueva, un grafo. Costo: diseñar bien el catálogo antes de que crezca.
 
-**Construir sobre la plataforma en lugar de adoptar un orquestador.** Evalué una herramienta establecida del ecosistema y la descarté: integrarla con la autenticación y los permisos de la plataforma habría sido un parche permanente, y hacía falta una interfaz de dominio (formularios clínicos, mapeos semánticos), no un editor de DAG genérico. Es una decisión discutible en ambos sentidos; dejé el razonamiento documentado para poder revisarla.
+**Construir sobre la plataforma en lugar de adoptar una herramienta genérica.** Hacía falta una interfaz del dominio (formularios clínicos, mapeos de campos), no un editor de grafos genérico. Es una decisión discutible; dejé el razonamiento escrito para poder revisarla.
 
-**Vista previa por nodo con muestreo.** Ejecuta un solo nodo con muestreo limitado y muestra su salida al momento. Sin ella, cada cambio obligaba a correr el flujo completo, un ciclo demasiado lento para una herramienta visual. El costo: se valida sobre una muestra, no sobre el volumen completo.
+**Vista previa por paso.** Se puede ejecutar un solo paso sobre una muestra y ver su salida al momento, y un inspector muestra qué entra y qué sale en cada paso. Costo: se valida sobre una muestra, no sobre el volumen completo.
 
-**Inspector entre nodos.** El resultado de cada nodo se guarda en el propio nodo y pasa como contexto al siguiente. Un inspector desplegable muestra qué entra y qué sale en cada paso, algo que los scripts no permitían.
-
-**Rendimiento como requisito, no como optimización final.** La primera versión de la vista previa era demasiado lenta para usarse: al cargar la configuración se disparaba una cascada de consultas individuales, un N+1 oculto por la capa de acceso a datos. La reescribí con consultas por lotes (cláusulas `IN`) y una caché de vida corta. La mejora fue de un orden de magnitud: de una espera que cortaba el trabajo a una respuesta inmediata.
+**Rendimiento como requisito.** Medí la vista previa desde temprano y la ajusté (consultas agrupadas y una caché breve) hasta que respondiera sin interrumpir el trabajo. Costo: tiempo de ajuste antes de ampliar la interfaz.
 
 ## Resultado
 
-- El motor está en uso en pipelines de sincronización reales.
-- Es la base a la que se irá migrando la lógica duplicada de los scripts por cliente.
-- Ingeniería deja de ser el cuello de botella y los data managers trabajan directamente sobre los flujos.
+- Incorporar una integración nueva pasa a ser una tarea de configuración.
+- Quienes conocen los datos pueden construir y revisar los flujos directamente.
+- Una corrección se hace en un solo lugar.
 
 ## Qué haría distinto
 
-Mediría el rendimiento de la vista previa antes de construir la interfaz encima. La funcionalidad estaba completa, pero una vista previa lenta no se habría usado.
+Mediría el rendimiento de la vista previa antes de construir la interfaz encima, no después.

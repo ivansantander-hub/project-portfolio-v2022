@@ -317,8 +317,7 @@ function renderWorkCard(item, lang, nivel = 3) {
         <a class="work-card__link" href="${urlFor(lang, L.work, item.slug)}">
           <p class="work-card__meta-top">
             <span class="work-card__project">${esc(d.project || d.domain)}</span>
-            <span>${esc(d.period)}</span>
-          </p>
+${d.period ? `            <span>${esc(d.period)}</span>\n` : ''}          </p>
           <div class="work-card__body">
             <h${nivel} class="work-card__title">${esc(d.title)}</h${nivel}>
             <p class="work-card__headline">${esc(d.headline)}</p>
@@ -374,8 +373,7 @@ ${d.summary.map(s => `    <div><dt>${esc(s.k)}</dt><dd>${esc(s.v)}</dd></div>`).
     <dl class="case__facts">
       <div><dt>${t.context}</dt><dd>${esc(d.domain)}</dd></div>
       <div><dt>${t.role}</dt><dd>${esc(d.role)}</dd></div>
-      <div><dt>${t.period}</dt><dd>${esc(d.period)}</dd></div>
-    </dl>
+${d.period ? `      <div><dt>${t.period}</dt><dd>${esc(d.period)}</dd></div>\n` : ''}    </dl>
 ${stackHtml}${links}${metricsHtml}
   </header>
 ${summary}
