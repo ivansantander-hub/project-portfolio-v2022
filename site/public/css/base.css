@@ -380,8 +380,16 @@
   .btn:hover { color: var(--bg); border-color: var(--text); }
   .btn:hover::before { transform: translateY(0); }
 
+  /* El único lugar del sitio con degradado: un guiño contenido al acabado
+     metálico del que viene el acento ("dynamic gradient when light
+     reflects off its surface", como lo describe Apple del Sky Blue) — sin
+     meterlo en el token plano ni repetirlo en otro sitio. */
   .btn--primary {
-    background: var(--accent-solid); color: var(--accent-ink);
+    background: linear-gradient(135deg,
+      color-mix(in srgb, var(--accent-solid) 88%, white) 0%,
+      var(--accent-solid) 50%,
+      color-mix(in srgb, var(--accent-solid) 88%, black) 100%);
+    color: var(--accent-ink);
     border-color: var(--accent-solid); font-weight: 600;
   }
   .btn--primary::before { background: var(--text); }

@@ -24,7 +24,7 @@ const out = join(root, 'public', 'img');
 
 /** Mismos valores que quarks/tokens.css. */
 const PALETAS = {
-  ultramarine: { bg: '#060810', accent: '#5470ff', muted: '#8e99bd' },
+  ultramarine: { bg: '#060810', accent: '#2e9bf5', muted: '#93acc9' },
   chartreuse:  { bg: '#0a0a08', accent: '#cff32b', muted: '#a8b57a' },
   vermilion:   { bg: '#080807', accent: '#e5322d', muted: '#c08c8a' },
   copper:      { bg: '#0b0908', accent: '#d2622a', muted: '#c0a087' },
