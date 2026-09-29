@@ -2,20 +2,12 @@
 slug: about
 lang: en
 title: About
-description: Iván Santander — Tech Lead and Technical Product Owner on healthcare platforms. From full stack to leading the team in two years. Medellín, Colombia.
+description: Iván Santander — Tech Lead and Technical Product Owner on healthcare platforms. Medellín, Colombia.
 ---
 
-I'm Iván Santander.
+I'm Iván Santander. I've been writing software since 2019, leading engineering teams since 2025, and I live in Medellín, Colombia.
 
-I've been writing software since 2019 and leading engineering teams since 2025. I live in Medellín, Colombia.
-
-The last two years were on a clinical trial platform. Regulated domain, audits, where a badly migrated record doesn't get fixed with a rollback.
-
-That's where I learned something you don't learn on a side project:
-
-> the correct technical decision and the one you can actually execute are almost never the same.
-
-Your job is to find the one that's both.
+For the last two years I've worked on a clinical trial platform. It's a regulated domain with audits, where a badly migrated record has serious consequences. That's where I learned to look for technical solutions the team can actually execute with the time and people it has, even when they aren't the ideal ones.
 
 ## Experience
 
@@ -49,41 +41,17 @@ Hybrid and web applications, nearly all in digital health.
 
 ## How I work
 
-I measure before I opine.
-
-"The system feels heavy" isn't an argument. A table with the inventory is.
-
-Most architecture debates unblock themselves when someone bothers to count.
-
-I arrive with two options, not one.
-
-One proposal asks for a yes or a no. Two proposals with their costs ask for a decision. And they let the person with the business context make it.
-
-I don't believe in total rewrites.
-
-The new system absorbs pieces while the old one keeps serving the rest. With rollback criteria written before starting.
-
-I write down what I decide and why.
-
-A decision without its reasoning can't be reviewed. Six months from now, when the context has changed, someone has to be able to tell whether it still holds.
+- Before proposing big changes, I put together an inventory of what's there. Concrete data makes it easier to agree.
+- When something important needs deciding, I bring at least two options with their costs, so the people with the business context can make the call.
+- I prefer migrating in pieces over rewriting everything at once, with rollback criteria defined from the start.
+- I write down what was decided and why, so it can be revisited when the context changes.
 
 ## How I lead
 
-I always leave someone on operations.
-
-Migrations don't die of technical problems. They die because day-to-day bugs eat the team and the project is left with nobody.
-
-Commitments come before refactoring.
-
-An architecture proposal that ignores promised deliverables doesn't get executed. It gets filed.
-
-I start with the boring part.
-
-Before asking for budget for the expensive work, I ship the trivial, zero-risk pieces. Trust is built by delivering, not by presenting.
-
-I review code and I interview.
-
-They're the two highest-compounding levers a technical lead has. I don't delegate them.
+- During a migration, someone on the team is always dedicated to support and day-to-day bugs.
+- Work that's already been committed comes before architecture changes.
+- I start with small, low-risk changes, so the team and the business build confidence before the more expensive work.
+- I review code and take part in interviews. I think they're two of the things with the most impact on a team.
 
 ## Stack
 
@@ -97,8 +65,4 @@ They're the two highest-compounding levers a technical lead has. I don't delegat
 
 ## Outside work
 
-I maintain a multi-tenant ERP, a static site generator and a blog I rebuilt from scratch.
-
-They're in the work section, with the source open where it can be.
-
-That's where I test the ideas I later defend in a meeting.
+I maintain a few personal projects: a multi-tenant ERP, a static site generator and my blog. They're in the work section, with the source open where possible. I use them to try out ideas before bringing them to work.

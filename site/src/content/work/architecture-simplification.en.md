@@ -2,9 +2,9 @@
 slug: architecture-simplification
 lang: en
 order: 1
-title: When the system outgrows the team
+title: Consolidating a microservice architecture
 project: Architecture consolidation
-headline: A microservice architecture that had grown faster than the team meant to maintain it. I measured first, proposed two paths, and started with the boring part.
+headline: A microservice architecture that had grown faster than the team maintaining it. I built an inventory, proposed two plans, and we started with the simple parts.
 domain: Clinical trial management SaaS platform
 role: Technical Lead → Technical Product Owner
 period: 2025 – 2026
@@ -12,11 +12,11 @@ confidential: true
 featured: true
 summary:
   - k: The problem
-    v: "More components than people to maintain them. Not performance, not bugs — a broken ratio."
+    v: "There were more components than people to maintain them. The issue wasn't performance or bugs, it was that ratio."
   - k: The decision
-    v: "Two proposals with their costs, not one. Incremental migration with Strangler Fig, never a hard cutover."
+    v: "Two proposals with their costs. Both used incremental migration with Strangler Fig instead of a hard cutover."
   - k: How it ended
-    v: "The reference document for the architecture decision. We started by retiring what no longer deployed."
+    v: "The proposal is the reference document for the architecture decision. We started by retiring what no longer deployed."
 stack:
   - Microservice architecture
   - GraphQL Federation
@@ -30,50 +30,46 @@ tags:
   - migration
 ---
 
-> There were more components to maintain than people to maintain them.
+The platform is used to run clinical trials: project management, document control, data capture and analytics. It's a regulated, audited domain, so a badly migrated record has real consequences.
 
-That wasn't a feeling. It's what I found once I counted.
+The system had grown by accumulation over several years. Each new need brought a new service, and each new client a new scheduled job. Every decision made sense on its own, but together they had left us with more components than people to maintain them. I confirmed that when I sat down and counted.
 
-A platform for running clinical trials: project management, document control, data capture, analytics. Regulated domain, with audits — a badly migrated record has real consequences.
+You could see it day to day: a cross-cutting change meant repeating the same work across several repositories, onboarding took weeks instead of days, and we were debugging problems across distributed systems that weren't distributed problems. On top of that, the "one job per client" pattern meant the problem grew along with the business.
 
-The system had grown by accumulation for years. Every new need, a new service. Every new client, a new scheduled job. None of those decisions was wrong. The sum of them was.
+All of these symptoms had the same cause, but nobody had put a number on it.
 
-The symptoms were the usual ones when that ratio breaks: a cross-cutting change meant repeating the same work across many repositories, onboarding was measured in weeks instead of days, there was distributed debugging for problems that weren't distributed. And the "one job per client" pattern guaranteed the problem would grow with the business.
+## Building an inventory before proposing anything
 
-None of that mattered on its own. What mattered was that all of it pointed at the same thing, and nobody had put a number on it.
+I went through the code service by service and built an inventory: what exists, what's still in use, what hasn't had a commit in a year, and what depends on what.
 
-## Counting before proposing
+That changed the conversation. Instead of "the system feels heavy" we had a table that showed the imbalance, and that a non-technical person could also evaluate.
 
-I went through the code service by service and built a real inventory: what exists, what's still alive, what hasn't seen a commit in a year, what depends on what.
+## Two proposals
 
-That inventory changed the conversation. We went from "the system feels heavy" to a table where anyone could see the disproportion — an argument someone non-technical can evaluate. A feeling can't.
+I presented two options, each with its costs, so the discussion would be about which one to pick rather than just approving or rejecting a single plan.
 
-## Two paths, on purpose
+**Conservative option.** Consolidate services while keeping the current style. Less disruption, familiar ground, and work could start the following week. It doesn't fix the underlying fragmentation.
 
-I brought two proposals deliberately. One option asks for a yes or a no; two options with their costs ask for a decision.
-
-**The conservative path.** Consolidate the services while keeping the current style. Less disruption, familiar ground, work can start next week. Doesn't solve the underlying fragmentation.
-
-**The structural path.** Reduce to a handful of processes in a monorepo, end-to-end type safety, dropping the federation layer and unifying scheduled jobs into an event-driven worker. Solves the cause. Costs more and touches more.
+**Structural option.** Reduce to a handful of processes in a monorepo with end-to-end type safety, dropping the federation layer and unifying scheduled jobs into an event-driven worker. It addresses the cause, but costs more and touches more.
 
 For each one I defined scope, sequence, owners and rollback criteria.
 
-## What I didn't negotiate
+## Conditions shared by both plans
 
-**Incremental migration, never big bang.** Strangler Fig with a reverse proxy: the new system absorbs routes one at a time while the old one keeps serving the rest. In a regulated domain, a hard cutover isn't an option you can defend.
+**Incremental migration, no big bang.** Strangler Fig with a reverse proxy: the new system takes over routes one at a time while the old one keeps serving the rest. In a regulated domain, a hard cutover would have been hard to justify.
 
-**Someone on operations, always.** In both plans I reserved one person for bugs and support throughout the migration. Migrations don't die of technical problems — they die because day-to-day work eats the team and the project is left with nobody.
+**One person dedicated to operations.** Both plans reserved someone for bugs and support throughout the migration. If day-to-day work pulls in the whole team, the migration ends up with nobody on it and stalls.
 
-**Commitments before structure.** The plan said explicitly that already-promised deliverables came before refactoring. A proposal that ignores business commitments doesn't get executed. It gets filed.
+**Existing commitments first.** The plan stated clearly that deliverables already promised came before refactoring. Otherwise the proposal wouldn't have been realistic for the business.
 
 ## Where it landed
 
-The proposal is now the reference document for the architecture decision. The inventory stopped being knowledge held by two or three people and became something anyone can look up.
+The proposal is now the reference document for the architecture decision. The inventory, which used to live in the heads of two or three people, is now something anyone can look up.
 
-Before touching the big pieces, we shipped the trivial ones: retiring what was no longer deployed, absorbing catalog services that didn't justify existing separately. Starting with the boring part earns the trust you need later for the expensive part.
+Before touching the big pieces, the team did the simple ones: retiring what was no longer deployed and folding in catalog services that didn't justify existing separately. That gave us some confidence for the more expensive parts.
 
-In parallel I designed the frontend replacement around the same logic: instead of one file per view, a registry engine — a generic route resolving against a configuration map, with a few reusable shells covering every screen pattern. Adding a view becomes adding a config object, not creating files.
+In parallel I designed the frontend replacement around the same idea: instead of one file per view, a registry engine. A generic route resolves against a configuration map, with a few reusable shells covering every screen pattern. Adding a view means adding a config object, not creating files.
 
-## A year late
+## What I'd do differently
 
-The inventory should have happened a year earlier. The proposal wasn't hard to write — what's hard is that by the time it existed, the cost of the debt had already been paid.
+I'd build the inventory a year earlier. Writing the proposal wasn't the hard part; the problem is that by the time it existed, we had already paid the cost of that debt.

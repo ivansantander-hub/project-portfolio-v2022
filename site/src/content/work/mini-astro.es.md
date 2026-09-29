@@ -2,9 +2,9 @@
 slug: mini-astro
 lang: es
 order: 4
-title: Por qué escribí mi propio generador de sitios
+title: Un generador de sitios estáticos propio
 project: mini-astro
-headline: Una dependencia, cero JavaScript en el cliente. No es mejor que Astro y no pretende serlo. Este portafolio corre sobre él.
+headline: Un generador de sitios estáticos con una dependencia y sin JavaScript en el cliente. No compite con Astro; lo hice para aprender y este portafolio corre sobre él.
 domain: Proyecto propio · Código abierto (MIT)
 role: Autor
 period: 2026 – presente
@@ -15,11 +15,11 @@ links:
     href: https://github.com/ivansantander-hub/mini-astro
 summary:
   - k: El problema
-    v: "Sé usar un generador de sitios. No sabía qué hace uno por dentro."
+    v: "Sabía usar un generador de sitios, pero no sabía bien cómo funciona uno por dentro."
   - k: La decisión
-    v: "Escribirlo porque el costo estaba acotado. Un SSG que compone HTML es un problema pequeño y cerrado."
+    v: "Escribir uno, porque un SSG que compone HTML es un problema pequeño y el costo de mantenerlo es bajo."
   - k: En qué terminó
-    v: "Publicado con licencia MIT. Y con el mejor test posible: lo uso para algo que me importa."
+    v: "Está publicado con licencia MIT y lo uso para construir este portafolio."
 metrics:
   - value: "1"
     label: "dependencia en producción"
@@ -36,44 +36,42 @@ tags:
 
 ## Qué es
 
-Un generador de sitios estáticos. Componentes HTML que se componen con `<mini-include src="organisms/Hero" />`, enrutamiento por archivos, plantillas con slots, estructura de Atomic Design y servidor de desarrollo con recarga en vivo. Una sola dependencia de producción, cero runtime en el navegador.
+Un generador de sitios estáticos. Los componentes HTML se componen con `<mini-include src="organisms/Hero" />`, y tiene enrutamiento por archivos, plantillas con slots, estructura de Atomic Design y un servidor de desarrollo con recarga en vivo. Usa una sola dependencia de producción y no manda runtime al navegador.
 
-Este portafolio se construye con él.
+Este portafolio está hecho con él.
 
-## La pregunta incómoda primero
+## ¿Por qué no usar Astro?
 
-¿Es mejor que Astro?
+Astro es mejor, y por mucho: tiene islas, integraciones, optimización de imágenes, un ecosistema y gente trabajando en él a tiempo completo. mini-astro está en alfa y lo mantengo yo solo. Si solo se tratara de elegir la mejor herramienta disponible, lo razonable sería usar Astro.
 
-No. Astro tiene islas, integraciones, optimización de imágenes, un ecosistema y gente a tiempo completo. mini-astro está en alfa y lo mantengo yo. Si el criterio fuera "elegir la mejor herramienta disponible", la respuesta correcta sería usar Astro y cerrar el tema.
+Así que tenía que tener claro por qué valía la pena hacerlo igual.
 
-Así que la decisión merece una justificación real. No una excusa.
+## Por qué lo escribí
 
-## Por qué lo escribí igual
+**Para entender cómo funciona uno por dentro.** No pretendía reemplazar nada. Quería ver de cerca cosas como la resolución de componentes, el orden de composición, la sustitución de plantillas, la invalidación en el watcher o la sincronización de estáticos. Son decisiones que no ves hasta que te toca tomarlas.
 
-**Para entender la categoría, no para reemplazarla.** Hay diferencia entre saber usar un generador de sitios y saber qué hace uno por dentro: resolución de componentes, orden de composición, sustitución de plantillas, invalidación en el watcher, sincronización de estáticos. Esas decisiones son invisibles hasta que las tomas tú.
+**Porque el costo era acotado.** Un SSG que compone HTML es un problema pequeño y bien delimitado, y mantenerlo me cuesta poco. Con un ORM o un framework de UI propio la cuenta sería otra, porque ahí el costo no está acotado, y por eso no lo he hecho.
 
-**Porque el costo estaba acotado.** Un SSG que compone HTML es un problema pequeño y bien delimitado — sé cuánto pesa mantenerlo, y es poco. Escribir mi propio ORM o mi propio framework de UI sería la decisión opuesta con la misma lógica aparente. No lo he hecho, porque ahí el costo no está acotado.
+**Porque me deja construir lo que necesito sin rodeos.** Este portafolio necesita colecciones de contenido en Markdown, rutas bilingües y un pipeline de imágenes propio. Con un framework de terceros eso significa plugins y adaptarse a decisiones de otros; con el mío son funciones.
 
-**Porque tener el compilador cambia lo que puedo construir.** Este portafolio necesita colecciones de contenido en Markdown, rutas bilingües y un pipeline de imágenes propio. Con un framework ajeno, eso son plugins y adaptarse a decisiones que no tomé. Con el mío, son funciones.
+## Cómo está planteado
 
-## Las reglas que le puse
+**Atomic Design como estructura de archivos.** Las carpetas `atoms/`, `molecules/`, `organisms/`, `templates/` y `pages/` son parte de cómo funciona la herramienta, así que la organización viene impuesta y no depende de una convención.
 
-**Atomic Design como estructura de archivos, no como convención.** Las carpetas `atoms/`, `molecules/`, `organisms/`, `templates/` y `pages/` son parte del contrato de la herramienta. Impone la disciplina en vez de sugerirla.
+**Valores por defecto seguros.** Si los activas al crear el proyecto, se generan cabeceras de política de contenido, banner de cookies y páginas de política. Son cosas que se suelen dejar para después, y tenerlas por defecto ayuda a que no se olviden.
 
-**Valores por defecto seguros.** Cabeceras de política de contenido, banner de cookies y páginas de política se generan si las activas al crear el proyecto — son cosas que todo el mundo pospone, y un valor por defecto se salta la discusión.
+**Sin JavaScript en el cliente salvo el que escribas tú.** No hay hidratación, runtime ni bundle: sale HTML, CSS y los scripts que hayas puesto a mano. Esta restricción simplifica mucho el resto.
 
-**Cero JavaScript en el cliente salvo el que escribas tú.** No hay hidratación, no hay runtime, no hay bundle. Lo que sale es HTML, CSS y los scripts que hayas puesto a mano. Es la restricción que hace simple todo lo demás.
+**Una sola dependencia.** El watcher de archivos, y solo en desarrollo. Menos dependencias también significa menos vulnerabilidades que parchar.
 
-**Una dependencia.** Solo el watcher de archivos, y solo en desarrollo. Cada dependencia que no está es una vulnerabilidad que no tengo que parchar.
+## Publicación y uso
 
-## Publicado, y en uso
+Tiene licencia MIT y se instala desde GitHub, con una inicialización interactiva y comandos para generar rutas y componentes.
 
-Con licencia MIT. Se instala desde GitHub, con inicialización interactiva y comandos para generar rutas y componentes.
+Lo uso para este portafolio, y la mayoría de sus límites los voy encontrando así, al construirlo, más que por issues.
 
-Y tiene el mejor test posible para una herramienta: la uso para algo que me importa. Los límites de mini-astro los descubro construyendo mi propio portafolio, no leyendo issues.
+## Qué haría distinto y qué quiero evitar
 
-## Lo que no debería crecer
+Debí escribir los tests primero. En un compilador son fáciles de hacer (entra texto, sale texto) y aun así lo fui probando a mano en el navegador.
 
-Los tests debieron ir primero. Un compilador es exactamente el tipo de software donde los tests son baratos — entrada de texto, salida de texto — y aun así lo construí a mano, verificando en el navegador.
-
-Y hay algo que no debería pasar: que crezca. La tentación con una herramienta propia es agregarle todo lo que el proyecto de turno necesita. Si mini-astro empieza a parecerse a Astro, la decisión de haberlo escrito deja de tener sentido.
+Y quiero evitar que crezca de más. Con una herramienta propia es tentador ir agregándole todo lo que pide cada proyecto, pero si mini-astro termina pareciéndose a Astro, deja de tener sentido haberlo escrito.
