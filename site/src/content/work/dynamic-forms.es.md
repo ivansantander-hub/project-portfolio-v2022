@@ -3,34 +3,23 @@ slug: dynamic-forms
 lang: es
 order: 8
 title: Formularios definidos por configuración
-project: Formularios dinámicos
-headline: Cada formulario de un tracker era un modal escrito a mano. Para eventos adversos y sometimientos regulatorios, el formulario pasó a ser un esquema guardado en base de datos que el frontend dibuja y el backend valida.
+project: Formularios configurables
+headline: Cada formulario era una pantalla escrita a mano. Para los módulos que más cambian entre proyectos, el formulario pasó a ser un esquema que el frontend dibuja y el backend valida.
 domain: Plataforma de gestión de ensayos clínicos
-role: Technical Lead · constructor de formularios compartido, lógica condicional e integración con el EDC
-period: 2025 – 2026
+role: Technical Lead · constructor de formularios compartido, lógica condicional e integraciones
 featured: false
 summary:
   - k: El problema
-    v: "Un modal de creación y edición escrito a mano por tracker. Cada proyecto pedía campos distintos y eso era código."
+    v: "Formularios escritos a mano por módulo, cuando cada proyecto pedía campos distintos."
   - k: La decisión
-    v: "El formulario como datos: esquema, layout y reglas en JSON, dibujado en el frontend y validado otra vez en el backend."
+    v: "El formulario como datos: campos, secciones y reglas guardados como configuración y validados también en el backend."
   - k: En qué terminó
-    v: "Los formularios de eventos adversos y sometimientos se configuran sin desplegar. Los demás trackers siguen con modales propios."
-metrics:
-  - value: "8"
-    label: "tipos de campo"
-  - value: "8"
-    label: "operadores para condiciones"
-  - value: "3"
-    label: "niveles de obligatoriedad (obligatorio, suave, opcional)"
+    v: "Los formularios de esos módulos se ajustan por proyecto sin cambios de código."
 stack:
-  - Next.js
   - TypeScript
-  - React Hook Form
-  - dnd-kit
-  - GraphQL
+  - React
+  - Node.js
   - PostgreSQL
-  - Prisma
 tags:
   - producto
   - frontend
@@ -39,28 +28,23 @@ tags:
 
 ## El problema
 
-Los trackers de la plataforma (sitios, documentos, visitas, contactos) tienen cada uno su modal de creación y edición escrito a mano; conté 11. Para eventos adversos y sometimientos regulatorios eso no alcanzaba: cada proyecto necesitaba campos distintos, secciones distintas y reglas del tipo "este campo solo aparece si aquel tiene tal valor". Hacerlo en código significaba un cambio y un despliegue por proyecto.
+Los módulos de seguimiento de la plataforma tenían cada uno su formulario de creación y edición escrito a mano. Para algunos módulos clínicos eso no alcanzaba: cada proyecto necesitaba campos distintos, secciones distintas y reglas del tipo "este campo solo aparece si aquel tiene cierto valor". Hacerlo en código significaba un cambio y un despliegue por proyecto.
 
 ## Decisiones
 
-**El formulario es un registro en base de datos.** El equipo definió un modelo `Form` con el esquema de campos, el layout por secciones y la configuración (respuestas múltiples, borradores, acceso) en columnas JSON con índices GIN. Las respuestas también se guardan como JSON, en estado borrador o enviado, ligadas al evento adverso o al sometimiento al que pertenecen. Costo: la base no valida la forma de los datos; esa responsabilidad pasa a la aplicación.
+**Configuración en lugar de código.** El equipo definió el formulario como un registro con sus campos, secciones y ajustes, y las respuestas se guardan ligadas al elemento al que pertenecen, como borrador o enviadas. Costo: la base de datos no valida la forma de las respuestas; esa responsabilidad pasa a la aplicación.
 
-**Las condiciones también son datos.** Un campo puede tener `showIf` y `requiredIf` con grupos AND/OR y ocho operadores (igual, distinto, contiene, mayor que, vacío, etc.). Yo agregué la evaluación de esas condiciones en la vista de solo lectura. El backend vuelve a validar la respuesta contra el esquema, incluidas las condiciones, así que un cliente modificado no puede saltarse las reglas. Costo: la misma lógica está implementada dos veces, en el frontend y en el backend, y puede desalinearse.
+**Las reglas también son datos, y se validan en el servidor.** Un campo puede mostrarse o exigirse según el valor de otros. Yo agregué la evaluación de esas reglas en la vista de solo lectura. El backend vuelve a validar cada respuesta, así las reglas no dependen solo del navegador. Costo: la misma lógica vive en el frontend y en el backend, y hay que mantenerlas alineadas.
 
-**Obligatorio "suave" y borradores.** Además de obligatorio y opcional, un campo puede ser obligatorio suave: se puede guardar un borrador sin llenarlo, pero se exige al enviar. Costo: un estado más que explicar y que probar.
+**Un constructor compartido.** El equipo había hecho un constructor de arrastrar y soltar dentro de un módulo. Lo convertí en un componente compartido, le agregué manejo de secciones y lo conecté con una integración de datos clínicos externa. Costo: el constructor creció bastante.
 
-**Una salida para lo que no es un campo simple.** Además de los ocho tipos básicos, un campo `COMPONENT` referencia un componente registrado por nombre. Costo: esos campos vuelven a ser código.
-
-**Un constructor compartido y conectado al EDC.** El equipo había hecho un constructor de arrastrar y soltar dentro del tracker de sometimientos. Lo convertí en un componente compartido, le agregué manejo de secciones y lo conecté a la integración con el sistema externo de captura clínica: el formulario de eventos adversos se genera a partir del mapeo de campos del EDC, y una vista previa lo valida antes de confirmar la creación. Costo: el estado del constructor quedó en un hook de unas 1.400 líneas.
-
-**Avisar en lugar de sobrescribir.** Varias personas editan secciones del mismo evento adverso. Hice que cada guardado envíe la versión que se cargó; si otra persona guardó antes, el backend rechaza el cambio, el usuario ve quién lo modificó y lo que escribió no se pierde. Costo: el usuario tiene que resolver el conflicto a mano.
+**Avisar en lugar de sobrescribir.** Varias personas editan el mismo registro. Si alguien guardó antes, el usuario ve quién lo cambió y no pierde lo que escribió. Costo: el conflicto se resuelve a mano.
 
 ## Resultado
 
-- Los formularios de eventos adversos y de sometimientos regulatorios se definen por configuración: agregar un campo o una condición no requiere despliegue.
-- El renderizador y el constructor del tracker de sometimientos están en la rama principal. El constructor compartido y la generación desde el EDC están en desarrollo y QA.
-- Los demás trackers siguen con sus modales escritos a mano; no los migramos.
+- En esos módulos, agregar un campo o una regla no requiere despliegue.
+- Los demás módulos siguen con sus formularios propios; no los migramos.
 
 ## Qué haría distinto
 
-Definiría el contrato del esquema una sola vez y lo compartiría entre constructor, renderizador y validador. Hoy el constructor traduce entre dos vocabularios (operadores en minúscula en la interfaz, en PascalCase en el esquema guardado) con tablas de conversión, y cada capa tiene su propio tipo para lo mismo.
+Definiría el contrato del esquema una sola vez y lo compartiría entre constructor, vista y validación, en lugar de que cada capa tenga su propia versión.

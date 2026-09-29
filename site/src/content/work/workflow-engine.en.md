@@ -2,27 +2,24 @@
 slug: workflow-engine
 lang: en
 order: 2
-title: A workflow engine to replace per-client scripts
-project: Workflow engine
-headline: Onboarding a client meant writing and deploying a new script. A configurable graph engine turns it into a configuration task for the people who know the data.
+title: A configurable flow engine for data integrations
+project: Flow engine
+headline: Every data integration was solved with custom code. I designed a configurable flow engine so the people who know the data can build flows without going through engineering.
 domain: Clinical trial management platform
-role: Technical Lead · engine design, architecture decision and preview optimization
-period: 2026
+role: Technical Lead · engine and preview design
 featured: true
 summary:
   - k: The problem
-    v: "A nearly identical script per client. Every onboarding went through engineering."
+    v: "Each new integration required code nearly identical to the previous one."
   - k: The decision
-    v: "A graph engine with the definition in the database and per-node preview."
+    v: "A flow engine defined by configuration, with step-by-step preview."
   - k: How it ended
-    v: "Onboarding a client becomes configuration, not development."
+    v: "A new integration becomes configuration, not development."
 stack:
   - Python
   - FastAPI
   - React
-  - React Flow
   - PostgreSQL
-  - Prisma
 tags:
   - architecture
   - data
@@ -31,32 +28,28 @@ tags:
 
 ## The problem
 
-The platform syncs with external clinical data capture systems. Each client uses a different one, with its own form structure and naming conventions. The existing solution was one script per client (extract, transform, load, notify), each with its own repository and deployment pipeline.
+The platform exchanges data with external clinical data capture systems, each with its own structure and naming. Every integration was solved with custom code, very similar from one to the next but different in exactly the part that mattered.
 
-- The scripts shared almost all their logic and differed in exactly the part that mattered.
-- A bug had to be fixed in every copy, and there was usually one that got missed.
-- Every new client went through engineering. The data managers, who understand the data best, couldn't change anything themselves.
+A fix had to be repeated across several copies, and every new integration went through engineering. The people who understand the data best couldn't change anything on their own.
 
-I framed it as a product problem rather than a matter of writing better scripts: the people who know the data should be able to build the flow without depending on engineering.
+I framed it as a product problem: the people who know the data should be able to build the flow without depending on engineering.
 
 ## Decisions
 
-**A graph engine with the definition in the database.** The flow is a DAG stored in the database, not in code. A catalog of seven task types (extract, transform, load, notify, compare, conditional, map) is composed at runtime: a new capability is a newly registered task type; a new client is a graph. The alternative, a shared script framework, would have reduced duplication, but every client would still have gone through engineering.
+**Configuration instead of code.** A flow is a graph of steps stored as configuration. A catalog of step types (extract, transform, load, compare, among others) is composed at runtime. A new capability is a new step type; a new integration is a graph. Cost: the catalog has to be designed well before it grows.
 
-**Building on the platform instead of adopting an orchestrator.** I evaluated an established tool from the ecosystem and ruled it out: integrating it with the platform's authentication and permissions would have been a permanent workaround, and we needed a domain-specific interface (clinical forms, semantic mappings), not a generic DAG editor. It's a call that could reasonably go either way; I documented the reasoning so it can be revisited.
+**Building on the platform instead of adopting a generic tool.** We needed a domain interface (clinical forms, field mappings), not a generic graph editor. It's a call that could go either way; I wrote down the reasoning so it can be revisited.
 
-**Per-node preview with sampling.** It runs a single node on a limited sample and shows its output right away. Without it, every change meant running the full flow, a loop too slow for a visual tool. The cost: validation happens on a sample, not on the full volume.
+**Per-step preview.** A single step can run on a sample and show its output right away, and an inspector shows what goes in and out at each step. Cost: validation happens on a sample, not on the full volume.
 
-**An inspector between nodes.** Each node's result is saved on the node and passed as context to the next one. A collapsible inspector shows what goes in and what comes out at every step, which the scripts never allowed.
-
-**Performance as a requirement, not a final optimization.** The first version of the preview was too slow to use: loading the configuration triggered a cascade of individual queries, an N+1 hidden by the data access layer. I rewrote it with batched queries (`IN` clauses) and a short-lived cache. It improved by an order of magnitude, from a wait that interrupted the work to an immediate response.
+**Performance as a requirement.** I measured the preview early and tuned it (batched queries and a short-lived cache) until it responded without interrupting the work. Cost: tuning time before extending the interface.
 
 ## Outcome
 
-- The engine is in use for real synchronization pipelines.
-- It is the foundation that the duplicated logic from the per-client scripts will gradually move into.
-- Engineering is no longer the bottleneck, and the data managers work on the flows directly.
+- Onboarding a new integration becomes a configuration task.
+- The people who know the data can build and review flows directly.
+- A fix is made in one place.
 
 ## What I'd do differently
 
-I'd measure the preview's performance before building the interface on top. The feature was complete, but a slow preview would not have been used.
+I'd measure the preview's performance before building the interface on top, not after.

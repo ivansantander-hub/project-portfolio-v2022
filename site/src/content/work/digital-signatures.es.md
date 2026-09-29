@@ -2,35 +2,24 @@
 slug: digital-signatures
 lang: es
 order: 6
-title: Firmas electrónicas con un certificado de evidencia verificable
-project: Firma electrónica y certificados
-headline: Los flujos de firma del gestor documental terminan en un certificado con los datos de cada firmante. Construí el servicio que lo genera y, después, la firma digital PKCS#7 de los PDF con un registro que permite verificarlos.
+title: Firmas electrónicas con evidencia verificable
+project: Firma electrónica
+headline: Trabajé en los flujos de firma del gestor documental, que terminan en un documento con la evidencia de quién firmó y una forma de verificarlo después.
 domain: Plataforma de gestión de ensayos clínicos
-role: Technical Lead · orquestación del flujo, servicio de certificados y firma digital
-period: 2025 – 2026
+role: Technical Lead · orquestación del flujo, generación de evidencia y firma de documentos
 featured: false
 summary:
   - k: El problema
-    v: "Un documento firmado por varias personas, internas y externas, necesita evidencia de quién firmó, cuándo y desde dónde, y una forma de comprobar que el PDF no cambió."
+    v: "Un documento firmado por varias personas, internas y externas, necesita evidencia de la firma y una forma de comprobar que no cambió."
   - k: La decisión
-    v: "Un worker que genera el certificado fuera de la petición, lo une al documento y firma los PDF al final, con hash SHA-256 y código de verificación."
+    v: "Generar la evidencia fuera de la petición del usuario y firmar el documento final para poder verificarlo."
   - k: En qué terminó
-    v: "La firma PKCS#7 y la verificación salieron a producción en junio de 2026, con un certificado autofirmado."
-metrics:
-  - value: "50"
-    label: "commits míos en el servicio de certificados, de 81 en total"
-  - value: "3"
-    label: "PDF firmados digitalmente por flujo: certificado, documento firmado y documento completo"
+    v: "Flujos de firma con un documento de evidencia y verificación posterior."
 stack:
-  - Node.js
   - TypeScript
-  - RabbitMQ
+  - Node.js
+  - React
   - PostgreSQL
-  - Prisma
-  - AWS S3
-  - Handlebars
-  - PKCS#7
-  - Next.js
 tags:
   - firma electrónica
   - seguridad
@@ -39,30 +28,23 @@ tags:
 
 ## El problema
 
-En el gestor documental, quien sube un PDF puede armar un flujo de firma: ubica campos (firma, iniciales, nombre, fecha, texto), asigna firmantes en orden y lo envía. Los firmantes pueden ser usuarios internos o externos; los externos entran con un enlace y un código de un solo uso que reciben por correo. Esa parte la hizo sobre todo el equipo: tokens y códigos se guardan como HMAC-SHA256 y tienen límite de intentos.
+En el gestor documental, quien sube un documento puede armar un flujo de firma: define dónde firma cada persona, asigna a los firmantes y lo envía. Los firmantes pueden ser usuarios internos o externos. El acceso de los firmantes externos lo trabajó sobre todo el equipo.
 
-Cuando todos firman hay que dejar evidencia: quién firmó, cuándo, desde qué IP, y un documento final que no se pueda alterar sin que se note. Hacerlo en la petición del último firmante no era viable: hay que renderizar, convertir y unir PDF, subirlos a S3 y notificar.
+Cuando todos firman hay que dejar evidencia de quién firmó y cuándo, y un documento final que no se pueda alterar sin que se note. Hacer todo eso dentro de la acción del último firmante no era viable: el trabajo de generar y armar los documentos es pesado.
 
 ## Decisiones
 
-**El flujo en un orquestador con un validador aparte.** En agosto de 2025 repartí la mutación de firma, que vivía en un resolver largo, entre un orquestador, un servicio de flujo y un validador, con pruebas unitarias. El orquestador maneja las transiciones de estado y la sincronización de firmantes; cada firmante queda registrado con la IP desde la que firmó. Costo: más piezas para seguir una firma.
+**Separar el flujo en piezas con responsabilidades claras.** Dividí la lógica de firma, que estaba concentrada en un solo lugar, en partes que manejan el estado del flujo, las reglas y la validación, con pruebas. Costo: hay más piezas que seguir para entender una firma de principio a fin.
 
-**Un worker por cola para el certificado.** Al completarse el flujo se publica un mensaje en RabbitMQ. En octubre de 2025 construí el worker que lo consume: arma un certificado HTML con una plantilla (documento, remitente, fechas, estado y una fila por firmante con su IP y sus campos), lo convierte a PDF con un servicio externo, lo une al documento (la versión firmada si existe) y registra cada archivo como una ruta tipada (original, convertido, firmado, certificado, completo). Costo: una dependencia externa y un estado "en proceso" que se puede quedar colgado.
+**Generar la evidencia en segundo plano.** Al completarse el flujo, un proceso aparte arma el documento de evidencia con los datos de cada firmante y lo une al documento firmado. El usuario no espera ese trabajo. Costo: hay que vigilar que ese proceso termine y retomarlo si no lo hace.
 
-**Reencolar lo que se queda colgado.** Agregué un proceso periódico que vuelve a publicar los flujos que llevan demasiado tiempo "en proceso", además de reintentos y una cola de mensajes muertos. Costo: es un sondeo sobre la base de datos que corre aparte del consumo normal de la cola.
-
-**Firmar al final, después de unir.** En junio de 2026 agregué firma digital PKCS#7 con un certificado autofirmado. La primera versión firmaba antes de unir y la unión dejaba firmas inválidas en el documento completo, así que moví la firma al final. Cada PDF firmado genera un registro con su SHA-256, los datos del certificado (emisor, serie, huella, vigencia) y un código de verificación que el certificado muestra como QR. Costo: si la firma falla, el PDF queda sin firmar y solo se registra el error, para no bloquear la entrega.
-
-**Estrategia de firma intercambiable.** La firma está detrás de una interfaz; hoy solo existe la implementación autofirmada y los proveedores comerciales quedaron sin implementar. Costo: un certificado autofirmado permite comprobar integridad, pero no respalda la identidad del firmante ante un tercero.
-
-**Verificación pública.** Una página sin sesión recibe el código del QR o el archivo, del que el navegador calcula el SHA-256 para consultar por hash. El servidor compara el hash guardado con el objeto en S3, revisa la estructura de firma del PDF e informa si el certificado es autofirmado o está vencido. Cada verificación queda auditada.
+**Firmar el resultado final y permitir verificarlo.** El documento final se firma para que cualquier alteración se pueda detectar, y cualquiera que lo reciba puede verificarlo después. Costo: la verificación es otra superficie que hay que mantener y probar.
 
 ## Resultado
 
-- El certificado de firma está en producción desde finales de 2025; la firma PKCS#7, el hash SHA-256 y la URL de verificación salieron en la versión 1.5.0 del DMS, en junio de 2026.
-- En diciembre de 2025 corregí un problema de concurrencia en el que se sobrescribían firmas al guardar; ahora los campos se fusionan.
-- En junio de 2026 agregué firma escrita con fuente, cierre forzado por el propietario (los pendientes quedan como retirados) y regeneración de documentos.
+- Los flujos de firma terminan en un documento con evidencia de cada firmante.
+- Quien recibe un documento firmado puede comprobar después que no fue modificado.
 
 ## Qué haría distinto
 
-Haría la firma digital y el registro de verificación junto con el certificado, en vez de agregarlos meses después como una segunda etapa.
+Construiría la firma del documento y la verificación junto con la evidencia, en lugar de agregarlas en una segunda etapa.

@@ -2,26 +2,22 @@
 slug: architecture-simplification
 lang: es
 order: 1
-title: Consolidar una arquitectura de microservicios
-project: Consolidación de arquitectura
-headline: Una arquitectura de microservicios con más componentes que personas para mantenerlos. Un inventario del sistema y dos propuestas con sus costos la convirtieron en una decisión evaluable, empezando por retirar lo que ya no se desplegaba.
+title: Simplificar una arquitectura que creció por acumulación
+project: Simplificación de arquitectura
+headline: Un sistema que había crecido pieza a pieza durante años. Hice un inventario y preparé opciones con sus costos para que la simplificación fuera una decisión que se pudiera evaluar.
 domain: Plataforma de gestión de ensayos clínicos
 role: Technical Lead → Technical Product Owner · inventario y propuesta de arquitectura
-period: 2025 – 2026
 featured: true
 summary:
   - k: El problema
-    v: "Más componentes que personas para mantenerlos. El problema no era el rendimiento ni los bugs, sino esa proporción."
+    v: "El sistema tenía más piezas de las que el equipo podía mantener con comodidad."
   - k: La decisión
-    v: "Dos propuestas con sus costos. Ambas con migración incremental (Strangler Fig), sin corte total."
+    v: "Medir antes de proponer y presentar opciones con sus costos, todas con migración por partes."
   - k: En qué terminó
-    v: "La propuesta es el documento de referencia para la decisión de arquitectura. Primer paso: retirar lo que ya no se desplegaba."
+    v: "La discusión pasó de una sensación general a opciones concretas que se podían comparar."
 stack:
-  - Arquitectura de microservicios
-  - GraphQL Federation
-  - Kubernetes
-  - Next.js
   - TypeScript
+  - Next.js
   - Python
 tags:
   - arquitectura
@@ -31,39 +27,26 @@ tags:
 
 ## El problema
 
-La plataforma cubre proyectos, control documental, captura de datos y analítica en un dominio regulado y auditado: un dato mal migrado tiene consecuencias reales.
+La plataforma opera en un entorno regulado, donde un dato mal migrado tiene consecuencias reales.
 
-El sistema había crecido por acumulación durante años. Cada necesidad nueva traía un servicio nuevo y cada cliente nuevo, un proceso programado nuevo. Decisiones razonables por separado dejaron, en conjunto, más componentes que personas para mantenerlos:
-
-- Un cambio transversal se repetía en varios repositorios.
-- El onboarding tardaba semanas en vez de días.
-- Se depuraban en sistemas distribuidos problemas que no eran distribuidos.
-- El patrón "un proceso por cliente" hacía que el problema creciera con el negocio.
-
-Todos tenían la misma causa, pero nadie la había cuantificado.
+El sistema había crecido por acumulación: cada necesidad nueva traía una pieza nueva. Decisiones razonables por separado dejaron, en conjunto, un sistema difícil de mantener. Un cambio transversal había que repetirlo en varios lugares, incorporar a alguien al equipo tomaba más de lo necesario y el problema crecía junto con el negocio. Todo tenía la misma causa, pero nadie la había puesto sobre la mesa de forma concreta.
 
 ## Decisiones
 
-**Inventario antes que propuesta.** Revisé el código servicio por servicio y construí un inventario: qué existe, qué sigue en uso, qué lleva un año sin commits y qué depende de qué. La conversación pasó de "el sistema se siente pesado" a una tabla que mostraba la desproporción, evaluable también por alguien no técnico. Costo: tiempo de revisión antes de poder proponer nada.
+**Medir antes de proponer.** Revisé el código y armé un inventario: qué existe, qué se usa y qué depende de qué. La conversación pasó de "el sistema se siente pesado" a un documento que también podía leer alguien no técnico. Costo: tiempo de revisión antes de poder proponer nada.
 
-**Dos opciones en lugar de una.** Propuse dos planes con sus costos, para discutir cuál elegir en vez de aprobar o rechazar uno. Para cada uno definí alcance, secuencia, responsables y criterios para dar marcha atrás.
+**Opciones en lugar de una sola propuesta.** Preparé una alternativa conservadora y otra de fondo, cada una con alcance, secuencia y criterios para dar marcha atrás. Así la discusión era cuál elegir, no aprobar o rechazar. Costo: más trabajo de preparación.
 
-- *Conservadora:* consolidar servicios manteniendo el estilo actual. Menos ruptura, terreno conocido y arranque la semana siguiente; no resuelve la fragmentación de fondo.
-- *De fondo:* reducir a unos pocos procesos en un monorepo con tipado de punta a punta, quitar la capa de federación y unificar los procesos programados en un worker dirigido por eventos. Ataca la causa, pero cuesta más y toca más cosas.
+**Migrar por partes.** Ambas opciones reemplazan el sistema de a poco, mientras el anterior sigue funcionando. Costo: convivir con dos sistemas un tiempo, a cambio de no depender de un corte total en un entorno regulado.
 
-**Migración incremental en ambos planes.** Strangler Fig con un proxy inverso: el sistema nuevo absorbe rutas una a una y el viejo sirve el resto. Obliga a mantener dos sistemas a la vez, pero en un dominio regulado un corte total era difícil de justificar.
-
-**Una persona dedicada a la operación.** Alguien reservado para bugs y soporte durante toda la migración. Resta capacidad, pero evita que el día a día absorba al equipo y estanque la migración.
-
-**Primero los compromisos ya adquiridos.** Las entregas ya prometidas van antes que la refactorización. La migración avanza más despacio, a cambio de que el plan sea realista para el negocio.
+**Respetar los compromisos existentes.** Las entregas ya prometidas van primero y una persona queda dedicada a la operación. Costo: la migración avanza más despacio, pero el plan es realista.
 
 ## Resultado
 
-- La propuesta es el documento de referencia para la decisión de arquitectura.
-- El inventario, antes en la cabeza de dos o tres personas, ahora lo puede consultar cualquiera.
-- El equipo empezó por lo sencillo: retirar lo que ya no se desplegaba y absorber los servicios de catálogo que no justificaban existir por separado. Eso dio confianza para las partes más caras.
-- Diseñé el reemplazo del frontend con la misma idea: un motor de registro en lugar de un archivo por vista. Una ruta genérica resuelve contra un mapa de configuración y la idea es que unos pocos armazones reutilizables cubran los patrones de pantalla, de modo que agregar una vista sea agregar un objeto de configuración. Hoy es un experimento con un solo armazón, el de grilla (ver el caso del sistema de shells).
+- El conocimiento del sistema, que estaba en pocas cabezas, quedó escrito y disponible para el equipo.
+- La decisión de arquitectura se discute con opciones y costos a la vista.
+- La misma idea de configuración en lugar de código guio el diseño del frontend (ver el caso de pantallas configurables).
 
 ## Qué haría distinto
 
-Haría el inventario un año antes. Cuando la propuesta llegó, ya habíamos pagado el costo de esa deuda.
+Haría el inventario más temprano, cuando el sistema era más pequeño y la revisión más sencilla.
