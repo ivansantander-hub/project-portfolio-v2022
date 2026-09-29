@@ -9,19 +9,19 @@ Tech Lead and Technical Product Owner at LearUp, a clinical trial platform. Mede
 
 **Current focus:** architecture for production systems, incremental migrations and technical prioritization in a regulated domain, with audits and data that leaves no room for migration errors.
 
-**Experience:** software since 2019, technical leadership since 2025. Digital health, fintech and SaaS.
+**Experience:** software since 2019, with technical leadership in recent years. Digital health, fintech and SaaS.
 
 ## Experience
 
-**LearUp** · Sr. Associate Technical Product Owner · Nov 2025 – now
+**LearUp** · Sr. Associate Technical Product Owner
 
 I define and prioritize platform initiatives. I coordinate development, QA and operations.
 
-**LearUp** · Sr. Associate Tech Lead · Jan 2025 – Nov 2025
+**LearUp** · Sr. Associate Tech Lead
 
 Led the team through design and implementation. Service architecture and core technical decisions.
 
-**LearUp** · Associate Product Full Stack Developer · Jul 2024 – Jan 2025
+**LearUp** · Associate Product Full Stack Developer
 
 Core platform work in JavaScript and Python. Continuous delivery with Kubernetes, ArgoCD and Docker.
 
