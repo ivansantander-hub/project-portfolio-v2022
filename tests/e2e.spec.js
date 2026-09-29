@@ -333,3 +333,42 @@ test('hero is centered and cases form a grid with aligned card footers', async (
   const name = await page.locator('.hero__name').boundingBox();
   expect(Math.abs(name.x + name.width / 2 - vw / 2)).toBeLessThan(24);
 });
+
+// ─── Keyboard shortcut hint (keys.js) ─────────────────────────────────────────
+test('the keyboard hint appears on a case page and can be closed for good', async ({ page, isMobile }) => {
+  test.skip(isMobile, 'solo con teclado y ratón');
+  await page.goto('/trabajo/english/', { waitUntil: 'load' });
+  const hint = page.locator('.keys-hint');
+  await expect(hint).toHaveClass(/is-visible/, { timeout: 4000 });
+  await expect(hint).toContainText('para cambiar de proyecto');
+  await hint.locator('.keys-hint__close').click();
+  await expect(hint).toHaveCount(0);
+  await page.reload({ waitUntil: 'load' });
+  await page.waitForTimeout(1800);
+  await expect(page.locator('.keys-hint')).toHaveCount(0);
+});
+
+test('on the work index the hint explains arrows + Enter and hides by itself', async ({ page, isMobile }) => {
+  test.skip(isMobile, 'solo con teclado y ratón');
+  await page.goto('/trabajo/', { waitUntil: 'load' });
+  const hint = page.locator('.keys-hint');
+  await expect(hint).toHaveClass(/is-visible/, { timeout: 4000 });
+  await expect(hint).toContainText('Enter');
+  await expect(hint).toHaveCount(0, { timeout: 10000 });
+});
+
+test('using an arrow key turns the hint off', async ({ page, isMobile }) => {
+  test.skip(isMobile, 'solo con teclado y ratón');
+  await page.goto('/trabajo/', { waitUntil: 'load' });
+  await expect(page.locator('.keys-hint')).toHaveClass(/is-visible/, { timeout: 4000 });
+  await page.keyboard.press('ArrowRight');
+  await expect(page.locator('.keys-hint')).toHaveCount(0);
+  expect(await page.evaluate(() => localStorage.getItem('is-keys-hint'))).toBe('off');
+});
+
+test('no keyboard hint on touch devices', async ({ page, isMobile }) => {
+  test.skip(!isMobile, 'solo móvil');
+  await page.goto('/trabajo/english/', { waitUntil: 'load' });
+  await page.waitForTimeout(1800);
+  await expect(page.locator('.keys-hint')).toHaveCount(0);
+});
