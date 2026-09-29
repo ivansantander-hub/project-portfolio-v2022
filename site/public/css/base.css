@@ -581,9 +581,6 @@
   .case__pager-dir { font-family: var(--font-mono); font-size: var(--type-xs); letter-spacing: var(--tracking-wide); color: var(--text-muted); }
   .case__pager-title { font-weight: 600; }
   a.case__pager-link:hover .case__pager-dir, a.case__pager-link:hover .case__pager-title { color: var(--accent); }
-  .case__keys { margin-top: var(--space-sm); font-family: var(--font-mono); font-size: var(--type-2xs); letter-spacing: var(--tracking-wide); color: var(--text-dim); }
-  /* En pantallas táctiles no hay flechas: la pista sobra. */
-  @media (hover: none) { .case__keys { display: none; } }
   .work-preview__more { margin-top: var(--space-lg); }
   .link-back { font-family: var(--font-mono); font-size: var(--type-xs); letter-spacing: var(--tracking-wide); color: var(--text-muted); }
   .link-back:hover { color: var(--accent); }
@@ -937,3 +934,35 @@
   .case__summary dd { font-size: var(--type-sm); color: var(--text); line-height: 1.5; }
 }
 
+/* ── AVISO DE ATAJOS DE TECLADO ─────────────────────────────────────────
+   keys.js lo crea solo donde hay atajos (casos, home, /trabajo/) y solo con
+   teclado y ratón. Aparece, se va solo a los pocos segundos y se puede
+   cerrar; cerrado o usado el atajo, no vuelve a salir. */
+@layer components {
+  .keys-hint {
+    position: fixed; left: 50%; bottom: var(--space-lg); z-index: var(--layer-header);
+    display: flex; align-items: center; gap: var(--space-sm);
+    max-width: calc(100vw - 2 * var(--gutter));
+    padding: var(--space-2xs) var(--space-2xs) var(--space-2xs) var(--space-md);
+    border: 1px solid var(--border); border-radius: var(--radius-pill);
+    background: color-mix(in srgb, var(--bg) 88%, transparent);
+    backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px);
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.25);
+    font-size: var(--type-sm); color: var(--text-muted);
+    opacity: 0; transform: translate(-50%, 12px);
+    transition: opacity .3s, transform .3s;
+    pointer-events: none;
+  }
+  .keys-hint.is-visible { opacity: 1; transform: translate(-50%, 0); pointer-events: auto; }
+  .keys-hint kbd {
+    display: inline-grid; place-items: center; min-width: 1.6em; height: 1.6em; padding: 0 0.35em;
+    border: 1px solid var(--border); border-radius: 6px;
+    font-family: var(--font-mono); font-size: var(--type-sm); line-height: 1; color: var(--text);
+  }
+  .keys-hint__close {
+    display: grid; place-items: center; width: 2rem; height: 2rem; border-radius: 50%;
+    border: 0; background: transparent; color: var(--text-muted); cursor: pointer; font-size: var(--type-lg); line-height: 1;
+  }
+  .keys-hint__close:hover { color: var(--text); background: var(--surface); }
+  @media (prefers-reduced-motion: reduce) { .keys-hint { transition: none; } }
+}
