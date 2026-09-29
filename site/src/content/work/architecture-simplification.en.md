@@ -1,7 +1,7 @@
 ---
 slug: architecture-simplification
 lang: en
-order: 1
+order: 4
 title: Simplifying an architecture that grew by accumulation
 project: Architecture simplification
 headline: A system that had grown piece by piece over the years. I built an inventory and prepared costed options so that simplifying it became a decision that could be evaluated.

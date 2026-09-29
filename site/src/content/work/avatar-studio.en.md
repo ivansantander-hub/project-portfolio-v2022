@@ -1,7 +1,7 @@
 ---
 slug: avatar-studio
 lang: en
-order: 16
+order: 8
 title: A local pipeline for talking avatars
 project: Avatar Studio
 headline: "Testing whether short videos of fictional AI characters speaking Spanish can be produced mostly with open models on a Mac, renting a GPU or an API only for the video."

@@ -1,7 +1,7 @@
 ---
 slug: megabyte
 lang: en
-order: 17
+order: 11
 title: A terminal agent on local models
 project: megabyte
 headline: "An agent that runs in my terminal on a local Ollama model. I first wrote it in Python; the next day I turned it into a thin layer over a fork of pi, an MIT project by earendil-works."

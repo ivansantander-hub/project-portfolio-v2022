@@ -1,7 +1,7 @@
 ---
 slug: eco-loop
 lang: en
-order: 13
+order: 3
 title: Two AIs talking to each other
 project: eco-loop
 headline: "Two language models left to talk on their own get stuck offering each other help. eco-loop is a lab for measuring when that happens and what breaks it: 195 replicated trials for $1.02."

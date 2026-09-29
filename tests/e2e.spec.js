@@ -145,6 +145,9 @@ test('work index lists all 18 cases in a single list, without NDA labels', async
   await expect(page.locator('.work-index__list')).toHaveCount(1);
   await expect(page.locator('.work-index__list .work-card')).toHaveCount(18);
   await expect(page.locator('.work-card__title').first()).toHaveJSProperty('tagName', 'H2');
+  // Primero los tres destacados de la home; después, todo mezclado
+  const hrefs = await page.locator('.work-index__list .work-card__link').evaluateAll(as => as.map(a => a.getAttribute('href')));
+  expect(hrefs.slice(0, 3)).toEqual(['/trabajo/sgc/', '/trabajo/english/', '/trabajo/eco-loop/']);
   await expect(page.locator('main')).not.toContainText(/NDA|confidencialidad/);
 });
 

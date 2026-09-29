@@ -1,7 +1,7 @@
 ---
 slug: workflow-engine
 lang: en
-order: 2
+order: 7
 title: A configurable flow engine for data integrations
 project: Flow engine
 headline: Every data integration was solved with custom code. I designed a configurable flow engine so the people who know the data can build flows without going through engineering.

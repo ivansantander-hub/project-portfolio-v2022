@@ -1,7 +1,7 @@
 ---
 slug: english
 lang: en
-order: 12
+order: 2
 title: An app for practicing English every day
 project: English A1
 headline: "A personal app for practicing the Present Simple with real exercises, sentence-by-sentence AI feedback and an engine that picks what to practice based on mistakes."
