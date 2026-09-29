@@ -63,7 +63,7 @@ Todos tenían la misma causa, pero nadie la había cuantificado.
 - La propuesta es el documento de referencia para la decisión de arquitectura.
 - El inventario, antes en la cabeza de dos o tres personas, ahora lo puede consultar cualquiera.
 - El equipo empezó por lo sencillo: retirar lo que ya no se desplegaba y absorber los servicios de catálogo que no justificaban existir por separado. Eso dio confianza para las partes más caras.
-- Diseñé el reemplazo del frontend con la misma idea: un motor de registro en lugar de un archivo por vista. Una ruta genérica resuelve contra un mapa de configuración y unos pocos armazones reutilizables cubren todos los patrones de pantalla; agregar una vista es agregar un objeto de configuración.
+- Diseñé el reemplazo del frontend con la misma idea: un motor de registro en lugar de un archivo por vista. Una ruta genérica resuelve contra un mapa de configuración y la idea es que unos pocos armazones reutilizables cubran los patrones de pantalla, de modo que agregar una vista sea agregar un objeto de configuración. Hoy es un experimento con un solo armazón, el de grilla (ver el caso del sistema de shells).
 
 ## Qué haría distinto
 
