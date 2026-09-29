@@ -8,7 +8,6 @@ headline: Onboarding a client meant writing and deploying a new script. A config
 domain: Clinical trial management platform
 role: Technical Lead · engine design, architecture decision and preview optimization
 period: 2026
-confidential: true
 featured: true
 summary:
   - k: The problem

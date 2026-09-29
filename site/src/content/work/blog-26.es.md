@@ -8,7 +8,6 @@ headline: Publicar en un blog estático exigía commit, push y build. La soluci�
 domain: Proyecto propio
 role: Autor único · diseño y desarrollo
 period: 2026
-confidential: false
 featured: false
 links:
   - label: Ver el blog

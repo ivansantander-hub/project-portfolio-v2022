@@ -44,8 +44,7 @@ and in what order, and doing it without holding up committed work.
 **title:** Work
 
 **body:**
-Client projects, without the data that can't be published, and personal
-projects, with the code and numbers open.
+Projects I've worked on, with a team and on my own.
 
 Each case summarizes the context, the problem, the decisions and the outcome.
 

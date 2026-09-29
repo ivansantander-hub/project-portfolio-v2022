@@ -8,7 +8,6 @@ headline: "A planning poker app for team estimation: rooms joined by code, votes
 domain: Personal project
 role: Sole developer
 period: March 2026
-confidential: false
 featured: false
 links:
   - label: Code on GitHub

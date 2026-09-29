@@ -71,14 +71,12 @@ const UI = {
   es: {
     workTitle: 'Casos', workDesc: 'Casos de arquitectura, liderazgo técnico y producto.',
     backToWork: 'Volver a casos', role: 'Rol', period: 'Periodo', context: 'Contexto',
-    stack: 'Stack', confidential: 'Detalles bajo acuerdo de confidencialidad',
-    groupClient: 'En LearUp', groupOwn: 'Proyectos propios',
+    stack: 'Stack',
   },
   en: {
     workTitle: 'Work', workDesc: 'Case studies in architecture, technical leadership and product.',
     backToWork: 'Back to work', role: 'Role', period: 'Period', context: 'Context',
-    stack: 'Stack', confidential: 'Details under non-disclosure agreement',
-    groupClient: 'At LearUp', groupOwn: 'Personal projects',
+    stack: 'Stack',
   },
 };
 
@@ -304,19 +302,11 @@ function emit(relFile, { lang, title, description, canonical, altUrl, body, scri
 function renderWorkCard(item, lang, nivel = 3) {
   const L = LANGS[lang];
   const d = item.data;
-  const confidential = !!d.confidential;
-  /* "abierto"/"open" sugería código visible, y de los proyectos propios solo
-     mini-astro enlaza a un repo — sgc y blog-26 enlazan al producto en vivo.
-     La etiqueta ahora separa "sin NDA" de "código visible", que no son lo mismo. */
-  const stateLabel = confidential
-    ? (lang === 'es' ? 'bajo NDA' : 'under NDA')
-    : (lang === 'es' ? 'proyecto propio' : 'personal project');
-
   const metrics = Array.isArray(d.metrics) ? d.metrics : [];
   const stack = Array.isArray(d.stack) ? d.stack.slice(0, 5) : [];
 
-  /* Con cifras, mandan las cifras. Sin ellas (NDA), manda el rol: un hueco
-     vacío se lee como página sin terminar. */
+  /* Con cifras, mandan las cifras. Sin ellas, manda el rol: un hueco vacío
+     se lee como página sin terminar. */
   const extra = metrics.length
     ? metrics.slice(0, 3).map(m =>
         `            <div><b>${esc(m.value)}</b><span>${esc(m.label)}</span></div>`).join('\n')
@@ -327,7 +317,6 @@ function renderWorkCard(item, lang, nivel = 3) {
         <a class="work-card__link" href="${urlFor(lang, L.work, item.slug)}">
           <p class="work-card__meta-top">
             <span class="work-card__project">${esc(d.project || d.domain)}</span>
-            <span class="work-card__state">${stateLabel}</span>
             <span>${esc(d.period)}</span>
           </p>
           <div class="work-card__body">
@@ -361,9 +350,6 @@ ${metrics.map(m => `        <div class="metric"><dd class="metric__value">${esc(
 ${d.stack.map(s => `        <li>${esc(s)}</li>`).join('\n')}
       </ul>` : '';
 
-  const nda = d.confidential ? `
-      <p class="case__nda">${t.confidential}</p>` : '';
-
   /* Enlaces de prueba: repo, demo desplegada, lo que se pueda verificar.
      Un caso que afirma cifras y no da forma de comprobarlas se lee como humo. */
   const links = Array.isArray(d.links) && d.links.length ? `
@@ -390,7 +376,7 @@ ${d.summary.map(s => `    <div><dt>${esc(s.k)}</dt><dd>${esc(s.v)}</dd></div>`).
       <div><dt>${t.role}</dt><dd>${esc(d.role)}</dd></div>
       <div><dt>${t.period}</dt><dd>${esc(d.period)}</dd></div>
     </dl>
-${stackHtml}${links}${metricsHtml}${nda}
+${stackHtml}${links}${metricsHtml}
   </header>
 ${summary}
   <div class="case__body prose">
@@ -406,21 +392,15 @@ ${marked.parse(item.content)}
 
 function renderWorkIndex(items, lang) {
   const t = UI[lang];
-  /* Con más de una decena de casos, una sola lista mezclaba el trabajo en
-     LearUp (bajo NDA) con los proyectos propios. Se agrupan por esa marca.
-     h1 "Casos" → h2 del grupo → h3 en cada tarjeta, igual que en la home. */
-  const grupos = [
-    { titulo: t.groupClient, items: items.filter(i => i.data.confidential) },
-    { titulo: t.groupOwn, items: items.filter(i => !i.data.confidential) },
-  ].filter(g => g.items.length);
+  /* Aquí el h1 es "Casos", así que las tarjetas son h2. En la home van bajo
+     un h2, así que allí son h3. Saltar de h1 a h3 rompe la jerarquía. */
   return `
 <section class="work-index" data-zone="clear">
   <h1 class="work-index__title">${t.workTitle}</h1>
   <p class="work-index__lead">${t.workDesc}</p>
-${grupos.map(g => `  <h2 class="work-index__group">${g.titulo} <span>${g.items.length}</span></h2>
   <ul class="work-index__list" data-stagger>
-${g.items.map(i => renderWorkCard(i, lang, 3)).join('\n')}
-  </ul>`).join('\n')}
+${items.map(i => renderWorkCard(i, lang, 2)).join('\n')}
+  </ul>
 </section>
 `;
 }

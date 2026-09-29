@@ -8,7 +8,6 @@ headline: Cada formulario de un tracker era un modal escrito a mano. Para evento
 domain: Plataforma de gestión de ensayos clínicos
 role: Technical Lead · constructor de formularios compartido, lógica condicional e integración con el EDC
 period: 2025 – 2026
-confidential: true
 featured: false
 summary:
   - k: El problema

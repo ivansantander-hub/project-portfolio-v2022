@@ -8,7 +8,6 @@ headline: "Two language models left to talk on their own get stuck offering each
 domain: "Personal project · Open source"
 role: "Sole author · experimental design and development"
 period: September 2026
-confidential: false
 featured: false
 links:
   - label: Source on GitHub

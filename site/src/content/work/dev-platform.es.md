@@ -8,7 +8,6 @@ headline: Levantar la plataforma en local implicaba clonar, configurar y arranca
 domain: Plataforma de gestión de ensayos clínicos
 role: Technical Lead · diseño e implementación de la CLI
 period: 2026
-confidential: true
 featured: false
 summary:
   - k: El problema

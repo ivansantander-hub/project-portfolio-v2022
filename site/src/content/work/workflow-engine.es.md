@@ -8,7 +8,6 @@ headline: Incorporar un cliente exigía escribir y desplegar un script nuevo. Un
 domain: Plataforma de gestión de ensayos clínicos
 role: Technical Lead · diseño del motor, decisión de arquitectura y optimización de la vista previa
 period: 2026
-confidential: true
 featured: true
 summary:
   - k: El problema

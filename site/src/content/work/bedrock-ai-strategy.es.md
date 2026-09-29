@@ -8,7 +8,6 @@ headline: La plataforma no tenía IA en producción y maneja datos que no pueden
 domain: Plataforma de gestión de ensayos clínicos
 role: Technical Lead / Technical Product Owner · estrategia de integración y spike
 period: 2026
-confidential: true
 featured: false
 summary:
   - k: El problema

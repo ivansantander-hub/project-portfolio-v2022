@@ -8,7 +8,6 @@ headline: "An agent that runs in my terminal on a local Ollama model. I first wr
 domain: Personal project
 role: Sole author of the megabyte layer · the engine is pi (earendil-works, MIT)
 period: 2026
-confidential: false
 featured: false
 links:
   - label: Fork on GitHub (TypeScript)

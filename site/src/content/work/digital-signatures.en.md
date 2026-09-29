@@ -8,7 +8,6 @@ headline: Signature workflows in the document manager end in a certificate with 
 domain: Clinical trial management platform
 role: Technical Lead · workflow orchestration, certificate service and digital signing
 period: 2025 – 2026
-confidential: true
 featured: false
 summary:
   - k: The problem

@@ -8,7 +8,6 @@ headline: Publishing on a static blog meant commit, push and build. The fix was 
 domain: Personal project
 role: Sole author · design and development
 period: 2026
-confidential: false
 featured: false
 links:
   - label: See the blog
