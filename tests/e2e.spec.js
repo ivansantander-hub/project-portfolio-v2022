@@ -316,3 +316,20 @@ test('about page has a section TOC and contact links', async ({ page }) => {
   await expect(page.locator('.about__aside .toc__list a')).toHaveCount(await page.locator('.about__main h2[id]').count());
   await expect(page.locator('.about__contact a')).toHaveCount(2);
 });
+
+// ─── Centered layout: hero centered, cases in a card grid ────────────────────
+test('hero is centered and cases form a grid with aligned card footers', async ({ page, isMobile }) => {
+  test.skip(isMobile, 'desktop layout');
+  await page.goto('/trabajo/', { waitUntil: 'load' });
+  const cards = page.locator('.work-index__list .work-card');
+  const tops = await cards.evaluateAll(els => els.slice(0, 3).map(e => Math.round(e.getBoundingClientRect().top)));
+  expect(new Set(tops).size).toBe(1); // las 3 primeras en la misma fila
+  const gaps = await cards.evaluateAll(els => els.slice(0, 6).map(li =>
+    Math.round(li.getBoundingClientRect().bottom - li.querySelector('.work-card__arrow').getBoundingClientRect().bottom)));
+  expect(new Set(gaps).size).toBe(1); // "Ver caso" al pie en todas
+
+  await page.goto('/', { waitUntil: 'load' });
+  const vw = page.viewportSize().width;
+  const name = await page.locator('.hero__name').boundingBox();
+  expect(Math.abs(name.x + name.width / 2 - vw / 2)).toBeLessThan(24);
+});
