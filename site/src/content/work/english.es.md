@@ -1,7 +1,7 @@
 ---
 slug: english
 lang: es
-order: 12
+order: 2
 title: Una app para practicar inglés a diario
 project: English A1
 headline: "Una app personal para practicar Present Simple con ejercicios reales, corrección con IA oración por oración y un motor que elige qué practicar según los errores."

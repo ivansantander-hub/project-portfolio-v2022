@@ -1,7 +1,7 @@
 ---
 slug: dynamic-forms
 lang: es
-order: 8
+order: 15
 title: Formularios definidos por configuración
 project: Formularios configurables
 headline: Cada formulario era una pantalla escrita a mano. Para los módulos que más cambian entre proyectos, el formulario pasó a ser un esquema que el frontend dibuja y el backend valida.

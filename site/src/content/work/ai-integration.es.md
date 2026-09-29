@@ -1,7 +1,7 @@
 ---
 slug: ai-integration
 lang: es
-order: 4
+order: 12
 title: Una propuesta para integrar IA en una plataforma de un entorno regulado
 project: Integración de IA
 headline: La plataforma no tenía funcionalidades de IA y maneja datos sensibles. Escribí una propuesta para integrarla con la privacidad como punto de partida y la validé con un prototipo.

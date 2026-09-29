@@ -1,7 +1,7 @@
 ---
 slug: mini-astro
 lang: es
-order: 14
+order: 5
 title: Un generador de sitios estáticos propio
 project: mini-astro
 headline: "Entender cómo funciona por dentro un generador de sitios estáticos construyendo uno: una sola dependencia, que solo usa el servidor de desarrollo, y ningún runtime en el cliente. No compite con Astro; este portafolio corre sobre él."

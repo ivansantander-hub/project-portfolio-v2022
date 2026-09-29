@@ -1,7 +1,7 @@
 ---
 slug: digital-signatures
 lang: es
-order: 6
+order: 13
 title: Firmas electrónicas con evidencia verificable
 project: Firma electrónica
 headline: Trabajé en los flujos de firma del gestor documental, que terminan en un documento con la evidencia de quién firmó y una forma de verificarlo después.
