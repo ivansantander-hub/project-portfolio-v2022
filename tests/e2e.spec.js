@@ -35,7 +35,7 @@ test('hero shows name, statement, role chips and stats', async ({ page }) => {
   await expect(page.locator('.hero__name')).toHaveText('Iván Santander');
   await expect(page.locator('.hero__statement')).toBeVisible();
   await expect(page.locator('.hero__role')).toContainText('IA');
-  await expect(page.locator('.hero__lead p')).toHaveCount(2);
+  await expect(page.locator('.hero__lead p')).toHaveCount(1);
 
   const stats = page.locator('.hero__readout > div');
   await expect(stats).toHaveCount(3);
@@ -49,7 +49,7 @@ test('hero CTAs point to work index and the contact anchor', async ({ page }) =>
 // ─── 4. Thesis ────────────────────────────────────────────────────────────────
 test('thesis section states the core argument', async ({ page }) => {
   await expect(page.locator('.thesis__title')).toHaveText('Enfoque');
-  await expect(page.locator('.thesis__body')).toContainText('Sistemas que ya están en producción');
+  await expect(page.locator('.thesis__body')).toContainText('Simplificar sistemas en producción');
 });
 
 // ─── 5. Work preview (home) — only featured cases ───────────────────────────

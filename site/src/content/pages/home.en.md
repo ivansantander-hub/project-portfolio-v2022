@@ -14,10 +14,7 @@ description: "Tech Lead and Technical Product Owner. Architecture, technical lea
 **role:** Product · Engineering · AI
 
 **lead:**
-Tech Lead and Technical Product Owner at a clinical trial platform.
-
-Architecture for production systems, phased migrations and technical
-prioritization alongside the business.
+Architecture and product for systems in production.
 
 **cta_primary:** See the work
 **cta_secondary:** Get in touch
@@ -31,11 +28,7 @@ prioritization alongside the business.
 **title:** Focus
 
 **body:**
-Systems that are already in production and have grown faster than the
-team maintaining them.
-
-The work is understanding how they got there, deciding what to simplify
-and in what order, and doing it without holding up committed work.
+Simplifying systems in production without slowing delivery.
 
 ---
 
@@ -46,8 +39,6 @@ and in what order, and doing it without holding up committed work.
 **body:**
 Some of my own projects.
 
-Each case summarizes the context, the problem, the decisions and the outcome.
-
 ---
 
 ## secondary
@@ -55,14 +46,10 @@ Each case summarizes the context, the problem, the decisions and the outcome.
 **title:** Before this
 
 **body:**
-Earlier work as a developer:
-
-- A payment gateway with automatic and on-demand charges, integrated into a mobile app.
-- API management on Azure and process automation for healthcare.
+- A payment gateway for a mobile app.
+- API management and automation in healthcare.
 - Mobile apps for clinical monitoring.
 - QR-based access control.
-
-Hands-on experience with integrations, payments and digital health.
 
 ---
 
@@ -71,8 +58,7 @@ Hands-on experience with integrations, payments and digital health.
 **title:** Let's talk
 
 **body:**
-To talk about architecture, technical leadership or any of these cases,
-get in touch.
+Message me on LinkedIn.
 
 **cta_primary:** Message me on LinkedIn
 **cta_secondary:** View GitHub
