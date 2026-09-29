@@ -2,26 +2,22 @@
 slug: architecture-simplification
 lang: en
 order: 1
-title: Consolidating a microservice architecture
-project: Architecture consolidation
-headline: A microservice architecture with more components than people to maintain them. A system inventory and two costed proposals turned it into a decision that could be evaluated, starting with retiring what no longer deployed.
+title: Simplifying an architecture that grew by accumulation
+project: Architecture simplification
+headline: A system that had grown piece by piece over the years. I built an inventory and prepared costed options so that simplifying it became a decision that could be evaluated.
 domain: Clinical trial management platform
 role: Technical Lead → Technical Product Owner · inventory and architecture proposal
-period: 2025 – 2026
 featured: true
 summary:
   - k: The problem
-    v: "More components than people to maintain them. The issue wasn't performance or bugs, it was that ratio."
+    v: "The system had more pieces than the team could comfortably maintain."
   - k: The decision
-    v: "Two proposals with their costs. Both use incremental migration (Strangler Fig), no hard cutover."
+    v: "Measure before proposing and present costed options, all with a step-by-step migration."
   - k: How it ended
-    v: "The proposal is the reference document for the architecture decision. First step: retiring what no longer deployed."
+    v: "The discussion moved from a general feeling to concrete options that could be compared."
 stack:
-  - Microservice architecture
-  - GraphQL Federation
-  - Kubernetes
-  - Next.js
   - TypeScript
+  - Next.js
   - Python
 tags:
   - architecture
@@ -31,39 +27,26 @@ tags:
 
 ## The problem
 
-The platform covers project management, document control, data capture and analytics in a regulated, audited domain: a badly migrated record has real consequences.
+The platform operates in a regulated environment, where a badly migrated record has real consequences.
 
-The system had grown by accumulation over several years. Each new need brought a new service, and each new client a new scheduled job. Decisions that made sense on their own had, together, left more components than people to maintain them:
-
-- A cross-cutting change had to be repeated across several repositories.
-- Onboarding took weeks instead of days.
-- Problems that weren't distributed were being debugged across distributed systems.
-- The "one job per client" pattern meant the problem grew along with the business.
-
-They all had the same cause, but nobody had put a number on it.
+The system had grown by accumulation: each new need brought a new piece. Decisions that made sense on their own had, together, left a system that was hard to maintain. A cross-cutting change had to be repeated in several places, bringing someone onto the team took longer than it should, and the problem grew along with the business. It all had the same cause, but nobody had laid it out concretely.
 
 ## Decisions
 
-**Inventory before proposal.** I went through the code service by service and built an inventory: what exists, what's still in use, what hasn't had a commit in a year, and what depends on what. The conversation moved from "the system feels heavy" to a table that showed the imbalance, readable by non-technical people too. Cost: review time before anything could be proposed.
+**Measure before proposing.** I went through the code part by part and built an inventory: what exists, what is in use and what depends on what. The conversation moved from "the system feels heavy" to a document that non-technical people could read too. Cost: review time before anything could be proposed.
 
-**Two options instead of one.** I proposed two plans with their costs, so the discussion was about which to pick rather than approving or rejecting one. For each one I defined scope, sequence, owners and rollback criteria.
+**Options instead of a single proposal.** I prepared a conservative alternative and a structural one, each with scope, sequence and rollback criteria. That way the discussion was about which to choose, not about approving or rejecting. Cost: more preparation work.
 
-- *Conservative:* consolidate services while keeping the current style. Less disruption, familiar ground, could start the following week; doesn't fix the underlying fragmentation.
-- *Structural:* reduce to a handful of processes in a monorepo with end-to-end type safety, drop the federation layer and unify scheduled jobs into an event-driven worker. It addresses the cause, but costs more and touches more.
+**Migrate in parts.** Both options replace the system gradually while the existing one keeps running. Cost: living with two systems for a while, in exchange for not depending on a hard cutover in a regulated environment.
 
-**Incremental migration in both plans.** Strangler Fig with a reverse proxy: the new system takes over routes one at a time while the old one serves the rest. It means running two systems at once, but in a regulated domain a hard cutover would have been hard to justify.
-
-**One person dedicated to operations.** Someone reserved for bugs and support throughout the migration. It reduces capacity, but keeps day-to-day work from absorbing the team and stalling the migration.
-
-**Existing commitments first.** Deliverables already promised come before refactoring. The migration moves more slowly, in exchange for a plan that is realistic for the business.
+**Respect existing commitments.** Deliverables already promised come first, and one person stays dedicated to operations. Cost: the migration moves more slowly, but the plan is realistic.
 
 ## Outcome
 
-- The proposal is the reference document for the architecture decision.
-- The inventory, which used to live in two or three people's heads, is now available to anyone.
-- The team started with the simple parts: retiring what was no longer deployed and folding in catalog services that didn't justify existing separately. That built confidence for the more expensive parts.
-- I designed the frontend replacement around the same idea: a registry engine instead of one file per view. A generic route resolves against a configuration map, and the idea is that a few reusable shells cover the screen patterns, so adding a view means adding a config object. Today it is an experiment with a single shell, the grid (see the shell system case).
+- Knowledge of the system, which lived in a few people's heads, is now written down and available to the team.
+- The architecture decision is discussed with options and costs in view.
+- The same idea of configuration instead of code guided the frontend design (see the configurable screens case).
 
 ## What I'd do differently
 
-I'd build the inventory a year earlier. By the time the proposal existed, we had already paid the cost of that debt.
+I'd build the inventory earlier, when the system was smaller and the review simpler.
