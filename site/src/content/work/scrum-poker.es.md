@@ -8,7 +8,6 @@ headline: "Una app de planning poker para estimar en equipo: salas con código, 
 domain: Proyecto propio
 role: Desarrollador único
 period: Marzo 2026
-confidential: false
 featured: false
 links:
   - label: Código en GitHub

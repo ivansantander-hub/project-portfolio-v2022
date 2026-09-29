@@ -8,7 +8,6 @@ headline: Every tracker in the platform had its own component folder and resolve
 domain: Clinical trial management platform
 role: Technical Lead · design and implementation of the experiment
 period: 2026
-confidential: true
 featured: false
 summary:
   - k: The problem

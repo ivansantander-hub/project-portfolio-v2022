@@ -8,7 +8,6 @@ headline: Un asistente de programación con varios agentes, varios proveedores d
 domain: Plataforma de gestión de ensayos clínicos
 role: Technical Lead · diseño e implementación
 period: 2026
-confidential: true
 featured: false
 summary:
   - k: El problema

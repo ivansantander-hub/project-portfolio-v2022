@@ -8,7 +8,6 @@ headline: A coding assistant with several agents, several model providers and tw
 domain: Clinical trial management platform
 role: Technical Lead · design and implementation
 period: 2026
-confidential: true
 featured: false
 summary:
   - k: The problem

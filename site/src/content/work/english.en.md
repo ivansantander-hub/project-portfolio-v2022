@@ -8,7 +8,6 @@ headline: "A personal app for practicing the Present Simple with real exercises,
 domain: Personal project
 role: Sole developer · design and development
 period: August 2026
-confidential: false
 featured: true
 links:
   - label: Code on GitHub

@@ -8,7 +8,6 @@ headline: "Un agente que corre en mi terminal con un modelo local de Ollama. Pri
 domain: Proyecto propio
 role: Autor único de la capa megabyte · el motor es pi (earendil-works, MIT)
 period: 2026
-confidential: false
 featured: false
 links:
   - label: Fork en GitHub (TypeScript)

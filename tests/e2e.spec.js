@@ -62,10 +62,10 @@ test('home shows only the 3 featured cases, plus a link to the full index', asyn
   await expect(more).toContainText('Ver todos los casos');
 });
 
-test('each home work-card has project, state, title and arrow', async ({ page }) => {
+test('each home work-card has project, title and arrow, and no NDA label', async ({ page }) => {
   const first = page.locator('.work-preview .work-card').first();
   await expect(first.locator('.work-card__project')).not.toBeEmpty();
-  await expect(first.locator('.work-card__state')).toHaveText(/bajo NDA|proyecto propio/);
+  await expect(page.locator('.work-preview .work-card__state')).toHaveCount(0);
   await expect(first.locator('.work-card__title')).not.toBeEmpty();
   await expect(first.locator('.work-card__arrow')).toHaveText('Ver caso →');
 });
@@ -136,29 +136,23 @@ test('sitemap.xml and robots.txt are served', async ({ request }) => {
   expect(await robots.text()).toContain('Sitemap:');
 });
 
-// ─── 10. Work index (/trabajo/) — 18 cases in two groups ──────────────────────
-test('work index lists all 18 cases, grouped into LearUp and personal', async ({ page }) => {
+// ─── 10. Work index (/trabajo/) — one list, 18 cases ─────────────────────────
+test('work index lists all 18 cases in a single list, without NDA labels', async ({ page }) => {
   await page.goto('/trabajo/', { waitUntil: 'domcontentloaded' });
+  await expect(page.locator('.work-index__list')).toHaveCount(1);
   await expect(page.locator('.work-index__list .work-card')).toHaveCount(18);
-  const groups = page.locator('.work-index__group');
-  await expect(groups).toHaveCount(2);
-  await expect(groups.nth(0)).toContainText('En LearUp');
-  await expect(groups.nth(1)).toContainText('Proyectos propios');
-  await expect(page.locator('.work-index__list').nth(0).locator('.work-card')).toHaveCount(10);
-  await expect(page.locator('.work-index__list').nth(1).locator('.work-card')).toHaveCount(8);
-  await expect(page.locator('.work-index__list').nth(0).locator('.work-card__state').first()).toHaveText('bajo NDA');
-  await expect(page.locator('.work-index__list').nth(1).locator('.work-card__state').first()).toHaveText('proyecto propio');
+  await expect(page.locator('.work-card__title').first()).toHaveJSProperty('tagName', 'H2');
+  await expect(page.locator('main')).not.toContainText(/NDA|confidencialidad/);
 });
 
-// ─── 11. Case pages — NDA vs. open ────────────────────────────────────────────
-test('a confidential case shows the NDA note, an open one does not', async ({ page }) => {
+// ─── 11. Case pages — no NDA wording anywhere ────────────────────────────────
+test('case pages have no NDA note; open cases show their metrics', async ({ page }) => {
   await page.goto('/trabajo/architecture-simplification/', { waitUntil: 'domcontentloaded' });
   await expect(page.locator('.case__title')).not.toBeEmpty();
-  await expect(page.locator('.case__nda')).toBeVisible();
+  await expect(page.locator('main')).not.toContainText(/NDA|confidencialidad|non-disclosure/i);
   await expect(page.locator('.link-back')).toHaveAttribute('href', '/trabajo/');
 
   await page.goto('/trabajo/sgc/', { waitUntil: 'domcontentloaded' });
-  await expect(page.locator('.case__nda')).toHaveCount(0);
   await expect(page.locator('.case__metrics')).toBeVisible();
 });
 
@@ -194,11 +188,11 @@ test('EN contact CTAs are translated', async ({ page }) => {
   await expect(page.locator('.contact__actions .btn:not(.btn--primary)')).toHaveText('View GitHub');
 });
 
-test('EN work index lists all 18 cases in two groups', async ({ page }) => {
+test('EN work index lists all 18 cases in a single list', async ({ page }) => {
   await page.goto('/en/work/', { waitUntil: 'domcontentloaded' });
+  await expect(page.locator('.work-index__list')).toHaveCount(1);
   await expect(page.locator('.work-index__list .work-card')).toHaveCount(18);
-  await expect(page.locator('.work-index__group').nth(0)).toContainText('At LearUp');
-  await expect(page.locator('.work-index__group').nth(1)).toContainText('Personal projects');
+  await expect(page.locator('main')).not.toContainText(/NDA|non-disclosure/);
 });
 
 // ─── 14. Theme toggle ─────────────────────────────────────────────────────────

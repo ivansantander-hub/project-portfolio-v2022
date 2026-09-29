@@ -8,7 +8,6 @@ headline: Una arquitectura de microservicios con más componentes que personas p
 domain: Plataforma de gestión de ensayos clínicos
 role: Technical Lead → Technical Product Owner · inventario y propuesta de arquitectura
 period: 2025 – 2026
-confidential: true
 featured: true
 summary:
   - k: El problema

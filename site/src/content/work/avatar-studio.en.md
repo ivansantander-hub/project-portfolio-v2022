@@ -8,7 +8,6 @@ headline: "Testing whether short videos of fictional AI characters speaking Span
 domain: Personal project
 role: Sole developer · research, scripts and testing
 period: "2026"
-confidential: false
 featured: false
 summary:
   - k: The problem
