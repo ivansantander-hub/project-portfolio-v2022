@@ -72,7 +72,6 @@ const UI = {
     workTitle: 'Casos', workDesc: 'Casos de arquitectura, liderazgo técnico y producto.',
     backToWork: 'Volver a casos', role: 'Rol', period: 'Periodo', context: 'Contexto',
     prev: 'Anterior', next: 'Siguiente', pager: 'Navegación entre proyectos',
-    keysHint: 'Usa ← y → para cambiar de proyecto',
     toc: 'En este caso', tocAbout: 'En esta página', details: 'Ficha del caso', contact: 'Contacto',
     stack: 'Stack',
   },
@@ -80,7 +79,6 @@ const UI = {
     workTitle: 'Work', workDesc: 'Case studies in architecture, technical leadership and product.',
     backToWork: 'Back to work', role: 'Role', period: 'Period', context: 'Context',
     prev: 'Previous', next: 'Next', pager: 'Project navigation',
-    keysHint: 'Use ← and → to switch projects',
     toc: 'In this case', tocAbout: 'On this page', details: 'Case details', contact: 'Contact',
     stack: 'Stack',
   },
@@ -418,7 +416,6 @@ ${renderToc(toc, t.toc)}
 ${pagerLink(prev, 'prev')}
 ${pagerLink(next, 'next')}
     </nav>
-    <p class="case__keys" aria-hidden="true">${t.keysHint}</p>
   </footer>
 </article>
 `;

@@ -49,3 +49,58 @@
     tarjetas[siguiente].scrollIntoView({ block: 'center', behavior: suave ? 'smooth' : 'auto' });
   });
 })();
+
+/* Aviso de atajos: aparece donde hay atajos (casos, home, /trabajo/), solo
+ * con teclado y ratón, y se va solo a los pocos segundos. Se puede cerrar
+ * con × o Esc. Cerrado o usado el atajo, no vuelve a salir; si se ignora,
+ * sale como mucho tres veces. */
+(function () {
+  if (!window.matchMedia('(hover: hover) and (pointer: fine)').matches) return;
+  var esCaso = !!document.querySelector('a.case__pager-link[rel="prev"], a.case__pager-link[rel="next"]');
+  var hayTarjetas = !!document.querySelector('.work-card__link');
+  if (!esCaso && !hayTarjetas) return;
+
+  var CLAVE = 'is-keys-hint';
+  var MAX_VECES = 3;
+  var guardado = null;
+  try { guardado = localStorage.getItem(CLAVE); } catch (e) {}
+  if (guardado === 'off') return;
+  var veces = parseInt(guardado, 10) || 0;
+  if (veces >= MAX_VECES) return;
+  try { localStorage.setItem(CLAVE, String(veces + 1)); } catch (e) {}
+
+  var es = (document.documentElement.lang || 'es').indexOf('es') === 0;
+  var texto = esCaso
+    ? (es ? 'Usa <kbd>←</kbd> <kbd>→</kbd> para cambiar de proyecto' : 'Use <kbd>←</kbd> <kbd>→</kbd> to switch projects')
+    : (es ? 'Recorre los proyectos con <kbd>←</kbd> <kbd>→</kbd> y ábrelos con <kbd>Enter</kbd>'
+          : 'Browse projects with <kbd>←</kbd> <kbd>→</kbd> and open them with <kbd>Enter</kbd>');
+
+  var aviso = document.createElement('div');
+  aviso.className = 'keys-hint';
+  aviso.setAttribute('role', 'status');
+  aviso.innerHTML = '<span>' + texto + '</span>' +
+    '<button type="button" class="keys-hint__close" aria-label="' + (es ? 'Cerrar aviso' : 'Dismiss') + '">×</button>';
+  document.body.appendChild(aviso);
+
+  var temporizador;
+  function ocultar() {
+    clearTimeout(temporizador);
+    aviso.classList.remove('is-visible');
+    document.removeEventListener('keydown', alTeclear);
+    setTimeout(function () { aviso.remove(); }, 400);
+  }
+  function apagar() {
+    try { localStorage.setItem(CLAVE, 'off'); } catch (e) {}
+    ocultar();
+  }
+  function alTeclear(e) {
+    if (e.key === 'Escape' || e.key === 'ArrowLeft' || e.key === 'ArrowRight') apagar();
+  }
+  aviso.querySelector('button').addEventListener('click', apagar);
+  document.addEventListener('keydown', alTeclear);
+
+  setTimeout(function () {
+    aviso.classList.add('is-visible');
+    temporizador = setTimeout(ocultar, 7000);
+  }, 1200);
+})();
