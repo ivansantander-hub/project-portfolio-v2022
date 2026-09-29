@@ -63,7 +63,7 @@ They all had the same cause, but nobody had put a number on it.
 - The proposal is the reference document for the architecture decision.
 - The inventory, which used to live in two or three people's heads, is now available to anyone.
 - The team started with the simple parts: retiring what was no longer deployed and folding in catalog services that didn't justify existing separately. That built confidence for the more expensive parts.
-- I designed the frontend replacement around the same idea: a registry engine instead of one file per view. A generic route resolves against a configuration map and a few reusable shells cover every screen pattern; adding a view means adding a config object.
+- I designed the frontend replacement around the same idea: a registry engine instead of one file per view. A generic route resolves against a configuration map, and the idea is that a few reusable shells cover the screen patterns, so adding a view means adding a config object. Today it is an experiment with a single shell, the grid (see the shell system case).
 
 ## What I'd do differently
 
