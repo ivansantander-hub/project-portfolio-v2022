@@ -1,7 +1,7 @@
 ---
 slug: ai-integration
 lang: en
-order: 4
+order: 12
 title: A proposal for adding AI to a platform in a regulated environment
 project: AI integration
 headline: The platform had no AI features and handles sensitive data. I wrote a proposal to integrate AI with privacy as the starting point and validated it with a prototype.

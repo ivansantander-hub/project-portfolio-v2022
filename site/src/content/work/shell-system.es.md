@@ -1,7 +1,7 @@
 ---
 slug: shell-system
 lang: es
-order: 9
+order: 16
 title: Pantallas de seguimiento a partir de configuración
 project: Pantallas configurables
 headline: Cada pantalla de seguimiento se construía a mano. Diseñé un enfoque en el que una grilla y un servicio genéricos sirven estas pantallas a partir de configuración.

@@ -1,7 +1,7 @@
 ---
 slug: ai-coding-assistant
 lang: en
-order: 3
+order: 6
 title: An AI coding assistant adapted to the team's way of working
 project: AI coding assistant
 headline: A coding assistant that starts from the team's context, with specialized roles, written conventions and human verification before changes land.

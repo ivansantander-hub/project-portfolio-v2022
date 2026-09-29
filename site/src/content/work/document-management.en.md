@@ -1,7 +1,7 @@
 ---
 slug: document-management
 lang: en
-order: 5
+order: 9
 title: Document management with permissions and traceability
 project: Document management
 headline: I worked on the document manager of a clinical trial platform, where every file has to be clear about who can see it and every action is recorded.

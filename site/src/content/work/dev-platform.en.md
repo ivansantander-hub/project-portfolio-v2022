@@ -1,7 +1,7 @@
 ---
 slug: dev-platform
 lang: en
-order: 10
+order: 18
 title: A command-line tool for the local environment
 project: Local development environment
 headline: Running the platform locally meant many manual steps. I built a command-line tool that clones, configures, diagnoses and starts the environment through a wizard.

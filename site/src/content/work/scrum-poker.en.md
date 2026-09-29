@@ -1,7 +1,7 @@
 ---
 slug: scrum-poker
 lang: en
-order: 18
+order: 17
 title: Real-time planning poker
 project: Scrum Poker
 headline: "A planning poker app for team estimation: rooms joined by code, votes hidden until the host reveals them, and rejoining after a dropped connection."

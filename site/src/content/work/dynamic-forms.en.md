@@ -1,7 +1,7 @@
 ---
 slug: dynamic-forms
 lang: en
-order: 8
+order: 15
 title: Forms defined by configuration
 project: Configurable forms
 headline: Every form was a hand-written screen. For the modules that change most between projects, the form became a schema the frontend renders and the backend validates.

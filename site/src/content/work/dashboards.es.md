@@ -1,7 +1,7 @@
 ---
 slug: dashboards
 lang: es
-order: 7
+order: 10
 title: Dashboards configurables por proyecto
 project: Dashboards configurables
 headline: Los dashboards estaban escritos a mano uno por uno. Los reemplazamos por un motor donde el dashboard es configuración y los datos se resuelven en el servidor.

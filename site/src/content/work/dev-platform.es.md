@@ -1,7 +1,7 @@
 ---
 slug: dev-platform
 lang: es
-order: 10
+order: 18
 title: Una herramienta de línea de comandos para el entorno local
 project: Entorno de desarrollo local
 headline: Levantar la plataforma en local implicaba muchos pasos manuales. Armé una herramienta de línea de comandos que clona, configura, diagnostica y arranca el entorno con un asistente.

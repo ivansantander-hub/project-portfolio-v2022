@@ -1,7 +1,7 @@
 ---
 slug: workflow-engine
 lang: es
-order: 2
+order: 7
 title: Un motor de flujos configurable para integraciones de datos
 project: Motor de flujos
 headline: Cada integración de datos se resolvía con código escrito a medida. Diseñé un motor de flujos configurable para que quienes conocen los datos puedan armarlos sin pasar por ingeniería.

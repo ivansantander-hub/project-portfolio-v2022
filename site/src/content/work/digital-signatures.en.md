@@ -1,7 +1,7 @@
 ---
 slug: digital-signatures
 lang: en
-order: 6
+order: 13
 title: Electronic signatures with verifiable evidence
 project: Electronic signatures
 headline: I worked on the signature workflows of the document manager, which end in a document with evidence of who signed and a way to verify it later.
