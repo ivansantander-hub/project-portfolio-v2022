@@ -56,6 +56,9 @@ test('thesis section states the core argument', async ({ page }) => {
 test('home shows only the 3 featured cases, plus a link to the full index', async ({ page }) => {
   const cards = page.locator('.work-preview .work-card');
   await expect(cards).toHaveCount(3);
+  // Solo proyectos propios en la home, ninguno del trabajo en la plataforma de ensayos
+  const hrefs = await page.locator('.work-preview .work-card__link').evaluateAll(as => as.map(a => a.getAttribute('href')));
+  expect(hrefs).toEqual(['/trabajo/sgc/', '/trabajo/english/', '/trabajo/eco-loop/']);
 
   const more = page.locator('.work-preview__more a');
   await expect(more).toHaveAttribute('href', '/trabajo/');

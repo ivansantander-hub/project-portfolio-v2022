@@ -7,7 +7,7 @@ project: Simplificación de arquitectura
 headline: Un sistema que había crecido pieza a pieza durante años. Hice un inventario y preparé opciones con sus costos para que la simplificación fuera una decisión que se pudiera evaluar.
 domain: Plataforma de gestión de ensayos clínicos
 role: Technical Lead → Technical Product Owner · inventario y propuesta de arquitectura
-featured: true
+featured: false
 summary:
   - k: El problema
     v: "El sistema tenía más piezas de las que el equipo podía mantener con comodidad."

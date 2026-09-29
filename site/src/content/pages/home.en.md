@@ -44,7 +44,7 @@ and in what order, and doing it without holding up committed work.
 **title:** Work
 
 **body:**
-Projects I've worked on, with a team and on my own.
+Some of my own projects.
 
 Each case summarizes the context, the problem, the decisions and the outcome.
 
