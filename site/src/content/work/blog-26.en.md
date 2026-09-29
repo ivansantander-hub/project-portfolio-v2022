@@ -4,9 +4,9 @@ lang: en
 order: 5
 title: The version history I rebuilt three times
 project: blog-26
-headline: A self-built CMS with a visual editor, drafts and diffs. The interesting part wasn't building it — it was knowing when to stop patching it.
+headline: Publishing on a static blog meant commit, push and build. The fix was a self-built CMS; its hard part, the version history, took three attempts.
 domain: Personal project
-role: Design and development
+role: Sole author · design and development
 period: 2026
 confidential: false
 featured: false
@@ -15,11 +15,11 @@ links:
     href: https://blog.ivansantander.com
 summary:
   - k: The problem
-    v: "I couldn't write without deploying. Every note was a commit, a push and waiting for a build."
+    v: "Every note meant a commit, a push and waiting for a build."
   - k: The decision
-    v: "Stop patching the diff and simplify the model. One view, one job."
+    v: "Separate viewing a version from comparing versions, instead of patching the diff again."
   - k: How it ended
-    v: "A self-built CMS with a visual editor, drafts, history and analytics with no third parties."
+    v: "A self-built CMS with a visual editor, drafts, history and no third-party analytics."
 metrics:
   - value: "3"
     label: "attempts before the diff worked"
@@ -37,42 +37,39 @@ tags:
   - product
 ---
 
-I couldn't write without deploying.
+## The problem
 
-It started as a static blog with Markdown entries, and the practical problem showed up fast: every note was a commit, a push and waiting for a build. That kills the writing habit.
-
-So I turned it into a CMS: its own database, a visual editor, drafts, version history, image uploads and view counts.
+The blog was static, with posts in Markdown. Publishing a note required a commit, a push and waiting for a build, and that friction was enough to stop writing. The goal: a CMS with a database, a visual editor, drafts, version history, image uploads and view counts.
 
 ## Decisions
 
-**A database instead of files.** Managed Postgres. The consequence is a vendor dependency that makes me uncomfortable and is written down as pending: a periodic backup job to object storage. I'd rather have the risk recorded than pretend it isn't there.
+**A database instead of files.** Managed Postgres. Trade-off: dependence on a provider. Pending mitigation: a periodic backup job to object storage.
 
-**A visual editor, not a Markdown textarea.** A block-style editor, with images uploading straight to storage and optimizing themselves. Writing has to be frictionless — otherwise the project dies of disuse, not of bugs.
+**A block editor instead of a Markdown textarea.** Images upload straight to storage and are optimized automatically. Trade-off: the editor introduces invisible formatting changes, which later affected the diff. It was chosen anyway because a tool that isn't comfortable to write in stops getting used.
 
-**My own analytics.** A hand-built view counter instead of a third-party script. No accounts, no cookies, nothing to consent to. For a personal blog, an integer in a table is all the analytics I need.
+**Self-built analytics.** A hand-built view counter instead of a third-party script: no accounts, no cookies, no consent banner. For a personal blog, an integer in a table is enough.
 
-## The history that fought back
+## The version history
 
-This is the part worth telling. The mistake wasn't technical. It was methodological.
+Three attempts, each with a different bug:
 
-**First attempt.** I saved the state before each change. A version's content and its date didn't correspond — every history entry lied about when it had existed.
+- **Save the state before each change** → the history showed the wrong dates → each version's content didn't match its date.
+- **Save the result after each save** → comparing the latest version with the current state showed nothing → they were exactly the same.
+- **Compare the latest version with the previous one** → added text appeared struck through in red, as if deleted, and identical paragraphs showed as modified → in the second case, the diff ran on raw Markdown, carrying the editor's invisible noise (line breaks, spaces).
 
-**Second attempt.** I changed it to save the result after each save. That fixed the dates and broke something else: comparing the most recent version against the current state showed nothing. They were literally the same thing.
+The common cause wasn't in any single patch but in the design: one view was doing two jobs.
 
-**Third attempt.** I compared the last version against the previous one. And a third, subtler problem appeared: added text rendered struck through in red, as if deleted, instead of green — and any invisible reflow from the editor, a line break, a space, marked an identical paragraph as changed.
+**Solution.** Each version is shown exactly as it was saved, with no comparison. Differences live behind a separate button, and the diff compares the rendered text rather than the raw Markdown, which removes the editor's formatting noise.
 
-Three fixes, three new problems. That's the signal that the problem isn't in the patch — it's in the model.
+## Outcome
 
-**The fix was to remove, not to add.** I stopped trying to make one view do two jobs. Each version renders exactly as it was saved, comparing nothing, and the diff moved to a separate button. It compares the rendered text, not the raw Markdown — so the editor's formatting noise disappears by construction.
+- Visual editor, drafts, history with restore, and auditing.
+- Images optimized on upload.
+- RSS, sitemap, a 404 page and continuous integration.
+- Self-built analytics with no third-party dependencies.
 
-## What kept working
+The trickiest logic (history, diffs, storage, reading time) has unit tests. End-to-end tests are still pending.
 
-A CMS with a visual editor, drafts, history with restore, auditing, images optimized on upload, RSS, sitemap, a real 404, continuous integration and self-hosted analytics.
+## What I'd do differently
 
-The logic that cost me the most — history, diffs, storage, reading time — is covered by unit tests. End-to-end tests are still pending, and it's written down.
-
-## Fifteen minutes I'd have saved
-
-I should have modeled the history on paper before writing it. The three failed attempts were the same mistake: implementing a versioning idea without having defined what exactly a version represents.
-
-Fifteen minutes drawing the timeline would have saved three rewrites.
+Define on paper what exactly a version represents before implementing. All three attempts failed for that same omission; about fifteen minutes sketching the timeline would have avoided the three rewrites.

@@ -2,21 +2,21 @@
 slug: workflow-engine
 lang: en
 order: 3
-title: From per-client script to a pipeline you draw
+title: A workflow engine to replace per-client scripts
 project: Workflow engine
-headline: Every new client needed an engineer to write code. I turned it into a graph the people who understand the data can draw themselves.
-domain: Clinical trial management SaaS platform
-role: Technical Lead
+headline: Onboarding a client meant writing and deploying a new script. A configurable graph engine turns it into a configuration task for the people who know the data.
+domain: Clinical trial management platform
+role: Technical Lead · engine design, architecture decision and preview optimization
 period: 2026
 confidential: true
 featured: true
 summary:
   - k: The problem
-    v: "One script per client, nearly identical. Engineering was the bottleneck for onboarding clients."
+    v: "A nearly identical script per client. Every onboarding went through engineering."
   - k: The decision
-    v: "A graph engine with the definition in the database, not in code. Plus per-node preview."
+    v: "A graph engine with the definition in the database and per-node preview."
   - k: How it ended
-    v: "Onboarding a client moves from an engineering task to a configuration task."
+    v: "Onboarding a client becomes configuration, not development."
 stack:
   - Python
   - FastAPI
@@ -30,38 +30,34 @@ tags:
   - product
 ---
 
-> Every new client required an engineer to write code.
+## The problem
 
-Not a configuration. A repository, a deployment pipeline, new code every time.
+The platform syncs with external clinical data capture systems. Each client uses a different one, with its own form structure and naming conventions. The existing solution was one script per client (extract, transform, load, notify), each with its own repository and deployment pipeline.
 
-The platform has to sync with external clinical data capture systems, and every client uses a different one — its own form structure, its own way of naming things. The historical fix was a script per client: extract, transform, load, notify. It worked, until the list stopped being short.
+- The scripts shared almost all their logic and differed in exactly the part that mattered.
+- A bug had to be fixed in every copy, and there was usually one that got missed.
+- Every new client went through engineering. The data managers, who understand the data best, couldn't change anything themselves.
 
-The scripts were nearly identical — but only nearly. They shared almost all their logic and diverged in exactly the part that mattered, so fixing a bug meant finding it in every copy, and there was always one copy where nobody did. Engineering had become the bottleneck for onboarding clients, and the people who actually understood the data — the data managers — couldn't touch any of it.
+I framed it as a product problem rather than a matter of writing better scripts: the people who know the data should be able to build the flow without depending on engineering.
 
-## The real decision
+## Decisions
 
-Stop treating this as "write better scripts." Start treating it as a product problem: the people who know the data should be able to build the flow without going through engineering.
+**A graph engine with the definition in the database.** The flow is a DAG stored in the database, not in code. A catalog of seven task types (extract, transform, load, notify, compare, conditional, map) is composed at runtime: a new capability is a newly registered task type; a new client is a graph. The alternative, a shared script framework, would have reduced duplication, but every client would still have gone through engineering.
 
-## How it got built
+**Building on the platform instead of adopting an orchestrator.** I evaluated an established tool from the ecosystem and ruled it out: integrating it with the platform's authentication and permissions would have been a permanent workaround, and we needed a domain-specific interface (clinical forms, semantic mappings), not a generic DAG editor. It's a call that could reasonably go either way; I documented the reasoning so it can be revisited.
 
-**A graph engine, not a script framework.** The flow is modeled as a DAG whose definition lives in the database, not in code. A catalog of task types — extract, transform, load, notify, compare, conditional, map — is composed at runtime. Adding a capability means registering a task type. Adding a client means drawing a graph.
+**Per-node preview with sampling.** It runs a single node on a limited sample and shows its output right away. Without it, every change meant running the full flow, a loop too slow for a visual tool. The cost: validation happens on a sample, not on the full volume.
 
-**Build on what exists rather than adopt an orchestrator.** I evaluated bringing in an established tool from the ecosystem and ruled it out for two reasons: integrating it with the platform's authentication and permissions would have been a permanent graft, and the interface we needed was domain-specific — not a generic DAG, but one that understands clinical forms and semantic mappings. It's the kind of decision you can argue either way; what mattered was writing down the reasoning so it stays reviewable.
+**An inspector between nodes.** Each node's result is saved on the node and passed as context to the next one. A collapsible inspector shows what goes in and what comes out at every step, which the scripts never allowed.
 
-**Test a node, not the whole pipeline.** This is the decision that made the tool usable. A preview mode with limited sampling lets you run a single node and see its output instantly. Without it, every iteration means running the entire flow and waiting — and nobody uses a visual tool with a slow feedback loop.
+**Performance as a requirement, not a final optimization.** The first version of the preview was too slow to use: loading the configuration triggered a cascade of individual queries, an N+1 hidden by the data access layer. I rewrote it with batched queries (`IN` clauses) and a short-lived cache. It improved by an order of magnitude, from a wait that interrupted the work to an immediate response.
 
-**Data flows visibly between nodes.** A node's result is persisted onto the node itself and injected as context into the next one, each with a collapsible inspector. The user sees what goes in and what comes out at every step — exactly what a script never lets you see.
+## Outcome
 
-## The detail that decided the project
+- The engine is in use for real synchronization pipelines.
+- It is the foundation that the duplicated logic from the per-client scripts will gradually move into.
+- Engineering is no longer the bottleneck, and the data managers work on the flows directly.
 
-The first version of the preview was unusable. Loading the configuration data fired a cascade of individual queries — the classic N+1, hidden behind a data access layer that made it invisible in the code.
+## What I'd do differently
 
-I rewrote it as batched queries with `IN` clauses, plus a short-lived cache. The difference was an order of magnitude: from a wait that broke the workflow to an immediate response.
-
-It's the most transferable lesson from the project: the feature was complete and the product was still unusable. Performance wasn't an optimization at the end — it was the requirement that decided whether anyone would use it at all. If I did it again, I'd measure it before building the interface on top, not after.
-
-## The shift wasn't technical
-
-The engine went into use for real synchronization pipelines and became the foundation meant to absorb the duplicated logic of the per-client scripts.
-
-Onboarding a client moves from an engineering task to a configuration task. Engineering stops being the bottleneck, and the people who understand the data get control back.
+I'd measure the preview's performance before building the interface on top. The feature was complete, but a slow preview would not have been used.
