@@ -5,7 +5,7 @@ order: 3
 title: A workflow engine to replace per-client scripts
 project: Workflow engine
 headline: Onboarding a client meant writing and deploying a new script. A configurable graph engine turns it into a configuration task for the people who know the data.
-domain: Clinical trial management SaaS platform
+domain: Clinical trial management platform
 role: Technical Lead · engine design, architecture decision and preview optimization
 period: 2026
 confidential: true
