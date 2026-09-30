@@ -744,22 +744,22 @@ body[data-mundo="1"] .tilt { opacity: 1; }
 }
 .moto.is-brrm .moto__mueve { animation-name: caballito2; }
 @keyframes pesada2 {
-  0%, 50% { transform: rotate(0); } 58% { transform: rotate(1.5deg); } 72% { transform: rotate(7deg); }
-  86% { transform: rotate(6deg); } 95% { transform: rotate(.4deg); } 100% { transform: rotate(0); }
+  0%, 50% { transform: rotate(0); } 58% { transform: rotate(-1.5deg); } 72% { transform: rotate(-9deg); }
+  86% { transform: rotate(-8deg); } 95% { transform: rotate(-.4deg); } 100% { transform: rotate(0); }
 }
-@keyframes caballito2 { 0% { transform: rotate(0); } 30% { transform: rotate(15deg); } 60% { transform: rotate(12deg); } 100% { transform: rotate(0); } }
-.moto__globo { left: 6%; right: auto; top: -8%; }
+@keyframes caballito2 { 0% { transform: rotate(0); } 30% { transform: rotate(-16deg); } 60% { transform: rotate(-13deg); } 100% { transform: rotate(0); } }
+.moto__globo { left: auto; right: 6%; top: -8%; }
 
 /* Ecos: la misma foto, en copias planas que se van hacia atrás (a la izquierda) */
 .eco { position: relative; display: block; width: 100%; max-width: 560px; margin: 0 auto; overflow: visible; }
-.eco__capas { position: absolute; left: 0; right: 26%; top: 0; bottom: 0; filter: url(#eco-mov); }
+.eco__capas { position: absolute; left: 26%; right: 0; top: 0; bottom: 0; filter: url(#eco-mov); }
 .eco__capa {
   position: absolute; inset: 0; width: 100%; height: 100%;
-  translate: calc((var(--i) + 1) * 5% + 26%) calc((var(--i) - 2) * 1.4%);
+  translate: calc((var(--i) + 1) * -5%) calc((var(--i) - 2) * 1.4%);
   z-index: calc(6 - var(--i));
   animation: eco2 6s ease-in-out infinite alternate; animation-delay: calc(var(--i) * -.9s);
 }
-.eco__frente { position: relative; z-index: 9; display: block; margin-left: 0; width: 74%; height: auto; filter: drop-shadow(6px 8px 0 #000); }
+.eco__frente { position: relative; z-index: 9; display: block; margin-left: 26%; width: 74%; height: auto; filter: drop-shadow(6px 8px 0 #000); }
 @keyframes eco2 { from { transform: translateX(-8px); } to { transform: translateX(8px); } }
 
 /* Contacto: la moto en fotocopia sobre el papel */
@@ -886,4 +886,37 @@ body[data-mundo="1"] .tilt { opacity: 1; }
   .casos__fila { margin-left: 0; }
   .foto--dt { width: min(64%, 260px); margin-left: auto; }
   .versus__marquesina { height: 92px; }
+}
+
+
+/* ══════════ v3.1 · hoja de stickers del personaje ══════════ */
+.pj { margin: 0; position: relative; filter: drop-shadow(6px 8px 0 #000); transform: rotate(var(--r, 0deg)); }
+.pj img { display: block; width: 100%; height: auto; }
+
+/* Casos: «Colombia 1996» y la ciudad, junto al título */
+.casos__cabeza .pj--colombia { width: min(300px, 44vw); --r: -5deg; margin-left: 4px; filter: drop-shadow(4px 5px 0 #000); }
+.casos__cabeza .pj--ciudad { width: min(300px, 46vw); --r: 3deg; }
+
+/* Sobre mí: el personaje en varias poses */
+.poses { display: grid; grid-template-columns: repeat(6, minmax(0, 1fr)); gap: 26px 18px; margin: 46px 0 0; align-items: end; }
+.pj--sentado { grid-column: 1 / span 4; --r: -2deg; }
+.pj--pie { grid-column: 5 / span 2; --r: 2.4deg; align-self: center; }
+.pj--mano { grid-column: 1 / span 2; --r: -3deg; }
+.pj--caballito { grid-column: 3 / span 4; --r: 1.6deg; }
+.pj--casete { grid-column: 2 / span 4; --r: -1.8deg; }
+
+/* Contacto: el personaje de frente, en fotocopia */
+.ficha__foto { display: grid; place-items: center; background: var(--papel); }
+.ficha__moto { width: auto; max-width: 100%; max-height: 420px; object-fit: contain; }
+
+@media (max-width: 860px) {
+  .casos__cabeza .pj--colombia, .casos__cabeza .pj--ciudad { width: min(240px, 60vw); }
+}
+@media (max-width: 640px) {
+  .poses { gap: 22px 12px; }
+  .pj--sentado { grid-column: 1 / -1; }
+  .pj--pie { grid-column: 1 / span 3; }
+  .pj--mano { grid-column: 4 / span 3; }
+  .pj--caballito { grid-column: 1 / -1; }
+  .pj--casete { grid-column: 1 / span 5; }
 }
