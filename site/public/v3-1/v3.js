@@ -131,7 +131,7 @@
     capas.className = 'eco__capas';
     ['t-1', 't-2', 't-4', 't-3', 't-5'].forEach((t, i) => {
       const im = document.createElement('img');
-      im.src = '/v3-1/img/yamaha.webp';
+      im.src = '/v3-1/img/dt.webp';
       im.alt = '';
       im.decoding = 'async';
       im.className = 'eco__capa';
@@ -140,7 +140,7 @@
       capas.appendChild(im);
     });
     const frente = document.createElement('img');
-    frente.src = '/v3-1/img/yamaha.webp';
+    frente.src = '/v3-1/img/dt.webp';
     frente.alt = '';
     frente.decoding = 'async';
     frente.className = 'eco__frente';

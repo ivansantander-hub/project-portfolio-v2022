@@ -752,14 +752,14 @@ body[data-mundo="1"] .tilt { opacity: 1; }
 
 /* Ecos: la misma foto, en copias planas que se van hacia atrás (a la izquierda) */
 .eco { position: relative; display: block; width: 100%; max-width: 560px; margin: 0 auto; overflow: visible; }
-.eco__capas { position: absolute; left: 26%; right: 0; top: 0; bottom: 0; filter: url(#eco-mov); }
+.eco__capas { position: absolute; left: 0; right: 26%; top: 0; bottom: 0; filter: url(#eco-mov); }
 .eco__capa {
   position: absolute; inset: 0; width: 100%; height: 100%;
-  translate: calc((var(--i) + 1) * -5%) calc((var(--i) - 2) * 1.4%);
+  translate: calc((var(--i) + 1) * 5% + 26%) calc((var(--i) - 2) * 1.4%);
   z-index: calc(6 - var(--i));
   animation: eco2 6s ease-in-out infinite alternate; animation-delay: calc(var(--i) * -.9s);
 }
-.eco__frente { position: relative; z-index: 9; display: block; margin-left: 26%; width: 74%; height: auto; filter: drop-shadow(6px 8px 0 #000); }
+.eco__frente { position: relative; z-index: 9; display: block; margin-left: 0; width: 74%; height: auto; filter: drop-shadow(6px 8px 0 #000); }
 @keyframes eco2 { from { transform: translateX(-8px); } to { transform: translateX(8px); } }
 
 /* Contacto: la moto en fotocopia sobre el papel */
