@@ -1,0 +1,543 @@
+<!doctype html>
+<html lang="es" class="js-off">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Iván Santander — Tech Lead y Technical Product Owner · v3.1</title>
+<meta name="description" content="Iván Santander, Tech Lead y Technical Product Owner en Medellín. Versión 3.1 del portafolio: casos, sobre mí y contacto, de noche.">
+<meta name="robots" content="noindex, follow">
+<meta name="theme-color" content="#0a0a0b">
+<link rel="canonical" href="https://ivansantander.com/v3.1/">
+<link rel="alternate" hreflang="es" href="https://ivansantander.com/v3.1/">
+<link rel="alternate" hreflang="en" href="https://ivansantander.com/v3.1/">
+<link rel="alternate" hreflang="x-default" href="https://ivansantander.com/v3.1/">
+<meta property="og:type" content="website">
+<meta property="og:title" content="Iván Santander — Tech Lead y Technical Product Owner">
+<meta property="og:description" content="Casos, sobre mí y contacto en clave de calle de noche. Versión 3.1 del portafolio.">
+<meta property="og:url" content="https://ivansantander.com/v3.1/">
+<meta property="og:image" content="https://ivansantander.com/img/og.png">
+<link rel="icon" href="/favicon.ico">
+<link rel="preload" href="/fonts/rubik-spray-paint-latin-400-normal.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="/fonts/anton-latin-400-normal.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="stylesheet" href="/v3-1/v3.css">
+<script>document.documentElement.classList.replace('js-off','js-on')</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "WebPage",
+  "name": "Iván Santander — Portafolio v3.1",
+  "url": "https://ivansantander.com/v3.1/",
+  "inLanguage": "es",
+  "description": "Versión experimental del portafolio de Iván Santander, Tech Lead y Technical Product Owner.",
+  "isPartOf": { "@type": "WebSite", "name": "Iván Santander", "url": "https://ivansantander.com/" },
+  "about": { "@type": "Person", "name": "Iván Santander", "jobTitle": "Tech Lead y Technical Product Owner", "url": "https://ivansantander.com/" }
+}
+</script>
+</head>
+<body data-mundo="0">
+
+<canvas id="mundo" aria-hidden="true"></canvas>
+
+<svg class="defs" aria-hidden="true" focusable="false" width="0" height="0">
+  <defs>
+    <linearGradient id="oro" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#fff2b8"/><stop offset=".3" stop-color="#f4c93c"/>
+      <stop offset=".47" stop-color="#b8860b"/><stop offset=".5" stop-color="#4d3700"/>
+      <stop offset=".53" stop-color="#e6b422"/><stop offset=".8" stop-color="#f7d56a"/><stop offset="1" stop-color="#a87a08"/>
+      <animateTransform attributeName="gradientTransform" type="translate" values="0 -0.09;0 0.09;0 -0.09" dur="6s" repeatCount="indefinite"/>
+    </linearGradient>
+    <filter id="recorte-moto" x="-8%" y="-10%" width="120%" height="125%" color-interpolation-filters="sRGB">
+      <feMorphology in="SourceAlpha" operator="dilate" radius="7" result="grueso"/>
+      <feFlood flood-color="#e9e6da" result="papel"/>
+      <feComposite in="papel" in2="grueso" operator="in" result="borde"/>
+      <feOffset in="grueso" dx="-9" dy="11" result="fuera"/>
+      <feFlood flood-color="#000" result="tinta"/>
+      <feComposite in="tinta" in2="fuera" operator="in" result="sombra"/>
+      <feMerge><feMergeNode in="sombra"/><feMergeNode in="borde"/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+    <filter id="sucio" x="-5%" y="-8%" width="110%" height="118%">
+      <feTurbulence type="fractalNoise" baseFrequency=".045" numOctaves="2" seed="11" result="t"/>
+      <feDisplacementMap in="SourceGraphic" in2="t" scale="6" xChannelSelector="R" yChannelSelector="G"/>
+    </filter>
+    <filter id="eco-mov" x="-15%" y="-15%" width="130%" height="130%">
+      <feTurbulence type="fractalNoise" baseFrequency="0.004 0.03" numOctaves="2" seed="9" result="n">
+        <animate attributeName="baseFrequency" dur="17s" values="0.004 0.03;0.008 0.05;0.003 0.024;0.004 0.03" repeatCount="indefinite"/>
+      </feTurbulence>
+      <feDisplacementMap in="SourceGraphic" in2="n" scale="22" xChannelSelector="R" yChannelSelector="G"/>
+    </filter>
+    <filter id="t-1"><feFlood flood-color="#2a2a2c"/><feComposite in2="SourceAlpha" operator="in"/></filter>
+    <filter id="t-2"><feFlood flood-color="#4c4c50"/><feComposite in2="SourceAlpha" operator="in"/></filter>
+    <filter id="t-3"><feFlood flood-color="#7c7c7f"/><feComposite in2="SourceAlpha" operator="in"/></filter>
+    <filter id="t-4"><feFlood flood-color="#39ff14"/><feComposite in2="SourceAlpha" operator="in"/></filter>
+    <filter id="t-5"><feFlood flood-color="#d4a017"/><feComposite in2="SourceAlpha" operator="in"/></filter>
+    <filter id="copia" color-interpolation-filters="sRGB">
+      <feColorMatrix type="saturate" values="0"/>
+      <feComponentTransfer><feFuncR type="discrete" tableValues="0 0 .35 .8 1"/><feFuncG type="discrete" tableValues="0 0 .35 .8 1"/><feFuncB type="discrete" tableValues="0 0 .35 .8 1"/></feComponentTransfer>
+    </filter>
+  </defs>
+  <symbol id="s-estrella" viewBox="0 0 48 48"><path d="M24 3l6.2 13.6 14.8 1.6-11 10 3.2 14.6L24 34.6 10.8 42.8 14 28.2 3 18.2l14.8-1.6z" fill="currentColor" stroke="#000" stroke-width="3.5" stroke-linejoin="round"/></symbol>
+  <symbol id="s-hexa" viewBox="0 0 48 48"><path d="M24 3l19 10.5v21L24 45 5 34.5v-21z" fill="currentColor" stroke="#000" stroke-width="3.5" stroke-linejoin="round"/><path d="M24 14l9 5v10l-9 5-9-5V19z" fill="none" stroke="#000" stroke-width="3"/></symbol>
+  <symbol id="s-circulo" viewBox="0 0 48 48"><circle cx="24" cy="24" r="20" fill="currentColor" stroke="#000" stroke-width="3.5"/><circle cx="24" cy="24" r="11" fill="none" stroke="#000" stroke-width="3"/><circle cx="24" cy="24" r="3.5" fill="#000"/></symbol>
+  <symbol id="s-rayo" viewBox="0 0 48 48"><path d="M28 2L10 27h11l-4 19 21-27H26z" fill="currentColor" stroke="#000" stroke-width="3.5" stroke-linejoin="round"/></symbol>
+</svg>
+
+<div class="carga" aria-hidden="true"></div>
+<div class="grano" aria-hidden="true"></div>
+<div class="vineta" aria-hidden="true"></div>
+<div class="cinta" aria-hidden="true"><i></i></div>
+
+<a class="saltar" href="#casos">Saltar al contenido</a>
+
+<nav class="ruta" aria-label="Ruta de la página">
+  <a href="#inicio"><span>Inicio</span></a>
+  <a href="#casos"><span>Casos</span></a>
+  <a href="#sobre-mi"><span>Sobre mí</span></a>
+  <a href="#contacto"><span>Contacto</span></a>
+  <i class="ruta__moto" aria-hidden="true"></i>
+</nav>
+
+<header class="barra">
+  <a class="barra__atras" href="/">← Portafolio</a>
+  <nav class="barra__nav" aria-label="Secciones">
+    <a href="#casos">Casos</a>
+    <a href="#sobre-mi">Sobre mí</a>
+    <a href="#contacto">Contacto</a>
+  </nav>
+</header>
+
+<main>
+
+  <section class="inicio" id="inicio" data-mundo="0" aria-label="Presentación">
+    <h1 class="nombre"><span class="visually-hidden">Iván Santander</span>
+  <svg class="nombre__svg" id="nombre-svg" viewBox="0 0 1360 600" aria-hidden="true" focusable="false">
+   <defs>
+    <g id="nom" font-family="'Rubik Spray Paint', 'Arial Black', Impact, sans-serif">
+      <text id="nom-1" x="80" y="230" font-size="250">Iván</text>
+      <text id="nom-2" x="190" y="500" font-size="205">Santander</text>
+    </g>
+   </defs>
+   <g filter="url(#sucio)" stroke-linejoin="round" stroke-linecap="round" transform="rotate(-2.5 680 300)">
+    <use href="#nom" stroke="#000" stroke-width="64" fill="#000" transform="translate(12 16)" opacity=".9"/>
+    <use href="#nom" stroke="#000" stroke-width="50" fill="#000"/>
+    <g class="gotas-negras"></g>
+    <use href="#nom" stroke="#e9e6da" stroke-width="20" fill="#e9e6da"/>
+    <use href="#nom" stroke="#000" stroke-width="6" fill="url(#oro)"/>
+    <g class="gotas-oro"></g>
+    <g class="rocio"></g>
+   </g>
+  </svg>
+    </h1>
+    <p class="cargo"><span>Tech Lead y Technical Product Owner</span></p>
+    <ul class="areas" aria-label="Áreas">
+      <li>Producto</li><li>Ingeniería</li><li>IA</li>
+    </ul>
+    <p class="lugar">Medellín, Colombia</p>
+    <p class="acciones">
+      <a class="boton boton--oro" href="#casos">Ver casos</a>
+      <a class="boton boton--papel" href="#contacto">Escríbeme</a>
+    </p>
+    <div class="moto" id="moto">
+      <div class="moto__mueve">
+        <span class="moto__faro" id="moto-faro" aria-hidden="true"></span>
+        <span class="moto__cola" id="moto-cola" aria-hidden="true"></span>
+        <svg class="moto__svg" viewBox="0 0 560 330" aria-hidden="true" focusable="false">
+  <g filter="url(#recorte-moto)">
+   <g transform="translate(560 0) scale(-1 1)">
+   <g class="moto__dibujo" stroke="#0b0b0c" stroke-width="4.5" stroke-linejoin="round" stroke-linecap="round">
+    <g class="rueda">
+      <circle cx="120" cy="236" r="60" fill="#0b0b0c" stroke="none"/>
+      <circle cx="120" cy="236" r="55" fill="none" stroke="#3a3a3d" stroke-width="9" stroke-dasharray="7 9"/>
+      <circle cx="120" cy="236" r="43" fill="#e9e6da"/>
+      <path d="M120 193V279M77 236H163M90 206L150 266M150 206L90 266" stroke-width="2.5" fill="none"/>
+    </g>
+    <g class="rueda">
+      <circle cx="444" cy="236" r="60" fill="#0b0b0c" stroke="none"/>
+      <circle cx="444" cy="236" r="55" fill="none" stroke="#3a3a3d" stroke-width="9" stroke-dasharray="7 9"/>
+      <circle cx="444" cy="236" r="43" fill="#e9e6da"/>
+      <path d="M444 193V279M401 236H487M414 206L474 266M474 206L414 266" stroke-width="2.5" fill="none"/>
+    </g>
+    <path d="M120 236 L262 246" stroke="#0b0b0c" stroke-width="15" fill="none"/><path d="M120 236 L262 246" stroke="#8f8f8c" stroke-width="8" fill="none"/>
+    <path d="M244 240 C190 252 140 228 96 188" stroke="#0b0b0c" stroke-width="15" fill="none"/><path d="M244 240 C190 252 140 228 96 188" stroke="#b7b7b1" stroke-width="8" fill="none"/>
+    <path d="M104 174 L60 152 L48 172 L92 196 Z" fill="#6b6b70"/>
+    <path d="M196 200 L300 194 L308 250 L206 256 Z" fill="#4a4a4d"/>
+    <path d="M214 166 L284 162 L290 198 L212 202 Z" fill="#6b6b70"/>
+    <path d="M218 177 L286 173 M218 188 L288 184" stroke-width="2.5" fill="none"/>
+    <path d="M186 146 L204 236" stroke="#0b0b0c" stroke-width="14" fill="none"/><path d="M186 146 L204 236" stroke="#d4a017" stroke-width="7" fill="none"/>
+    <path d="M34 110 Q92 112 170 128 L168 150 Q112 146 78 152 Q46 152 34 110 Z" fill="#e9e6da"/>
+    <path d="M48 113 Q100 116 162 131 L162 139 Q102 125 54 123 Z" fill="#d4a017" stroke="none"/>
+    <path d="M62 178 Q120 148 176 182 L164 192 Q120 168 76 194 Z" fill="#e9e6da"/>
+    <path d="M124 130 Q200 114 270 132 L266 154 Q198 148 128 152 Z" fill="#0b0b0c"/>
+    <path d="M258 136 Q284 98 348 104 L360 126 Q326 134 312 164 L260 166 Z" fill="#e9e6da"/>
+    <path d="M266 145 Q292 121 344 121 L348 132 Q306 142 292 160 L266 162 Z" fill="#d4a017" stroke="none"/>
+    <path d="M352 112 L442 236" stroke="#0b0b0c" stroke-width="15" fill="none"/><path d="M352 112 L442 236" stroke="#b7b7b1" stroke-width="8" fill="none"/>
+    <path d="M396 172 Q446 140 496 168 L488 184 Q446 166 408 192 Z" fill="#e9e6da"/>
+    <circle cx="120" cy="236" r="10" fill="#d4a017"/><circle cx="444" cy="236" r="10" fill="#d4a017"/>
+    <circle cx="376" cy="104" r="25" fill="#e9e6da"/><circle cx="376" cy="104" r="12" fill="#fff6c8"/>
+    <path d="M342 92 L308 76" stroke="#0b0b0c" stroke-width="12" fill="none"/><path d="M342 92 L308 76" stroke="#8f8f8c" stroke-width="5" fill="none"/>
+    <path d="M204 140 L300 172 L268 236" stroke="#0b0b0c" stroke-width="37" fill="none"/>
+    <path d="M204 140 L300 172 L268 236" stroke="#1d2947" stroke-width="28" fill="none"/>
+    <path d="M250 234 L294 242 L298 262 L244 262 Z" fill="#0b0b0c"/>
+    <path d="M186 148 Q194 96 258 62 L320 84 Q308 124 262 156 Z" fill="#f28a1e"/>
+    <path d="M214 132 Q246 102 282 92" fill="none" stroke="#e9e6da" stroke-width="4"/>
+    <path d="M284 86 L336 98" stroke="#0b0b0c" stroke-width="31" fill="none"/>
+    <path d="M284 86 L336 98" stroke="#f28a1e" stroke-width="22" fill="none"/>
+    <circle cx="340" cy="98" r="13" fill="#0b0b0c"/>
+    <circle cx="316" cy="52" r="28" fill="#141416"/>
+    <path d="M323 36 Q356 38 354 58 L326 63 Z" fill="#39ff14"/>
+    <path d="M294 44 Q316 24 338 40" stroke="#4a4a4d" stroke-width="5" fill="none"/>
+   </g>
+   </g>
+  </g>
+</svg>
+        <img class="moto__foto" id="moto-foto" alt="" width="560" height="330" hidden>
+        <span class="moto__globo" aria-hidden="true">¡brrm!</span>
+      </div>
+    </div>
+  </section>
+
+  <section class="casos" id="casos" data-mundo="1" aria-labelledby="casos-t">
+    <div class="casos__cielo" aria-hidden="true">
+      <div class="casos__escena" id="escena"></div>
+    </div>
+    <div class="casos__cabeza">
+      <h2 class="titulo" id="casos-t"><span class="visually-hidden">Casos</span><svg class="titulo__svg" viewBox="0 0 610 340" aria-hidden="true" focusable="false">
+   <defs><g id="t-casos" font-family="'UnifrakturMaguntia', 'Old English Text MT', serif" text-anchor="middle"><text x="305" y="212" font-size="150">Casos</text></g></defs>
+   <g filter="url(#sucio)" stroke-linejoin="round" stroke-linecap="round" transform="rotate(-2 305 170)">
+    <use href="#t-casos" stroke="#000" stroke-width="42" fill="#000" transform="translate(8 11)" opacity=".9"/>
+    <use href="#t-casos" stroke="#000" stroke-width="32" fill="#000"/>
+    <use href="#t-casos" stroke="#e9e6da" stroke-width="11" fill="#e9e6da"/>
+    <use href="#t-casos" stroke="#000" stroke-width="4" fill="url(#oro)"/>
+   </g>
+  </svg></h2>
+      <p class="casos__intro">18 casos: 10 en una plataforma de ensayos clínicos y 8 proyectos propios. Cada pieza lleva a su caso.</p>
+    </div>
+    <ul class="calle">
+      <li class="casa" style="--rot:-1.4deg;--h:380px;--tinta:#ffc61a;--luz:#ff9a2a;--vel:0.030">
+        <a class="casa__a" href="/trabajo/sgc/">
+          <div class="casa__muro muro--ladrillo">
+            <i class="reja" aria-hidden="true"></i>
+            <h3 class="pieza pieza--spray ">Talonaria</h3>
+            <div class="slap-w"><p class="slap">Talonaria: un ERP multi-tenant para pymes colombianas</p></div>
+            <svg class="peg peg--a" style="color:#ffc61a" aria-hidden="true"><use href="#s-estrella"/></svg>
+            <svg class="peg peg--b" style="color:#39ff14" aria-hidden="true"><use href="#s-circulo"/></svg>
+            <div class="persiana" aria-hidden="true"></div>
+          </div>
+          <p class="casa__tag">Proyecto propio</p>
+        </a>
+      </li>
+      <li class="casa" style="--rot:1.1deg;--h:420px;--tinta:#e9e6da;--luz:#ffc61a;--vel:0.065">
+        <a class="casa__a" href="/trabajo/english/">
+          <div class="casa__muro muro--bloque">
+            <i class="reja" aria-hidden="true"></i>
+            <h3 class="pieza pieza--tag ">English A1</h3>
+            <div class="slap-w"><p class="slap">Una app para practicar inglés a diario</p></div>
+            <svg class="peg peg--a" style="color:#e9e6da" aria-hidden="true"><use href="#s-hexa"/></svg>
+            <svg class="peg peg--b" style="color:#e01818" aria-hidden="true"><use href="#s-rayo"/></svg>
+            <div class="persiana" aria-hidden="true"></div>
+          </div>
+          <p class="casa__tag">Proyecto propio</p>
+        </a>
+      </li>
+      <li class="casa" style="--rot:-0.7deg;--h:390px;--tinta:#39ff14;--luz:#0d0f12;--vel:0.100">
+        <a class="casa__a" href="/trabajo/eco-loop/">
+          <div class="casa__muro muro--liso">
+            <i class="reja" aria-hidden="true"></i>
+            <h3 class="pieza pieza--spray ">eco-loop</h3>
+            <div class="slap-w"><p class="slap">Dos IAs conversando entre ellas</p></div>
+            <svg class="peg peg--a" style="color:#39ff14" aria-hidden="true"><use href="#s-circulo"/></svg>
+            <svg class="peg peg--b" style="color:#d4a017" aria-hidden="true"><use href="#s-estrella"/></svg>
+            <div class="persiana" aria-hidden="true"></div>
+          </div>
+          <p class="casa__tag">Proyecto propio</p>
+        </a>
+      </li>
+      <li class="casa" style="--rot:1.6deg;--h:440px;--tinta:#e01818;--luz:#ff9a2a;--vel:0.135">
+        <a class="casa__a" href="/trabajo/architecture-simplification/">
+          <div class="casa__muro muro--ladrillo">
+            <i class="reja" aria-hidden="true"></i>
+            <h3 class="pieza pieza--tag pieza--l">Simplificación de arquitectura</h3>
+            <div class="slap-w"><p class="slap">Simplificar una arquitectura que creció por acumulación</p></div>
+            <svg class="peg peg--a" style="color:#e01818" aria-hidden="true"><use href="#s-rayo"/></svg>
+            <svg class="peg peg--b" style="color:#ffc61a" aria-hidden="true"><use href="#s-hexa"/></svg>
+            <div class="persiana" aria-hidden="true"></div>
+          </div>
+          <p class="casa__tag">Plataforma de ensayos clínicos</p>
+        </a>
+      </li>
+      <li class="casa" style="--rot:-1.0deg;--h:380px;--tinta:#d4a017;--luz:#0d0f12;--vel:0.030">
+        <a class="casa__a" href="/trabajo/mini-astro/">
+          <div class="casa__muro muro--bloque">
+            <i class="reja" aria-hidden="true"></i>
+            <h3 class="pieza pieza--spray ">mini-astro</h3>
+            <div class="slap-w"><p class="slap">Un generador de sitios estáticos propio</p></div>
+            <svg class="peg peg--a" style="color:#d4a017" aria-hidden="true"><use href="#s-estrella"/></svg>
+            <svg class="peg peg--b" style="color:#e9e6da" aria-hidden="true"><use href="#s-circulo"/></svg>
+            <div class="persiana" aria-hidden="true"></div>
+          </div>
+          <p class="casa__tag">Proyecto propio</p>
+        </a>
+      </li>
+      <li class="casa" style="--rot:0.8deg;--h:430px;--tinta:#ff8a1f;--luz:#ffd35e;--vel:0.065">
+        <a class="casa__a" href="/trabajo/ai-coding-assistant/">
+          <div class="casa__muro muro--liso">
+            <i class="reja" aria-hidden="true"></i>
+            <h3 class="pieza pieza--tag pieza--l">Asistente de código con IA</h3>
+            <div class="slap-w"><p class="slap">Un asistente de código con IA adaptado a la forma de trabajar del equipo</p></div>
+            <svg class="peg peg--a" style="color:#ffc61a" aria-hidden="true"><use href="#s-hexa"/></svg>
+            <svg class="peg peg--b" style="color:#39ff14" aria-hidden="true"><use href="#s-rayo"/></svg>
+            <div class="persiana" aria-hidden="true"></div>
+          </div>
+          <p class="casa__tag">Plataforma de ensayos clínicos</p>
+        </a>
+      </li>
+      <li class="casa" style="--rot:-1.7deg;--h:400px;--tinta:#ffc61a;--luz:#ff9a2a;--vel:0.100">
+        <a class="casa__a" href="/trabajo/workflow-engine/">
+          <div class="casa__muro muro--ladrillo">
+            <i class="reja" aria-hidden="true"></i>
+            <h3 class="pieza pieza--spray pieza--m">Motor de flujos</h3>
+            <div class="slap-w"><p class="slap">Un motor de flujos configurable para integraciones de datos</p></div>
+            <svg class="peg peg--a" style="color:#e9e6da" aria-hidden="true"><use href="#s-circulo"/></svg>
+            <svg class="peg peg--b" style="color:#e01818" aria-hidden="true"><use href="#s-estrella"/></svg>
+            <div class="persiana" aria-hidden="true"></div>
+          </div>
+          <p class="casa__tag">Plataforma de ensayos clínicos</p>
+        </a>
+      </li>
+      <li class="casa" style="--rot:1.3deg;--h:370px;--tinta:#e9e6da;--luz:#ffc61a;--vel:0.135">
+        <a class="casa__a" href="/trabajo/avatar-studio/">
+          <div class="casa__muro muro--bloque">
+            <i class="reja" aria-hidden="true"></i>
+            <h3 class="pieza pieza--tag pieza--m">Avatar Studio</h3>
+            <div class="slap-w"><p class="slap">Un pipeline local para avatares que hablan</p></div>
+            <svg class="peg peg--a" style="color:#39ff14" aria-hidden="true"><use href="#s-rayo"/></svg>
+            <svg class="peg peg--b" style="color:#d4a017" aria-hidden="true"><use href="#s-hexa"/></svg>
+            <div class="persiana" aria-hidden="true"></div>
+          </div>
+          <p class="casa__tag">Proyecto propio</p>
+        </a>
+      </li>
+      <li class="casa" style="--rot:-1.4deg;--h:380px;--tinta:#39ff14;--luz:#0d0f12;--vel:0.030">
+        <a class="casa__a" href="/trabajo/document-management/">
+          <div class="casa__muro muro--liso">
+            <i class="reja" aria-hidden="true"></i>
+            <h3 class="pieza pieza--spray pieza--m">Gestión documental</h3>
+            <div class="slap-w"><p class="slap">Gestión documental con permisos y trazabilidad</p></div>
+            <svg class="peg peg--a" style="color:#e01818" aria-hidden="true"><use href="#s-estrella"/></svg>
+            <svg class="peg peg--b" style="color:#ffc61a" aria-hidden="true"><use href="#s-circulo"/></svg>
+            <div class="persiana" aria-hidden="true"></div>
+          </div>
+          <p class="casa__tag">Plataforma de ensayos clínicos</p>
+        </a>
+      </li>
+      <li class="casa" style="--rot:1.1deg;--h:420px;--tinta:#e01818;--luz:#ff9a2a;--vel:0.065">
+        <a class="casa__a" href="/trabajo/dashboards/">
+          <div class="casa__muro muro--ladrillo">
+            <i class="reja" aria-hidden="true"></i>
+            <h3 class="pieza pieza--tag pieza--l">Dashboards configurables</h3>
+            <div class="slap-w"><p class="slap">Dashboards configurables por proyecto</p></div>
+            <svg class="peg peg--a" style="color:#d4a017" aria-hidden="true"><use href="#s-hexa"/></svg>
+            <svg class="peg peg--b" style="color:#e9e6da" aria-hidden="true"><use href="#s-rayo"/></svg>
+            <div class="persiana" aria-hidden="true"></div>
+          </div>
+          <p class="casa__tag">Plataforma de ensayos clínicos</p>
+        </a>
+      </li>
+      <li class="casa" style="--rot:-0.7deg;--h:390px;--tinta:#d4a017;--luz:#0d0f12;--vel:0.100">
+        <a class="casa__a" href="/trabajo/megabyte/">
+          <div class="casa__muro muro--bloque">
+            <i class="reja" aria-hidden="true"></i>
+            <h3 class="pieza pieza--spray ">megabyte</h3>
+            <div class="slap-w"><p class="slap">Un agente de terminal con modelos locales</p></div>
+            <svg class="peg peg--a" style="color:#ffc61a" aria-hidden="true"><use href="#s-circulo"/></svg>
+            <svg class="peg peg--b" style="color:#39ff14" aria-hidden="true"><use href="#s-estrella"/></svg>
+            <div class="persiana" aria-hidden="true"></div>
+          </div>
+          <p class="casa__tag">Proyecto propio</p>
+        </a>
+      </li>
+      <li class="casa" style="--rot:1.6deg;--h:440px;--tinta:#ff8a1f;--luz:#ffd35e;--vel:0.135">
+        <a class="casa__a" href="/trabajo/ai-integration/">
+          <div class="casa__muro muro--liso">
+            <i class="reja" aria-hidden="true"></i>
+            <h3 class="pieza pieza--tag pieza--m">Integración de IA</h3>
+            <div class="slap-w"><p class="slap">Una propuesta para integrar IA en una plataforma de un entorno regulado</p></div>
+            <svg class="peg peg--a" style="color:#e9e6da" aria-hidden="true"><use href="#s-rayo"/></svg>
+            <svg class="peg peg--b" style="color:#e01818" aria-hidden="true"><use href="#s-hexa"/></svg>
+            <div class="persiana" aria-hidden="true"></div>
+          </div>
+          <p class="casa__tag">Plataforma de ensayos clínicos</p>
+        </a>
+      </li>
+      <li class="casa" style="--rot:-1.0deg;--h:380px;--tinta:#ffc61a;--luz:#ff9a2a;--vel:0.030">
+        <a class="casa__a" href="/trabajo/digital-signatures/">
+          <div class="casa__muro muro--ladrillo">
+            <i class="reja" aria-hidden="true"></i>
+            <h3 class="pieza pieza--spray pieza--m">Firma electrónica</h3>
+            <div class="slap-w"><p class="slap">Firmas electrónicas con evidencia verificable</p></div>
+            <svg class="peg peg--a" style="color:#39ff14" aria-hidden="true"><use href="#s-estrella"/></svg>
+            <svg class="peg peg--b" style="color:#d4a017" aria-hidden="true"><use href="#s-circulo"/></svg>
+            <div class="persiana" aria-hidden="true"></div>
+          </div>
+          <p class="casa__tag">Plataforma de ensayos clínicos</p>
+        </a>
+      </li>
+      <li class="casa" style="--rot:0.8deg;--h:430px;--tinta:#e9e6da;--luz:#ffc61a;--vel:0.065">
+        <a class="casa__a" href="/trabajo/blog-26/">
+          <div class="casa__muro muro--bloque">
+            <i class="reja" aria-hidden="true"></i>
+            <h3 class="pieza pieza--tag ">blog-26</h3>
+            <div class="slap-w"><p class="slap">El historial de versiones que rehice tres veces</p></div>
+            <svg class="peg peg--a" style="color:#e01818" aria-hidden="true"><use href="#s-hexa"/></svg>
+            <svg class="peg peg--b" style="color:#ffc61a" aria-hidden="true"><use href="#s-rayo"/></svg>
+            <div class="persiana" aria-hidden="true"></div>
+          </div>
+          <p class="casa__tag">Proyecto propio</p>
+        </a>
+      </li>
+      <li class="casa" style="--rot:-1.7deg;--h:400px;--tinta:#39ff14;--luz:#0d0f12;--vel:0.100">
+        <a class="casa__a" href="/trabajo/dynamic-forms/">
+          <div class="casa__muro muro--liso">
+            <i class="reja" aria-hidden="true"></i>
+            <h3 class="pieza pieza--spray pieza--l">Formularios configurables</h3>
+            <div class="slap-w"><p class="slap">Formularios definidos por configuración</p></div>
+            <svg class="peg peg--a" style="color:#d4a017" aria-hidden="true"><use href="#s-circulo"/></svg>
+            <svg class="peg peg--b" style="color:#e9e6da" aria-hidden="true"><use href="#s-estrella"/></svg>
+            <div class="persiana" aria-hidden="true"></div>
+          </div>
+          <p class="casa__tag">Plataforma de ensayos clínicos</p>
+        </a>
+      </li>
+      <li class="casa" style="--rot:1.3deg;--h:370px;--tinta:#e01818;--luz:#ff9a2a;--vel:0.135">
+        <a class="casa__a" href="/trabajo/shell-system/">
+          <div class="casa__muro muro--ladrillo">
+            <i class="reja" aria-hidden="true"></i>
+            <h3 class="pieza pieza--tag pieza--l">Pantallas configurables</h3>
+            <div class="slap-w"><p class="slap">Pantallas de seguimiento a partir de configuración</p></div>
+            <svg class="peg peg--a" style="color:#ffc61a" aria-hidden="true"><use href="#s-rayo"/></svg>
+            <svg class="peg peg--b" style="color:#39ff14" aria-hidden="true"><use href="#s-hexa"/></svg>
+            <div class="persiana" aria-hidden="true"></div>
+          </div>
+          <p class="casa__tag">Plataforma de ensayos clínicos</p>
+        </a>
+      </li>
+      <li class="casa" style="--rot:-1.4deg;--h:380px;--tinta:#d4a017;--luz:#0d0f12;--vel:0.030">
+        <a class="casa__a" href="/trabajo/scrum-poker/">
+          <div class="casa__muro muro--bloque">
+            <i class="reja" aria-hidden="true"></i>
+            <h3 class="pieza pieza--spray ">Scrum Poker</h3>
+            <div class="slap-w"><p class="slap">Planning poker en tiempo real</p></div>
+            <svg class="peg peg--a" style="color:#e9e6da" aria-hidden="true"><use href="#s-estrella"/></svg>
+            <svg class="peg peg--b" style="color:#e01818" aria-hidden="true"><use href="#s-circulo"/></svg>
+            <div class="persiana" aria-hidden="true"></div>
+          </div>
+          <p class="casa__tag">Proyecto propio</p>
+        </a>
+      </li>
+      <li class="casa" style="--rot:1.1deg;--h:420px;--tinta:#ff8a1f;--luz:#ffd35e;--vel:0.065">
+        <a class="casa__a" href="/trabajo/dev-platform/">
+          <div class="casa__muro muro--liso">
+            <i class="reja" aria-hidden="true"></i>
+            <h3 class="pieza pieza--tag pieza--l">Entorno de desarrollo local</h3>
+            <div class="slap-w"><p class="slap">Una herramienta de línea de comandos para el entorno local</p></div>
+            <svg class="peg peg--a" style="color:#39ff14" aria-hidden="true"><use href="#s-hexa"/></svg>
+            <svg class="peg peg--b" style="color:#d4a017" aria-hidden="true"><use href="#s-rayo"/></svg>
+            <div class="persiana" aria-hidden="true"></div>
+          </div>
+          <p class="casa__tag">Plataforma de ensayos clínicos</p>
+        </a>
+      </li>
+    </ul>
+    <div class="tilt tilt--sup" aria-hidden="true"></div>
+    <div class="tilt tilt--inf" aria-hidden="true"></div>
+  </section>
+
+  <section class="sobre" id="sobre-mi" data-mundo="2" aria-labelledby="sobre-t">
+    <div class="sobre__texto">
+      <h2 class="titulo" id="sobre-t"><span class="visually-hidden">Sobre mí</span><svg class="titulo__svg" viewBox="0 0 844 340" aria-hidden="true" focusable="false">
+   <defs><g id="t-sobre" font-family="'UnifrakturMaguntia', 'Old English Text MT', serif" text-anchor="middle"><text x="422" y="212" font-size="150">Sobre mí</text></g></defs>
+   <g filter="url(#sucio)" stroke-linejoin="round" stroke-linecap="round" transform="rotate(-2 422 170)">
+    <use href="#t-sobre" stroke="#000" stroke-width="42" fill="#000" transform="translate(8 11)" opacity=".9"/>
+    <use href="#t-sobre" stroke="#000" stroke-width="32" fill="#000"/>
+    <use href="#t-sobre" stroke="#e9e6da" stroke-width="11" fill="#e9e6da"/>
+    <use href="#t-sobre" stroke="#000" stroke-width="4" fill="url(#oro)"/>
+   </g>
+  </svg></h2>
+      <p class="hoja hoja--lead">Tech Lead y Technical Product Owner en LearUp, una plataforma de ensayos clínicos. Medellín, Colombia · remoto.</p>
+      <dl class="sobre__datos">
+        <div class="hoja"><dt>Foco actual</dt><dd>Arquitectura de sistemas en producción, migraciones incrementales y priorización técnica en un dominio regulado, con auditorías y datos que no admiten errores de migración.</dd></div>
+        <div class="hoja"><dt>Experiencia</dt><dd>Software desde 2019, con liderazgo técnico en los últimos años. Salud digital, fintech y SaaS.</dd></div>
+      </dl>
+
+      <h3 class="sobre__h">Trayectoria</h3>
+      <ol class="tickets">
+        <li style="--rot:-1.2deg"><b>LearUp</b><span>Sr. Associate Technical Product Owner</span><em>Defino y priorizo las iniciativas de la plataforma. Coordino desarrollo, QA y operaciones.</em></li>
+        <li style="--rot:.9deg"><b>LearUp</b><span>Sr. Associate Tech Lead</span><em>Lideré al equipo en diseño e implementación. Arquitectura de servicios y decisiones técnicas de fondo.</em></li>
+        <li style="--rot:-.6deg"><b>LearUp</b><span>Associate Product Full Stack Developer</span><em>Núcleo de la plataforma en JavaScript y Python. Entrega continua.</em></li>
+        <li style="--rot:1.3deg"><b>CogenTech</b><span>Product Full Stack Developer · jun 2023 – jul 2024</span><em>Ciclo completo de aplicaciones web. TypeScript, Python, PostgreSQL. APIs GraphQL y REST.</em></li>
+        <li style="--rot:-1deg"><b>Cielum / Omnivida</b><span>Software Developer · 2023</span><em>Gestor de APIs en Azure y automatización de procesos para salud.</em></li>
+        <li style="--rot:.7deg"><b>Newo</b><span>Software Developer · 2023</span><em>Lideré una pasarela de pagos con cobros automáticos y por demanda, integrada en una app móvil.</em></li>
+        <li style="--rot:-1.4deg"><b>Be4tech</b><span>Software Developer · ago 2021 – jun 2023</span><em>Aplicaciones híbridas y web, casi todas en salud digital.</em></li>
+      </ol>
+
+      <h3 class="sobre__h">Cómo trabajo</h3>
+      <ul class="sobre__practicas">
+        <li><b>Inventario antes de proponer.</b> Un listado real de servicios, dependencias y uso convierte "el sistema se siente pesado" en datos que cualquiera puede evaluar.</li>
+        <li><b>Dos opciones con sus costos.</b> Las decisiones grandes llegan con alternativas, para que decida quien tiene el contexto de negocio.</li>
+        <li><b>Migración por partes.</b> El sistema nuevo absorbe piezas mientras el viejo sigue funcionando, con criterios de vuelta atrás definidos desde el inicio.</li>
+        <li><b>Decisiones por escrito.</b> Qué se decidió y por qué, para poder revisarlo cuando cambie el contexto.</li>
+      </ul>
+
+      <h3 class="sobre__h">Stack</h3>
+      <ul class="chips">
+        <li>TypeScript</li><li>Python</li><li>React</li><li>Next.js</li><li>Node.js</li><li>PostgreSQL</li>
+        <li>Docker</li><li>Kubernetes</li><li>ArgoCD</li><li>AWS</li><li>Cloudflare</li>
+        <li>GraphQL</li><li>REST</li><li>tRPC</li><li>Prisma</li><li>SQLAlchemy</li>
+        <li>FastAPI</li><li>Astro</li><li>React Native</li><li>Auth0</li><li>Stripe</li>
+      </ul>
+    </div>
+    <div class="sobre__eco" aria-hidden="true">
+      <svg class="eco" viewBox="-80 0 780 420" id="eco"></svg>
+    </div>
+  </section>
+
+  <section class="ficha" id="contacto" data-mundo="3" aria-labelledby="contacto-t">
+    <div class="ficha__w">
+    <i class="cinta-adhesiva cinta-adhesiva--a" aria-hidden="true"></i>
+    <i class="cinta-adhesiva cinta-adhesiva--b" aria-hidden="true"></i>
+    <div class="ficha__hoja">
+      <h2 class="ficha__titulo" id="contacto-t">Se busca</h2>
+      <div class="ficha__cuerpo">
+        <div class="ficha__foto" aria-hidden="true"><svg viewBox="-20 0 600 340" id="ficha-moto"></svg><img class="ficha__yo" id="ficha-yo" alt="" hidden></div>
+        <div class="ficha__datos-w">
+          <p class="ficha__nombre">Iván Santander</p>
+          <p class="ficha__cargo">Tech Lead y Technical Product Owner</p>
+          <p class="ficha__texto">Para hablar de arquitectura, liderazgo técnico o de alguno de estos casos. Escríbeme.</p>
+          <dl class="ficha__datos" aria-label="Datos">
+            <div><dt>Años</dt><dd id="dato-anios">7</dd></div>
+            <div><dt>Desde</dt><dd>2019</dd></div>
+            <div><dt>Casos</dt><dd>18</dd></div>
+          </dl>
+        </div>
+      </div>
+      <ul class="ficha__enlaces">
+        <li><a href="https://www.linkedin.com/in/ivan-santander/" rel="noopener noreferrer" target="_blank">LinkedIn</a></li>
+        <li><a href="https://github.com/ivansantander-hub" rel="noopener noreferrer" target="_blank">GitHub</a></li>
+        <li><a href="#casos">Ver casos</a></li>
+        <li><a href="/">Portafolio actual</a></li>
+      </ul>
+      <p class="ficha__lugar">Medellín, Colombia · remoto</p>
+    </div>
+    </div>
+  </section>
+
+</main>
+
+<footer class="pie">
+  <p>Iván Santander · Tech Lead y Technical Product Owner · Medellín, Colombia</p>
+</footer>
+
+<noscript><p class="sin-js">Esta versión necesita JavaScript para el fondo animado. La página normal está en <a href="/">ivansantander.com</a>.</p></noscript>
+
+<script src="/v3-1/v3.js" defer></script>
+</body>
+</html>
