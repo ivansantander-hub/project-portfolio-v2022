@@ -4,16 +4,16 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Iván Santander — Tech Lead y Technical Product Owner · v3.1</title>
-<meta name="description" content="Iván Santander, Tech Lead y Technical Product Owner en Medellín. Versión 3.1 del portafolio: casos, sobre mí y contacto, de noche.">
+<meta name="description" content="Iván Santander, Tech Lead y Technical Product Owner en Medellín. Una noche en moto por la ciudad: casos, sobre mí y contacto.">
 <meta name="robots" content="noindex, follow">
-<meta name="theme-color" content="#0a0a0b">
+<meta name="theme-color" content="#06070b">
 <link rel="canonical" href="https://ivansantander.com/v3.1/">
 <link rel="alternate" hreflang="es" href="https://ivansantander.com/v3.1/">
 <link rel="alternate" hreflang="en" href="https://ivansantander.com/v3.1/">
 <link rel="alternate" hreflang="x-default" href="https://ivansantander.com/v3.1/">
 <meta property="og:type" content="website">
 <meta property="og:title" content="Iván Santander — Tech Lead y Technical Product Owner">
-<meta property="og:description" content="Casos, sobre mí y contacto en clave de calle de noche. Versión 3.1 del portafolio.">
+<meta property="og:description" content="Una noche en moto por Medellín: casos, sobre mí y contacto. Versión experimental del portafolio.">
 <meta property="og:url" content="https://ivansantander.com/v3.1/">
 <meta property="og:image" content="https://ivansantander.com/img/og.png">
 <link rel="icon" href="/favicon.ico">
@@ -25,7 +25,7 @@
 {
   "@context": "https://schema.org",
   "@type": "WebPage",
-  "name": "Iván Santander — Portafolio v3.1",
+  "name": "Iván Santander — La ruta (v3.1)",
   "url": "https://ivansantander.com/v3.1/",
   "inLanguage": "es",
   "description": "Versión experimental del portafolio de Iván Santander, Tech Lead y Technical Product Owner.",
@@ -34,84 +34,66 @@
 }
 </script>
 </head>
-<body data-mundo="0">
-
-<canvas id="mundo" aria-hidden="true"></canvas>
-
+<body data-cap="loma">
+<a class="saltar" href="#ruta">Saltar a los casos</a>
 <svg class="defs" aria-hidden="true" focusable="false" width="0" height="0">
   <defs>
     <linearGradient id="oro" x1="0" y1="0" x2="0" y2="1">
       <stop offset="0" stop-color="#fff2b8"/><stop offset=".3" stop-color="#f4c93c"/>
       <stop offset=".47" stop-color="#b8860b"/><stop offset=".5" stop-color="#4d3700"/>
       <stop offset=".53" stop-color="#e6b422"/><stop offset=".8" stop-color="#f7d56a"/><stop offset="1" stop-color="#a87a08"/>
-      <animateTransform attributeName="gradientTransform" type="translate" values="0 -0.09;0 0.09;0 -0.09" dur="6s" repeatCount="indefinite"/>
     </linearGradient>
-    <filter id="recorte-moto" x="-8%" y="-10%" width="120%" height="125%" color-interpolation-filters="sRGB">
-      <feMorphology in="SourceAlpha" operator="dilate" radius="7" result="grueso"/>
-      <feFlood flood-color="#e9e6da" result="papel"/>
-      <feComposite in="papel" in2="grueso" operator="in" result="borde"/>
-      <feOffset in="grueso" dx="-9" dy="11" result="fuera"/>
-      <feFlood flood-color="#000" result="tinta"/>
-      <feComposite in="tinta" in2="fuera" operator="in" result="sombra"/>
-      <feMerge><feMergeNode in="sombra"/><feMergeNode in="borde"/><feMergeNode in="SourceGraphic"/></feMerge>
-    </filter>
     <filter id="sucio" x="-5%" y="-8%" width="110%" height="118%">
       <feTurbulence type="fractalNoise" baseFrequency=".045" numOctaves="2" seed="11" result="t"/>
       <feDisplacementMap in="SourceGraphic" in2="t" scale="6" xChannelSelector="R" yChannelSelector="G"/>
     </filter>
-    <filter id="eco-mov" x="-15%" y="-15%" width="130%" height="130%">
-      <feTurbulence type="fractalNoise" baseFrequency="0.004 0.03" numOctaves="2" seed="9" result="n">
-        <animate attributeName="baseFrequency" dur="17s" values="0.004 0.03;0.008 0.05;0.003 0.024;0.004 0.03" repeatCount="indefinite"/>
-      </feTurbulence>
-      <feDisplacementMap in="SourceGraphic" in2="n" scale="22" xChannelSelector="R" yChannelSelector="G"/>
-    </filter>
-    <filter id="t-1"><feFlood flood-color="#2a2a2c"/><feComposite in2="SourceAlpha" operator="in"/></filter>
-    <filter id="t-2"><feFlood flood-color="#4c4c50"/><feComposite in2="SourceAlpha" operator="in"/></filter>
-    <filter id="t-3"><feFlood flood-color="#7c7c7f"/><feComposite in2="SourceAlpha" operator="in"/></filter>
-    <filter id="t-4"><feFlood flood-color="#39ff14"/><feComposite in2="SourceAlpha" operator="in"/></filter>
-    <filter id="t-5"><feFlood flood-color="#d4a017"/><feComposite in2="SourceAlpha" operator="in"/></filter>
-    <filter id="copia" color-interpolation-filters="sRGB">
-      <feColorMatrix type="saturate" values="0"/>
-      <feComponentTransfer><feFuncR type="discrete" tableValues="0 0 .35 .8 1"/><feFuncG type="discrete" tableValues="0 0 .35 .8 1"/><feFuncB type="discrete" tableValues="0 0 .35 .8 1"/></feComponentTransfer>
-    </filter>
   </defs>
-  <symbol id="s-chispa" viewBox="0 0 48 48"><path d="M24 1C26 15 33 22 47 24C33 26 26 33 24 47C22 33 15 26 1 24C15 22 22 15 24 1Z" fill="currentColor" stroke="#000" stroke-width="3" stroke-linejoin="round"/></symbol>
-  <symbol id="s-estrella" viewBox="0 0 48 48"><path d="M24 3l6.2 13.6 14.8 1.6-11 10 3.2 14.6L24 34.6 10.8 42.8 14 28.2 3 18.2l14.8-1.6z" fill="currentColor" stroke="#000" stroke-width="3.5" stroke-linejoin="round"/></symbol>
-  <symbol id="s-hexa" viewBox="0 0 48 48"><path d="M24 3l19 10.5v21L24 45 5 34.5v-21z" fill="currentColor" stroke="#000" stroke-width="3.5" stroke-linejoin="round"/><path d="M24 14l9 5v10l-9 5-9-5V19z" fill="none" stroke="#000" stroke-width="3"/></symbol>
-  <symbol id="s-circulo" viewBox="0 0 48 48"><circle cx="24" cy="24" r="20" fill="currentColor" stroke="#000" stroke-width="3.5"/><circle cx="24" cy="24" r="11" fill="none" stroke="#000" stroke-width="3"/><circle cx="24" cy="24" r="3.5" fill="#000"/></symbol>
-  <symbol id="s-rayo" viewBox="0 0 48 48"><path d="M28 2L10 27h11l-4 19 21-27H26z" fill="currentColor" stroke="#000" stroke-width="3.5" stroke-linejoin="round"/></symbol>
 </svg>
-
-<div class="carga" aria-hidden="true"></div>
-<div class="corte" id="corte" aria-hidden="true"><img id="corte-img" alt="" width="960" height="540" decoding="async"></div>
-<div class="grano" aria-hidden="true"></div>
-<div class="vineta" aria-hidden="true"></div>
-<div class="cinta" aria-hidden="true"><i></i></div>
-
-<a class="saltar" href="#casos">Saltar al contenido</a>
-
-<nav class="ruta" aria-label="Ruta de la página">
-  <a href="#inicio"><span>Inicio</span></a>
-  <a href="#casos"><span>Casos</span></a>
-  <a href="#sobre-mi"><span>Sobre mí</span></a>
-  <a href="#contacto"><span>Contacto</span></a>
-  <i class="ruta__moto" aria-hidden="true"></i>
-</nav>
-
-<header class="barra">
-  <a class="barra__atras" href="/">← Portafolio</a>
-  <nav class="barra__nav" aria-label="Secciones">
-    <a href="#casos">Casos</a>
-    <a href="#sobre-mi">Sobre mí</a>
-    <a href="#contacto">Contacto</a>
+<div class="radio" id="radio" role="dialog" aria-modal="true" aria-labelledby="radio-t" aria-describedby="radio-d">
+  <div class="radio__cuerpo">
+    <i class="radio__asa" aria-hidden="true"></i>
+    <div class="radio__pantalla">
+      <p class="radio__titulo" id="radio-t">La ruta</p>
+      <p class="radio__ayuda" id="radio-d">Una noche en moto por Medellín. Elige una canción.</p>
+    </div>
+    <fieldset class="casetes">
+      <legend class="visually-hidden">Canción</legend>
+      <label class="casete"><input type="radio" name="cancion" value="0" data-src="/audio/el-estren.mp3" data-titulo="El estren" checked>
+        <span class="casete__cuerpo"><span class="casete__ventana" aria-hidden="true"><i class="rueda"></i><i class="rueda"></i></span><span class="casete__etiqueta">El estren</span></span></label>
+      <label class="casete"><input type="radio" name="cancion" value="1" data-src="/audio/india-conocida.mp3" data-titulo="India conocida">
+        <span class="casete__cuerpo"><span class="casete__ventana" aria-hidden="true"><i class="rueda"></i><i class="rueda"></i></span><span class="casete__etiqueta">India conocida</span></span></label>
+    </fieldset>
+    <div class="radio__botones">
+      <button type="button" class="boton" id="encender">Encender y salir</button>
+      <button type="button" class="enlace" id="sinmusica">Entrar sin música</button>
+    </div>
+  </div>
+</div>
+<header class="marco">
+  <a class="marco__atras" href="/">← Portafolio</a>
+  <nav class="capitulos" aria-label="Capítulos">
+    <a href="#loma" data-cap="loma">La loma</a>
+    <a href="#ruta" data-cap="ruta">La ruta</a>
+    <a href="#taller" data-cap="taller">El taller</a>
+    <a href="#llegada" data-cap="llegada">La llegada</a>
   </nav>
 </header>
+<div class="audio solo-js" id="audio" role="group" aria-label="Música" hidden>
+  <p class="audio__titulo" id="audio-titulo" aria-live="polite"></p>
+  <button type="button" id="a-play" aria-label="Reproducir" data-i-play="&lt;svg viewBox=&quot;0 0 24 24&quot; aria-hidden=&quot;true&quot;&gt;&lt;path d=&quot;M7 4l13 8-13 8z&quot; fill=&quot;currentColor&quot;/&gt;&lt;/svg&gt;" data-i-pausa="&lt;svg viewBox=&quot;0 0 24 24&quot; aria-hidden=&quot;true&quot;&gt;&lt;path d=&quot;M6 4h4v16H6zM14 4h4v16h-4z&quot; fill=&quot;currentColor&quot;/&gt;&lt;/svg&gt;"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7 4l13 8-13 8z" fill="currentColor"/></svg></button>
+  <button type="button" id="a-sig" aria-label="Cambiar de canción"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 4l11 8-11 8zM18 4h2v16h-2z" fill="currentColor"/></svg></button>
+  <button type="button" id="a-mudo" aria-label="Silenciar" data-i-voz="&lt;svg viewBox=&quot;0 0 24 24&quot; aria-hidden=&quot;true&quot;&gt;&lt;path d=&quot;M3 9h4l5-4v14l-5-4H3zM15 8c2 1.2 3 2.4 3 4s-1 2.8-3 4M17.5 5c3 1.7 4.5 4.3 4.5 7s-1.500 5.300-4.500 7&quot; fill=&quot;none&quot; stroke=&quot;currentColor&quot; stroke-width=&quot;2&quot;/&gt;&lt;path d=&quot;M3 9h4l5-4v14l-5-4H3z&quot; fill=&quot;currentColor&quot;/&gt;&lt;/svg&gt;" data-i-mudo="&lt;svg viewBox=&quot;0 0 24 24&quot; aria-hidden=&quot;true&quot;&gt;&lt;path d=&quot;M3 9h4l5-4v14l-5-4H3z&quot; fill=&quot;currentColor&quot;/&gt;&lt;path d=&quot;M16 9l6 6M22 9l-6 6&quot; stroke=&quot;currentColor&quot; stroke-width=&quot;2.4&quot; fill=&quot;none&quot;/&gt;&lt;/svg&gt;"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 9h4l5-4v14l-5-4H3zM15 8c2 1.2 3 2.4 3 4s-1 2.8-3 4M17.5 5c3 1.7 4.5 4.3 4.5 7s-1.500 5.300-4.500 7" fill="none" stroke="currentColor" stroke-width="2"/><path d="M3 9h4l5-4v14l-5-4H3z" fill="currentColor"/></svg></button>
+  <audio id="cancion" preload="none" loop></audio>
+</div>
 
-<main>
-
-  <section class="inicio" id="inicio" data-mundo="0" aria-label="Presentación">
-    <h1 class="nombre"><span class="visually-hidden">Iván Santander</span>
-  <svg class="nombre__svg" id="nombre-svg" viewBox="0 0 1360 600" aria-hidden="true" focusable="false">
+<main id="viaje" class="viaje">
+  <div class="pista" id="pista">
+    <div class="escena" id="escena">
+      <div class="mundo" id="mundo" aria-hidden="true"></div>
+      <div class="camara" id="camara">
+    <section id="loma" class="cap cap--loma" aria-label="Presentación">
+      <div class="loma__muro" data-parada data-tipo="loma" data-cx="0" data-mantener="42">
+        <h1 class="nombre"><span class="visually-hidden">Iván Santander</span><svg class="nombre__svg" id="nombre-svg" viewBox="0 0 1360 600" aria-hidden="true" focusable="false">
    <defs>
     <g id="nom" font-family="'Rubik Spray Paint', 'Arial Black', Impact, sans-serif">
       <text id="nom-1" x="80" y="230" font-size="250">Iván</text>
@@ -122,439 +104,313 @@
     <use href="#nom" stroke="#000" stroke-width="64" fill="#000" transform="translate(12 16)" opacity=".9"/>
     <use href="#nom" stroke="#000" stroke-width="50" fill="#000"/>
     <g class="gotas-negras"></g>
-    <use href="#nom" stroke="#e9e6da" stroke-width="20" fill="#e9e6da"/>
+    <use href="#nom" stroke="#ece6d2" stroke-width="20" fill="#ece6d2"/>
     <use href="#nom" stroke="#000" stroke-width="6" fill="url(#oro)"/>
     <g class="gotas-oro"></g>
-    <g class="rocio"></g>
    </g>
-  </svg>
-    </h1>
-    <p class="cargo"><span>Tech Lead y Technical Product Owner</span></p>
-    <ul class="areas" aria-label="Áreas">
-      <li>Producto</li><li>Ingeniería</li><li>IA</li>
-    </ul>
-    <p class="lugar">Medellín, Colombia</p>
-    <p class="acciones">
-      <a class="boton boton--oro" href="#casos">Ver casos</a>
-      <a class="boton boton--papel" href="#contacto">Escríbeme</a>
-    </p>
-    <div class="moto" id="moto" style="--ratio:1.1438;--rueda-x:17.67%;--rueda-y:77.5%">
-      <div class="sol" aria-hidden="true"><i class="sol__rayos"></i><i class="sol__puntos"></i></div>
-      <svg class="chispa chispa--a" aria-hidden="true"><use href="#s-chispa"/></svg>
-      <svg class="chispa chispa--b" aria-hidden="true"><use href="#s-chispa"/></svg>
-      <svg class="chispa chispa--c" aria-hidden="true"><use href="#s-chispa"/></svg>
-      <svg class="chispa chispa--d" aria-hidden="true"><use href="#s-chispa"/></svg>
-      <p class="insignia" aria-label="Desde 2019"><svg viewBox="0 0 120 120" aria-hidden="true"><path d="M60 3l9 17 17-9 3 19 19 2-8 17 16 10-14 13 9 17-19 2-2 19-17-8-10 16-11-15-17 8-3-19-19-2 8-17-16-10 14-13-9-17 19-2 2-19 17 8z" fill="#d4a017" stroke="#000" stroke-width="5" stroke-linejoin="round"/></svg><span>Desde<b>2019</b></span></p>
-      <div class="moto__mueve">
-        <img class="moto__foto" src="/v3-1/img/dt.webp" alt="Un joven con gorra, gafas y chaqueta blanca y negra sobre una Yamaha DT blanca, en un sticker de estilo cómic" width="1000" height="874" fetchpriority="high" decoding="async">
-        <span class="moto__faro" id="moto-faro" aria-hidden="true" style="left:84.15%;top:42.08%"></span>
-        <span class="moto__cola" id="moto-cola" aria-hidden="true" style="left:3.64%;top:43.13%;height:12.5%"></span>
-        <span class="moto__globo" aria-hidden="true">¡brrm!</span>
+  </svg></h1>
+        <p class="rol">Tech Lead y Technical Product Owner</p>
+        <a class="boton" id="empezar" href="#ruta">Empezar la ruta</a>
       </div>
-    </div>
-  </section>
-
-  <section class="casos" id="casos" data-mundo="1" aria-labelledby="casos-t">
-    <div class="casos__cielo" aria-hidden="true">
-      <div class="casos__escena" id="escena"></div>
-    </div>
-    <div class="casos__cabeza">
-      <h2 class="titulo" id="casos-t"><span class="visually-hidden">Casos</span><svg class="titulo__svg" viewBox="0 0 610 340" aria-hidden="true" focusable="false">
-   <defs><g id="t-casos" font-family="'UnifrakturMaguntia', 'Old English Text MT', serif" text-anchor="middle"><text x="305" y="212" font-size="150">Casos</text></g></defs>
-   <g filter="url(#sucio)" stroke-linejoin="round" stroke-linecap="round" transform="rotate(-2 305 170)">
-    <use href="#t-casos" stroke="#000" stroke-width="42" fill="#000" transform="translate(8 11)" opacity=".9"/>
-    <use href="#t-casos" stroke="#000" stroke-width="32" fill="#000"/>
-    <use href="#t-casos" stroke="#e9e6da" stroke-width="11" fill="#e9e6da"/>
-    <use href="#t-casos" stroke="#000" stroke-width="4" fill="url(#oro)"/>
-   </g>
-  </svg></h2>
-      <p class="casos__intro">18 casos: 10 en una plataforma de ensayos clínicos y 8 proyectos propios. Cada pieza lleva a su caso.</p>
-      <figure class="foto foto--maqueta">
-        <div class="foto__marco"><img src="/v3-1/img/fotograma-maqueta.jpg" alt="Maqueta de un barrio pintado con graffiti, con un bus amarillo y un rostro gigante en el cielo" width="960" height="470" loading="lazy" decoding="async"></div>
-        <figcaption>Referencia visual: maqueta de barrio</figcaption>
-      </figure>
-      <figure class="pj pj--colombia"><img src="/v3-1/img/pj-colombia.webp" alt="Colombia 1996, en letras doradas pintadas con brocha, con una corona" width="640" height="314" loading="lazy" decoding="async"></figure>
-      <figure class="pj pj--ciudad"><img src="/v3-1/img/pj-ciudad.webp" alt="Medellín entre montañas, con un cable aéreo, en un sticker" width="900" height="676" loading="lazy" decoding="async"></figure>
-      <figure class="foto foto--sticker">
-        <div class="foto__marco"><img src="/v3-1/img/sticker-amarillo.jpg" alt="Un sticker amarillo y blanco con un tag pintado a mano" width="690" height="345" loading="lazy" decoding="async"></div>
-        <figcaption>Archivo personal</figcaption>
-      </figure>
-    </div>
-    <div class="casos__fila">
-      <figure class="foto foto--muro">
-        <div class="foto__marco"><img src="/v3-1/img/muro-hiphop.jpg" alt="Una pared de ladrillo con la frase Proyecto hip-hop, paz, convivencia, sobre un mural de graffiti azul" width="1200" height="475" loading="lazy" decoding="async"></div>
-        <figcaption>«Proyecto hip-hop, paz, convivencia»</figcaption>
-      </figure>
-    </div>
-    <ul class="calle">
-      <li class="casa" style="--rot:-1.4deg;--h:380px;--tinta:#ffc61a;--luz:#ff9a2a;--vel:0.030">
-        <a class="casa__a" href="/trabajo/sgc/">
-          <div class="casa__muro muro--ladrillo">
-            <i class="reja" aria-hidden="true"></i>
-            <h3 class="pieza pieza--spray ">Talonaria</h3>
-            <div class="slap-w"><p class="slap">Talonaria: un ERP multi-tenant para pymes colombianas</p></div>
-            <svg class="peg peg--a" style="color:#ffc61a" aria-hidden="true"><use href="#s-estrella"/></svg>
-            <svg class="peg peg--b" style="color:#39ff14" aria-hidden="true"><use href="#s-circulo"/></svg>
-            <div class="persiana" aria-hidden="true"></div>
-          </div>
-          <p class="casa__tag">Proyecto propio</p>
+    </section>
+        <section id="ruta" class="cap cap--ruta" aria-labelledby="ruta-t">
+          <h2 id="ruta-t" class="visually-hidden">La ruta: los casos</h2>
+    <div class="barrio" id="barrio-clinica" aria-labelledby="barrio-clinica-t">
+      <div class="letrero" style="--x:150" data-parada data-tipo="letrero" data-barrio="clinica" data-cx="90" data-mantener="12">
+        <div class="letrero__placa"><h3 id="barrio-clinica-t" class="letrero__titulo">Plataforma clínica</h3><p class="letrero__n">10 casos</p></div>
+        <i class="letrero__poste" aria-hidden="true"></i>
+      </div>
+      <ol class="murales" role="list" aria-label="Casos de plataforma clínica">
+      <li class="mural mural--v0 mural--l" style="--x:236" data-parada data-tipo="mural" data-barrio="clinica" data-n="1" data-de="10" data-cx="172" data-mantener="12">
+        <a class="mural__a" href="/trabajo/architecture-simplification/">
+          <span class="mural__num" aria-hidden="true">01</span>
+          <h4 class="mural__titulo">Simplificación de arquitectura</h4>
+          <p class="mural__caso">Simplificar una arquitectura que creció por acumulación</p>
+          <span class="mural__abrir">Abrir caso <span aria-hidden="true">→</span></span>
+          <span class="mural__luz" aria-hidden="true"></span>
+          <span class="mural__sombra" aria-hidden="true"></span>
         </a>
       </li>
-      <li class="casa" style="--rot:1.1deg;--h:420px;--tinta:#e9e6da;--luz:#ffc61a;--vel:0.065">
-        <a class="casa__a" href="/trabajo/english/">
-          <div class="casa__muro muro--bloque">
-            <i class="reja" aria-hidden="true"></i>
-            <h3 class="pieza pieza--tag ">English A1</h3>
-            <div class="slap-w"><p class="slap">Una app para practicar inglés a diario</p></div>
-            <svg class="peg peg--a" style="color:#e9e6da" aria-hidden="true"><use href="#s-hexa"/></svg>
-            <svg class="peg peg--b" style="color:#e01818" aria-hidden="true"><use href="#s-rayo"/></svg>
-            <div class="persiana" aria-hidden="true"></div>
-          </div>
-          <p class="casa__tag">Proyecto propio</p>
+      <li class="mural mural--v1 mural--l" style="--x:324" data-parada data-tipo="mural" data-barrio="clinica" data-n="2" data-de="10" data-cx="260" data-mantener="12">
+        <a class="mural__a" href="/trabajo/ai-coding-assistant/">
+          <span class="mural__num" aria-hidden="true">02</span>
+          <h4 class="mural__titulo">Asistente de código con IA</h4>
+          <p class="mural__caso">Un asistente de código con IA adaptado a la forma de trabajar del equipo</p>
+          <span class="mural__abrir">Abrir caso <span aria-hidden="true">→</span></span>
+          <span class="mural__luz" aria-hidden="true"></span>
+          <span class="mural__sombra" aria-hidden="true"></span>
         </a>
       </li>
-      <li class="casa" style="--rot:-0.7deg;--h:390px;--tinta:#39ff14;--luz:#0d0f12;--vel:0.100">
-        <a class="casa__a" href="/trabajo/eco-loop/">
-          <div class="casa__muro muro--liso">
-            <i class="reja" aria-hidden="true"></i>
-            <h3 class="pieza pieza--spray ">eco-loop</h3>
-            <div class="slap-w"><p class="slap">Dos IAs conversando entre ellas</p></div>
-            <svg class="peg peg--a" style="color:#39ff14" aria-hidden="true"><use href="#s-circulo"/></svg>
-            <svg class="peg peg--b" style="color:#d4a017" aria-hidden="true"><use href="#s-estrella"/></svg>
-            <div class="persiana" aria-hidden="true"></div>
-          </div>
-          <p class="casa__tag">Proyecto propio</p>
+      <li class="mural mural--v2 mural--m" style="--x:412" data-parada data-tipo="mural" data-barrio="clinica" data-n="3" data-de="10" data-cx="348" data-mantener="12">
+        <a class="mural__a" href="/trabajo/workflow-engine/">
+          <span class="mural__num" aria-hidden="true">03</span>
+          <h4 class="mural__titulo">Motor de flujos</h4>
+          <p class="mural__caso">Un motor de flujos configurable para integraciones de datos</p>
+          <span class="mural__abrir">Abrir caso <span aria-hidden="true">→</span></span>
+          <span class="mural__luz" aria-hidden="true"></span>
+          <span class="mural__sombra" aria-hidden="true"></span>
         </a>
       </li>
-      <li class="casa" style="--rot:1.6deg;--h:440px;--tinta:#e01818;--luz:#ff9a2a;--vel:0.135">
-        <a class="casa__a" href="/trabajo/architecture-simplification/">
-          <div class="casa__muro muro--ladrillo">
-            <i class="reja" aria-hidden="true"></i>
-            <h3 class="pieza pieza--tag pieza--l">Simplificación de arquitectura</h3>
-            <div class="slap-w"><p class="slap">Simplificar una arquitectura que creció por acumulación</p></div>
-            <svg class="peg peg--a" style="color:#e01818" aria-hidden="true"><use href="#s-rayo"/></svg>
-            <svg class="peg peg--b" style="color:#ffc61a" aria-hidden="true"><use href="#s-hexa"/></svg>
-            <div class="persiana" aria-hidden="true"></div>
-          </div>
-          <p class="casa__tag">Plataforma de ensayos clínicos</p>
+      <li class="mural mural--v0 mural--m" style="--x:500" data-parada data-tipo="mural" data-barrio="clinica" data-n="4" data-de="10" data-cx="436" data-mantener="12">
+        <a class="mural__a" href="/trabajo/document-management/">
+          <span class="mural__num" aria-hidden="true">04</span>
+          <h4 class="mural__titulo">Gestión documental</h4>
+          <p class="mural__caso">Gestión documental con permisos y trazabilidad</p>
+          <span class="mural__abrir">Abrir caso <span aria-hidden="true">→</span></span>
+          <span class="mural__luz" aria-hidden="true"></span>
+          <span class="mural__sombra" aria-hidden="true"></span>
         </a>
       </li>
-      <li class="casa" style="--rot:-1.0deg;--h:380px;--tinta:#d4a017;--luz:#0d0f12;--vel:0.030">
-        <a class="casa__a" href="/trabajo/mini-astro/">
-          <div class="casa__muro muro--bloque">
-            <i class="reja" aria-hidden="true"></i>
-            <h3 class="pieza pieza--spray ">mini-astro</h3>
-            <div class="slap-w"><p class="slap">Un generador de sitios estáticos propio</p></div>
-            <svg class="peg peg--a" style="color:#d4a017" aria-hidden="true"><use href="#s-estrella"/></svg>
-            <svg class="peg peg--b" style="color:#e9e6da" aria-hidden="true"><use href="#s-circulo"/></svg>
-            <div class="persiana" aria-hidden="true"></div>
-          </div>
-          <p class="casa__tag">Proyecto propio</p>
+      <li class="mural mural--v1 mural--l" style="--x:588" data-parada data-tipo="mural" data-barrio="clinica" data-n="5" data-de="10" data-cx="524" data-mantener="12">
+        <a class="mural__a" href="/trabajo/dashboards/">
+          <span class="mural__num" aria-hidden="true">05</span>
+          <h4 class="mural__titulo">Dashboards configurables</h4>
+          <p class="mural__caso">Dashboards configurables por proyecto</p>
+          <span class="mural__abrir">Abrir caso <span aria-hidden="true">→</span></span>
+          <span class="mural__luz" aria-hidden="true"></span>
+          <span class="mural__sombra" aria-hidden="true"></span>
         </a>
       </li>
-      <li class="casa" style="--rot:0.8deg;--h:430px;--tinta:#ff8a1f;--luz:#ffd35e;--vel:0.065">
-        <a class="casa__a" href="/trabajo/ai-coding-assistant/">
-          <div class="casa__muro muro--liso">
-            <i class="reja" aria-hidden="true"></i>
-            <h3 class="pieza pieza--tag pieza--l">Asistente de código con IA</h3>
-            <div class="slap-w"><p class="slap">Un asistente de código con IA adaptado a la forma de trabajar del equipo</p></div>
-            <svg class="peg peg--a" style="color:#ffc61a" aria-hidden="true"><use href="#s-hexa"/></svg>
-            <svg class="peg peg--b" style="color:#39ff14" aria-hidden="true"><use href="#s-rayo"/></svg>
-            <div class="persiana" aria-hidden="true"></div>
-          </div>
-          <p class="casa__tag">Plataforma de ensayos clínicos</p>
+      <li class="mural mural--v2 mural--m" style="--x:676" data-parada data-tipo="mural" data-barrio="clinica" data-n="6" data-de="10" data-cx="612" data-mantener="12">
+        <a class="mural__a" href="/trabajo/ai-integration/">
+          <span class="mural__num" aria-hidden="true">06</span>
+          <h4 class="mural__titulo">Integración de IA</h4>
+          <p class="mural__caso">Una propuesta para integrar IA en una plataforma de un entorno regulado</p>
+          <span class="mural__abrir">Abrir caso <span aria-hidden="true">→</span></span>
+          <span class="mural__luz" aria-hidden="true"></span>
+          <span class="mural__sombra" aria-hidden="true"></span>
         </a>
       </li>
-      <li class="casa" style="--rot:-1.7deg;--h:400px;--tinta:#ffc61a;--luz:#ff9a2a;--vel:0.100">
-        <a class="casa__a" href="/trabajo/workflow-engine/">
-          <div class="casa__muro muro--ladrillo">
-            <i class="reja" aria-hidden="true"></i>
-            <h3 class="pieza pieza--spray pieza--m">Motor de flujos</h3>
-            <div class="slap-w"><p class="slap">Un motor de flujos configurable para integraciones de datos</p></div>
-            <svg class="peg peg--a" style="color:#e9e6da" aria-hidden="true"><use href="#s-circulo"/></svg>
-            <svg class="peg peg--b" style="color:#e01818" aria-hidden="true"><use href="#s-estrella"/></svg>
-            <div class="persiana" aria-hidden="true"></div>
-          </div>
-          <p class="casa__tag">Plataforma de ensayos clínicos</p>
+      <li class="mural mural--v0 mural--m" style="--x:764" data-parada data-tipo="mural" data-barrio="clinica" data-n="7" data-de="10" data-cx="700" data-mantener="12">
+        <a class="mural__a" href="/trabajo/digital-signatures/">
+          <span class="mural__num" aria-hidden="true">07</span>
+          <h4 class="mural__titulo">Firma electrónica</h4>
+          <p class="mural__caso">Firmas electrónicas con evidencia verificable</p>
+          <span class="mural__abrir">Abrir caso <span aria-hidden="true">→</span></span>
+          <span class="mural__luz" aria-hidden="true"></span>
+          <span class="mural__sombra" aria-hidden="true"></span>
         </a>
       </li>
-      <li class="casa" style="--rot:1.3deg;--h:370px;--tinta:#e9e6da;--luz:#ffc61a;--vel:0.135">
-        <a class="casa__a" href="/trabajo/avatar-studio/">
-          <div class="casa__muro muro--bloque">
-            <i class="reja" aria-hidden="true"></i>
-            <h3 class="pieza pieza--tag pieza--m">Avatar Studio</h3>
-            <div class="slap-w"><p class="slap">Un pipeline local para avatares que hablan</p></div>
-            <svg class="peg peg--a" style="color:#39ff14" aria-hidden="true"><use href="#s-rayo"/></svg>
-            <svg class="peg peg--b" style="color:#d4a017" aria-hidden="true"><use href="#s-hexa"/></svg>
-            <div class="persiana" aria-hidden="true"></div>
-          </div>
-          <p class="casa__tag">Proyecto propio</p>
+      <li class="mural mural--v1 mural--l" style="--x:852" data-parada data-tipo="mural" data-barrio="clinica" data-n="8" data-de="10" data-cx="788" data-mantener="12">
+        <a class="mural__a" href="/trabajo/dynamic-forms/">
+          <span class="mural__num" aria-hidden="true">08</span>
+          <h4 class="mural__titulo">Formularios configurables</h4>
+          <p class="mural__caso">Formularios definidos por configuración</p>
+          <span class="mural__abrir">Abrir caso <span aria-hidden="true">→</span></span>
+          <span class="mural__luz" aria-hidden="true"></span>
+          <span class="mural__sombra" aria-hidden="true"></span>
         </a>
       </li>
-      <li class="casa" style="--rot:-1.4deg;--h:380px;--tinta:#39ff14;--luz:#0d0f12;--vel:0.030">
-        <a class="casa__a" href="/trabajo/document-management/">
-          <div class="casa__muro muro--liso">
-            <i class="reja" aria-hidden="true"></i>
-            <h3 class="pieza pieza--spray pieza--m">Gestión documental</h3>
-            <div class="slap-w"><p class="slap">Gestión documental con permisos y trazabilidad</p></div>
-            <svg class="peg peg--a" style="color:#e01818" aria-hidden="true"><use href="#s-estrella"/></svg>
-            <svg class="peg peg--b" style="color:#ffc61a" aria-hidden="true"><use href="#s-circulo"/></svg>
-            <div class="persiana" aria-hidden="true"></div>
-          </div>
-          <p class="casa__tag">Plataforma de ensayos clínicos</p>
+      <li class="mural mural--v2 mural--l" style="--x:940" data-parada data-tipo="mural" data-barrio="clinica" data-n="9" data-de="10" data-cx="876" data-mantener="12">
+        <a class="mural__a" href="/trabajo/shell-system/">
+          <span class="mural__num" aria-hidden="true">09</span>
+          <h4 class="mural__titulo">Pantallas configurables</h4>
+          <p class="mural__caso">Pantallas de seguimiento a partir de configuración</p>
+          <span class="mural__abrir">Abrir caso <span aria-hidden="true">→</span></span>
+          <span class="mural__luz" aria-hidden="true"></span>
+          <span class="mural__sombra" aria-hidden="true"></span>
         </a>
       </li>
-      <li class="casa" style="--rot:1.1deg;--h:420px;--tinta:#e01818;--luz:#ff9a2a;--vel:0.065">
-        <a class="casa__a" href="/trabajo/dashboards/">
-          <div class="casa__muro muro--ladrillo">
-            <i class="reja" aria-hidden="true"></i>
-            <h3 class="pieza pieza--tag pieza--l">Dashboards configurables</h3>
-            <div class="slap-w"><p class="slap">Dashboards configurables por proyecto</p></div>
-            <svg class="peg peg--a" style="color:#d4a017" aria-hidden="true"><use href="#s-hexa"/></svg>
-            <svg class="peg peg--b" style="color:#e9e6da" aria-hidden="true"><use href="#s-rayo"/></svg>
-            <div class="persiana" aria-hidden="true"></div>
-          </div>
-          <p class="casa__tag">Plataforma de ensayos clínicos</p>
+      <li class="mural mural--v0 mural--l" style="--x:1028" data-parada data-tipo="mural" data-barrio="clinica" data-n="10" data-de="10" data-cx="964" data-mantener="12">
+        <a class="mural__a" href="/trabajo/dev-platform/">
+          <span class="mural__num" aria-hidden="true">10</span>
+          <h4 class="mural__titulo">Entorno de desarrollo local</h4>
+          <p class="mural__caso">Una herramienta de línea de comandos para el entorno local</p>
+          <span class="mural__abrir">Abrir caso <span aria-hidden="true">→</span></span>
+          <span class="mural__luz" aria-hidden="true"></span>
+          <span class="mural__sombra" aria-hidden="true"></span>
         </a>
       </li>
-      <li class="casa" style="--rot:-0.7deg;--h:390px;--tinta:#d4a017;--luz:#0d0f12;--vel:0.100">
-        <a class="casa__a" href="/trabajo/megabyte/">
-          <div class="casa__muro muro--bloque">
-            <i class="reja" aria-hidden="true"></i>
-            <h3 class="pieza pieza--spray ">megabyte</h3>
-            <div class="slap-w"><p class="slap">Un agente de terminal con modelos locales</p></div>
-            <svg class="peg peg--a" style="color:#ffc61a" aria-hidden="true"><use href="#s-circulo"/></svg>
-            <svg class="peg peg--b" style="color:#39ff14" aria-hidden="true"><use href="#s-estrella"/></svg>
-            <div class="persiana" aria-hidden="true"></div>
-          </div>
-          <p class="casa__tag">Proyecto propio</p>
-        </a>
-      </li>
-      <li class="casa" style="--rot:1.6deg;--h:440px;--tinta:#ff8a1f;--luz:#ffd35e;--vel:0.135">
-        <a class="casa__a" href="/trabajo/ai-integration/">
-          <div class="casa__muro muro--liso">
-            <i class="reja" aria-hidden="true"></i>
-            <h3 class="pieza pieza--tag pieza--m">Integración de IA</h3>
-            <div class="slap-w"><p class="slap">Una propuesta para integrar IA en una plataforma de un entorno regulado</p></div>
-            <svg class="peg peg--a" style="color:#e9e6da" aria-hidden="true"><use href="#s-rayo"/></svg>
-            <svg class="peg peg--b" style="color:#e01818" aria-hidden="true"><use href="#s-hexa"/></svg>
-            <div class="persiana" aria-hidden="true"></div>
-          </div>
-          <p class="casa__tag">Plataforma de ensayos clínicos</p>
-        </a>
-      </li>
-      <li class="casa" style="--rot:-1.0deg;--h:380px;--tinta:#ffc61a;--luz:#ff9a2a;--vel:0.030">
-        <a class="casa__a" href="/trabajo/digital-signatures/">
-          <div class="casa__muro muro--ladrillo">
-            <i class="reja" aria-hidden="true"></i>
-            <h3 class="pieza pieza--spray pieza--m">Firma electrónica</h3>
-            <div class="slap-w"><p class="slap">Firmas electrónicas con evidencia verificable</p></div>
-            <svg class="peg peg--a" style="color:#39ff14" aria-hidden="true"><use href="#s-estrella"/></svg>
-            <svg class="peg peg--b" style="color:#d4a017" aria-hidden="true"><use href="#s-circulo"/></svg>
-            <div class="persiana" aria-hidden="true"></div>
-          </div>
-          <p class="casa__tag">Plataforma de ensayos clínicos</p>
-        </a>
-      </li>
-      <li class="casa" style="--rot:0.8deg;--h:430px;--tinta:#e9e6da;--luz:#ffc61a;--vel:0.065">
-        <a class="casa__a" href="/trabajo/blog-26/">
-          <div class="casa__muro muro--bloque">
-            <i class="reja" aria-hidden="true"></i>
-            <h3 class="pieza pieza--tag ">blog-26</h3>
-            <div class="slap-w"><p class="slap">El historial de versiones que rehice tres veces</p></div>
-            <svg class="peg peg--a" style="color:#e01818" aria-hidden="true"><use href="#s-hexa"/></svg>
-            <svg class="peg peg--b" style="color:#ffc61a" aria-hidden="true"><use href="#s-rayo"/></svg>
-            <div class="persiana" aria-hidden="true"></div>
-          </div>
-          <p class="casa__tag">Proyecto propio</p>
-        </a>
-      </li>
-      <li class="casa" style="--rot:-1.7deg;--h:400px;--tinta:#39ff14;--luz:#0d0f12;--vel:0.100">
-        <a class="casa__a" href="/trabajo/dynamic-forms/">
-          <div class="casa__muro muro--liso">
-            <i class="reja" aria-hidden="true"></i>
-            <h3 class="pieza pieza--spray pieza--l">Formularios configurables</h3>
-            <div class="slap-w"><p class="slap">Formularios definidos por configuración</p></div>
-            <svg class="peg peg--a" style="color:#d4a017" aria-hidden="true"><use href="#s-circulo"/></svg>
-            <svg class="peg peg--b" style="color:#e9e6da" aria-hidden="true"><use href="#s-estrella"/></svg>
-            <div class="persiana" aria-hidden="true"></div>
-          </div>
-          <p class="casa__tag">Plataforma de ensayos clínicos</p>
-        </a>
-      </li>
-      <li class="casa" style="--rot:1.3deg;--h:370px;--tinta:#e01818;--luz:#ff9a2a;--vel:0.135">
-        <a class="casa__a" href="/trabajo/shell-system/">
-          <div class="casa__muro muro--ladrillo">
-            <i class="reja" aria-hidden="true"></i>
-            <h3 class="pieza pieza--tag pieza--l">Pantallas configurables</h3>
-            <div class="slap-w"><p class="slap">Pantallas de seguimiento a partir de configuración</p></div>
-            <svg class="peg peg--a" style="color:#ffc61a" aria-hidden="true"><use href="#s-rayo"/></svg>
-            <svg class="peg peg--b" style="color:#39ff14" aria-hidden="true"><use href="#s-hexa"/></svg>
-            <div class="persiana" aria-hidden="true"></div>
-          </div>
-          <p class="casa__tag">Plataforma de ensayos clínicos</p>
-        </a>
-      </li>
-      <li class="casa" style="--rot:-1.4deg;--h:380px;--tinta:#d4a017;--luz:#0d0f12;--vel:0.030">
-        <a class="casa__a" href="/trabajo/scrum-poker/">
-          <div class="casa__muro muro--bloque">
-            <i class="reja" aria-hidden="true"></i>
-            <h3 class="pieza pieza--spray ">Scrum Poker</h3>
-            <div class="slap-w"><p class="slap">Planning poker en tiempo real</p></div>
-            <svg class="peg peg--a" style="color:#e9e6da" aria-hidden="true"><use href="#s-estrella"/></svg>
-            <svg class="peg peg--b" style="color:#e01818" aria-hidden="true"><use href="#s-circulo"/></svg>
-            <div class="persiana" aria-hidden="true"></div>
-          </div>
-          <p class="casa__tag">Proyecto propio</p>
-        </a>
-      </li>
-      <li class="casa" style="--rot:1.1deg;--h:420px;--tinta:#ff8a1f;--luz:#ffd35e;--vel:0.065">
-        <a class="casa__a" href="/trabajo/dev-platform/">
-          <div class="casa__muro muro--liso">
-            <i class="reja" aria-hidden="true"></i>
-            <h3 class="pieza pieza--tag pieza--l">Entorno de desarrollo local</h3>
-            <div class="slap-w"><p class="slap">Una herramienta de línea de comandos para el entorno local</p></div>
-            <svg class="peg peg--a" style="color:#39ff14" aria-hidden="true"><use href="#s-hexa"/></svg>
-            <svg class="peg peg--b" style="color:#d4a017" aria-hidden="true"><use href="#s-rayo"/></svg>
-            <div class="persiana" aria-hidden="true"></div>
-          </div>
-          <p class="casa__tag">Plataforma de ensayos clínicos</p>
-        </a>
-      </li>
-    </ul>
-    <div class="tilt tilt--sup" aria-hidden="true"></div>
-    <div class="tilt tilt--inf" aria-hidden="true"></div>
-  </section>
-
-  <section class="sobre" id="sobre-mi" data-mundo="2" aria-labelledby="sobre-t">
-    <div class="sobre__texto">
-      <h2 class="titulo" id="sobre-t"><span class="visually-hidden">Sobre mí</span><svg class="titulo__svg" viewBox="0 0 844 340" aria-hidden="true" focusable="false">
-   <defs><g id="t-sobre" font-family="'UnifrakturMaguntia', 'Old English Text MT', serif" text-anchor="middle"><text x="422" y="212" font-size="150">Sobre mí</text></g></defs>
-   <g filter="url(#sucio)" stroke-linejoin="round" stroke-linecap="round" transform="rotate(-2 422 170)">
-    <use href="#t-sobre" stroke="#000" stroke-width="42" fill="#000" transform="translate(8 11)" opacity=".9"/>
-    <use href="#t-sobre" stroke="#000" stroke-width="32" fill="#000"/>
-    <use href="#t-sobre" stroke="#e9e6da" stroke-width="11" fill="#e9e6da"/>
-    <use href="#t-sobre" stroke="#000" stroke-width="4" fill="url(#oro)"/>
-   </g>
-  </svg></h2>
-      <p class="hoja hoja--lead">Tech Lead y Technical Product Owner en LearUp, una plataforma de ensayos clínicos. Medellín, Colombia · remoto.</p>
-      <dl class="sobre__datos">
-        <div class="hoja"><dt>Foco actual</dt><dd>Arquitectura de sistemas en producción, migraciones incrementales y priorización técnica en un dominio regulado, con auditorías y datos que no admiten errores de migración.</dd></div>
-        <div class="hoja"><dt>Experiencia</dt><dd>Software desde 2019, con liderazgo técnico en los últimos años. Salud digital, fintech y SaaS.</dd></div>
-      </dl>
-
-      <h3 class="sobre__h">Trayectoria</h3>
-      <ol class="tickets">
-        <li style="--rot:-1.2deg"><b>LearUp</b><span>Sr. Associate Technical Product Owner</span><em>Defino y priorizo las iniciativas de la plataforma. Coordino desarrollo, QA y operaciones.</em></li>
-        <li style="--rot:.9deg"><b>LearUp</b><span>Sr. Associate Tech Lead</span><em>Lideré al equipo en diseño e implementación. Arquitectura de servicios y decisiones técnicas de fondo.</em></li>
-        <li style="--rot:-.6deg"><b>LearUp</b><span>Associate Product Full Stack Developer</span><em>Núcleo de la plataforma en JavaScript y Python. Entrega continua.</em></li>
-        <li style="--rot:1.3deg"><b>CogenTech</b><span>Product Full Stack Developer · jun 2023 – jul 2024</span><em>Ciclo completo de aplicaciones web. TypeScript, Python, PostgreSQL. APIs GraphQL y REST.</em></li>
-        <li style="--rot:-1deg"><b>Cielum / Omnivida</b><span>Software Developer · 2023</span><em>Gestor de APIs en Azure y automatización de procesos para salud.</em></li>
-        <li style="--rot:.7deg"><b>Newo</b><span>Software Developer · 2023</span><em>Lideré una pasarela de pagos con cobros automáticos y por demanda, integrada en una app móvil.</em></li>
-        <li style="--rot:-1.4deg"><b>Be4tech</b><span>Software Developer · ago 2021 – jun 2023</span><em>Aplicaciones híbridas y web, casi todas en salud digital.</em></li>
       </ol>
-
-      <h3 class="sobre__h">Cómo trabajo</h3>
-      <ul class="sobre__practicas">
-        <li><b>Inventario antes de proponer.</b> Un listado real de servicios, dependencias y uso convierte "el sistema se siente pesado" en datos que cualquiera puede evaluar.</li>
-        <li><b>Dos opciones con sus costos.</b> Las decisiones grandes llegan con alternativas, para que decida quien tiene el contexto de negocio.</li>
-        <li><b>Migración por partes.</b> El sistema nuevo absorbe piezas mientras el viejo sigue funcionando, con criterios de vuelta atrás definidos desde el inicio.</li>
-        <li><b>Decisiones por escrito.</b> Qué se decidió y por qué, para poder revisarlo cuando cambie el contexto.</li>
-      </ul>
-
-      <h3 class="sobre__h">Stack</h3>
-      <ul class="chips">
-        <li>TypeScript</li><li>Python</li><li>React</li><li>Next.js</li><li>Node.js</li><li>PostgreSQL</li>
-        <li>Docker</li><li>Kubernetes</li><li>ArgoCD</li><li>AWS</li><li>Cloudflare</li>
-        <li>GraphQL</li><li>REST</li><li>tRPC</li><li>Prisma</li><li>SQLAlchemy</li>
-        <li>FastAPI</li><li>Astro</li><li>React Native</li><li>Auth0</li><li>Stripe</li>
-      </ul>
+      <p class="barrio__pista solo-js" aria-hidden="true">Desliza para ver más casos →</p>
     </div>
-    <div class="sobre__eco">
-      <div class="eco" id="eco" aria-hidden="true"></div>
-      <div class="coll">
-        <figure class="foto foto--g">
-          <div class="foto__marco"><img src="/v3-1/img/graffiti-ivan.jpg" alt="Una pieza de graffiti en blanco, negro y plata con el nombre Ivan y el año 2019" width="720" height="350" loading="lazy" decoding="async"></div>
-          <figcaption>2019</figcaption>
-        </figure>
-        <figure class="foto foto--m foto--die">
-          <div class="foto__marco"><img src="/v3-1/img/sticker-moto-bosque.webp" alt="La moto vista desde atrás, recortada como un sticker" width="620" height="831" loading="lazy" decoding="async"></div>
-          <figcaption>La moto</figcaption>
-        </figure>
-        <figure class="foto foto--s">
-          <div class="foto__marco"><img src="/v3-1/img/silueta.jpg" alt="La silueta de una persona con gorra contra un cielo gris" width="760" height="1008" loading="lazy" decoding="async"></div>
-          <figcaption>De noche</figcaption>
-        </figure>
+    <div class="barrio" id="barrio-propios" aria-labelledby="barrio-propios-t">
+      <div class="letrero" style="--x:1120" data-parada data-tipo="letrero" data-barrio="propios" data-cx="1060" data-mantener="12">
+        <div class="letrero__placa"><h3 id="barrio-propios-t" class="letrero__titulo">Proyectos propios</h3><p class="letrero__n">8 casos</p></div>
+        <i class="letrero__poste" aria-hidden="true"></i>
       </div>
-      <div class="poses">
-        <figure class="pj pj--sentado"><img src="/v3-1/img/pj-sentado.webp" alt="El personaje sentado en un muro de piedra, con Medellín y su cable aéreo al fondo" width="760" height="667" loading="lazy" decoding="async"></figure>
-        <figure class="pj pj--pie"><img src="/v3-1/img/pj-pie.webp" alt="El personaje de pie con las manos en los bolsillos" width="420" height="1168" loading="lazy" decoding="async"></figure>
-        <figure class="pj pj--mano"><img src="/v3-1/img/pj-mano.webp" alt="Una mano haciendo el saludo shaka, con un reloj digital dorado" width="420" height="496" loading="lazy" decoding="async"></figure>
-        <figure class="pj pj--caballito"><img src="/v3-1/img/pj-caballito.webp" alt="El personaje haciendo un caballito con la moto" width="900" height="808" loading="lazy" decoding="async"></figure>
-        <figure class="pj pj--casete"><img src="/v3-1/img/pj-casete.webp" alt="Un casete con la etiqueta Medellín 1996 y la bandera de Colombia" width="420" height="305" loading="lazy" decoding="async"></figure>
-      </div>
-      <div class="album" id="album" hidden></div>
-      <figure class="tira">
-        <div class="tira__fotos">
-          <img src="/v3-1/img/fotograma-espacio.jpg" alt="Una moto de trail con su piloto flotando entre estrellas cuadradas" width="960" height="538" loading="lazy" decoding="async">
-          <img src="/v3-1/img/fotograma-caballos.jpg" alt="Caballos corriendo en un fotograma con bloques de compresión en verde y lila" width="960" height="447" loading="lazy" decoding="async">
-          <img src="/v3-1/img/fotograma-eco.jpg" alt="Una figura con copias desfasadas que dejan una estela de colores detrás" width="800" height="523" loading="lazy" decoding="async">
-        </div>
-        <figcaption>Referencias visuales</figcaption>
-      </figure>
-      <figure class="versus">
-        <div class="versus__marquesina"><img src="/v3-1/img/jax.webp" alt="Ilustración de Jax, de Mortal Kombat, con un puño rodeado de rayos" width="768" height="431" loading="lazy" decoding="async"></div>
-        <div class="versus__pantallas">
-          <div class="crt"><img src="/v3-1/img/mk-versus.webp" alt="Pantalla de pelea de un Mortal Kombat de los noventa: Liu Kang lanza una bola de fuego contra Scorpion" width="500" height="304" loading="lazy" decoding="async"></div>
-          <div class="crt"><img src="/v3-1/img/mk-ronda3.webp" alt="Pantalla de la ronda 3 de Mortal Kombat, con dos Scorpion frente a frente sobre un fondo rojo" width="474" height="237" loading="lazy" decoding="async"></div>
-        </div>
-        <img class="versus__consola" src="/v3-1/img/ps1-consola.webp" alt="Una consola PlayStation original con su mando" width="820" height="353" loading="lazy" decoding="async">
-        <img class="versus__mando" src="/v3-1/img/ps1-mando.webp" alt="El mando gris de la PlayStation original" width="460" height="293" loading="lazy" decoding="async">
-        <img class="versus__cage" src="/v3-1/img/johnny-cage.webp" alt="Johnny Cage, personaje de Mortal Kombat, en una pose desafiante" width="380" height="677" loading="lazy" decoding="async">
-        <figcaption>PS1 · Mortal Kombat</figcaption>
-      </figure>
+      <ol class="murales" role="list" aria-label="Casos de proyectos propios">
+      <li class="mural mural--v0 mural--c" style="--x:1212" data-parada data-tipo="mural" data-barrio="propios" data-n="1" data-de="8" data-cx="1148" data-mantener="12">
+        <a class="mural__a" href="/trabajo/sgc/">
+          <span class="mural__num" aria-hidden="true">01</span>
+          <h4 class="mural__titulo">Talonaria</h4>
+          <p class="mural__caso">Talonaria: un ERP multi-tenant para pymes colombianas</p>
+          <span class="mural__abrir">Abrir caso <span aria-hidden="true">→</span></span>
+          <span class="mural__luz" aria-hidden="true"></span>
+          <span class="mural__sombra" aria-hidden="true"></span>
+        </a>
+      </li>
+      <li class="mural mural--v1 mural--c" style="--x:1300" data-parada data-tipo="mural" data-barrio="propios" data-n="2" data-de="8" data-cx="1236" data-mantener="12">
+        <a class="mural__a" href="/trabajo/english/">
+          <span class="mural__num" aria-hidden="true">02</span>
+          <h4 class="mural__titulo">English A1</h4>
+          <p class="mural__caso">Una app para practicar inglés a diario</p>
+          <span class="mural__abrir">Abrir caso <span aria-hidden="true">→</span></span>
+          <span class="mural__luz" aria-hidden="true"></span>
+          <span class="mural__sombra" aria-hidden="true"></span>
+        </a>
+      </li>
+      <li class="mural mural--v2 mural--c" style="--x:1388" data-parada data-tipo="mural" data-barrio="propios" data-n="3" data-de="8" data-cx="1324" data-mantener="12">
+        <a class="mural__a" href="/trabajo/eco-loop/">
+          <span class="mural__num" aria-hidden="true">03</span>
+          <h4 class="mural__titulo">eco-loop</h4>
+          <p class="mural__caso">Dos IAs conversando entre ellas</p>
+          <span class="mural__abrir">Abrir caso <span aria-hidden="true">→</span></span>
+          <span class="mural__luz" aria-hidden="true"></span>
+          <span class="mural__sombra" aria-hidden="true"></span>
+        </a>
+      </li>
+      <li class="mural mural--v0 mural--c" style="--x:1476" data-parada data-tipo="mural" data-barrio="propios" data-n="4" data-de="8" data-cx="1412" data-mantener="12">
+        <a class="mural__a" href="/trabajo/mini-astro/">
+          <span class="mural__num" aria-hidden="true">04</span>
+          <h4 class="mural__titulo">mini-astro</h4>
+          <p class="mural__caso">Un generador de sitios estáticos propio</p>
+          <span class="mural__abrir">Abrir caso <span aria-hidden="true">→</span></span>
+          <span class="mural__luz" aria-hidden="true"></span>
+          <span class="mural__sombra" aria-hidden="true"></span>
+        </a>
+      </li>
+      <li class="mural mural--v1 mural--m" style="--x:1564" data-parada data-tipo="mural" data-barrio="propios" data-n="5" data-de="8" data-cx="1500" data-mantener="12">
+        <a class="mural__a" href="/trabajo/avatar-studio/">
+          <span class="mural__num" aria-hidden="true">05</span>
+          <h4 class="mural__titulo">Avatar Studio</h4>
+          <p class="mural__caso">Un pipeline local para avatares que hablan</p>
+          <span class="mural__abrir">Abrir caso <span aria-hidden="true">→</span></span>
+          <span class="mural__luz" aria-hidden="true"></span>
+          <span class="mural__sombra" aria-hidden="true"></span>
+        </a>
+      </li>
+      <li class="mural mural--v2 mural--c" style="--x:1652" data-parada data-tipo="mural" data-barrio="propios" data-n="6" data-de="8" data-cx="1588" data-mantener="12">
+        <a class="mural__a" href="/trabajo/megabyte/">
+          <span class="mural__num" aria-hidden="true">06</span>
+          <h4 class="mural__titulo">megabyte</h4>
+          <p class="mural__caso">Un agente de terminal con modelos locales</p>
+          <span class="mural__abrir">Abrir caso <span aria-hidden="true">→</span></span>
+          <span class="mural__luz" aria-hidden="true"></span>
+          <span class="mural__sombra" aria-hidden="true"></span>
+        </a>
+      </li>
+      <li class="mural mural--v0 mural--c" style="--x:1740" data-parada data-tipo="mural" data-barrio="propios" data-n="7" data-de="8" data-cx="1676" data-mantener="12">
+        <a class="mural__a" href="/trabajo/blog-26/">
+          <span class="mural__num" aria-hidden="true">07</span>
+          <h4 class="mural__titulo">blog-26</h4>
+          <p class="mural__caso">El historial de versiones que rehice tres veces</p>
+          <span class="mural__abrir">Abrir caso <span aria-hidden="true">→</span></span>
+          <span class="mural__luz" aria-hidden="true"></span>
+          <span class="mural__sombra" aria-hidden="true"></span>
+        </a>
+      </li>
+      <li class="mural mural--v1 mural--c" style="--x:1828" data-parada data-tipo="mural" data-barrio="propios" data-n="8" data-de="8" data-cx="1764" data-mantener="12">
+        <a class="mural__a" href="/trabajo/scrum-poker/">
+          <span class="mural__num" aria-hidden="true">08</span>
+          <h4 class="mural__titulo">Scrum Poker</h4>
+          <p class="mural__caso">Planning poker en tiempo real</p>
+          <span class="mural__abrir">Abrir caso <span aria-hidden="true">→</span></span>
+          <span class="mural__luz" aria-hidden="true"></span>
+          <span class="mural__sombra" aria-hidden="true"></span>
+        </a>
+      </li>
+      </ol>
+      <p class="barrio__pista solo-js" aria-hidden="true">Desliza para ver más casos →</p>
     </div>
-  </section>
-
-  <section class="ficha" id="contacto" data-mundo="3" aria-labelledby="contacto-t">
-    <div class="ficha__w">
-    <i class="cinta-adhesiva cinta-adhesiva--a" aria-hidden="true"></i>
-    <i class="cinta-adhesiva cinta-adhesiva--b" aria-hidden="true"></i>
-    <div class="ficha__hoja">
-      <h2 class="ficha__titulo" id="contacto-t">Se busca</h2>
-      <div class="ficha__cuerpo">
-        <div class="ficha__foto" aria-hidden="true"><img class="ficha__moto" src="/v3-1/img/pj-frente.webp" alt="" width="640" height="1248" loading="lazy" decoding="async"><img class="ficha__yo" id="ficha-yo" alt="" hidden></div>
-        <div class="ficha__datos-w">
-          <p class="ficha__nombre">Iván Santander</p>
-          <p class="ficha__cargo">Tech Lead y Technical Product Owner</p>
-          <p class="ficha__texto">Para hablar de arquitectura, liderazgo técnico o de alguno de estos casos. Escríbeme.</p>
-          <dl class="ficha__datos" aria-label="Datos">
-            <div><dt>Años</dt><dd id="dato-anios">7</dd></div>
-            <div><dt>Desde</dt><dd>2019</dd></div>
-            <div><dt>Casos</dt><dd>18</dd></div>
-          </dl>
-        </div>
-      </div>
-      <ul class="ficha__enlaces">
+        </section>
+        <section id="taller" class="cap cap--taller" aria-labelledby="taller-t">
+          <h2 id="taller-t" class="visually-hidden">El taller: sobre mí</h2>
+  <div class="taller__fachada" style="--x:1946" data-parada data-tipo="puerta" data-cx="1882" data-mantener="24">
+    <div class="taller__rotulo">
+      <p class="taller__nombre">Taller</p>
+      <p class="taller__foco"><b>Foco actual</b> arquitectura de sistemas en producción, migraciones incrementales y priorización técnica en un dominio regulado, con auditorías y datos que no admiten errores de migración.</p>
+      <p class="taller__foco"><b>Experiencia</b> software desde 2019, con liderazgo técnico en los últimos años. Salud digital y fintech.</p>
+    </div>
+    <div class="taller__persiana" aria-hidden="true"></div>
+  </div>
+          <div class="taller__interior" aria-hidden="true" style="--x0:1934;--x1:2408"><i class="bombilla" style="--x:1980"></i><i class="bombilla" style="--x:2026"></i><i class="bombilla" style="--x:2072"></i><i class="bombilla" style="--x:2118"></i><i class="bombilla" style="--x:2164"></i><i class="bombilla" style="--x:2210"></i><i class="bombilla" style="--x:2256"></i><i class="bombilla" style="--x:2302"></i><i class="bombilla" style="--x:2348"></i><i class="bombilla" style="--x:2394"></i></div>
+  <article class="estacion estacion--orden" style="--x:2086" data-parada data-tipo="orden" data-cx="2022" data-mantener="120" aria-labelledby="orden-t">
+    <div class="orden__hoja">
+      <i class="orden__pinza" aria-hidden="true"></i>
+      <h3 id="orden-t" class="orden__titulo">Historial de servicio</h3>
+      <ol class="orden__lista" role="list">
+        <li class="orden__it"><b class="orden__emp">LearUp</b><span class="orden__rol">Sr. Associate Technical Product Owner</span><em class="orden__desc">Defino y priorizo las iniciativas de la plataforma. Coordino desarrollo, QA y operaciones.</em></li>
+        <li class="orden__it"><b class="orden__emp">LearUp</b><span class="orden__rol">Sr. Associate Tech Lead</span><em class="orden__desc">Lideré al equipo en diseño e implementación. Arquitectura de servicios y decisiones técnicas de fondo.</em></li>
+        <li class="orden__it"><b class="orden__emp">LearUp</b><span class="orden__rol">Associate Product Full Stack Developer</span><em class="orden__desc">Núcleo de la plataforma en JavaScript y Python. Entrega continua.</em></li>
+        <li class="orden__it"><b class="orden__emp">CogenTech</b><span class="orden__rol">Product Full Stack Developer · jun 2023 – jul 2024</span><em class="orden__desc">Ciclo completo de aplicaciones web. TypeScript, Python, PostgreSQL. APIs GraphQL y REST.</em></li>
+        <li class="orden__it"><b class="orden__emp">Cielum / Omnivida</b><span class="orden__rol">Software Developer · 2023</span><em class="orden__desc">Gestor de APIs en Azure y automatización de procesos para salud.</em></li>
+        <li class="orden__it"><b class="orden__emp">Newo</b><span class="orden__rol">Software Developer · 2023</span><em class="orden__desc">Lideré una pasarela de pagos con cobros automáticos y por demanda, integrada en una app móvil.</em></li>
+        <li class="orden__it"><b class="orden__emp">Be4tech</b><span class="orden__rol">Software Developer · ago 2021 – jun 2023</span><em class="orden__desc">Aplicaciones híbridas y web, casi todas en salud digital.</em></li>
+      </ol>
+    </div>
+  </article>
+  <article class="estacion estacion--reglas" style="--x:2216" data-parada data-tipo="reglas" data-cx="2152" data-mantener="90" aria-labelledby="reglas-t">
+    <div class="reglas__pared">
+      <h3 id="reglas-t" class="reglas__titulo">Cómo trabajo</h3>
+      <ol class="reglas__lista" role="list">
+        <li class="regla"><h4 class="regla__t">Inventario antes de proponer</h4><p class="regla__d">Un listado real de servicios, dependencias y uso convierte &quot;el sistema se siente pesado&quot; en datos que cualquiera puede evaluar.</p></li>
+        <li class="regla"><h4 class="regla__t">Dos opciones con sus costos</h4><p class="regla__d">Las decisiones grandes llegan con alternativas, para que decida quien tiene el contexto de negocio.</p></li>
+        <li class="regla"><h4 class="regla__t">Migración por partes</h4><p class="regla__d">El sistema nuevo absorbe piezas mientras el viejo sigue funcionando, con criterios de vuelta atrás definidos desde el inicio.</p></li>
+        <li class="regla"><h4 class="regla__t">Decisiones por escrito</h4><p class="regla__d">Qué se decidió y por qué, para poder revisarlo cuando cambie el contexto.</p></li>
+      </ol>
+    </div>
+  </article>
+  <article class="estacion estacion--stack" style="--x:2346" data-parada data-tipo="stack" data-cx="2282" data-mantener="70" aria-labelledby="stack-t">
+    <div class="tablero">
+      <h3 id="stack-t" class="tablero__titulo">Herramientas</h3>
+        <section class="tablero__grupo"><h4 class="tablero__g">Principal</h4><ul class="tablero__fila" role="list"><li class="herramienta">TypeScript</li><li class="herramienta">Python</li><li class="herramienta">React</li><li class="herramienta">Next.js</li><li class="herramienta">Node.js</li><li class="herramienta">PostgreSQL</li></ul></section>
+        <section class="tablero__grupo"><h4 class="tablero__g">Infraestructura</h4><ul class="tablero__fila" role="list"><li class="herramienta">Docker</li><li class="herramienta">Kubernetes</li><li class="herramienta">ArgoCD</li><li class="herramienta">AWS</li><li class="herramienta">Cloudflare</li></ul></section>
+        <section class="tablero__grupo"><h4 class="tablero__g">Datos y APIs</h4><ul class="tablero__fila" role="list"><li class="herramienta">GraphQL</li><li class="herramienta">REST</li><li class="herramienta">tRPC</li><li class="herramienta">Prisma</li><li class="herramienta">SQLAlchemy</li></ul></section>
+        <section class="tablero__grupo"><h4 class="tablero__g">También</h4><ul class="tablero__fila" role="list"><li class="herramienta">FastAPI</li><li class="herramienta">Astro</li><li class="herramienta">React Native</li><li class="herramienta">Auth0</li><li class="herramienta">Stripe</li></ul></section>
+    </div>
+  </article>
+        </section>
+        <section id="llegada" class="cap cap--llegada" aria-labelledby="llegada-t">
+    <div class="cartel" style="--x:2466" data-parada data-tipo="llegada" data-cx="2400" data-mantener="50">
+      <i class="cinta cinta--a" aria-hidden="true"></i><i class="cinta cinta--b" aria-hidden="true"></i>
+      <h2 id="llegada-t" class="cartel__titulo">Se busca</h2>
+      <p class="cartel__nombre">Iván Santander</p>
+      <p class="cartel__cargo">Tech Lead y Technical Product Owner</p>
+      <p class="cartel__texto">Para hablar de arquitectura, liderazgo técnico o de alguno de estos casos. Escríbeme.</p>
+      <dl class="cartel__datos" aria-label="Datos">
+        <div><dt>Años</dt><dd>7</dd></div>
+        <div><dt>Desde</dt><dd>2019</dd></div>
+        <div><dt>Casos</dt><dd>18</dd></div>
+      </dl>
+      <ul class="cartel__enlaces" role="list">
         <li><a href="https://www.linkedin.com/in/ivan-santander/" rel="noopener noreferrer" target="_blank">LinkedIn</a></li>
         <li><a href="https://github.com/ivansantander-hub" rel="noopener noreferrer" target="_blank">GitHub</a></li>
-        <li><a href="#casos">Ver casos</a></li>
         <li><a href="/">Portafolio actual</a></li>
+        <li><a href="#loma" data-irloma>Volver al inicio</a></li>
       </ul>
-      <p class="ficha__lugar">Medellín, Colombia · remoto</p>
+      <p class="cartel__lugar">Medellín, Colombia · remoto</p>
     </div>
+        </section>
+      </div>
+    <div class="lineas" aria-hidden="true"></div>
+    <div class="moto" id="moto">
+      <div class="moto__haz" aria-hidden="true"></div>
+      <div class="moto__cuerpo" id="moto-cuerpo">
+        <img class="moto__img" src="/v3-1/img/dt.webp" alt="Un joven con gorra, gafas y chaqueta blanca y negra sobre una moto DT blanca, en un sticker de estilo cómic" width="1000" height="874" fetchpriority="high" decoding="async">
+        <span class="moto__humo" aria-hidden="true"><i></i><i></i><i></i><i></i></span>
+      </div>
+      <div class="moto__sombra" aria-hidden="true"></div>
+      <span class="moto__globo" aria-hidden="true">¡brrm!</span>
     </div>
-  </section>
-
+    <div class="ruta-nav solo-js" id="ruta-nav" aria-label="Recorrido de murales" role="group">
+      <button type="button" id="rn-ant" aria-label="Mural anterior">‹</button>
+      <p class="ruta-nav__txt"><span id="rn-barrio"></span><b id="rn-n"></b></p>
+      <button type="button" id="rn-sig" aria-label="Mural siguiente">›</button>
+    </div>
+    <p class="pista-ayuda solo-js" id="pista-ayuda">Baja para avanzar · mantén espacio o clic para acelerar</p>
+    </div>
+  </div>
 </main>
 
 <footer class="pie">
   <p>Iván Santander · Tech Lead y Technical Product Owner · Medellín, Colombia</p>
-  <p class="pie__credito">Ilustraciones y stickers del personaje: material aportado por Iván Santander. Fotogramas de un videoclip de MRB. Yamaha, Puma, Nike y PlayStation (Sony) son marcas de sus titulares y Mortal Kombat pertenece a los suyos: se muestran como referencia cultural y de homenaje.</p>
+  <p class="pie__credito">Ilustración de la moto y el personaje: material aportado por Iván Santander. Canciones: «El estren» e «India conocida», pertenecientes a sus autores y usadas como banda sonora de esta versión experimental.</p>
 </footer>
 
-<noscript><p class="sin-js">Esta versión necesita JavaScript para el fondo animado. La página normal está en <a href="/">ivansantander.com</a>.</p></noscript>
+<noscript><p class="sin-js">Esta versión funciona mejor con JavaScript. La página normal está en <a href="/">ivansantander.com</a>.</p></noscript>
 
+<script type="application/json" id="geo">{"mundoW": 2526, "sxMural": 64, "xPuerta": 1946, "xTaller0": 1934, "xTaller1": 2408, "alturas": {}, "paradas": [{"kind": "loma", "cx": 0}, {"kind": "letrero", "cx": 90}, {"kind": "mural", "cx": 172}, {"kind": "mural", "cx": 260}, {"kind": "mural", "cx": 348}, {"kind": "mural", "cx": 436}, {"kind": "mural", "cx": 524}, {"kind": "mural", "cx": 612}, {"kind": "mural", "cx": 700}, {"kind": "mural", "cx": 788}, {"kind": "mural", "cx": 876}, {"kind": "mural", "cx": 964}, {"kind": "letrero", "cx": 1060}, {"kind": "mural", "cx": 1148}, {"kind": "mural", "cx": 1236}, {"kind": "mural", "cx": 1324}, {"kind": "mural", "cx": 1412}, {"kind": "mural", "cx": 1500}, {"kind": "mural", "cx": 1588}, {"kind": "mural", "cx": 1676}, {"kind": "mural", "cx": 1764}, {"kind": "puerta", "cx": 1882}, {"kind": "orden", "cx": 2022}, {"kind": "reglas", "cx": 2152}, {"kind": "stack", "cx": 2282}, {"kind": "llegada", "cx": 2400}]}</script>
 <script src="/v3-1/v3.js" defer></script>
 </body>
 </html>

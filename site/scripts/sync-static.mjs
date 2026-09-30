@@ -114,12 +114,9 @@ for (const [pkg, file] of variableFonts) {
   copyFile(join(nm, '@fontsource-variable', pkg, 'files', file), join(fontsOut, file));
 }
 
-// /v3/: graffiti (Rubik Spray Paint, Sedgwick Ave Display), blackletter (UnifrakturMaguntia)
-// y condensada pesada (Anton). Todas OFL; latin y, cuando existe, latin-ext.
+// /v3.1: graffiti (Rubik Spray Paint) y condensada pesada (Anton). Ambas OFL; latin y latin-ext.
 for (const [pkg, files] of [
   ['rubik-spray-paint', ['latin', 'latin-ext']],
-  ['sedgwick-ave-display', ['latin', 'latin-ext']],
-  ['unifrakturmaguntia', ['latin']],
   ['anton', ['latin', 'latin-ext']],
 ]) {
   for (const sub of files) {

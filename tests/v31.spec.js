@@ -3,156 +3,209 @@ const { test, expect } = require('@playwright/test');
 const fs = require('node:fs');
 const path = require('node:path');
 
-// Página independiente en /v3.1/ (carpeta site/public/v3-1, con reescritura en serve.json). No comparte nada con el resto del sitio;
-// estas pruebas comprueban que se presenta bien y que no se rompe lo que enlaza.
+// v3.1 «La ruta» (site/public/v3-1, servida en /v3.1/). Una noche en moto por Medellín:
+// radio → loma → dos barrios de murales → taller → llegada. Página independiente del sitio.
 
-const CASOS = fs
-  .readdirSync(path.join(__dirname, '..', 'site', 'src', 'content', 'work'))
-  .filter((f) => f.endsWith('.es.md')).length;
+const RAIZ = path.join(__dirname, '..');
+const CASOS = fs.readdirSync(path.join(RAIZ, 'site', 'src', 'content', 'work')).filter((f) => f.endsWith('.es.md')).length;
 const PROHIBIDAS = /\b(crudo|raw|lcd|rave|arco[ií]ris|rainbow|kawaii)\b/i;
+const MARCAS = /\b(yamaha|puma|nike|playstation|mortal kombat)\b/i;
 
-test.describe('v3.1', () => {
-  test.beforeEach(async ({ page }) => {
-    await page.goto('/v3.1/', { waitUntil: 'domcontentloaded' });
+async function entrar(page, conMusica = false) {
+  await page.goto('/v3.1/', { waitUntil: 'load' });
+  await expect(page.locator('#radio')).toBeVisible();
+  await page.click(conMusica ? '#encender' : '#sinmusica');
+  await expect(page.locator('#radio')).toBeHidden();
+}
+const enViaje = (page) => page.evaluate(() => document.documentElement.classList.contains('modo-viaje'));
+
+test.describe('v3.1 · La ruta', () => {
+  test('la radio va primero y no pide audio hasta que hay un gesto', async ({ page }) => {
+    const mp3 = [];
+    page.on('request', (r) => { if (/\.mp3/.test(r.url())) mp3.push(r.url()); });
+    await page.goto('/v3.1/', { waitUntil: 'load' });
+    await expect(page.getByRole('dialog')).toBeVisible();
+    await expect(page.locator('input[name="cancion"]')).toHaveCount(2);
+    await expect(page.locator('#sinmusica')).toBeVisible();
+    const a = await page.evaluate(() => { const e = document.getElementById('cancion'); return { paused: e.paused, preload: e.preload, src: e.getAttribute('src') }; });
+    expect(a).toEqual({ paused: true, preload: 'none', src: null });
+    await page.waitForTimeout(600);
+    expect(mp3).toEqual([]);
   });
 
-  test('se presenta de un vistazo: nombre, cargo y ciudad', async ({ page }) => {
+  test('se puede entrar sin música y la canción sigue en pausa', async ({ page }) => {
+    await entrar(page, false);
     await expect(page.getByRole('heading', { level: 1, name: 'Iván Santander' })).toBeVisible();
-    await expect(page.locator('.cargo')).toContainText('Tech Lead y Technical Product Owner');
-    await expect(page.locator('.lugar')).toHaveText('Medellín, Colombia');
+    await expect(page.locator('.rol')).toHaveText('Tech Lead y Technical Product Owner');
+    expect(await page.evaluate(() => document.getElementById('cancion').paused)).toBe(true);
+    await expect(page.locator('#audio')).toBeVisible();
   });
 
-  test('la barra lleva a casos, sobre mí y contacto', async ({ page }) => {
-    const hrefs = await page.locator('.barra__nav a').evaluateAll((els) => els.map((e) => e.getAttribute('href')));
-    expect(hrefs).toEqual(['#casos', '#sobre-mi', '#contacto']);
-    for (const h of hrefs) await expect(page.locator(String(h))).toHaveCount(1);
-    await expect(page.locator('.barra__atras')).toHaveAttribute('href', '/');
+  test('Encender arranca la canción; los controles cambian, pausan y silencian', async ({ page, browserName }) => {
+    test.skip(browserName !== 'chromium', 'la prueba de audio usa Chromium');
+    await entrar(page, true);
+    await expect.poll(() => page.evaluate(() => !document.getElementById('cancion').paused), { timeout: 8000 }).toBe(true);
+    await expect(page.locator('#audio-titulo')).toHaveText('El estren');
+    await page.click('#a-sig');
+    await expect.poll(() => page.evaluate(() => document.getElementById('cancion').getAttribute('src'))).toBe('/audio/india-conocida.mp3');
+    expect(await page.evaluate(() => localStorage.getItem('ruta:cancion'))).toBe('1');
+    await page.click('#a-mudo');
+    await expect(page.locator('#a-mudo')).toHaveAttribute('aria-pressed', 'true');
+    await page.click('#a-play');
+    await expect.poll(() => page.evaluate(() => document.getElementById('cancion').paused)).toBe(true);
   });
 
-  test('cada caso enlaza a una página que existe', async ({ page, request }) => {
-    const hrefs = await page.locator('.calle a').evaluateAll((els) => els.map((e) => e.getAttribute('href') || ''));
+  test('la pestaña oculta pausa la música y al volver se reanuda', async ({ page, browserName }) => {
+    test.skip(browserName !== 'chromium', 'la prueba de audio usa Chromium');
+    await entrar(page, true);
+    await expect.poll(() => page.evaluate(() => !document.getElementById('cancion').paused), { timeout: 8000 }).toBe(true);
+    await page.evaluate(() => { Object.defineProperty(document, 'hidden', { value: true, configurable: true }); document.dispatchEvent(new Event('visibilitychange')); });
+    await expect.poll(() => page.evaluate(() => document.getElementById('cancion').paused)).toBe(true);
+    await page.evaluate(() => { Object.defineProperty(document, 'hidden', { value: false, configurable: true }); document.dispatchEvent(new Event('visibilitychange')); });
+    await expect.poll(() => page.evaluate(() => !document.getElementById('cancion').paused), { timeout: 5000 }).toBe(true);
+  });
+
+  test('los 18 casos existen, en dos barrios (10 y 8), y todos los enlaces responden 200', async ({ page, request }) => {
+    await page.goto('/v3.1/', { waitUntil: 'domcontentloaded' });
+    expect(await page.locator('#barrio-clinica .mural__a').count()).toBe(10);
+    expect(await page.locator('#barrio-propios .mural__a').count()).toBe(8);
+    const hrefs = await page.locator('.mural__a').evaluateAll((els) => els.map((e) => e.getAttribute('href') || ''));
     expect(hrefs).toHaveLength(CASOS);
     expect(new Set(hrefs).size).toBe(CASOS);
-    for (const h of hrefs) {
-      const r = await request.get(h);
-      expect(r.status(), h).toBe(200);
-    }
+    for (const h of hrefs) expect((await request.get(h)).status(), h).toBe(200);
   });
 
-  test('el contacto solo muestra datos verdaderos', async ({ page }) => {
+  test('el recorrido con las flechas: un solo mural en foco a la vez y la moto no cambia', async ({ page }) => {
+    await entrar(page);
+    test.skip(!(await enViaje(page)), 'el recorrido horizontal es del escritorio');
+    const src = await page.locator('.moto__img').getAttribute('src');
+    await page.keyboard.press('ArrowRight');                         // letrero del barrio
+    await page.keyboard.press('ArrowRight');                         // primer mural
+    await expect(page.locator('.mural.is-foco')).toHaveCount(1, { timeout: 9000 });
+    await expect(page.locator('.mural.is-foco .mural__a')).toHaveAttribute('href', /\/trabajo\/.+\//);
+    await expect(page.locator('#rn-barrio')).toHaveText('Plataforma clínica');
+    await expect(page.locator('#rn-n')).toHaveText('1 / 10');
+    await expect(page.locator('.mural.is-foco')).toBeInViewport();
+    await page.keyboard.press('ArrowRight');
+    await expect(page.locator('#rn-n')).toHaveText('2 / 10', { timeout: 9000 });
+    await expect(page.locator('.mural.is-foco')).toHaveCount(1);
+    expect(await page.locator('.moto__img').getAttribute('src')).toBe(src);
+    expect(await page.locator('.moto__img').count()).toBe(1);        // una sola moto, siempre la misma
+    expect(await page.evaluate(() => document.documentElement.scrollWidth - innerWidth)).toBeLessThanOrEqual(0);
+  });
+
+  test('los capítulos llevan a la loma, el taller y la llegada', async ({ page }) => {
+    await entrar(page);
+    test.skip(!(await enViaje(page)), 'el recorrido horizontal es del escritorio');
+    await page.click('.capitulos a[data-cap="taller"]');
+    await expect(page.locator('html')).toHaveAttribute('data-cap', 'taller', { timeout: 12000 });
+    await expect(page.locator('.capitulos a[aria-current="true"]')).toHaveText('El taller');
+    await page.click('.capitulos a[data-cap="llegada"]');
+    await expect(page.locator('html')).toHaveAttribute('data-cap', 'llegada', { timeout: 15000 });
+    await expect(page.getByRole('heading', { name: 'Se busca' })).toBeInViewport();
+    await page.click('.capitulos a[data-cap="loma"]');
+    await expect(page.locator('html')).toHaveAttribute('data-cap', 'loma', { timeout: 15000 });
+  });
+
+  test('el taller revela el historial de servicio paso a paso', async ({ page }) => {
+    await entrar(page);
+    test.skip(!(await enViaje(page)), 'el recorrido horizontal es del escritorio');
+    await page.click('.capitulos a[data-cap="taller"]');
+    await expect(page.locator('html')).toHaveAttribute('data-cap', 'taller', { timeout: 12000 });
+    await page.keyboard.press('ArrowRight');                          // la primera estación: el historial
+    await expect(page.locator('.orden__it.es-ahora')).toHaveCount(1, { timeout: 9000 });
+    expect(await page.locator('.orden__it.es-luego').count()).toBeGreaterThan(0);
+  });
+
+  test('el contenido es real: trayectoria, reglas, stack y los enlaces del cartel', async ({ page }) => {
+    await page.goto('/v3.1/', { waitUntil: 'domcontentloaded' });
+    expect(await page.locator('.orden__it').count()).toBe(7);
+    expect(await page.locator('.regla').count()).toBe(4);
+    expect(await page.locator('.herramienta').count()).toBe(21);
+    await expect(page.locator('.taller__foco').first()).toContainText('arquitectura de sistemas');
+    const html = await page.content();
+    expect(html).not.toMatch(/SaaS/);
+    expect(html).toMatch(/Salud digital y fintech/);
     const anios = new Date().getFullYear() - 2019;
-    await expect(page.locator('#dato-anios')).toHaveText(String(anios));
-    await expect(page.locator('.ficha__datos')).toContainText('2019');
-    await expect(page.locator('.ficha__datos')).toContainText(String(CASOS));
-    const hrefs = await page.locator('.ficha__enlaces a').evaluateAll((els) => els.map((e) => e.getAttribute('href') || ''));
-    expect(hrefs.some((h) => h.includes('linkedin.com/in/ivan-santander'))).toBe(true);
-    expect(hrefs.some((h) => h.includes('github.com/ivansantander-hub'))).toBe(true);
+    await expect(page.locator('.cartel__datos')).toContainText(String(anios));
+    await expect(page.locator('.cartel__datos')).toContainText(String(CASOS));
+    const enl = await page.locator('.cartel__enlaces a').evaluateAll((els) => els.map((e) => e.getAttribute('href') || ''));
+    expect(enl.some((h) => h.includes('linkedin.com/in/ivan-santander'))).toBe(true);
+    expect(enl.some((h) => h.includes('github.com/ivansantander-hub'))).toBe(true);
   });
 
-  test('sin texto de relleno ni nombres de la dirección anterior', async ({ page }) => {
-    const texto = await page.locator('body').innerText();
-    expect(texto).not.toMatch(PROHIBIDAS);
-    const fuente = await page.content();
-    expect(fuente).not.toMatch(PROHIBIDAS);
-  });
-
-  test('no hay scroll horizontal', async ({ page }) => {
-    await page.waitForTimeout(400);
-    const sobra = await page.evaluate(() => document.documentElement.scrollWidth - innerWidth);
-    expect(sobra).toBeLessThanOrEqual(0);
-  });
-
-  test('con movimiento reducido las animaciones se apagan', async ({ browser }) => {
-    const ctx = await browser.newContext({ reducedMotion: 'reduce' });
-    const p = await ctx.newPage();
-    await p.goto('/v3.1/', { waitUntil: 'domcontentloaded' });
-    const dur = await p.evaluate(() => getComputedStyle(document.querySelector('.moto__mueve')).animationDuration);
-    expect(dur).toBe('0s');
-    const grano = await p.evaluate(() => getComputedStyle(document.querySelector('.grano')).animationName);
-    expect(grano).toBe('none');
-    await ctx.close();
-  });
-
-  test('/v3.1 sin barra final también responde con la página', async ({ request }) => {
-    for (const ruta of ['/v3.1', '/v3.1/']) {
-      const r = await request.get(ruta);
-      expect(r.status(), ruta).toBe(200);
-      expect(await r.text(), ruta).toContain('Iván Santander');
+  test('sin marcas, sin palabras de las direcciones anteriores y sin peticiones externas', async ({ page }) => {
+    const hosts = new Set();
+    page.on('request', (r) => { const u = new URL(r.url()); if (!/^(data|blob):/.test(u.protocol)) hosts.add(u.host); });
+    await page.goto('/v3.1/', { waitUntil: 'load' });
+    const html = await page.content();
+    expect(html).not.toMatch(PROHIBIDAS);
+    expect(html).not.toMatch(MARCAS);
+    for (const f of ['v3.css', 'v3.js']) {
+      expect(fs.readFileSync(path.join(RAIZ, 'site', 'public', 'v3-1', f), 'utf8'), f).not.toMatch(PROHIBIDAS);
     }
+    expect([...hosts].filter((h) => !h.startsWith('127.0.0.1') && !h.startsWith('localhost'))).toEqual([]);
   });
 
-  test('la ruta lateral tiene una parada por sección y marca la actual', async ({ page }) => {
-    const hrefs = await page.locator('.ruta a').evaluateAll((els) => els.map((e) => e.getAttribute('href')));
-    expect(hrefs).toEqual(['#inicio', '#casos', '#sobre-mi', '#contacto']);
-    await page.locator('#contacto').scrollIntoViewIfNeeded();
-    await expect(page.locator('.ruta a[aria-current="true"]')).toHaveAttribute('href', '#contacto');
+  test('máximo tres familias de letra', async () => {
+    const css = fs.readFileSync(path.join(RAIZ, 'site', 'public', 'v3-1', 'v3.css'), 'utf8');
+    const familias = new Set([...css.matchAll(/font-family:\s*"([^"]+)"/g)].map((m) => m[1]));
+    expect([...familias].sort()).toEqual(['Anton', 'Geist', 'Rubik Spray Paint']);
   });
 
-  test('carga sin errores ni peticiones fallidas (los huecos de foto no piden nada)', async ({ browser }) => {
-    const ctx = await browser.newContext();
+  test('con movimiento reducido no hay recorrido horizontal ni golpes de cámara', async ({ browser }) => {
+    const ctx = await browser.newContext({ reducedMotion: 'reduce', viewport: { width: 1440, height: 900 } });
     const p = await ctx.newPage();
-    const fallos = [];
-    p.on('pageerror', (e) => fallos.push(e.message));
-    p.on('requestfailed', (r) => fallos.push('requestfailed ' + r.url()));
-    p.on('response', (r) => { if (r.status() >= 400) fallos.push(r.status() + ' ' + r.url()); });
     await p.goto('/v3.1/', { waitUntil: 'load' });
-    await p.waitForTimeout(800);
+    await p.click('#sinmusica');
+    expect(await enViaje(p)).toBe(false);
+    const pos = await p.evaluate(() => ['#loma', '#barrio-clinica', '#barrio-propios', '#taller', '#llegada'].map((s) => Math.round(document.querySelector(s).getBoundingClientRect().top + scrollY)));
+    for (let i = 1; i < pos.length; i++) expect(pos[i], `capítulo ${i}`).toBeGreaterThan(pos[i - 1]);   // recorrido vertical simple
+    expect(await p.evaluate(() => document.documentElement.scrollWidth - innerWidth)).toBeLessThanOrEqual(0);
+    expect(await p.evaluate(() => getComputedStyle(document.getElementById('camara')).transform)).toBe('none');
     await ctx.close();
-    expect(fallos).toEqual([]);
   });
 
-  test('la intro de cinta termina sola y deja la página usable', async ({ page }) => {
-    await page.waitForTimeout(1800);
-    const op = await page.evaluate(() => getComputedStyle(document.querySelector('.carga')).visibility);
-    expect(op).toBe('hidden');
+  test('sin JavaScript: contenido completo y enlaces, sin radio', async ({ browser }) => {
+    const ctx = await browser.newContext({ javaScriptEnabled: false, viewport: { width: 1440, height: 900 } });
+    const p = await ctx.newPage();
+    await p.goto('/v3.1/', { waitUntil: 'load' });
+    await expect(p.locator('#radio')).toBeHidden();
+    await expect(p.locator('#audio')).toBeHidden();
+    expect(await p.locator('.mural__a').count()).toBe(CASOS);
+    await expect(p.getByRole('heading', { level: 1, name: 'Iván Santander' })).toHaveCount(1);
+    await expect(p.locator('.orden__it').first()).toBeVisible();
+    await expect(p.locator('.cartel__enlaces a').first()).toBeVisible();
+    await ctx.close();
   });
 
-  test('pulsar y arrastrar sobre el fondo no rompe nada (spray)', async ({ page, browserName }) => {
-    test.skip(browserName !== 'chromium', 'el spray es solo de ratón');
-    await page.mouse.move(400, 200);
-    await page.mouse.down();
-    await page.mouse.move(700, 260, { steps: 8 });
-    await page.mouse.up();
-    await expect(page.getByRole('heading', { level: 1, name: 'Iván Santander' })).toBeVisible();
+  test('en móvil los murales son un carrusel con swipe y la página no se desborda', async ({ page, isMobile }) => {
+    test.skip(!isMobile, 'solo móvil');
+    await entrar(page);
+    expect(await enViaje(page)).toBe(false);
+    const c = await page.evaluate(() => { const m = document.querySelector('.murales'); return { sw: m.scrollWidth, cw: m.clientWidth, snap: getComputedStyle(m).scrollSnapType }; });
+    expect(c.sw).toBeGreaterThan(c.cw * 3);
+    expect(c.snap).toContain('x');
+    expect(await page.evaluate(() => document.documentElement.scrollWidth - innerWidth)).toBeLessThanOrEqual(0);
   });
 
-  test('los fotogramas de referencia están en la página y cargan', async ({ page }) => {
-    await page.waitForTimeout(600);
-    const figuras = page.locator('figure img');
-    expect(await figuras.count()).toBe(22);
-    for (const img of await figuras.all()) {
-      await img.scrollIntoViewIfNeeded();
-      await expect.poll(() => img.evaluate((i) => i.complete && i.naturalWidth > 0)).toBe(true);
-      expect(await img.getAttribute('alt')).toBeTruthy();
-    }
-    await expect(page.locator('.pie__credito')).toContainText('referencia cultural');
-    await expect(page.locator('.pie__credito')).toContainText('Sony');
+  test('mantener espacio hace rugir la moto', async ({ page }) => {
+    await entrar(page);
+    test.skip(!(await enViaje(page)), 'el rugido con teclado es del recorrido de escritorio');
+    await page.evaluate(() => document.activeElement && document.activeElement.blur());
+    await page.keyboard.down('Space');
+    await expect(page.locator('#moto')).toHaveClass(/rugiendo/, { timeout: 4000 });
+    await page.keyboard.up('Space');
+    await expect(page.locator('#moto')).not.toHaveClass(/rugiendo/, { timeout: 4000 });
   });
 
-  test('el corte de cinta con foto no bloquea los clics ni deja rastro', async ({ page }) => {
-    await page.locator('#sobre-mi').scrollIntoViewIfNeeded();
-    await page.waitForTimeout(150);
-    const pe = await page.evaluate(() => getComputedStyle(document.querySelector('.corte')).pointerEvents);
-    expect(pe).toBe('none');
-    await page.waitForTimeout(1200);
-    const vis = await page.evaluate(() => getComputedStyle(document.querySelector('.corte')).visibility);
-    expect(vis).toBe('hidden');
-    await page.locator('.barra__nav a[href="#contacto"]').click();
-    await expect(page.locator('#contacto')).toBeInViewport();
-  });
-
-  test('la moto del héroe es la DT blanca y las fotos con personas no se publican', async ({ page, request }) => {
-    const moto = page.locator('.moto__foto');
-    await expect(moto).toHaveAttribute('src', '/v3-1/img/dt.webp');
-    await expect.poll(() => moto.evaluate((i) => i.complete && i.naturalWidth > 0)).toBe(true);
-    // sin ?privado el álbum no existe y no se pide ninguna foto de la carpeta privada
-    const pedidas = [];
-    page.on('request', (r) => { if (r.url().includes('/img/privado/')) pedidas.push(r.url()); });
-    await page.reload({ waitUntil: 'load' });
-    await page.waitForTimeout(500);
-    expect(pedidas).toEqual([]);
-    await expect(page.locator('#album')).toBeHidden();
-    const html = await (await request.get('/v3.1/')).text();
-    expect(html).not.toMatch(/privado\//);
+  test('el teclado llega a los controles con foco visible', async ({ page }) => {
+    await page.goto('/v3.1/', { waitUntil: 'load' });
+    await page.click('#sinmusica');
+    await expect(page.locator('#empezar')).toBeFocused();
+    await page.keyboard.press('Tab');
+    const foco = await page.evaluate(() => { const e = document.activeElement; const s = getComputedStyle(e); return { tag: e.tagName, contorno: s.outlineStyle !== 'none' || s.boxShadow !== 'none' }; });
+    expect(['A', 'BUTTON', 'INPUT']).toContain(foco.tag);
+    expect(foco.contorno).toBe(true);
   });
 });
