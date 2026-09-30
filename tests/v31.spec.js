@@ -119,7 +119,7 @@ test.describe('v3.1', () => {
   test('los fotogramas de referencia están en la página y cargan', async ({ page }) => {
     await page.waitForTimeout(600);
     const figuras = page.locator('figure img');
-    expect(await figuras.count()).toBe(15);
+    expect(await figuras.count()).toBe(22);
     for (const img of await figuras.all()) {
       await img.scrollIntoViewIfNeeded();
       await expect.poll(() => img.evaluate((i) => i.complete && i.naturalWidth > 0)).toBe(true);
