@@ -66,8 +66,10 @@ test.describe('v3.1', () => {
     const ctx = await browser.newContext({ reducedMotion: 'reduce' });
     const p = await ctx.newPage();
     await p.goto('/v3.1/', { waitUntil: 'domcontentloaded' });
-    const dur = await p.evaluate(() => getComputedStyle(document.querySelector('.rueda')).animationDuration);
+    const dur = await p.evaluate(() => getComputedStyle(document.querySelector('.moto__mueve')).animationDuration);
     expect(dur).toBe('0s');
+    const grano = await p.evaluate(() => getComputedStyle(document.querySelector('.grano')).animationName);
+    expect(grano).toBe('none');
     await ctx.close();
   });
 
@@ -117,13 +119,14 @@ test.describe('v3.1', () => {
   test('los fotogramas de referencia están en la página y cargan', async ({ page }) => {
     await page.waitForTimeout(600);
     const figuras = page.locator('figure img');
-    expect(await figuras.count()).toBe(4);
+    expect(await figuras.count()).toBe(16);
     for (const img of await figuras.all()) {
       await img.scrollIntoViewIfNeeded();
       await expect.poll(() => img.evaluate((i) => i.complete && i.naturalWidth > 0)).toBe(true);
       expect(await img.getAttribute('alt')).toBeTruthy();
     }
-    await expect(page.locator('.pie__credito')).toContainText('referencia visual');
+    await expect(page.locator('.pie__credito')).toContainText('referencia cultural');
+    await expect(page.locator('.pie__credito')).toContainText('Sony');
   });
 
   test('el corte de cinta con foto no bloquea los clics ni deja rastro', async ({ page }) => {
@@ -136,5 +139,20 @@ test.describe('v3.1', () => {
     expect(vis).toBe('hidden');
     await page.locator('.barra__nav a[href="#contacto"]').click();
     await expect(page.locator('#contacto')).toBeInViewport();
+  });
+
+  test('la moto del héroe es la foto real y las fotos con personas no se publican', async ({ page, request }) => {
+    const moto = page.locator('.moto__foto');
+    await expect(moto).toHaveAttribute('src', '/v3-1/img/dt.webp');
+    await expect.poll(() => moto.evaluate((i) => i.complete && i.naturalWidth > 0)).toBe(true);
+    // sin ?privado el álbum no existe y no se pide ninguna foto de la carpeta privada
+    const pedidas = [];
+    page.on('request', (r) => { if (r.url().includes('/img/privado/')) pedidas.push(r.url()); });
+    await page.reload({ waitUntil: 'load' });
+    await page.waitForTimeout(500);
+    expect(pedidas).toEqual([]);
+    await expect(page.locator('#album')).toBeHidden();
+    const html = await (await request.get('/v3.1/')).text();
+    expect(html).not.toMatch(/privado\//);
   });
 });

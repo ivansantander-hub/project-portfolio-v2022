@@ -10,9 +10,9 @@
  *   3. copia  — lleva el resultado a pantalla.
  * Sin dependencias ni peticiones externas. Sin WebGL queda el respaldo en CSS.
  *
- * Fotos propias (opcionales) en site/public/v3-1/img/, activadas con un atributo en <html>:
- *   dt.png  → recorte de la moto (transparente)      → data-moto-foto
- *   yo.jpg  → tu foto en la ficha de contacto          → data-foto-yo
+ * La moto del héroe es una foto real recortada como pegatina (img/dt.webp). Las fotos con
+ * personas no se publican: viven en img/privado/ (fuera de git) y solo se muestran al abrir
+ * la página con ?privado, en local. Foto propia opcional en la ficha: img/yo.jpg + data-foto-yo.
  * Nuevo en la 3.1: rocío y brillo del nombre, ruta con moto, linterna sobre las paredes,
  * profundidad con el ratón, velocidad según el scroll y spray persistente (pulsar y arrastrar). */
 (() => {
@@ -60,16 +60,9 @@
   mueve.addEventListener('click', acelera);
   mueve.addEventListener('keydown', (e) => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); acelera(); } });
 
-  if (root.hasAttribute('data-moto-foto')) {
-    const img = $('#moto-foto');
-    img.addEventListener('load', () => { img.hidden = false; moto.classList.add('tiene-foto'); });
-    img.addEventListener('error', () => img.remove());
-    img.src = '/v3-1/img/dt.png';
-  }
-
   if (root.hasAttribute('data-foto-yo')) {
     const yo = $('#ficha-yo');
-    yo.addEventListener('load', () => { yo.hidden = false; const m = $('#ficha-moto'); if (m) m.style.display = 'none'; });
+    yo.addEventListener('load', () => { yo.hidden = false; const m = $('.ficha__moto'); if (m) m.style.display = 'none'; });
     yo.addEventListener('error', () => yo.remove());
     yo.src = '/v3-1/img/yo.jpg';
   }
@@ -128,36 +121,48 @@
     document.fonts.load('250px "Rubik Spray Paint"', 'Iván Santander').then(chorreados).catch(() => {});
   }
 
-  /* ── Ecos de la moto: Sobre mí (grises, oro, verde nocturno) y la ficha ── */
-  const dib = $('.moto__dibujo');
-  function copia(tinte, x, y) {
-    const pos = document.createElementNS(SVGNS, 'g');
-    pos.setAttribute('transform', `translate(${x + 560} ${y}) scale(-1 1)`);
-    const c = dib.cloneNode(true);
-    c.removeAttribute('class');
-    if (tinte) c.setAttribute('filter', `url(#${tinte})`);
-    pos.appendChild(c);
-    return pos;
-  }
+  /* ── Ecos de la moto real: copias desfasadas en gris, oro y verde nocturno ── */
   (function ecos() {
-    const svg = $('#eco');
-    if (!svg || !dib) return;
-    svg.setAttribute('viewBox', '-40 0 800 420');
-    const capas = document.createElementNS(SVGNS, 'g');
-    capas.setAttribute('filter', 'url(#eco-mov)');
+    const eco = $('#eco');
+    if (!eco) return;
+    const capas = document.createElement('div');
+    capas.className = 'eco__capas';
     ['t-1', 't-2', 't-4', 't-3', 't-5'].forEach((t, i) => {
-      const cap = document.createElementNS(SVGNS, 'g');
-      cap.setAttribute('class', 'eco__capa');
-      cap.style.setProperty('--i', String(i));
-      cap.appendChild(copia(t, 30 + (5 - i) * 24, 46 + (i % 2 ? 7 : -5)));
-      capas.appendChild(cap);
+      const im = document.createElement('img');
+      im.src = '/v3-1/img/dt.webp';
+      im.alt = '';
+      im.decoding = 'async';
+      im.className = 'eco__capa';
+      im.style.setProperty('--i', String(i));
+      im.style.filter = `url(#${t})`;
+      capas.appendChild(im);
     });
-    const frente = document.createElementNS(SVGNS, 'g');
-    frente.setAttribute('filter', 'url(#recorte-moto)');
-    frente.appendChild(copia(null, 30, 46));
-    svg.append(capas, frente);
-    const ficha = $('#ficha-moto');
-    if (ficha) { const g = document.createElementNS(SVGNS, 'g'); g.appendChild(copia(null, 0, 0)); ficha.appendChild(g); }
+    const frente = document.createElement('img');
+    frente.src = '/v3-1/img/dt.webp';
+    frente.alt = '';
+    frente.decoding = 'async';
+    frente.className = 'eco__frente';
+    eco.append(capas, frente);
+  })();
+
+  /* ── Álbum privado: solo con ?privado y solo si las fotos están en local ── */
+  (function album() {
+    if (!/[?&]privado\b/.test(location.search)) return;
+    const cont = $('#album');
+    if (!cont) return;
+    [['camioneta.jpg', 'De noche, sobre una camioneta'], ['moto-amigo.jpg', 'La moto, en la calle'], ['mirador.jpg', 'La ciudad desde arriba'], ['amigos.jpg', 'Con los parceros']].forEach(([f], i) => {
+      const fig = document.createElement('figure');
+      fig.className = 'foto foto--album';
+      fig.style.setProperty('--r', `${[-2, 1.6, -1.2, 2.2][i]}deg`);
+      const m = document.createElement('div');
+      m.className = 'foto__marco';
+      const im = document.createElement('img');
+      im.alt = '';
+      im.addEventListener('load', () => { cont.hidden = false; });
+      im.addEventListener('error', () => { fig.remove(); if (!cont.children.length) cont.hidden = true; });
+      im.src = '/v3-1/img/privado/' + f;
+      m.appendChild(im); fig.appendChild(m); cont.appendChild(fig);
+    });
   })();
 
   /* ── La calle de noche: horizonte, postes, cables enredados y un bus ─── */
@@ -259,19 +264,22 @@
   /* ── Corte de cinta: un fotograma real en fotocopia en cada cambio de sección ── */
   const corte = $('#corte'), corteImg = $('#corte-img');
   const FOTOGRAMAS = [
-    ['fotograma-espacio.jpg', '#e9e6da'],
-    ['fotograma-maqueta.jpg', '#d4a017'],
-    ['fotograma-eco.jpg', '#39ff14'],
-    ['fotograma-caballos.jpg', '#d4a017'],
+    ['moto-bosque.jpg', '#39ff14', 'center 60%'],
+    ['mk-versus.webp', '#d4a017', 'center', true],
+    ['graffiti-ivan.jpg', '#d4a017', 'center'],
+    ['silueta.jpg', '#e9e6da', 'center 30%'],
+    ['jax.webp', '#39ff14', 'center', true],
+    ['fotograma-espacio.jpg', '#d4a017', 'center'],
   ];
   let corteN = 0, corteTimer = 0, primerMundo = true;
   function corta(n) {
     if (reduced || !corte) return;
     if (primerMundo) { primerMundo = false; return; }
-    const [f, tinta] = FOTOGRAMAS[n % FOTOGRAMAS.length];
-    corteN++;
+    const [f, tinta, pos, pix] = FOTOGRAMAS[corteN++ % FOTOGRAMAS.length];
+    corteImg.style.imageRendering = pix ? 'pixelated' : 'auto';
     corteImg.src = '/v3-1/img/' + f;
     corte.style.setProperty('--tinta-corte', tinta);
+    corteImg.style.objectPosition = pos;
     corte.classList.remove('on'); void corte.offsetWidth; corte.classList.add('on');
     clearTimeout(corteTimer);
     corteTimer = setTimeout(() => corte.classList.remove('on'), 700);
@@ -366,7 +374,7 @@ void emite(vec2 p, vec4 e, float wob, inout vec4 c){
 }
 void main(){
   vec2 p = floor(gl_FragCoord.xy);
-  vec4 prev = texture2D(uPrev, (p - vec2(uShift, 0.) + .5) / uRes);
+  vec4 prev = texture2D(uPrev, (p + vec2(uShift, 0.) + .5) / uRes);
   vec4 c = vec4(prev.rgb, max(prev.a - uShift * 2. / 255., 0.));
   emite(p, uMoto, sin(uTime * 5.) * 1.4 + sin(uTime * 2.3) * 1.1, c);
   emite(p, uMouse, sin(uTime * 9.) * .8, c);
@@ -388,14 +396,14 @@ vec3 noche(vec2 p, float t){
   vec3 col = vec3(.024, .026, .034);
   for (int i = 0; i < 3; i++){
     float fi = float(i);
-    vec2 q = vec2(p.x - floor(uDrift * (1.4 + fi * 2.8)), p.y);
+    vec2 q = vec2(p.x + floor(uDrift * (1.4 + fi * 2.8)), p.y);
     float h = hash(q + fi * 17.3);
     if (h < .010 - fi * .0026){
       float tw = .5 + .5 * sin(t * 3. + h * 400.);
       col = mix(col, vec3(.86, .92, 1.), mix(.4, 1., tw) * (.5 + fi * .25));
     }
   }
-  vec2 q = vec2(p.x - floor(uDrift * 4.), p.y);
+  vec2 q = vec2(p.x + floor(uDrift * 4.), p.y);
   vec2 cell = floor(q / 34.);
   vec2 f = q - cell * 34.;
   vec2 c = floor(vec2(hash(cell) * 26. + 4., hash(cell + 9.1) * 26. + 4.));
@@ -405,7 +413,7 @@ vec3 noche(vec2 p, float t){
 }
 vec3 asfalto(vec2 p, float t){
   vec3 col = vec3(.035, .035, .04);
-  vec2 q = vec2(p.x - floor(uDrift * 1.5), p.y);
+  vec2 q = vec2(p.x + floor(uDrift * 1.5), p.y);
   vec2 c = (floor(q / 4.) + .5) * 4.;
   float r = mix(.5, 1.5, smoothstep(0., uRes.y, p.y)) + .2 * sin(t * .8 + c.x * .07);
   if (length(q - c) < r) col = vec3(.09, .09, .10);
@@ -445,7 +453,7 @@ void main(){
 
   // el faro de la moto: un haz tramado hacia la izquierda, sobre el nombre
   if (uMundo < .5 && uFaro.z > .5){
-    float dx = uFaro.x - p.x;
+    float dx = p.x - uFaro.x;
     if (dx > 0.){
       float abre = 3. + dx * .34;
       float dy = p.y - (uFaro.y + dx * .06);
@@ -665,8 +673,6 @@ void main(){
       state.lastY = scrollY;
       state.vel += (v - state.vel) * Math.min(1, dt * 7);
       state.drift += dt * (1 + 5 * state.vel);
-      const gd = (1.1 / (1 + 3 * state.vel)).toFixed(2);
-      if (Math.abs(gd - state.gd) > 0.08) { state.gd = gd; moto.style.setProperty('--gd', gd + 's'); }
       state.mx += (state.mxT - state.mx) * Math.min(1, dt * 4);
       state.my += (state.myT - state.my) * Math.min(1, dt * 4);
       if (state.heroOn) { inicio.style.setProperty('--mx', state.mx.toFixed(3)); inicio.style.setProperty('--my', state.my.toFixed(3)); }

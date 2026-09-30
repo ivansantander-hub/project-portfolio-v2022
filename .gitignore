@@ -48,3 +48,4 @@ out/
 site/dist/
 site/.build/
 site/.mini-astro/
+site/public/v3-1/img/privado/
