@@ -1,96 +1,182 @@
-/* Iván Santander — v3.1 (iteración de la v3).
+/* Iván Santander — v3.1 «La ruta».
  *
- * Un solo canvas WebGL a baja resolución, ampliado sin suavizar (píxeles cuadrados):
- *   1. estela — un buffer que se desplaza hacia la derecha y se disuelve; la moto y el
- *      cursor le inyectan bandas de oro y blanco (feedback).
- *   2. mundo  — noche con estrellas frías y brillo de sodio, asfalto con semitono, concreto
- *      y pared de ladrillo, más el haz del faro, la estela encima y el datamosh: bloques de
- *      6–30 px que se congelan, se desplazan o se vuelven negro/verde tóxico o negro/oro.
- *      Solo en cambios de mundo y al hacer clic.
- *   3. copia  — lleva el resultado a pantalla.
- * Sin dependencias ni peticiones externas. Sin WebGL queda el respaldo en CSS.
+ * Una noche en moto por Medellín, en una sola escena continua:
+ *   1. radio    — pantalla inicial: elegir canción (o entrar sin música). El gesto desbloquea el audio.
+ *   2. cámara   — el scroll mueve una cámara horizontal por paradas: la loma, el letrero de cada barrio,
+ *                 un mural por parada, la puerta del taller, tres estaciones y la llegada.
+ *   3. audio    — la canción (Web Audio: AnalyserNode) hace latir faros, postes y bombillas; el motor es un
+ *                 sonido generado (no un archivo) que responde al scroll y a mantener espacio/clic.
+ *   4. mundo    — valle con luces, ciudad, muros, postes y cables se generan aquí; el HTML solo lleva contenido.
  *
- * La moto del héroe es una foto real recortada como pegatina (img/dt.webp). Las fotos con
- * personas no se publican: viven en img/privado/ (fuera de git) y solo se muestran al abrir
- * la página con ?privado, en local. Foto propia opcional en la ficha: img/yo.jpg + data-foto-yo.
- * Nuevo en la 3.1: rocío y brillo del nombre, ruta con moto, linterna sobre las paredes,
- * profundidad con el ratón, velocidad según el scroll y spray persistente (pulsar y arrastrar). */
+ * Sin dependencias. Sin JS o en móvil / movimiento reducido queda el documento normal (todo el texto y los enlaces). */
 (() => {
   'use strict';
 
   const root = document.documentElement;
   const $ = (s, el = document) => el.querySelector(s);
   const $$ = (s, el = document) => [...el.querySelectorAll(s)];
-  const reduced = matchMedia('(prefers-reduced-motion: reduce)').matches;
   const SVGNS = 'http://www.w3.org/2000/svg';
-  if (reduced) $$('animateTransform, animate').forEach((a) => a.remove());
+  const reducido = matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const clamp = (v, a, b) => Math.min(b, Math.max(a, v));
+  const lerp = (a, b, t) => a + (b - a) * t;
+  const suave = (t) => t * t * (3 - 2 * t);
+  const easeInOut = (t) => (t < .5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2);
   const rng = (seed) => () => { seed |= 0; seed = (seed + 0x6D2B79F5) | 0; let t = Math.imul(seed ^ (seed >>> 15), 1 | seed); t = (t + Math.imul(t ^ (t >>> 7), 61 | t)) ^ t; return ((t ^ (t >>> 14)) >>> 0) / 4294967296; };
-
-  // Sentido de marcha de la moto del héroe: +1 mira a la derecha, -1 a la izquierda (el personaje mira a la derecha).
-  const DIR = 1;
-  const state = {
-    t: 0, last: performance.now(), frame: 0, running: true,
-    px: innerWidth < 760 ? 5 : 6,
-    mundo: 0,
-    mouse: [-999, -999], mouseAt: -9, heroOn: true,
-    shiftAcc: 0,
-    moshT0: -99, moshSeed: 0, click: [0, 0, 0], clickAt: -99,
-    dirty: true,
-    vel: 0, drift: 0, lastY: scrollY, boost: 0, gd: '1.10', ft: 16,
-    mx: 0, my: 0, mxT: 0, myT: 0,
-    spray: { on: false, x: 0, y: 0, c: 0, n: 0 },
+  const guarda = {
+    get(k) { try { return localStorage.getItem(k); } catch (e) { return null; } },
+    set(k, v) { try { localStorage.setItem(k, v); } catch (e) { /* sin almacenamiento: no pasa nada */ } },
   };
 
-  /* ── Datos vivos ───────────────────────────────────────────────────── */
-  const anios = $('#dato-anios');
-  if (anios) anios.textContent = String(new Date().getFullYear() - 2019);
+  const GEO = JSON.parse($('#geo').textContent);
+  const escena = $('#escena'), camara = $('#camara'), mundo = $('#mundo'), pista = $('#pista');
+  const moto = $('#moto'), motoCuerpo = $('#moto-cuerpo');
 
-  /* ── La moto ───────────────────────────────────────────────────────── */
-  const moto = $('#moto');
-  const mueve = $('.moto__mueve', moto);
-  mueve.setAttribute('role', 'button');
-  mueve.setAttribute('tabindex', '0');
-  mueve.setAttribute('aria-label', 'Acelerar la moto');
-  let brrmTimer = 0;
-  function acelera() {
-    moto.classList.remove('is-brrm');
-    void moto.offsetWidth;
-    moto.classList.add('is-brrm');
-    clearTimeout(brrmTimer);
-    brrmTimer = setTimeout(() => moto.classList.remove('is-brrm'), 1400);
+  const S = {
+    modo: false, t: 0, ultimo: performance.now(),
+    cx: 0, cxObj: 0, vel: 0, velPrev: 0, acel: 0,
+    rev: 0, pulsado: false,
+    bajo: .35, prom: .2, golpe: 0, ultGolpe: 0,
+    k: 0, cap: 'loma', enJuego: false, ayudaVista: false,
+  };
+
+  /* ═══════════ Audio ═══════════ */
+  const A = { el: $('#cancion'), ctx: null, analyser: null, master: null, data: null, motor: null, idx: 0, mudo: false, sonando: false, estabaSonando: false, hueco: null };
+  const CANCIONES = $$('input[name="cancion"]').map((i) => ({ src: i.dataset.src, titulo: i.dataset.titulo }));
+  const ui = { play: $('#a-play'), sig: $('#a-sig'), mudo: $('#a-mudo'), titulo: $('#audio-titulo'), barra: $('#audio') };
+
+  function iniciaAudio() {
+    if (A.ctx) return;
+    try {
+      const AC = window.AudioContext || window.webkitAudioContext;
+      if (!AC) return;
+      A.ctx = new AC();
+      A.master = A.ctx.createGain();
+      A.master.gain.value = A.mudo ? 0 : 1;
+      A.master.connect(A.ctx.destination);
+      A.analyser = A.ctx.createAnalyser();
+      A.analyser.fftSize = 256;
+      A.analyser.smoothingTimeConstant = .78;
+      const fuente = A.ctx.createMediaElementSource(A.el);
+      fuente.connect(A.analyser);
+      A.analyser.connect(A.master);
+      A.data = new Uint8Array(A.analyser.frequencyBinCount);
+    } catch (e) { A.ctx = null; }
   }
-  mueve.addEventListener('click', acelera);
-  mueve.addEventListener('keydown', (e) => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); acelera(); } });
 
-  if (root.hasAttribute('data-foto-yo')) {
-    const yo = $('#ficha-yo');
-    yo.addEventListener('load', () => { yo.hidden = false; const m = $('.ficha__moto'); if (m) m.style.display = 'none'; });
-    yo.addEventListener('error', () => yo.remove());
-    yo.src = '/v3-1/img/yo.jpg';
+  function iniciaMotor() {
+    if (!A.ctx || A.motor) return;
+    const c = A.ctx;
+    const o1 = c.createOscillator(), o2 = c.createOscillator(), lfo = c.createOscillator();
+    const lg = c.createGain(), am = c.createGain(), f = c.createBiquadFilter(), g = c.createGain();
+    o1.type = 'sawtooth'; o2.type = 'square'; o2.detune.value = -18; lfo.type = 'square';
+    lg.gain.value = .32; am.gain.value = .72; f.type = 'lowpass'; f.Q.value = 2; g.gain.value = 0;
+    lfo.connect(lg); lg.connect(am.gain);
+    o1.connect(f); o2.connect(f); f.connect(am); am.connect(g); g.connect(A.master);
+    o1.start(); o2.start(); lfo.start();
+    A.motor = { o1, o2, lfo, f, g, t: 0 };
+  }
+  function motorSet(rpm, vol, ahora) {
+    const m = A.motor; if (!m || !A.ctx) return;
+    if (ahora - m.t < 45) return; m.t = ahora;
+    const t = A.ctx.currentTime;
+    m.o1.frequency.setTargetAtTime(46 + rpm * 120, t, .07);
+    m.o2.frequency.setTargetAtTime(23 + rpm * 60, t, .07);
+    m.lfo.frequency.setTargetAtTime(9 + rpm * 26, t, .1);
+    m.f.frequency.setTargetAtTime(240 + rpm * 1100, t, .09);
+    m.g.gain.setTargetAtTime(vol, t, .06);
+  }
+  function ignicion() {
+    if (!A.ctx) return;
+    iniciaMotor();
+    const c = A.ctx, t = c.currentTime;
+    const n = c.sampleRate * .38, b = c.createBuffer(1, n, c.sampleRate), d = b.getChannelData(0);
+    for (let i = 0; i < n; i++) d[i] = (Math.random() * 2 - 1) * Math.pow(1 - i / n, 2);
+    const fuente = c.createBufferSource(), bp = c.createBiquadFilter(), g = c.createGain();
+    fuente.buffer = b; bp.type = 'bandpass'; bp.frequency.value = 420; g.gain.value = .2;
+    fuente.connect(bp); bp.connect(g); g.connect(A.master); fuente.start(t);
+    A.motor.t = 0; motorSet(.8, .09, 1e9);
+    setTimeout(() => { A.motor.t = 0; motorSet(.16, .014, 1e9); }, 720);
   }
 
-  /* ── Chorreados del nombre: caen de las letras una vez cargada la fuente ─ */
+  function pintaAudioUI() {
+    if (!ui.play) return;
+    ui.play.innerHTML = A.sonando ? ui.play.dataset.iPausa : ui.play.dataset.iPlay;
+    ui.play.setAttribute('aria-label', A.sonando ? 'Pausar' : 'Reproducir');
+    ui.mudo.innerHTML = A.mudo ? ui.mudo.dataset.iMudo : ui.mudo.dataset.iVoz;
+    ui.mudo.setAttribute('aria-label', A.mudo ? 'Activar sonido' : 'Silenciar');
+    ui.mudo.setAttribute('aria-pressed', A.mudo ? 'true' : 'false');
+    ui.titulo.textContent = CANCIONES[A.idx] ? CANCIONES[A.idx].titulo : '';
+  }
+  function poneCancion(i) {
+    A.idx = ((i % CANCIONES.length) + CANCIONES.length) % CANCIONES.length;
+    A.el.src = CANCIONES[A.idx].src;
+    guarda.set('ruta:cancion', String(A.idx));
+    pintaAudioUI();
+  }
+  function reproduce() {
+    if (!CANCIONES.length) return Promise.resolve();
+    if (!A.el.src) poneCancion(A.idx);
+    if (A.ctx && A.ctx.state === 'suspended') A.ctx.resume();
+    return A.el.play().then(() => { A.sonando = true; pintaAudioUI(); }).catch(() => { A.sonando = false; pintaAudioUI(); });
+  }
+  function pausa() { A.el.pause(); A.sonando = false; pintaAudioUI(); }
+  function ponMudo(v) {
+    A.mudo = v; guarda.set('ruta:mudo', v ? '1' : '0');
+    if (A.master) A.master.gain.value = v ? 0 : 1;
+    pintaAudioUI();
+  }
+  if (ui.play) {
+    ui.play.addEventListener('click', () => { iniciaAudio(); (A.sonando ? Promise.resolve(pausa()) : reproduce()); });
+    ui.sig.addEventListener('click', () => { iniciaAudio(); poneCancion(A.idx + 1); reproduce(); });
+    ui.mudo.addEventListener('click', () => { iniciaAudio(); ponMudo(!A.mudo); });
+  }
+  document.addEventListener('visibilitychange', () => {
+    if (document.hidden) { A.estabaSonando = A.sonando; if (A.sonando) pausa(); }
+    else if (A.estabaSonando) { reproduce(); }
+  });
+
+  /* ═══════════ Radio (pantalla inicial) ═══════════ */
+  const radio = $('#radio');
+  const inertes = [$('#viaje'), $('.marco'), $('.pie')];
+  const setInerte = (v) => inertes.forEach((el) => { if (el) el.inert = v; });
+  const previa = guarda.get('ruta:cancion');
+  if (previa !== null) { const inp = $$('input[name="cancion"]')[Number(previa)]; if (inp) inp.checked = true; }
+  A.mudo = guarda.get('ruta:mudo') === '1';
+  A.idx = Number((($('input[name="cancion"]:checked') || {}).value) || 0);
+  setInerte(true);
+  requestAnimationFrame(() => { const c = $('input[name="cancion"]:checked'); if (c) c.focus({ preventScroll: true }); });
+
+  function cierraRadio(conMusica) {
+    A.idx = Number(($('input[name="cancion"]:checked') || {}).value || 0);
+    iniciaAudio();
+    if (conMusica) { ponMudo(false); poneCancion(A.idx); }
+    ignicion();
+    if (conMusica) reproduce();
+    S.enJuego = true;
+    radio.classList.add('saliendo');
+    setTimeout(() => { radio.classList.add('cerrada'); setInerte(false); ui.barra.hidden = false; pintaAudioUI(); const b = $('#empezar'); if (b) b.focus({ preventScroll: true }); }, 460);
+  }
+  $('#encender').addEventListener('click', () => cierraRadio(true));
+  $('#sinmusica').addEventListener('click', () => cierraRadio(false));
+
+  /* ═══════════ Nombre: chorreados de pintura ═══════════ */
   function chorreados() {
-    const svg = $('#nombre-svg');
-    if (!svg) return;
-    const neg = $('.gotas-negras', svg), oro = $('.gotas-oro', svg);
+    const svg = $('#nombre-svg'); if (!svg) return;
+    const neg = $('.gotas-negras', svg), oro = $('.gotas-oro', svg); if (!neg || !oro) return;
     const r = rng(23);
     const medidor = document.createElementNS(SVGNS, 'svg');
     medidor.setAttribute('style', 'position:absolute;visibility:hidden;width:0;height:0;overflow:hidden');
     document.body.appendChild(medidor);
     [['#nom-1', [0, 2, 3]], ['#nom-2', [1, 4, 6, 8]]].forEach(([sel, idx]) => {
-      const original = $(sel, svg);
+      const original = $(sel, svg); if (!original) return;
       const t = original.cloneNode(true);
-      t.removeAttribute('id');
-      t.setAttribute('font-family', "'Rubik Spray Paint', sans-serif");
+      t.removeAttribute('id'); t.setAttribute('font-family', "'Rubik Spray Paint', sans-serif");
       medidor.appendChild(t);
       const base = Number(original.getAttribute('y'));
       idx.forEach((i) => {
         if (i >= t.getNumberOfChars()) return;
-        const e = t.getExtentOfChar(i);
-        if (e.width < 24) return;
-        const cx = e.x + e.width * (0.28 + r() * 0.44);
-        const w = 15 + r() * 7, largo = 46 + r() * 96, y0 = base - 6, d = (0.5 + r() * 1.8).toFixed(2) + 's';
+        const e = t.getExtentOfChar(i); if (e.width < 24) return;
+        const cx = e.x + e.width * (.28 + r() * .44), w = 15 + r() * 7, largo = 46 + r() * 96, y0 = base - 6, d = (.5 + r() * 1.8).toFixed(2) + 's';
         const negra = document.createElementNS(SVGNS, 'rect');
         negra.setAttribute('x', (cx - w / 2 - 8).toFixed(1)); negra.setAttribute('y', y0); negra.setAttribute('width', (w + 16).toFixed(1));
         negra.setAttribute('height', (largo + 16).toFixed(1)); negra.setAttribute('rx', ((w + 16) / 2).toFixed(1)); negra.setAttribute('fill', '#000');
@@ -101,626 +187,371 @@
         dorada.style.setProperty('--d', d);
         neg.appendChild(negra); oro.appendChild(dorada);
       });
-      // rocío: gotas sueltas de spray alrededor de las letras
-      const roc = $('.rocio', svg);
-      for (let i = 0; i < t.getNumberOfChars(); i++) {
-        const e = t.getExtentOfChar(i);
-        if (e.width < 12) continue;
-        for (let k = 0; k < 8; k++) {
-          const c = document.createElementNS(SVGNS, 'circle');
-          const arriba = r() < 0.5;
-          c.setAttribute('cx', (e.x + r() * e.width * 1.1 - e.width * 0.05).toFixed(1));
-          c.setAttribute('cy', (arriba ? e.y + e.height * 0.1 - 10 - r() * 46 : e.y + e.height * 0.86 + 6 + r() * 60).toFixed(1));
-          c.setAttribute('r', (1.4 + r() * 4.6).toFixed(1));
-          c.setAttribute('opacity', (0.3 + r() * 0.6).toFixed(2));
-          roc.appendChild(c);
-        }
-      }
     });
     medidor.remove();
   }
-  if (document.fonts && document.fonts.load) {
-    document.fonts.load('250px "Rubik Spray Paint"', 'Iván Santander').then(chorreados).catch(() => {});
+  if (document.fonts && document.fonts.load) document.fonts.load('250px "Rubik Spray Paint"', 'Iván Santander').then(chorreados).catch(() => {});
+
+  /* ═══════════ Modo viaje ═══════════ */
+  let paradas = [], seg = [], total = 0, pistaTop = 0, paradaScroll = [], holdSeg = [];
+  let capas = [], puertaK = -1, murales = [], orden = null, reglas = null, tablero = null, decorado = null, hud = null;
+
+  const puedeViaje = () => !reducido && innerWidth >= 900 && innerWidth / innerHeight >= 1.25 && innerHeight >= 520;
+
+  function calculaSegmentos() {
+    const vh = innerHeight / 100;
+    let s = 0; seg = []; holdSeg = []; paradaScroll = [];
+    paradas.forEach((p, k) => {
+      const h = p.mantener * vh;
+      const hs = { t: 'h', k, s0: s, s1: s + h, cx0: p.cx, cx1: p.cx };
+      seg.push(hs); holdSeg[k] = hs; paradaScroll[k] = s + h * .3;
+      s += h;
+      if (k < paradas.length - 1) {
+        const d = Math.abs(paradas[k + 1].cx - p.cx), m = (8 + d * .13) * vh;
+        seg.push({ t: 'm', k, s0: s, s1: s + m, cx0: p.cx, cx1: paradas[k + 1].cx });
+        s += m;
+      }
+    });
+    total = s;
+    pista.style.height = (total + innerHeight) + 'px';
+    pistaTop = pista.getBoundingClientRect().top + scrollY;
   }
 
-  /* ── Ecos de la moto real: copias desfasadas en gris, oro y verde nocturno ── */
-  (function ecos() {
-    const eco = $('#eco');
-    if (!eco) return;
-    const capas = document.createElement('div');
-    capas.className = 'eco__capas';
-    ['t-1', 't-2', 't-4', 't-3', 't-5'].forEach((t, i) => {
-      const im = document.createElement('img');
-      im.src = '/v3-1/img/dt.webp';
-      im.alt = '';
-      im.decoding = 'async';
-      im.className = 'eco__capa';
-      im.style.setProperty('--i', String(i));
-      im.style.filter = `url(#${t})`;
-      capas.appendChild(im);
-    });
-    const frente = document.createElement('img');
-    frente.src = '/v3-1/img/dt.webp';
-    frente.alt = '';
-    frente.decoding = 'async';
-    frente.className = 'eco__frente';
-    eco.append(capas, frente);
-  })();
-
-  /* ── Álbum privado: solo con ?privado y solo si las fotos están en local ── */
-  (function album() {
-    if (!/[?&]privado\b/.test(location.search)) return;
-    const cont = $('#album');
-    if (!cont) return;
-    [['camioneta.jpg', 'De noche, sobre una camioneta'], ['moto-amigo.jpg', 'La moto, en la calle'], ['mirador.jpg', 'La ciudad desde arriba'], ['amigos.jpg', 'Con los parceros']].forEach(([f], i) => {
-      const fig = document.createElement('figure');
-      fig.className = 'foto foto--album';
-      fig.style.setProperty('--r', `${[-2, 1.6, -1.2, 2.2][i]}deg`);
-      const m = document.createElement('div');
-      m.className = 'foto__marco';
-      const im = document.createElement('img');
-      im.alt = '';
-      im.addEventListener('load', () => { cont.hidden = false; });
-      im.addEventListener('error', () => { fig.remove(); if (!cont.children.length) cont.hidden = true; });
-      im.src = '/v3-1/img/privado/' + f;
-      m.appendChild(im); fig.appendChild(m); cont.appendChild(fig);
-    });
-  })();
-
-  /* ── La calle de noche: horizonte, postes, cables enredados y un bus ─── */
-  (function escena() {
-    const el = $('#escena');
-    if (!el) return;
-    function capa(seed, alturaMin, alturaMax, colores, ventanas, densidad, extra = '') {
-      const r = rng(seed); const W = 1800, H = 420;
-      let x = -20, out = '';
-      while (x < W + 20) {
-        const w = 70 + r() * 90, h = alturaMin + r() * (alturaMax - alturaMin);
-        out += `<rect x="${x.toFixed(0)}" y="${(H - h).toFixed(0)}" width="${w.toFixed(0)}" height="${h.toFixed(0)}" fill="${colores[Math.floor(r() * colores.length)]}" stroke="#000" stroke-width="3"/>`;
-        const cols = Math.max(2, Math.floor(w / 26)), filas = Math.floor(h / 34);
-        for (let a = 0; a < cols; a++) for (let b = 1; b < filas; b++) if (r() < densidad) out += `<rect x="${(x + 10 + a * 24).toFixed(0)}" y="${(H - h + 10 + b * 32).toFixed(0)}" width="12" height="16" fill="${ventanas[Math.floor(r() * ventanas.length)]}"/>`;
-        if (r() > 0.72) out += `<rect x="${(x + w / 2 - 2).toFixed(0)}" y="${(H - h - 34).toFixed(0)}" width="4" height="34" fill="#000"/>`;
-        x += w + 4;
+  function estado(sc) {
+    sc = clamp(sc, 0, total);
+    for (const g of seg) {
+      if (sc <= g.s1 || g === seg[seg.length - 1]) {
+        if (g.t === 'h') return { cx: g.cx0, k: g.k };
+        const t = clamp((sc - g.s0) / (g.s1 - g.s0), 0, 1);
+        return { cx: lerp(g.cx0, g.cx1, easeInOut(t)), k: t < .5 ? g.k : g.k + 1 };
       }
-      return `<svg viewBox="0 0 ${W} ${H}" preserveAspectRatio="xMidYMax slice" aria-hidden="true">${out}${extra}</svg>`;
     }
-    function mural() {
-      const H = 420, x = 1180;
-      return `<g><rect x="${x}" y="${H - 340}" width="240" height="340" fill="#1d1e23" stroke="#000" stroke-width="4"/>
-        <ellipse cx="${x + 72}" cy="${H - 238}" rx="46" ry="30" fill="#e9e6da" stroke="#000" stroke-width="5"/>
-        <ellipse cx="${x + 170}" cy="${H - 238}" rx="46" ry="30" fill="#e9e6da" stroke="#000" stroke-width="5"/>
-        <circle cx="${x + 82}" cy="${H - 234}" r="17" fill="#000"/><circle cx="${x + 160}" cy="${H - 234}" r="17" fill="#000"/>
-        <circle cx="${x + 87}" cy="${H - 241}" r="5" fill="#ffd35e"/><circle cx="${x + 165}" cy="${H - 241}" r="5" fill="#ffd35e"/>
-        <path d="M${x + 20} ${H - 286} L${x + 110} ${H - 268} M${x + 132} ${H - 268} L${x + 222} ${H - 286}" stroke="#d4a017" stroke-width="11" stroke-linecap="round"/>
-        <path d="M${x + 48} ${H - 152} L${x + 82} ${H - 132} L${x + 116} ${H - 152} L${x + 150} ${H - 132} L${x + 184} ${H - 152}" fill="none" stroke="#d4a017" stroke-width="10" stroke-linejoin="round" stroke-linecap="round"/>
-        <rect x="${x + 62}" y="${H - 140}" width="7" height="46" fill="#d4a017"/><rect x="${x + 154}" y="${H - 140}" width="6" height="28" fill="#d4a017"/></g>`;
+    return { cx: 0, k: 0 };
+  }
+
+  function capDe(k) {
+    const t = paradas[k].tipo;
+    if (t === 'loma') return 'loma';
+    if (t === 'letrero' || t === 'mural') return 'ruta';
+    if (t === 'llegada') return 'llegada';
+    return 'taller';
+  }
+
+  const actual = () => (S.destino != null ? S.destino : Math.max(0, S.k));
+  function irAParada(k) {
+    if (!S.modo) return;
+    k = clamp(k, 0, paradas.length - 1);
+    S.destino = k;
+    scrollTo({ top: pistaTop + paradaScroll[k], behavior: 'smooth' });
+  }
+
+  /* — mundo generado — */
+  function svgEl(w, h, cuerpo, extra = '') {
+    return `<svg viewBox="0 0 ${w} ${h}" width="${w}" height="${h}" preserveAspectRatio="none" shape-rendering="crispEdges" ${extra}>${cuerpo}</svg>`;
+  }
+  const LUCES = ['#ffb84a', '#ffd98a', '#ff9a3c', '#fff3c8', '#ff7a2a', '#ffe27a'];
+
+  function capaMontes(w, h, vw, vh) {
+    const r = rng(7);
+    const capasM = [{ y: .38, a: .06, fill: '#0d1220', n: 2.2 }, { y: .47, a: .07, fill: '#101626', n: 4.2 }, { y: .57, a: .06, fill: '#151b2d', n: 6.0 }];
+    let s = '';
+    capasM.forEach((c, ci) => {
+      const pts = []; let d = `M0 ${h}`;
+      for (let x = 0; x <= w; x += w / 220) {
+        const y = h * c.y + Math.sin(x / (w / 9) + ci * 2) * h * c.a + Math.sin(x / (w / 23) + ci) * h * c.a * .5 + Math.sin(x / (w / 61)) * h * .012;
+        pts.push([x, y]); d += ` L${x.toFixed(0)} ${y.toFixed(0)}`;
+      }
+      s += `<path d="${d} L${w} ${h}Z" fill="${c.fill}"/>`;
+      const n = Math.round((w / vw) * c.n);
+      for (let i = 0; i < n; i++) {
+        const x = (r() < .62 ? r() * 130 * vw : r() * w);
+        const p = pts[Math.min(pts.length - 1, Math.round(x / (w / 220)))];
+        const y = p[1] + h * .02 + r() * h * .3;
+        const tam = 2 + r() * 2.4;
+        s += `<rect x="${x.toFixed(0)}" y="${y.toFixed(0)}" width="${tam.toFixed(1)}" height="${(tam * .8).toFixed(1)}" fill="${LUCES[Math.floor(r() * LUCES.length)]}" opacity="${(.65 + r() * .35).toFixed(2)}"/>`;
+      }
+    });
+    // metrocable: cable, pilonas y una cabina encendida
+    const x0 = 50 * vw, y0 = h * .30, x1 = 106 * vw, y1 = h * .50;
+    s += `<line x1="${x0}" y1="${y0}" x2="${x1}" y2="${y1}" stroke="#1d2233" stroke-width="2"/>`;
+    s += `<rect x="${x0 - 3}" y="${y0 - 2}" width="6" height="${h * .12}" fill="#0b0e17"/><rect x="${x1 - 3}" y="${y1 - 2}" width="6" height="${h * .12}" fill="#0b0e17"/>`;
+    s += `<g class="cabina" style="--dx:${(x1 - x0 - 30).toFixed(0)}px;--dy:${(y1 - y0 - 12).toFixed(0)}px"><rect x="${x0}" y="${y0 + 3}" width="${(vw * 1.6).toFixed(0)}" height="${(vh * 2.2).toFixed(0)}" fill="#0b0e17"/><rect x="${x0 + 3}" y="${y0 + 6}" width="${(vw * 1.6 - 6).toFixed(0)}" height="${(vh * 1.2).toFixed(0)}" fill="#ffd98a"/></g>`;
+    return svgEl(w, h, s);
+  }
+
+  function capaCiudad(w, h, vw, vh) {
+    const r = rng(13);
+    let s = '', x = -2 * vw; const base = h * .78, balizas = [];
+    while (x < w) {
+      const bajo = x < 125 * vw, bw = (3 + r() * 6) * vw, bh = (bajo ? 5 + r() * 13 : 20 + r() * 34) * vh, y = base - bh;
+      const tono = ['#0b0d13', '#0e1119', '#0c0f16'][Math.floor(r() * 3)];
+      s += `<rect x="${x.toFixed(0)}" y="${y.toFixed(0)}" width="${bw.toFixed(0)}" height="${(bh + h * .3).toFixed(0)}" fill="${tono}"/>`;
+      const cols = Math.max(2, Math.floor(bw / (1.1 * vw))), fil = Math.floor(bh / (2.6 * vh));
+      for (let i = 0; i < cols; i++) for (let j = 1; j < fil; j++) if (r() < (bajo ? .3 : .12)) {
+        s += `<rect x="${(x + (i + .3) * (bw / cols)).toFixed(0)}" y="${(y + j * 2.6 * vh).toFixed(0)}" width="${(vw * .45).toFixed(0)}" height="${(vh * 1.1).toFixed(0)}" fill="${LUCES[Math.floor(r() * LUCES.length)]}" opacity="${(.55 + r() * .4).toFixed(2)}"/>`;
+      }
+      if (bh > 46 * vh && r() < .6) balizas.push([x + bw / 2, y]);
+      x += bw + r() * 1.2 * vw;
     }
-    function cables() {
-      const r = rng(5); const H = 900;
-      const postes = [[120, 120], [1500, 190]];
-      let out = '';
-      // luz de sodio: brillo por escalones, sin degradados
-      out += `<circle cx="150" cy="170" r="230" fill="rgba(255,138,31,.06)"/><circle cx="150" cy="170" r="150" fill="rgba(255,138,31,.08)"/><circle cx="150" cy="170" r="80" fill="rgba(255,170,70,.12)"/>`;
-      postes.forEach(([x, y]) => {
-        out += `<rect x="${x - 9}" y="${y}" width="18" height="${H - y}" fill="#050506"/><rect x="${x - 64}" y="${y + 30}" width="128" height="10" fill="#050506"/><rect x="${x - 48}" y="${y + 66}" width="96" height="8" fill="#050506"/>`;
-        [-58, -30, 30, 58].forEach((d) => { out += `<circle cx="${x + d}" cy="${y + 26}" r="5" fill="#2a2a2d"/>`; });
-        [-40, 0, 40].forEach((d) => { out += `<circle cx="${x + d}" cy="${y + 62}" r="5" fill="#2a2a2d"/>`; });
+    balizas.forEach(([bx, by]) => { s += `<rect class="baliza" x="${(bx - 2).toFixed(0)}" y="${(by - 6).toFixed(0)}" width="4" height="4" fill="#ff3b30"/>`; });
+    return svgEl(w, h, s);
+  }
+
+  function generaMundo() {
+    mundo.innerHTML = '';
+    capas = [];
+    const vw = innerWidth / 100, vh = innerHeight / 100, W = GEO.mundoW;
+    mundo.insertAdjacentHTML('beforeend', '<div class="cielo"></div><div class="estrellas"></div>');
+    [[.05, capaMontes], [.2, capaCiudad]].forEach(([f, fn]) => {
+      const w = Math.round((100 + f * W) * vw), h = Math.round(100 * vh);
+      const d = document.createElement('div'); d.className = 'capa'; d.style.width = w + 'px';
+      d.innerHTML = fn(w, h, vw, vh); mundo.appendChild(d); capas.push({ el: d, f });
+    });
+    // decorado del mundo principal
+    const r = rng(29);
+    if (decorado) decorado.remove();
+    decorado = document.createElement('div'); decorado.className = 'decorado'; decorado.setAttribute('aria-hidden', 'true');
+    let h = `<div class="suelo" style="width:${W}vw"></div><div class="muro-loma"></div>`;
+    h += `<div class="baranda" style="left:62vw;width:42vw"></div><i class="poste" style="left:84vw"></i><i class="poste__luz" style="left:84vw"></i>`;
+    // alcobas de la calle: en el centro entre dos murales, cada dos huecos, se abre un callejón
+    const huecos = []; const alcobas = [];
+    const mA = $$('.mural[data-barrio="clinica"]').map((m) => Number(m.style.getPropertyValue('--x')));
+    const mB = $$('.mural[data-barrio="propios"]').map((m) => Number(m.style.getPropertyValue('--x')));
+    [mA, mB].forEach((lista) => lista.slice(0, -1).forEach((x, i) => { const g = x + 44; huecos.push(g); if (i % 2 === 1) alcobas.push([g - 6, g + 6]); }));
+    const finCalle = GEO.xTaller0 - 1;
+    const tipos = ['ladrillo', 'bloque', 'cal'];
+    const trozos = []; let ini = 100;
+    alcobas.forEach(([a, b]) => { if (a > ini) trozos.push([ini, a]); ini = b; });
+    if (finCalle > ini) trozos.push([ini, finCalle]);
+    const post = GEO.xTaller1 + 1; if (GEO.mundoW + 8 > post) trozos.push([post, GEO.mundoW + 8]);
+    let t = 0;
+    trozos.forEach(([a, b]) => {
+      let x = a;
+      while (x < b - .1) {
+        const ancho = Math.min(b - x, 60 + r() * 40);
+        h += `<div class="pared pared--${tipos[t++ % 3]}" style="left:${x.toFixed(2)}vw;width:${ancho.toFixed(2)}vw"></div>`;
+        x += ancho;
+        if (x < b - 1) h += `<i class="pilastra" style="left:${(x - .8).toFixed(2)}vw"></i>`;
+      }
+    });
+    alcobas.forEach(([a, b]) => { h += `<i class="pilastra" style="left:${(a - 1.6).toFixed(2)}vw"></i><i class="pilastra" style="left:${b.toFixed(2)}vw"></i>`; });
+    const postes = [];
+    huecos.forEach((g, i) => {
+      const enAlcoba = alcobas.some(([a, b]) => g > a && g < b);
+      const xp = g + (enAlcoba ? 0 : 13);
+      postes.push(xp);
+      h += `<i class="poste" style="left:${xp.toFixed(2)}vw"></i><i class="poste__luz" style="left:${xp.toFixed(2)}vw"></i>`;
+      if (!enAlcoba) h += `<i class="puerta-met" style="left:${(g - 14).toFixed(2)}vw"></i><i class="ventana" style="left:${(g + 22).toFixed(2)}vw"></i>`;
+    });
+    postes.push(GEO.mundoW - 34); h += `<i class="poste" style="left:${GEO.mundoW - 34}vw"></i><i class="poste__luz" style="left:${GEO.mundoW - 34}vw"></i>`;
+    // cables entre postes (con nudos)
+    const px = (v) => (v * vw).toFixed(1), y0 = 100 * vh - (20 + 52 - 3) * vh;
+    let cab = '';
+    const ordenP = [84, ...postes.filter((p) => p > 90)].sort((a, b) => a - b);
+    for (let i = 0; i < ordenP.length - 1; i++) {
+      const a = ordenP[i] + 1.6, b = ordenP[i + 1] + 1.6;
+      [0, 1.1, 2.3].forEach((dy, j) => {
+        const sag = (2.4 + r() * 2.2) * vh;
+        cab += `<path d="M${px(a)} ${(y0 + dy * vh).toFixed(1)} Q${px((a + b) / 2)} ${(y0 + dy * vh + sag).toFixed(1)} ${px(b)} ${(y0 + (dy + (r() - .5)) * vh).toFixed(1)}" fill="none" stroke="#050507" stroke-width="${(1.4 + r()).toFixed(1)}"/>`;
       });
-      out += `<rect x="128" y="112" width="34" height="14" fill="#ffd9a0"/><rect x="118" y="118" width="20" height="6" fill="#050506"/>`;
-      for (let i = 0; i < 11; i++) {
-        const x1 = 120 + (r() * 100 - 50), y1 = 150 + (i % 3) * 36, x2 = 1500 + (r() * 100 - 50), y2 = 220 + (i % 3) * 36;
-        const cx = (x1 + x2) / 2 + (r() * 400 - 200), cy = Math.max(y1, y2) + 90 + r() * 200;
-        out += `<path d="M${x1.toFixed(0)} ${y1} Q${cx.toFixed(0)} ${cy.toFixed(0)} ${x2.toFixed(0)} ${y2}" fill="none" stroke="#050506" stroke-width="${(1.6 + r() * 1.6).toFixed(1)}" vector-effect="non-scaling-stroke"/>`;
+      if (r() < .7) { const mx = (a + b) / 2 + (r() - .5) * 8, my = y0 + (3.4 + r() * 1.6) * vh; cab += `<path d="M${px(mx - 3)} ${my.toFixed(1)} c${(1.4 * vw).toFixed(0)} ${(-2.4 * vh).toFixed(0)} ${(3.4 * vw).toFixed(0)} ${(2.6 * vh).toFixed(0)} ${(6 * vw).toFixed(0)} 0 s${(-2.4 * vw).toFixed(0)} ${(-2.2 * vh).toFixed(0)} ${(-4.4 * vw).toFixed(0)} ${(1.2 * vh).toFixed(0)}" fill="none" stroke="#050507" stroke-width="1.6"/>`; }
+    }
+    h += `<svg class="cables" width="${Math.round(W * vw)}" height="${Math.round(100 * vh)}" viewBox="0 0 ${Math.round(W * vw)} ${Math.round(100 * vh)}">${cab}</svg>`;
+    decorado.innerHTML = h;
+    camara.insertBefore(decorado, camara.firstChild);
+    // el interior del taller va antes que sus estaciones para quedar debajo
+    camara.style.setProperty('--mundo-w', W);
+  }
+
+  /* — estado por parada — */
+  function actualizaEstados(sc, k) {
+    if (k === S.destino) S.destino = null;
+    if (k !== S.k) {
+      S.k = k;
+      murales.forEach((m) => m.el.classList.toggle('is-foco', m.k === k));
+      const cap = capDe(k);
+      if (cap !== S.cap) {
+        S.cap = cap; root.dataset.cap = cap;
+        $$('.capitulos a').forEach((a) => a.setAttribute('aria-current', a.dataset.cap === cap ? 'true' : 'false'));
       }
-      // nudos: cables que se enredan a mitad de camino
-      for (let i = 0; i < 4; i++) {
-        const x = 420 + r() * 700, y = 300 + r() * 140;
-        out += `<path d="M${(x - 90).toFixed(0)} ${y.toFixed(0)} C${(x - 30).toFixed(0)} ${(y - 60).toFixed(0)} ${(x + 30).toFixed(0)} ${(y + 60).toFixed(0)} ${(x + 90).toFixed(0)} ${y.toFixed(0)} S${(x + 10).toFixed(0)} ${(y - 40).toFixed(0)} ${(x - 40).toFixed(0)} ${(y + 20).toFixed(0)}" fill="none" stroke="#050506" stroke-width="2" vector-effect="non-scaling-stroke"/>`;
-      }
-      return `<svg class="e-cables" viewBox="0 0 1600 ${H}" preserveAspectRatio="none" aria-hidden="true">${out}</svg>`;
-    }
-    function bus() {
-      let v = '';
-      for (let i = 0; i < 7; i++) v += `<rect x="${112 + i * 72}" y="66" width="58" height="52" fill="#241a08" stroke="#000" stroke-width="4"/><rect x="${118 + i * 72}" y="72" width="46" height="40" fill="${i % 3 === 1 ? '#3a2a10' : '#ff9a2a'}" opacity="${i % 3 === 1 ? 1 : .62}"/>`;
-      return `<svg class="e-bus" viewBox="0 0 640 230" aria-hidden="true">
-        <ellipse cx="320" cy="222" rx="300" ry="8" fill="#000" opacity=".55"/>
-        <path d="M-90 200 L320 200" stroke="none"/>
-        <circle cx="14" cy="150" r="70" fill="rgba(255,246,200,.07)"/><circle cx="14" cy="150" r="42" fill="rgba(255,246,200,.12)"/>
-        <rect x="14" y="36" width="612" height="152" fill="#ffc61a" stroke="#000" stroke-width="5"/>
-        <rect x="14" y="36" width="612" height="16" fill="#e0a800" stroke="#000" stroke-width="5"/>
-        <rect x="30" y="62" width="70" height="86" fill="#241a08" stroke="#000" stroke-width="4"/><rect x="36" y="68" width="58" height="74" fill="#ff9a2a" opacity=".5"/>
-        <rect x="36" y="40" width="56" height="13" fill="#ff9a2a" stroke="#000" stroke-width="3"/>
-        ${v}
-        <rect x="14" y="150" width="612" height="18" fill="#000"/>
-        <circle cx="130" cy="190" r="34" fill="#000"/><circle cx="130" cy="190" r="13" fill="#4a4a4d" stroke="#000" stroke-width="4"/>
-        <circle cx="510" cy="190" r="34" fill="#000"/><circle cx="510" cy="190" r="13" fill="#4a4a4d" stroke="#000" stroke-width="4"/>
-        <circle cx="20" cy="156" r="11" fill="#fff6c8" stroke="#000" stroke-width="3"/>
-        <rect x="618" y="136" width="9" height="26" fill="#e01818" stroke="#000" stroke-width="2"/>
-      </svg>`;
-    }
-    el.innerHTML = `<div class="e-lejos" data-parallax="0.10">${capa(7, 130, 320, ['#0f1013', '#121317', '#15161a'], ['#ffb347', '#ffd35e'], 0.07, mural())}</div>` +
-      `<div class="e-medio" data-parallax="0.20">${capa(21, 120, 270, ['#17181c', '#1c1d22', '#202126'], ['#ffb347', '#ffd35e', '#ff9a2a'], 0.16)}</div>` +
-      cables() + bus();
-  })();
-
-  /* ── Parallax de la calle ─────────────────────────────────────────── */
-  const casos = $('#casos');
-  const capasParallax = $$('[data-parallax]', casos).map((el) => ({ el, f: Number(el.dataset.parallax) }));
-  const casas = $$('.casa', casos).map((li) => ({ li, a: $('.casa__a', li), v: Number(li.style.getPropertyValue('--vel')) || 0.05 }));
-  function parallax() {
-    if (reduced) return;
-    const cr = casos.getBoundingClientRect();
-    if (cr.bottom < -200 || cr.top > innerHeight + 200) return;
-    const prog = Math.min(1, Math.max(0, -cr.top / Math.max(1, cr.height - innerHeight)));
-    capasParallax.forEach(({ el, f }) => { el.style.translate = `${((prog - 0.5) * f * 1400).toFixed(1)}px 0`; });
-    const amp = innerWidth < 640 ? 0.6 : 1;
-    casas.forEach(({ li, a, v }) => {
-      const r = li.getBoundingClientRect();
-      if (r.bottom < -100 || r.top > innerHeight + 100) return;
-      a.style.setProperty('--py', `${((r.top + r.height / 2 - innerHeight / 2) * v * amp).toFixed(1)}px`);
-    });
-  }
-  addEventListener('scroll', () => { state.dirty = true; parallax(); }, { passive: true });
-  parallax();
-
-  /* ── Corte de cinta: un fotograma real en fotocopia en cada cambio de sección ── */
-  const corte = $('#corte'), corteImg = $('#corte-img');
-  const FOTOGRAMAS = [
-    ['moto-bosque.jpg', '#39ff14', 'center 60%'],
-    ['mk-versus.webp', '#d4a017', 'center', true],
-    ['graffiti-ivan.jpg', '#d4a017', 'center'],
-    ['silueta.jpg', '#e9e6da', 'center 30%'],
-    ['jax.webp', '#39ff14', 'center', true],
-    ['fotograma-espacio.jpg', '#d4a017', 'center'],
-  ];
-  let corteN = 0, corteTimer = 0, primerMundo = true;
-  function corta(n) {
-    if (reduced || !corte) return;
-    if (primerMundo) { primerMundo = false; return; }
-    const [f, tinta, pos, pix] = FOTOGRAMAS[corteN++ % FOTOGRAMAS.length];
-    corteImg.style.imageRendering = pix ? 'pixelated' : 'auto';
-    corteImg.src = '/v3-1/img/' + f;
-    corte.style.setProperty('--tinta-corte', tinta);
-    corteImg.style.objectPosition = pos;
-    corte.classList.remove('on'); void corte.offsetWidth; corte.classList.add('on');
-    clearTimeout(corteTimer);
-    corteTimer = setTimeout(() => corte.classList.remove('on'), 700);
-  }
-
-  /* ── Mundos por sección ───────────────────────────────────────────── */
-  const mundos = $$('[data-mundo]', $('main'));
-  function cambiaMundo(n) {
-    if (n === state.mundo) return;
-    state.mundo = n;
-    document.body.dataset.mundo = String(n);
-    state.moshT0 = performance.now() / 1000; state.moshSeed++;
-    state.dirty = true;
-    corta(n);
-    if (typeof pins !== 'undefined') pins.forEach((a, i) => a.setAttribute('aria-current', i === n ? 'true' : 'false'));
-  }
-  const io = new IntersectionObserver((entradas) => {
-    entradas.forEach((e) => { if (e.isIntersecting) cambiaMundo(Number(e.target.dataset.mundo)); });
-  }, { rootMargin: '-45% 0px -45% 0px', threshold: 0 });
-  mundos.forEach((s) => io.observe(s));
-  new IntersectionObserver((es) => es.forEach((e) => { state.heroOn = e.isIntersecting; }), { threshold: 0.05 }).observe($('#inicio'));
-
-  /* ── Ruta de la página, linterna sobre las paredes y profundidad ─────── */
-  const ruta = $('.ruta');
-  const pins = $$('a', ruta);
-  const secciones = ['#inicio', '#casos', '#sobre-mi', '#contacto'].map((s) => $(s));
-  function colocaRuta() {
-    const total = Math.max(1, document.documentElement.scrollHeight - innerHeight);
-    pins.forEach((a, i) => a.style.setProperty('--f', Math.min(1, secciones[i].offsetTop / total).toFixed(4)));
-    pins.forEach((a, i) => a.setAttribute('aria-current', i === state.mundo ? 'true' : 'false'));
-  }
-  function avanzaRuta() {
-    const total = Math.max(1, document.documentElement.scrollHeight - innerHeight);
-    ruta.style.setProperty('--p', Math.min(1, Math.max(0, scrollY / total)).toFixed(4));
-  }
-  colocaRuta(); avanzaRuta();
-  addEventListener('load', colocaRuta);
-  addEventListener('resize', colocaRuta);
-  addEventListener('scroll', avanzaRuta, { passive: true });
-
-  const finePointer = matchMedia('(hover: hover) and (pointer: fine)').matches;
-  const muros = $$('.casa__muro', casos);
-  let luzPendiente = false;
-  function luz() {
-    if (!finePointer || luzPendiente) return;
-    luzPendiente = true;
-    requestAnimationFrame(() => {
-      luzPendiente = false;
-      const [x, y] = state.mouse;
-      muros.forEach((m) => {
-        const r = m.getBoundingClientRect();
-        if (r.bottom < -300 || r.top > innerHeight + 300) return;
-        m.style.setProperty('--lx', `${(x - r.left).toFixed(0)}px`);
-        m.style.setProperty('--ly', `${(y - r.top).toFixed(0)}px`);
-      });
-    });
-  }
-  addEventListener('scroll', luz, { passive: true });
-  const inicio = $('#inicio');
-
-  /* ── WebGL ─────────────────────────────────────────────────────────── */
-  const canvas = $('#mundo');
-  const gl = canvas.getContext('webgl', { antialias: false, alpha: false, powerPreference: 'low-power' });
-  let ok = !!gl;
-
-  const VERT = 'attribute vec2 p;varying vec2 vUv;void main(){vUv=p*.5+.5;gl_Position=vec4(p,0.,1.);}';
-
-  const COMUN = `
-precision highp float;
-uniform vec2 uRes; uniform float uTime; uniform float uDir;
-float hash(vec2 p){ vec3 p3 = fract(vec3(p.xyx) * .1031); p3 += dot(p3, p3.yzx + 33.33); return fract((p3.x + p3.y) * p3.z); }
-vec3 bandas(float k){
-  if (k < 1.) return vec3(.93, .91, .85);
-  if (k < 2.) return vec3(.83, .63, .09);
-  if (k < 3.) return vec3(1., .89, .48);
-  if (k < 4.) return vec3(.83, .63, .09);
-  if (k < 5.) return vec3(.54, .42, .06);
-  return vec3(.93, .91, .85);
-}`;
-
-  const FRAG_ESTELA = COMUN + `
-uniform sampler2D uPrev; uniform float uShift;
-uniform vec4 uMoto;    // x, y, mitad de alto, activo (px de baja resolución)
-uniform vec4 uMouse;   // x, y, mitad de alto, activo
-void emite(vec2 p, vec4 e, float wob, inout vec4 c){
-  if (e.w < .5) return;
-  if (abs(p.x - e.x) > 1.5) return;
-  float dy = p.y - (e.y + wob);
-  if (abs(dy) >= e.z) return;
-  float k = (1. - (dy + e.z) / (2. * e.z)) * 6.;
-  c = vec4(bandas(clamp(k, 0., 5.99)), 1.);
-}
-void main(){
-  vec2 p = floor(gl_FragCoord.xy);
-  vec4 prev = texture2D(uPrev, (p + vec2(uShift * uDir, 0.) + .5) / uRes);
-  vec4 c = vec4(prev.rgb, max(prev.a - uShift * 2. / 255., 0.));
-  emite(p, uMoto, sin(uTime * 5.) * 1.4 + sin(uTime * 2.3) * 1.1, c);
-  emite(p, uMouse, sin(uTime * 9.) * .8, c);
-  gl_FragColor = c;
-}`;
-
-  const FRAG_MUNDO = COMUN + `
-uniform sampler2D uEstela, uPrevD, uGraf, uFoto;
-uniform float uDrift, uFotoOn;
-uniform float uMundo, uMosh, uSeed;
-uniform vec3 uClick;   // x, y, cantidad
-uniform vec3 uFaro;    // x, y, activo
-vec3 sodio(vec2 p, vec3 col, float alto, float cant){
-  float g = clamp(1. - p.y / (uRes.y * alto), 0., 1.);
-  if (g * cant > hash(p * 1.3 + 7.)) col = mix(col, vec3(.95, .45, .05), .6);
-  return col;
-}
-vec3 noche(vec2 p, float t){
-  vec3 col = vec3(.024, .026, .034);
-  for (int i = 0; i < 3; i++){
-    float fi = float(i);
-    vec2 q = vec2(p.x + uDir * floor(uDrift * (1.4 + fi * 2.8)), p.y);
-    float h = hash(q + fi * 17.3);
-    if (h < .010 - fi * .0026){
-      float tw = .5 + .5 * sin(t * 3. + h * 400.);
-      col = mix(col, vec3(.86, .92, 1.), mix(.4, 1., tw) * (.5 + fi * .25));
-    }
-  }
-  vec2 q = vec2(p.x + uDir * floor(uDrift * 4.), p.y);
-  vec2 cell = floor(q / 34.);
-  vec2 f = q - cell * 34.;
-  vec2 c = floor(vec2(hash(cell) * 26. + 4., hash(cell + 9.1) * 26. + 4.));
-  vec2 d = abs(f - c);
-  if (hash(cell + 3.3) < .3 && ((d.x < .5 && d.y < 3.5) || (d.y < .5 && d.x < 3.5))) col = vec3(.9, .95, 1.);
-  return sodio(p, col, .17, .42);
-}
-vec3 asfalto(vec2 p, float t){
-  vec3 col = vec3(.035, .035, .04);
-  vec2 q = vec2(p.x + uDir * floor(uDrift * 1.5), p.y);
-  vec2 c = (floor(q / 4.) + .5) * 4.;
-  float r = mix(.5, 1.5, smoothstep(0., uRes.y, p.y)) + .2 * sin(t * .8 + c.x * .07);
-  if (length(q - c) < r) col = vec3(.09, .09, .10);
-  return sodio(p, col, .26, .5);
-}
-vec3 concreto(vec2 p, float t){
-  vec3 col = vec3(.105, .105, .115);
-  col *= .84 + .3 * hash(floor(p / 7.) + 3.1);
-  float h = hash(p * 1.9 + 11.);
-  if (h < .06) col *= 1.5; else if (h > .95) col *= .55;
-  vec2 c = (floor(p / 5.) + .5) * 5.;
-  if (length(p - c) < .9 + 1.2 * smoothstep(0., uRes.y, p.y)) col += .025;
-  return col;
-}
-vec3 ladrillos(vec2 p, float t){
-  float fila = floor(p.y / 5.);
-  float off = mod(fila, 2.) * 5.;
-  vec2 cel = vec2(floor((p.x + off) / 10.), fila);
-  vec3 col = vec3(.19, .075, .055) * (.7 + .6 * hash(cel));
-  if (mod(p.y, 5.) < 1. || mod(p.x + off, 10.) < 1.) col = vec3(.055, .045, .045);
-  vec2 d = (p - vec2(uRes.x * .5, uRes.y * 1.08)) / vec2(uRes.x * .62, uRes.y * .95);
-  float g = smoothstep(1., .05, length(d));
-  if (g > hash(p * 1.3) * 1.15) col += vec3(.55, .26, .04) * g;
-  return col;
-}
-vec3 mundo(float w, vec2 p){
-  float t = uTime;
-  if (w < .5) return noche(p, t);
-  if (w < 1.5) return asfalto(p, t);
-  if (w < 2.5) return concreto(p, t);
-  return ladrillos(p, t);
-}
-void main(){
-  vec2 p = floor(gl_FragCoord.xy);
-  vec2 uv = (p + .5) / uRes;
-  vec3 col = mundo(uMundo, p);
-
-  // el faro de la moto: un haz tramado hacia la izquierda, sobre el nombre
-  if (uMundo < .5 && uFaro.z > .5){
-    float dx = (p.x - uFaro.x) * uDir;
-    if (dx > 0.){
-      float abre = 3. + dx * .34;
-      float dy = p.y - (uFaro.y + dx * .06);
-      float i = clamp(1. - abs(dy) / abre, 0., 1.) * clamp(1. - dx / 150., 0., 1.);
-      if (i * 1.15 > hash(p * .9 + 3.)) col = mix(col, vec3(1., .94, .74), .42 + .4 * i);
-    }
-    if (abs(p.x - uFaro.x) < 2. && abs(p.y - uFaro.y) < 2.) col = vec3(1., .98, .86);
-  }
-
-  vec4 tr = texture2D(uEstela, uv);
-  if (tr.a > .004 && tr.a > hash(p * 1.7 + 3.) * .9) col = tr.rgb;
-  vec4 gr = texture2D(uGraf, uv);
-  if (gr.a > .004 && gr.a > hash(p * 2.1 + 5.) * .9) col = gr.rgb;
-
-  // datamosh: agresivo y corto
-  float m = uMosh + uClick.z * smoothstep(38., 0., length(p - uClick.xy));
-  if (m > .01){
-    vec2 cc = floor(p / 5.);
-    float hs = hash(cc + 11.7);
-    float bs = hs < .25 ? 1. : (hs < .55 ? 2. : (hs < .8 ? 3. : 5.));   // bloques de 6 a 30 px en pantalla
-    vec2 bid = floor(p / bs);
-    float hb = hash(bid + uSeed * 3.1);
-    if (hb < m * .85){
-      float tipo = hash(bid + 8.8);
-      if (tipo < .26) col = (hash(bid + 1.9) < .5) ? vec3(0.) : vec3(.22, 1., .08) * (.55 + .45 * hash(bid + 4.));
-      else if (tipo < .46) col = (hash(bid + 2.7) < .55) ? vec3(0.) : vec3(.83, .63, .09);
-      else if (tipo < .78 && uFotoOn > .5){
-        // fotograma real, en fotocopia: el bloque muestra un trozo con su propio tamaño
-        float f = floor(hash(bid + 6.1) * 4.);
-        vec2 cel = vec2(mod(f, 2.), floor(f / 2.));
-        vec2 uvf = fract(uv * vec2(1.6, 1.6) + vec2(hash(bid + 9.4), hash(bid + 1.3)) * .5);
-        vec3 ph = texture2D(uFoto, (cel + uvf * .96 + .02) * .5).rgb;
-        float l = floor(dot(ph, vec3(.3, .59, .11)) * 5. + .5) / 5.;
-        vec3 tinta = (hash(bid + 3.7) < .35) ? vec3(.22, 1., .08) : vec3(.95, .78, .25);
-        col = mix(vec3(0.), tinta, clamp(l * 1.25, 0., 1.));
-      } else {
-        vec2 mv = (vec2(hash(bid + 2.2), hash(bid + 5.5)) - .5) * vec2(13., 4.) * bs;
-        col = texture2D(uPrevD, (p + mv + .5) / uRes).rgb;
+      const p = paradas[k];
+      if (hud) {
+        if (p.tipo === 'mural') { hud.barrio.textContent = p.barrio === 'clinica' ? 'Plataforma clínica' : 'Proyectos propios'; hud.n.textContent = `${p.n} / ${p.de}`; }
+        else if (p.tipo === 'letrero') { hud.barrio.textContent = p.barrio === 'clinica' ? 'Plataforma clínica' : 'Proyectos propios'; hud.n.textContent = ''; }
       }
     }
-  }
-  gl_FragColor = vec4(col, 1.);
-}`;
-
-  const FRAG_GRAF = COMUN + `
-uniform sampler2D uPrev; uniform vec4 uSpray; uniform vec3 uColor; uniform float uDecay, uSeed;
-void main(){
-  vec2 p = floor(gl_FragCoord.xy);
-  vec4 c = texture2D(uPrev, (p + .5) / uRes);
-  c.a = max(c.a - uDecay / 255., 0.);
-  if (uSpray.w > .5){
-    float d = length(p - uSpray.xy);
-    if (d < uSpray.z && pow(1. - d / uSpray.z, 1.6) > hash(p * 1.13 + uSeed)) c = vec4(uColor, 1.);
-  }
-  gl_FragColor = c;
-}`;
-
-  const FRAG_COPIA = 'precision mediump float;varying vec2 vUv;uniform sampler2D uTex;void main(){gl_FragColor=texture2D(uTex,vUv);}';
-
-  let pEstela, pMundo, pCopia, pGraf, W = 0, H = 0, estela = [], visto = [], graf = [], atlas = null, atlasOn = 0;
-
-  function compila(tipo, src) {
-    const s = gl.createShader(tipo);
-    gl.shaderSource(s, src); gl.compileShader(s);
-    if (!gl.getShaderParameter(s, gl.COMPILE_STATUS)) throw new Error(gl.getShaderInfoLog(s));
-    return s;
-  }
-  function programa(fs) {
-    const p = gl.createProgram();
-    gl.attachShader(p, compila(gl.VERTEX_SHADER, VERT));
-    gl.attachShader(p, compila(gl.FRAGMENT_SHADER, fs));
-    gl.bindAttribLocation(p, 0, 'p');
-    gl.linkProgram(p);
-    if (!gl.getProgramParameter(p, gl.LINK_STATUS)) throw new Error(gl.getProgramInfoLog(p));
-    p.u = {};
-    const n = gl.getProgramParameter(p, gl.ACTIVE_UNIFORMS);
-    for (let i = 0; i < n; i++) { const info = gl.getActiveUniform(p, i); p.u[info.name] = gl.getUniformLocation(p, info.name); }
-    return p;
-  }
-  function objetivo(w, h) {
-    const tex = gl.createTexture();
-    gl.bindTexture(gl.TEXTURE_2D, tex);
-    gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGBA, w, h, 0, gl.RGBA, gl.UNSIGNED_BYTE, null);
-    for (const [k, v] of [[gl.TEXTURE_MIN_FILTER, gl.NEAREST], [gl.TEXTURE_MAG_FILTER, gl.NEAREST], [gl.TEXTURE_WRAP_S, gl.CLAMP_TO_EDGE], [gl.TEXTURE_WRAP_T, gl.CLAMP_TO_EDGE]]) gl.texParameteri(gl.TEXTURE_2D, k, v);
-    const fb = gl.createFramebuffer();
-    gl.bindFramebuffer(gl.FRAMEBUFFER, fb);
-    gl.framebufferTexture2D(gl.FRAMEBUFFER, gl.COLOR_ATTACHMENT0, gl.TEXTURE_2D, tex, 0);
-    gl.clearColor(0, 0, 0, 0); gl.clear(gl.COLOR_BUFFER_BIT);
-    return { tex, fb };
-  }
-  function redimensiona() {
-    state.px = (innerWidth < 760 ? 5 : 6) + state.boost;
-    const w = Math.max(80, Math.ceil(innerWidth / state.px));
-    const h = Math.max(60, Math.ceil(innerHeight / state.px));
-    if (w === W && h === H) return;
-    W = w; H = h; canvas.width = W; canvas.height = H;
-    [...estela, ...visto, ...graf].forEach((o) => { gl.deleteTexture(o.tex); gl.deleteFramebuffer(o.fb); });
-    estela = [objetivo(W, H), objetivo(W, H)];
-    visto = [objetivo(W, H), objetivo(W, H)];
-    graf = [objetivo(W, H), objetivo(W, H)];
-    state.dirty = true;
-  }
-
-  if (ok) {
-    try {
-      pEstela = programa(FRAG_ESTELA); pMundo = programa(FRAG_MUNDO); pCopia = programa(FRAG_COPIA); pGraf = programa(FRAG_GRAF);
-      gl.bindBuffer(gl.ARRAY_BUFFER, gl.createBuffer());
-      gl.bufferData(gl.ARRAY_BUFFER, new Float32Array([-1, -1, 3, -1, -1, 3]), gl.STATIC_DRAW);
-      gl.enableVertexAttribArray(0);
-      gl.vertexAttribPointer(0, 2, gl.FLOAT, false, 0, 0);
-      redimensiona();
-    } catch (err) {
-      console.warn('[v3] sin WebGL, se usa el respaldo en CSS:', err.message);
-      ok = false;
+    // estaciones del taller: revelan con el scroll, un paso cada vez
+    const sub = (kk) => { const g = holdSeg[kk]; return g ? clamp((sc - g.s0) / (g.s1 - g.s0), 0, 1) : 0; };
+    if (orden) {
+      const cur = Math.min(orden.items.length - 1, Math.floor(sub(orden.k) * orden.items.length));
+      if (cur !== orden.cur) { orden.cur = cur; orden.items.forEach((li, i) => { li.classList.toggle('es-ahora', i === cur); li.classList.toggle('es-luego', i > cur); }); }
     }
-  }
-  // fotogramas de referencia, para que el datamosh use imagen real (fotocopia)
-  if (ok) {
-    atlas = gl.createTexture();
-    gl.bindTexture(gl.TEXTURE_2D, atlas);
-    gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGBA, 1, 1, 0, gl.RGBA, gl.UNSIGNED_BYTE, new Uint8Array([0, 0, 0, 255]));
-    const foto = new Image();
-    foto.onload = () => {
-      gl.bindTexture(gl.TEXTURE_2D, atlas);
-      gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGB, gl.RGB, gl.UNSIGNED_BYTE, foto);
-      for (const [k, v] of [[gl.TEXTURE_MIN_FILTER, gl.LINEAR], [gl.TEXTURE_MAG_FILTER, gl.LINEAR], [gl.TEXTURE_WRAP_S, gl.CLAMP_TO_EDGE], [gl.TEXTURE_WRAP_T, gl.CLAMP_TO_EDGE]]) gl.texParameteri(gl.TEXTURE_2D, k, v);
-      atlasOn = 1;
-    };
-    foto.src = '/v3-1/img/fotogramas-atlas.jpg';
-  }
-  if (!ok) root.classList.add('sin-gl');
-
-  function dibuja(fb, prog, w, h) {
-    gl.bindFramebuffer(gl.FRAMEBUFFER, fb);
-    gl.viewport(0, 0, w, h);
-    gl.useProgram(prog);
-    gl.drawArrays(gl.TRIANGLES, 0, 3);
-  }
-  function textura(unidad, tex, loc) {
-    gl.activeTexture(gl.TEXTURE0 + unidad); gl.bindTexture(gl.TEXTURE_2D, tex); gl.uniform1i(loc, unidad);
-  }
-
-  /* ── Bucle ─────────────────────────────────────────────────────────── */
-  const cola = $('#moto-cola'), faro = $('#moto-faro');
-  function pintaFotograma(dt) {
-    const px = state.px;
-    let cola4 = [0, 0, 0, 0], faro3 = [0, 0, 0];
-    if (state.heroOn && state.mundo === 0) {
-      const r = cola.getBoundingClientRect();
-      cola4 = [(r.left + r.width / 2) / px, (innerHeight - (r.top + r.height / 2)) / px, Math.max(3, r.height / 2 / px), 1];
-      const f = faro.getBoundingClientRect();
-      faro3 = [(f.left + f.width / 2) / px, (innerHeight - (f.top + f.height / 2)) / px, 1];
+    if (reglas) {
+      const cur = Math.min(reglas.items.length - 1, Math.floor(sub(reglas.k) * reglas.items.length));
+      if (cur !== reglas.cur) { reglas.cur = cur; reglas.items.forEach((li, i) => li.classList.toggle('activa', i === cur)); }
     }
-    const raton = state.t - state.mouseAt < 0.9 && !reduced
-      ? [state.mouse[0] / px, (innerHeight - state.mouse[1]) / px, 3, 1] : [0, 0, 0, 0];
-    state.shiftAcc += (reduced ? 0 : 58 * (1 + 4 * state.vel)) * dt;
-    const shift = Math.floor(state.shiftAcc); state.shiftAcc -= shift;
-
-    const i = state.frame % 2, j = 1 - i;
-    gl.useProgram(pEstela);
-    let u = pEstela.u;
-    textura(0, estela[i].tex, u.uPrev);
-    gl.uniform2f(u.uRes, W, H); gl.uniform1f(u.uTime, state.t); gl.uniform1f(u.uShift, shift); gl.uniform1f(u.uDir, DIR);
-    gl.uniform4fv(u.uMoto, cola4); gl.uniform4fv(u.uMouse, raton);
-    dibuja(estela[j].fb, pEstela, W, H);
-
-    // spray persistente: se pinta al mantener pulsado y se desvanece despacio
-    const sp = state.spray;
-    const coloresSpray = [[.83, .63, .09], [.93, .91, .85], [.22, 1., .08]];
-    gl.useProgram(pGraf);
-    u = pGraf.u;
-    textura(0, graf[i].tex, u.uPrev);
-    gl.uniform2f(u.uRes, W, H); gl.uniform1f(u.uTime, state.t);
-    gl.uniform4f(u.uSpray, sp.x / px, (innerHeight - sp.y) / px, 7, sp.on ? 1 : 0);
-    gl.uniform3fv(u.uColor, coloresSpray[sp.c % 3]);
-    gl.uniform1f(u.uDecay, state.frame % 6 === 0 ? 1 : 0);
-    gl.uniform1f(u.uSeed, state.frame * 1.7);
-    dibuja(graf[j].fb, pGraf, W, H);
-
-    // datamosh: solo tras un cambio de mundo o cerca de un clic; más agresivo y más corto
-    const ahora = performance.now() / 1000;
-    const dtMosh = ahora - state.moshT0;
-    let mosh = 0;
-    if (!reduced && dtMosh < 0.55) mosh = dtMosh < 0.06 ? (dtMosh / 0.06) * 0.85 : 0.85 * Math.max(0, 1 - (dtMosh - 0.06) / 0.49);
-    const dtClick = ahora - state.clickAt;
-    const clic = !reduced && dtClick < 0.5 ? 1 - dtClick / 0.5 : 0;
-
-    gl.useProgram(pMundo);
-    u = pMundo.u;
-    textura(0, estela[j].tex, u.uEstela);
-    textura(1, visto[i].tex, u.uPrevD);
-    textura(2, graf[j].tex, u.uGraf);
-    textura(3, atlas, u.uFoto);
-    gl.uniform1f(u.uFotoOn, atlasOn);
-    gl.uniform1f(u.uDrift, state.drift);
-    gl.uniform1f(u.uDir, DIR);
-    gl.uniform2f(u.uRes, W, H); gl.uniform1f(u.uTime, state.t);
-    gl.uniform1f(u.uMundo, state.mundo);
-    gl.uniform1f(u.uMosh, mosh);
-    gl.uniform1f(u.uSeed, Math.floor(state.t * 12) + state.moshSeed * 5);
-    gl.uniform3f(u.uClick, state.click[0], state.click[1], clic);
-    gl.uniform3fv(u.uFaro, faro3);
-    dibuja(visto[j].fb, pMundo, W, H);
-
-    gl.useProgram(pCopia);
-    textura(0, visto[j].tex, pCopia.u.uTex);
-    dibuja(null, pCopia, W, H);
-    state.frame++;
+    if (tablero) {
+      const n = Math.min(tablero.items.length, Math.floor(sub(tablero.k) * (tablero.items.length + .5)) + 1);
+      if (n !== tablero.n) { tablero.n = n; tablero.items.forEach((g, i) => g.classList.toggle('es-luego', i >= n)); }
+    }
+    if (puertaK >= 0) {
+      const d = paradas[puertaK];
+      const abierta = clamp((S.cx - (d.cx - 55)) / 40, 0, 1);
+      const el = d.el;
+      if (Math.abs((el._abierta || 0) - abierta) > .004) { el._abierta = abierta; el.style.setProperty('--persiana', abierta.toFixed(3)); }
+    }
+    if (hud && S.ayudaVista === false && sc > innerHeight * .25) { S.ayudaVista = true; hud.ayuda.classList.add('oculta'); }
   }
 
-  function bucle(now) {
-    if (!state.running) return;
-    const msReal = now - state.last;
-    const dt = Math.min(0.05, msReal / 1000);
-    state.last = now;
-    if (!reduced) {
-      const v = Math.min(1, Math.abs(scrollY - state.lastY) / Math.max(dt, 0.008) / 2200);
-      state.lastY = scrollY;
-      state.vel += (v - state.vel) * Math.min(1, dt * 7);
-      state.drift += dt * (1 + 5 * state.vel);
-      state.mx += (state.mxT - state.mx) * Math.min(1, dt * 4);
-      state.my += (state.myT - state.my) * Math.min(1, dt * 4);
-      if (state.heroOn) { inicio.style.setProperty('--mx', state.mx.toFixed(3)); inicio.style.setProperty('--my', state.my.toFixed(3)); }
-    }
-    if (ok) {
-      if (reduced) {
-        if (state.dirty) { state.dirty = false; pintaFotograma(0); pintaFotograma(0); }
-      } else {
-        state.t += dt;
-        pintaFotograma(dt);
-        // en equipos muy lentos, píxeles más grandes (nunca vuelve atrás)
-        state.ft += (msReal - state.ft) * 0.05;
-        if (state.frame % 150 === 0 && state.ft > 60 && state.boost < 3) { state.boost++; redimensiona(); }
-      }
-    }
-    requestAnimationFrame(bucle);
+  function preparaModo() {
+    paradas = $$('[data-parada]', camara).map((el) => ({
+      el, tipo: el.dataset.tipo, cx: Number(el.dataset.cx), mantener: Number(el.dataset.mantener),
+      barrio: el.dataset.barrio, n: el.dataset.n, de: el.dataset.de,
+    }));
+    murales = paradas.map((p, k) => ({ ...p, k })).filter((p) => p.tipo === 'mural');
+    puertaK = paradas.findIndex((p) => p.tipo === 'puerta');
+    const est = (tipo) => paradas.findIndex((p) => p.tipo === tipo);
+    const io = est('orden'), ir = est('reglas'), is = est('stack');
+    orden = io >= 0 ? { k: io, items: $$('.orden__it', paradas[io].el), cur: -1 } : null;
+    reglas = ir >= 0 ? { k: ir, items: $$('.regla', paradas[ir].el), cur: -1 } : null;
+    tablero = is >= 0 ? { k: is, items: $$('.tablero__grupo', paradas[is].el), n: -1 } : null;
+    hud = { barrio: $('#rn-barrio'), n: $('#rn-n'), ayuda: $('#pista-ayuda') };
+    S.k = -1;
   }
-  requestAnimationFrame(bucle);
 
-  document.addEventListener('visibilitychange', () => {
-    state.running = !document.hidden;
-    if (state.running) { state.last = performance.now(); requestAnimationFrame(bucle); }
+  function activaModo() {
+    if (S.modo) return;
+    S.modo = true; root.classList.add('modo-viaje');
+    preparaModo(); generaMundo(); calculaSegmentos();
+    S.cx = S.cxObj = 0; paso(performance.now(), true);
+  }
+  function desactivaModo() {
+    if (!S.modo) return;
+    S.modo = false; root.classList.remove('modo-viaje');
+    delete root.dataset.cap;
+    camara.style.transform = ''; camara.style.removeProperty('--mundo-w'); pista.style.height = '';
+    mundo.innerHTML = ''; if (decorado) { decorado.remove(); decorado = null; }
+    $$('.es-luego,.es-ahora,.activa,.is-foco').forEach((e) => e.classList.remove('es-luego', 'es-ahora', 'activa', 'is-foco'));
+    $$('.taller__fachada').forEach((e) => e.style.removeProperty('--persiana'));
+  }
+  function evaluaModo() {
+    if (puedeViaje()) {
+      if (!S.modo) activaModo();
+      else { calculaSegmentos(); generaMundo(); const k = Math.max(0, S.k); scrollTo(0, pistaTop + paradaScroll[k]); }
+    } else desactivaModo();
+  }
+  let tRes = 0;
+  addEventListener('resize', () => { clearTimeout(tRes); tRes = setTimeout(evaluaModo, 160); });
+
+  /* — entrada — */
+  const interactivo = (el) => el && el.closest && el.closest('a, button, input, select, textarea, label, [data-nohold]');
+  function pulsa(v) { S.pulsado = v; }
+  addEventListener('keydown', (e) => {
+    if (radio && !radio.classList.contains('cerrada')) return;
+    if (e.code === 'Space' && S.modo && !interactivo(e.target)) { e.preventDefault(); if (!e.repeat) pulsa(true); return; }
+    if (!S.modo || interactivo(e.target) && e.target.matches('input, select, textarea')) return;
+    if (e.key === 'ArrowRight') { e.preventDefault(); irAParada(actual() + 1); }
+    else if (e.key === 'ArrowLeft') { e.preventDefault(); irAParada(actual() - 1); }
   });
-  addEventListener('resize', () => { if (ok) redimensiona(); parallax(); });
-
-  /* ── Entrada ───────────────────────────────────────────────────────── */
-  addEventListener('pointermove', (e) => {
-    state.mouse = [e.clientX, e.clientY]; state.mouseAt = state.t;
-    state.mxT = (e.clientX / innerWidth) * 2 - 1; state.myT = (e.clientY / innerHeight) * 2 - 1;
-    state.spray.x = e.clientX; state.spray.y = e.clientY;
-    luz();
-  }, { passive: true });
-
-  const temblor = [$('main'), canvas];
-  temblor.forEach((el) => el.addEventListener('animationend', (e) => { if (e.animationName === 'golpe') el.classList.remove('golpe'); }));
-  const sueltaSpray = () => { state.spray.on = false; };
-  addEventListener('pointerup', sueltaSpray);
-  addEventListener('pointercancel', sueltaSpray);
-  addEventListener('blur', sueltaSpray);
-  addEventListener('pointerdown', (e) => {
-    if (!reduced && e.pointerType === 'mouse' && e.button === 0 && !e.target.closest('a, button, [role=button], .barra, .ruta')) {
-      state.spray.on = true; state.spray.c = state.spray.n++; state.spray.x = e.clientX; state.spray.y = e.clientY;
-    }
-    state.click = [e.clientX / state.px, (innerHeight - e.clientY) / state.px, 0];
-    state.clickAt = performance.now() / 1000;
-    if (!reduced) temblor.forEach((el) => { el.classList.remove('golpe'); void el.offsetWidth; el.classList.add('golpe'); });
+  addEventListener('keyup', (e) => { if (e.code === 'Space') pulsa(false); });
+  escena.addEventListener('pointerdown', (e) => { if (S.modo && !interactivo(e.target) && e.button === 0) pulsa(true); });
+  ['pointerup', 'pointercancel'].forEach((ev) => addEventListener(ev, () => pulsa(false)));
+  addEventListener('blur', () => pulsa(false));
+  const motoImg = $('.moto__img');
+  if (motoImg) {
+    motoImg.addEventListener('pointerdown', () => { if (!S.modo) pulsa(true); });
+  }
+  escena.addEventListener('scroll', () => { escena.scrollLeft = 0; escena.scrollTop = 0; });
+  camara.addEventListener('focusin', (e) => {
+    if (!S.modo) return;
+    const p = e.target.closest('[data-parada]'); if (!p) return;
+    const k = paradas.findIndex((x) => x.el === p);
+    if (k >= 0 && k !== S.k) irAParada(k);
   });
+  $$('.capitulos a, [data-irloma]').forEach((a) => a.addEventListener('click', (e) => {
+    if (!S.modo) return;
+    e.preventDefault();
+    const cap = a.dataset.cap || 'loma';
+    const k = { loma: 0, ruta: paradas.findIndex((p) => p.tipo === 'letrero'), taller: paradas.findIndex((p) => p.tipo === 'puerta'), llegada: paradas.length - 1 }[cap];
+    irAParada(k);
+  }));
+  const empezar = $('#empezar');
+  if (empezar) empezar.addEventListener('click', (e) => { if (!S.modo) return; e.preventDefault(); irAParada(1); });
+  const rnAnt = $('#rn-ant'), rnSig = $('#rn-sig');
+  if (rnAnt) rnAnt.addEventListener('click', () => irAParada(Math.max(1, actual() - 1)));
+  if (rnSig) rnSig.addEventListener('click', () => irAParada(actual() + 1));
+  ['wheel', 'touchstart'].forEach((ev) => addEventListener(ev, () => { S.destino = null; }, { passive: true }));
+
+  /* ═══════════ Bucle ═══════════ */
+  let ultimoBajo = 0, frameN = 0;
+  function paso(now, forzar) {
+    const dt = Math.min(.05, Math.max(.001, (now - S.ultimo) / 1000));
+    S.ultimo = now; S.t += dt; frameN++;
+
+    // cámara
+    if (S.modo) {
+      const sc = scrollY - pistaTop;
+      const est = estado(sc);
+      S.cxObj = est.cx;
+      S.cx += (S.cxObj - S.cx) * (forzar ? 1 : 1 - Math.exp(-dt / .11));
+      const v = Math.abs(S.cx - S.velPrev) / dt / 70; S.velPrev = S.cx;
+      S.vel += (clamp(v, 0, 1) - S.vel) * (1 - Math.exp(-dt / .12));
+      const a = clamp((S.vel - (S._v0 || 0)) / dt * .05, -1, 1); S._v0 = S.vel;
+      S.acel += (a - S.acel) * (1 - Math.exp(-dt / .18));
+      const golpe = reducido ? 0 : S.golpe * 1.4;
+      camara.style.transform = `translate3d(${(-S.cx).toFixed(3)}vw, ${golpe.toFixed(2)}px, 0)`;
+      for (const c of capas) c.el.style.transform = `translate3d(${(-S.cx * c.f).toFixed(3)}vw, 0, 0)`;
+      actualizaEstados(sc, est.k);
+      const fin = paradas[paradas.length - 1].cx;
+      const park = clamp((S.cx - (fin - 34)) / 34, 0, 1);
+      if (Math.abs((S._park || 0) - park) > .004) { S._park = park; moto.style.setProperty('--park', park.toFixed(3)); }
+      if (Math.abs((S._velc || 0) - S.vel) > .03) { S._velc = S.vel; escena.style.setProperty('--vel', S.vel.toFixed(2)); }
+    } else {
+      S.vel += (0 - S.vel) * .1; S.acel *= .9;
+    }
+
+    // rugido del motor: solo con el gesto pulsado
+    S.rev += ((S.pulsado ? 1 : 0) - S.rev) * (1 - Math.exp(-dt / .16));
+    moto.classList.toggle('rugiendo', S.rev > .55);
+
+    // audio reactivo
+    let b = 0;
+    if (A.sonando && A.analyser && !A.mudo) {
+      A.analyser.getByteFrequencyData(A.data);
+      b = (A.data[0] + A.data[1] + A.data[2] + A.data[3] + A.data[4]) / 5 / 255;
+      S.prom += (b - S.prom) * .03;
+      if (b > S.prom * 1.22 && b > .38 && now - S.ultGolpe > 190) { S.golpe = 1; S.ultGolpe = now; }
+      S.bajo = clamp(.22 + b * .95, 0, 1);
+      const objetivo = S.cap === 'llegada' ? .3 : 1;
+      A.el.volume = clamp(A.el.volume + (objetivo - A.el.volume) * .04, 0, 1);
+    } else {
+      S.bajo = .34 + .12 * Math.sin(S.t * 2.2);
+    }
+    S.golpe *= .84;
+    if (frameN % 2 === 0 || forzar) {
+      if (Math.abs(S.bajo - ultimoBajo) > .015) { ultimoBajo = S.bajo; escena.style.setProperty('--bajo', S.bajo.toFixed(2)); }
+    }
+
+    // moto: vibración con el motor, inclinación al acelerar y frenar
+    const px = innerHeight * .0022;
+    const vib = (Math.sin(S.t * 41) * (.55 * S.rev + .3 * S.vel) + Math.sin(S.t * 6.4) * .45) * px * 2;
+    const incl = reducido ? 0 : -(S.rev * 2.2 + Math.max(0, S.acel) * 2.4) + Math.max(0, -S.acel) * 1.8 - (S._park || 0) * 2.2;
+    motoCuerpo.style.setProperty('--vib', vib.toFixed(2) + 'px');
+    motoCuerpo.style.setProperty('--inclina', incl.toFixed(2) + 'deg');
+    moto.style.setProperty('--rev', S.rev.toFixed(2));
+
+    // motor generado
+    if (A.motor && S.enJuego) {
+      const rpm = clamp(.14 + S.vel * .55 + S.rev * .85, 0, 1);
+      motorSet(rpm, Math.max(.014, S.vel * .05, S.rev * .11), now);
+    }
+  }
+  function bucle(now) { paso(now, false); requestAnimationFrame(bucle); }
+  let arrancado = false;
+  function arranca() { if (arrancado) return; arrancado = true; requestAnimationFrame((t) => { S.ultimo = t; paso(t, true); requestAnimationFrame(bucle); }); }
+
+  evaluaModo();
+  arranca();
+  if (!S.modo) { root.dataset.cap = 'loma'; }
+  addEventListener('scroll', () => { /* la cámara se lee en cada fotograma */ }, { passive: true });
 })();
