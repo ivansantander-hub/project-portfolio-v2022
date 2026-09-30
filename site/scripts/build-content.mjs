@@ -283,6 +283,7 @@ function emit(relFile, { lang, title, description, canonical, altUrl, body, scri
     `navAboutLabel: ${lang === 'es' ? 'Sobre mí' : 'About'}`,
     `linkV1: ${LINK_V1 ? `<a class="site-footer__v1" href="/v1/" title="${lang === 'es' ? 'Portafolio de 2022, con 3D' : '2022 portfolio, with 3D'}">v1</a>` : ''}`,
     `linkV3: ${LINK_V3 ? `<a class="site-footer__v1" href="/v3/" title="${lang === 'es' ? 'Versión experimental del portafolio, en collage pop' : 'Experimental version of the portfolio, pop collage'}">v3</a>` : ''}`,
+    `linkV31: ${LINK_V3 ? `<a class="site-footer__v1" href="/v3.1/" title="${lang === 'es' ? 'Versión 3.1: calle de noche, con más detalle' : 'Version 3.1: night street, with more detail'}">v3.1</a>` : ''}`,
     '---',
     '',
   ].join('\n');

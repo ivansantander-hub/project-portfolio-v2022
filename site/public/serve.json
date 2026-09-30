@@ -3,8 +3,21 @@
     {
       "source": "**/*.@(css|js)",
       "headers": [
-        { "key": "Cache-Control", "value": "public, max-age=60, must-revalidate" }
+        {
+          "key": "Cache-Control",
+          "value": "public, max-age=60, must-revalidate"
+        }
       ]
+    }
+  ],
+  "rewrites": [
+    {
+      "source": "/v3.1",
+      "destination": "/v3-1/index.html"
+    },
+    {
+      "source": "/v3.1/",
+      "destination": "/v3-1/index.html"
     }
   ]
 }

@@ -1,0 +1,416 @@
+<!doctype html>
+<html lang="es" class="js-off">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Iván Santander — Tech Lead y Technical Product Owner · v3.1</title>
+<meta name="description" content="Iván Santander, Tech Lead y Technical Product Owner en Medellín. Una noche en moto por la ciudad: casos, sobre mí y contacto.">
+<meta name="robots" content="noindex, follow">
+<meta name="theme-color" content="#06070b">
+<link rel="canonical" href="https://ivansantander.com/v3.1/">
+<link rel="alternate" hreflang="es" href="https://ivansantander.com/v3.1/">
+<link rel="alternate" hreflang="en" href="https://ivansantander.com/v3.1/">
+<link rel="alternate" hreflang="x-default" href="https://ivansantander.com/v3.1/">
+<meta property="og:type" content="website">
+<meta property="og:title" content="Iván Santander — Tech Lead y Technical Product Owner">
+<meta property="og:description" content="Una noche en moto por Medellín: casos, sobre mí y contacto. Versión experimental del portafolio.">
+<meta property="og:url" content="https://ivansantander.com/v3.1/">
+<meta property="og:image" content="https://ivansantander.com/img/og.png">
+<link rel="icon" href="/favicon.ico">
+<link rel="preload" href="/fonts/rubik-spray-paint-latin-400-normal.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="/fonts/anton-latin-400-normal.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="stylesheet" href="/v3-1/v3.css">
+<script>document.documentElement.classList.replace('js-off','js-on')</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "WebPage",
+  "name": "Iván Santander — La ruta (v3.1)",
+  "url": "https://ivansantander.com/v3.1/",
+  "inLanguage": "es",
+  "description": "Versión experimental del portafolio de Iván Santander, Tech Lead y Technical Product Owner.",
+  "isPartOf": { "@type": "WebSite", "name": "Iván Santander", "url": "https://ivansantander.com/" },
+  "about": { "@type": "Person", "name": "Iván Santander", "jobTitle": "Tech Lead y Technical Product Owner", "url": "https://ivansantander.com/" }
+}
+</script>
+</head>
+<body data-cap="loma">
+<a class="saltar" href="#ruta">Saltar a los casos</a>
+<svg class="defs" aria-hidden="true" focusable="false" width="0" height="0">
+  <defs>
+    <linearGradient id="oro" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#fff2b8"/><stop offset=".3" stop-color="#f4c93c"/>
+      <stop offset=".47" stop-color="#b8860b"/><stop offset=".5" stop-color="#4d3700"/>
+      <stop offset=".53" stop-color="#e6b422"/><stop offset=".8" stop-color="#f7d56a"/><stop offset="1" stop-color="#a87a08"/>
+    </linearGradient>
+    <filter id="sucio" x="-5%" y="-8%" width="110%" height="118%">
+      <feTurbulence type="fractalNoise" baseFrequency=".045" numOctaves="2" seed="11" result="t"/>
+      <feDisplacementMap in="SourceGraphic" in2="t" scale="6" xChannelSelector="R" yChannelSelector="G"/>
+    </filter>
+  </defs>
+</svg>
+<div class="radio" id="radio" role="dialog" aria-modal="true" aria-labelledby="radio-t" aria-describedby="radio-d">
+  <div class="radio__cuerpo">
+    <i class="radio__asa" aria-hidden="true"></i>
+    <div class="radio__pantalla">
+      <p class="radio__titulo" id="radio-t">La ruta</p>
+      <p class="radio__ayuda" id="radio-d">Una noche en moto por Medellín. Elige una canción.</p>
+    </div>
+    <fieldset class="casetes">
+      <legend class="visually-hidden">Canción</legend>
+      <label class="casete"><input type="radio" name="cancion" value="0" data-src="/audio/el-estren.mp3" data-titulo="El estren" checked>
+        <span class="casete__cuerpo"><span class="casete__ventana" aria-hidden="true"><i class="rueda"></i><i class="rueda"></i></span><span class="casete__etiqueta">El estren</span></span></label>
+      <label class="casete"><input type="radio" name="cancion" value="1" data-src="/audio/india-conocida.mp3" data-titulo="India conocida">
+        <span class="casete__cuerpo"><span class="casete__ventana" aria-hidden="true"><i class="rueda"></i><i class="rueda"></i></span><span class="casete__etiqueta">India conocida</span></span></label>
+    </fieldset>
+    <div class="radio__botones">
+      <button type="button" class="boton" id="encender">Encender y salir</button>
+      <button type="button" class="enlace" id="sinmusica">Entrar sin música</button>
+    </div>
+  </div>
+</div>
+<header class="marco">
+  <a class="marco__atras" href="/">← Portafolio</a>
+  <nav class="capitulos" aria-label="Capítulos">
+    <a href="#loma" data-cap="loma">La loma</a>
+    <a href="#ruta" data-cap="ruta">La ruta</a>
+    <a href="#taller" data-cap="taller">El taller</a>
+    <a href="#llegada" data-cap="llegada">La llegada</a>
+  </nav>
+</header>
+<div class="audio solo-js" id="audio" role="group" aria-label="Música" hidden>
+  <p class="audio__titulo" id="audio-titulo" aria-live="polite"></p>
+  <button type="button" id="a-play" aria-label="Reproducir" data-i-play="&lt;svg viewBox=&quot;0 0 24 24&quot; aria-hidden=&quot;true&quot;&gt;&lt;path d=&quot;M7 4l13 8-13 8z&quot; fill=&quot;currentColor&quot;/&gt;&lt;/svg&gt;" data-i-pausa="&lt;svg viewBox=&quot;0 0 24 24&quot; aria-hidden=&quot;true&quot;&gt;&lt;path d=&quot;M6 4h4v16H6zM14 4h4v16h-4z&quot; fill=&quot;currentColor&quot;/&gt;&lt;/svg&gt;"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7 4l13 8-13 8z" fill="currentColor"/></svg></button>
+  <button type="button" id="a-sig" aria-label="Cambiar de canción"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 4l11 8-11 8zM18 4h2v16h-2z" fill="currentColor"/></svg></button>
+  <button type="button" id="a-mudo" aria-label="Silenciar" data-i-voz="&lt;svg viewBox=&quot;0 0 24 24&quot; aria-hidden=&quot;true&quot;&gt;&lt;path d=&quot;M3 9h4l5-4v14l-5-4H3zM15 8c2 1.2 3 2.4 3 4s-1 2.8-3 4M17.5 5c3 1.7 4.5 4.3 4.5 7s-1.500 5.300-4.500 7&quot; fill=&quot;none&quot; stroke=&quot;currentColor&quot; stroke-width=&quot;2&quot;/&gt;&lt;path d=&quot;M3 9h4l5-4v14l-5-4H3z&quot; fill=&quot;currentColor&quot;/&gt;&lt;/svg&gt;" data-i-mudo="&lt;svg viewBox=&quot;0 0 24 24&quot; aria-hidden=&quot;true&quot;&gt;&lt;path d=&quot;M3 9h4l5-4v14l-5-4H3z&quot; fill=&quot;currentColor&quot;/&gt;&lt;path d=&quot;M16 9l6 6M22 9l-6 6&quot; stroke=&quot;currentColor&quot; stroke-width=&quot;2.4&quot; fill=&quot;none&quot;/&gt;&lt;/svg&gt;"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 9h4l5-4v14l-5-4H3zM15 8c2 1.2 3 2.4 3 4s-1 2.8-3 4M17.5 5c3 1.7 4.5 4.3 4.5 7s-1.500 5.300-4.500 7" fill="none" stroke="currentColor" stroke-width="2"/><path d="M3 9h4l5-4v14l-5-4H3z" fill="currentColor"/></svg></button>
+  <audio id="cancion" preload="none" loop></audio>
+</div>
+
+<main id="viaje" class="viaje">
+  <div class="pista" id="pista">
+    <div class="escena" id="escena">
+      <div class="mundo" id="mundo" aria-hidden="true"></div>
+      <div class="camara" id="camara">
+    <section id="loma" class="cap cap--loma" aria-label="Presentación">
+      <div class="loma__muro" data-parada data-tipo="loma" data-cx="0" data-mantener="42">
+        <h1 class="nombre"><span class="visually-hidden">Iván Santander</span><svg class="nombre__svg" id="nombre-svg" viewBox="0 0 1360 600" aria-hidden="true" focusable="false">
+   <defs>
+    <g id="nom" font-family="'Rubik Spray Paint', 'Arial Black', Impact, sans-serif">
+      <text id="nom-1" x="80" y="230" font-size="250">Iván</text>
+      <text id="nom-2" x="190" y="500" font-size="205">Santander</text>
+    </g>
+   </defs>
+   <g filter="url(#sucio)" stroke-linejoin="round" stroke-linecap="round" transform="rotate(-2.5 680 300)">
+    <use href="#nom" stroke="#000" stroke-width="64" fill="#000" transform="translate(12 16)" opacity=".9"/>
+    <use href="#nom" stroke="#000" stroke-width="50" fill="#000"/>
+    <g class="gotas-negras"></g>
+    <use href="#nom" stroke="#ece6d2" stroke-width="20" fill="#ece6d2"/>
+    <use href="#nom" stroke="#000" stroke-width="6" fill="url(#oro)"/>
+    <g class="gotas-oro"></g>
+   </g>
+  </svg></h1>
+        <p class="rol">Tech Lead y Technical Product Owner</p>
+        <a class="boton" id="empezar" href="#ruta">Empezar la ruta</a>
+      </div>
+    </section>
+        <section id="ruta" class="cap cap--ruta" aria-labelledby="ruta-t">
+          <h2 id="ruta-t" class="visually-hidden">La ruta: los casos</h2>
+    <div class="barrio" id="barrio-clinica" aria-labelledby="barrio-clinica-t">
+      <div class="letrero" style="--x:150" data-parada data-tipo="letrero" data-barrio="clinica" data-cx="90" data-mantener="12">
+        <div class="letrero__placa"><h3 id="barrio-clinica-t" class="letrero__titulo">Plataforma clínica</h3><p class="letrero__n">10 casos</p></div>
+        <i class="letrero__poste" aria-hidden="true"></i>
+      </div>
+      <ol class="murales" role="list" aria-label="Casos de plataforma clínica">
+      <li class="mural mural--v0 mural--l" style="--x:236" data-parada data-tipo="mural" data-barrio="clinica" data-n="1" data-de="10" data-cx="172" data-mantener="12">
+        <a class="mural__a" href="/trabajo/architecture-simplification/">
+          <span class="mural__num" aria-hidden="true">01</span>
+          <h4 class="mural__titulo">Simplificación de arquitectura</h4>
+          <p class="mural__caso">Simplificar una arquitectura que creció por acumulación</p>
+          <span class="mural__abrir">Abrir caso <span aria-hidden="true">→</span></span>
+          <span class="mural__luz" aria-hidden="true"></span>
+          <span class="mural__sombra" aria-hidden="true"></span>
+        </a>
+      </li>
+      <li class="mural mural--v1 mural--l" style="--x:324" data-parada data-tipo="mural" data-barrio="clinica" data-n="2" data-de="10" data-cx="260" data-mantener="12">
+        <a class="mural__a" href="/trabajo/ai-coding-assistant/">
+          <span class="mural__num" aria-hidden="true">02</span>
+          <h4 class="mural__titulo">Asistente de código con IA</h4>
+          <p class="mural__caso">Un asistente de código con IA adaptado a la forma de trabajar del equipo</p>
+          <span class="mural__abrir">Abrir caso <span aria-hidden="true">→</span></span>
+          <span class="mural__luz" aria-hidden="true"></span>
+          <span class="mural__sombra" aria-hidden="true"></span>
+        </a>
+      </li>
+      <li class="mural mural--v2 mural--m" style="--x:412" data-parada data-tipo="mural" data-barrio="clinica" data-n="3" data-de="10" data-cx="348" data-mantener="12">
+        <a class="mural__a" href="/trabajo/workflow-engine/">
+          <span class="mural__num" aria-hidden="true">03</span>
+          <h4 class="mural__titulo">Motor de flujos</h4>
+          <p class="mural__caso">Un motor de flujos configurable para integraciones de datos</p>
+          <span class="mural__abrir">Abrir caso <span aria-hidden="true">→</span></span>
+          <span class="mural__luz" aria-hidden="true"></span>
+          <span class="mural__sombra" aria-hidden="true"></span>
+        </a>
+      </li>
+      <li class="mural mural--v0 mural--m" style="--x:500" data-parada data-tipo="mural" data-barrio="clinica" data-n="4" data-de="10" data-cx="436" data-mantener="12">
+        <a class="mural__a" href="/trabajo/document-management/">
+          <span class="mural__num" aria-hidden="true">04</span>
+          <h4 class="mural__titulo">Gestión documental</h4>
+          <p class="mural__caso">Gestión documental con permisos y trazabilidad</p>
+          <span class="mural__abrir">Abrir caso <span aria-hidden="true">→</span></span>
+          <span class="mural__luz" aria-hidden="true"></span>
+          <span class="mural__sombra" aria-hidden="true"></span>
+        </a>
+      </li>
+      <li class="mural mural--v1 mural--l" style="--x:588" data-parada data-tipo="mural" data-barrio="clinica" data-n="5" data-de="10" data-cx="524" data-mantener="12">
+        <a class="mural__a" href="/trabajo/dashboards/">
+          <span class="mural__num" aria-hidden="true">05</span>
+          <h4 class="mural__titulo">Dashboards configurables</h4>
+          <p class="mural__caso">Dashboards configurables por proyecto</p>
+          <span class="mural__abrir">Abrir caso <span aria-hidden="true">→</span></span>
+          <span class="mural__luz" aria-hidden="true"></span>
+          <span class="mural__sombra" aria-hidden="true"></span>
+        </a>
+      </li>
+      <li class="mural mural--v2 mural--m" style="--x:676" data-parada data-tipo="mural" data-barrio="clinica" data-n="6" data-de="10" data-cx="612" data-mantener="12">
+        <a class="mural__a" href="/trabajo/ai-integration/">
+          <span class="mural__num" aria-hidden="true">06</span>
+          <h4 class="mural__titulo">Integración de IA</h4>
+          <p class="mural__caso">Una propuesta para integrar IA en una plataforma de un entorno regulado</p>
+          <span class="mural__abrir">Abrir caso <span aria-hidden="true">→</span></span>
+          <span class="mural__luz" aria-hidden="true"></span>
+          <span class="mural__sombra" aria-hidden="true"></span>
+        </a>
+      </li>
+      <li class="mural mural--v0 mural--m" style="--x:764" data-parada data-tipo="mural" data-barrio="clinica" data-n="7" data-de="10" data-cx="700" data-mantener="12">
+        <a class="mural__a" href="/trabajo/digital-signatures/">
+          <span class="mural__num" aria-hidden="true">07</span>
+          <h4 class="mural__titulo">Firma electrónica</h4>
+          <p class="mural__caso">Firmas electrónicas con evidencia verificable</p>
+          <span class="mural__abrir">Abrir caso <span aria-hidden="true">→</span></span>
+          <span class="mural__luz" aria-hidden="true"></span>
+          <span class="mural__sombra" aria-hidden="true"></span>
+        </a>
+      </li>
+      <li class="mural mural--v1 mural--l" style="--x:852" data-parada data-tipo="mural" data-barrio="clinica" data-n="8" data-de="10" data-cx="788" data-mantener="12">
+        <a class="mural__a" href="/trabajo/dynamic-forms/">
+          <span class="mural__num" aria-hidden="true">08</span>
+          <h4 class="mural__titulo">Formularios configurables</h4>
+          <p class="mural__caso">Formularios definidos por configuración</p>
+          <span class="mural__abrir">Abrir caso <span aria-hidden="true">→</span></span>
+          <span class="mural__luz" aria-hidden="true"></span>
+          <span class="mural__sombra" aria-hidden="true"></span>
+        </a>
+      </li>
+      <li class="mural mural--v2 mural--l" style="--x:940" data-parada data-tipo="mural" data-barrio="clinica" data-n="9" data-de="10" data-cx="876" data-mantener="12">
+        <a class="mural__a" href="/trabajo/shell-system/">
+          <span class="mural__num" aria-hidden="true">09</span>
+          <h4 class="mural__titulo">Pantallas configurables</h4>
+          <p class="mural__caso">Pantallas de seguimiento a partir de configuración</p>
+          <span class="mural__abrir">Abrir caso <span aria-hidden="true">→</span></span>
+          <span class="mural__luz" aria-hidden="true"></span>
+          <span class="mural__sombra" aria-hidden="true"></span>
+        </a>
+      </li>
+      <li class="mural mural--v0 mural--l" style="--x:1028" data-parada data-tipo="mural" data-barrio="clinica" data-n="10" data-de="10" data-cx="964" data-mantener="12">
+        <a class="mural__a" href="/trabajo/dev-platform/">
+          <span class="mural__num" aria-hidden="true">10</span>
+          <h4 class="mural__titulo">Entorno de desarrollo local</h4>
+          <p class="mural__caso">Una herramienta de línea de comandos para el entorno local</p>
+          <span class="mural__abrir">Abrir caso <span aria-hidden="true">→</span></span>
+          <span class="mural__luz" aria-hidden="true"></span>
+          <span class="mural__sombra" aria-hidden="true"></span>
+        </a>
+      </li>
+      </ol>
+      <p class="barrio__pista solo-js" aria-hidden="true">Desliza para ver más casos →</p>
+    </div>
+    <div class="barrio" id="barrio-propios" aria-labelledby="barrio-propios-t">
+      <div class="letrero" style="--x:1120" data-parada data-tipo="letrero" data-barrio="propios" data-cx="1060" data-mantener="12">
+        <div class="letrero__placa"><h3 id="barrio-propios-t" class="letrero__titulo">Proyectos propios</h3><p class="letrero__n">8 casos</p></div>
+        <i class="letrero__poste" aria-hidden="true"></i>
+      </div>
+      <ol class="murales" role="list" aria-label="Casos de proyectos propios">
+      <li class="mural mural--v0 mural--c" style="--x:1212" data-parada data-tipo="mural" data-barrio="propios" data-n="1" data-de="8" data-cx="1148" data-mantener="12">
+        <a class="mural__a" href="/trabajo/sgc/">
+          <span class="mural__num" aria-hidden="true">01</span>
+          <h4 class="mural__titulo">Talonaria</h4>
+          <p class="mural__caso">Talonaria: un ERP multi-tenant para pymes colombianas</p>
+          <span class="mural__abrir">Abrir caso <span aria-hidden="true">→</span></span>
+          <span class="mural__luz" aria-hidden="true"></span>
+          <span class="mural__sombra" aria-hidden="true"></span>
+        </a>
+      </li>
+      <li class="mural mural--v1 mural--c" style="--x:1300" data-parada data-tipo="mural" data-barrio="propios" data-n="2" data-de="8" data-cx="1236" data-mantener="12">
+        <a class="mural__a" href="/trabajo/english/">
+          <span class="mural__num" aria-hidden="true">02</span>
+          <h4 class="mural__titulo">English A1</h4>
+          <p class="mural__caso">Una app para practicar inglés a diario</p>
+          <span class="mural__abrir">Abrir caso <span aria-hidden="true">→</span></span>
+          <span class="mural__luz" aria-hidden="true"></span>
+          <span class="mural__sombra" aria-hidden="true"></span>
+        </a>
+      </li>
+      <li class="mural mural--v2 mural--c" style="--x:1388" data-parada data-tipo="mural" data-barrio="propios" data-n="3" data-de="8" data-cx="1324" data-mantener="12">
+        <a class="mural__a" href="/trabajo/eco-loop/">
+          <span class="mural__num" aria-hidden="true">03</span>
+          <h4 class="mural__titulo">eco-loop</h4>
+          <p class="mural__caso">Dos IAs conversando entre ellas</p>
+          <span class="mural__abrir">Abrir caso <span aria-hidden="true">→</span></span>
+          <span class="mural__luz" aria-hidden="true"></span>
+          <span class="mural__sombra" aria-hidden="true"></span>
+        </a>
+      </li>
+      <li class="mural mural--v0 mural--c" style="--x:1476" data-parada data-tipo="mural" data-barrio="propios" data-n="4" data-de="8" data-cx="1412" data-mantener="12">
+        <a class="mural__a" href="/trabajo/mini-astro/">
+          <span class="mural__num" aria-hidden="true">04</span>
+          <h4 class="mural__titulo">mini-astro</h4>
+          <p class="mural__caso">Un generador de sitios estáticos propio</p>
+          <span class="mural__abrir">Abrir caso <span aria-hidden="true">→</span></span>
+          <span class="mural__luz" aria-hidden="true"></span>
+          <span class="mural__sombra" aria-hidden="true"></span>
+        </a>
+      </li>
+      <li class="mural mural--v1 mural--m" style="--x:1564" data-parada data-tipo="mural" data-barrio="propios" data-n="5" data-de="8" data-cx="1500" data-mantener="12">
+        <a class="mural__a" href="/trabajo/avatar-studio/">
+          <span class="mural__num" aria-hidden="true">05</span>
+          <h4 class="mural__titulo">Avatar Studio</h4>
+          <p class="mural__caso">Un pipeline local para avatares que hablan</p>
+          <span class="mural__abrir">Abrir caso <span aria-hidden="true">→</span></span>
+          <span class="mural__luz" aria-hidden="true"></span>
+          <span class="mural__sombra" aria-hidden="true"></span>
+        </a>
+      </li>
+      <li class="mural mural--v2 mural--c" style="--x:1652" data-parada data-tipo="mural" data-barrio="propios" data-n="6" data-de="8" data-cx="1588" data-mantener="12">
+        <a class="mural__a" href="/trabajo/megabyte/">
+          <span class="mural__num" aria-hidden="true">06</span>
+          <h4 class="mural__titulo">megabyte</h4>
+          <p class="mural__caso">Un agente de terminal con modelos locales</p>
+          <span class="mural__abrir">Abrir caso <span aria-hidden="true">→</span></span>
+          <span class="mural__luz" aria-hidden="true"></span>
+          <span class="mural__sombra" aria-hidden="true"></span>
+        </a>
+      </li>
+      <li class="mural mural--v0 mural--c" style="--x:1740" data-parada data-tipo="mural" data-barrio="propios" data-n="7" data-de="8" data-cx="1676" data-mantener="12">
+        <a class="mural__a" href="/trabajo/blog-26/">
+          <span class="mural__num" aria-hidden="true">07</span>
+          <h4 class="mural__titulo">blog-26</h4>
+          <p class="mural__caso">El historial de versiones que rehice tres veces</p>
+          <span class="mural__abrir">Abrir caso <span aria-hidden="true">→</span></span>
+          <span class="mural__luz" aria-hidden="true"></span>
+          <span class="mural__sombra" aria-hidden="true"></span>
+        </a>
+      </li>
+      <li class="mural mural--v1 mural--c" style="--x:1828" data-parada data-tipo="mural" data-barrio="propios" data-n="8" data-de="8" data-cx="1764" data-mantener="12">
+        <a class="mural__a" href="/trabajo/scrum-poker/">
+          <span class="mural__num" aria-hidden="true">08</span>
+          <h4 class="mural__titulo">Scrum Poker</h4>
+          <p class="mural__caso">Planning poker en tiempo real</p>
+          <span class="mural__abrir">Abrir caso <span aria-hidden="true">→</span></span>
+          <span class="mural__luz" aria-hidden="true"></span>
+          <span class="mural__sombra" aria-hidden="true"></span>
+        </a>
+      </li>
+      </ol>
+      <p class="barrio__pista solo-js" aria-hidden="true">Desliza para ver más casos →</p>
+    </div>
+        </section>
+        <section id="taller" class="cap cap--taller" aria-labelledby="taller-t">
+          <h2 id="taller-t" class="visually-hidden">El taller: sobre mí</h2>
+  <div class="taller__fachada" style="--x:1946" data-parada data-tipo="puerta" data-cx="1882" data-mantener="24">
+    <div class="taller__rotulo">
+      <p class="taller__nombre">Taller</p>
+      <p class="taller__foco"><b>Foco actual</b> arquitectura de sistemas en producción, migraciones incrementales y priorización técnica en un dominio regulado, con auditorías y datos que no admiten errores de migración.</p>
+      <p class="taller__foco"><b>Experiencia</b> software desde 2019, con liderazgo técnico en los últimos años. Salud digital y fintech.</p>
+    </div>
+    <div class="taller__persiana" aria-hidden="true"></div>
+  </div>
+          <div class="taller__interior" aria-hidden="true" style="--x0:1934;--x1:2408"><i class="bombilla" style="--x:1980"></i><i class="bombilla" style="--x:2026"></i><i class="bombilla" style="--x:2072"></i><i class="bombilla" style="--x:2118"></i><i class="bombilla" style="--x:2164"></i><i class="bombilla" style="--x:2210"></i><i class="bombilla" style="--x:2256"></i><i class="bombilla" style="--x:2302"></i><i class="bombilla" style="--x:2348"></i><i class="bombilla" style="--x:2394"></i></div>
+  <article class="estacion estacion--orden" style="--x:2086" data-parada data-tipo="orden" data-cx="2022" data-mantener="120" aria-labelledby="orden-t">
+    <div class="orden__hoja">
+      <i class="orden__pinza" aria-hidden="true"></i>
+      <h3 id="orden-t" class="orden__titulo">Historial de servicio</h3>
+      <ol class="orden__lista" role="list">
+        <li class="orden__it"><b class="orden__emp">LearUp</b><span class="orden__rol">Sr. Associate Technical Product Owner</span><em class="orden__desc">Defino y priorizo las iniciativas de la plataforma. Coordino desarrollo, QA y operaciones.</em></li>
+        <li class="orden__it"><b class="orden__emp">LearUp</b><span class="orden__rol">Sr. Associate Tech Lead</span><em class="orden__desc">Lideré al equipo en diseño e implementación. Arquitectura de servicios y decisiones técnicas de fondo.</em></li>
+        <li class="orden__it"><b class="orden__emp">LearUp</b><span class="orden__rol">Associate Product Full Stack Developer</span><em class="orden__desc">Núcleo de la plataforma en JavaScript y Python. Entrega continua.</em></li>
+        <li class="orden__it"><b class="orden__emp">CogenTech</b><span class="orden__rol">Product Full Stack Developer · jun 2023 – jul 2024</span><em class="orden__desc">Ciclo completo de aplicaciones web. TypeScript, Python, PostgreSQL. APIs GraphQL y REST.</em></li>
+        <li class="orden__it"><b class="orden__emp">Cielum / Omnivida</b><span class="orden__rol">Software Developer · 2023</span><em class="orden__desc">Gestor de APIs en Azure y automatización de procesos para salud.</em></li>
+        <li class="orden__it"><b class="orden__emp">Newo</b><span class="orden__rol">Software Developer · 2023</span><em class="orden__desc">Lideré una pasarela de pagos con cobros automáticos y por demanda, integrada en una app móvil.</em></li>
+        <li class="orden__it"><b class="orden__emp">Be4tech</b><span class="orden__rol">Software Developer · ago 2021 – jun 2023</span><em class="orden__desc">Aplicaciones híbridas y web, casi todas en salud digital.</em></li>
+      </ol>
+    </div>
+  </article>
+  <article class="estacion estacion--reglas" style="--x:2216" data-parada data-tipo="reglas" data-cx="2152" data-mantener="90" aria-labelledby="reglas-t">
+    <div class="reglas__pared">
+      <h3 id="reglas-t" class="reglas__titulo">Cómo trabajo</h3>
+      <ol class="reglas__lista" role="list">
+        <li class="regla"><h4 class="regla__t">Inventario antes de proponer</h4><p class="regla__d">Un listado real de servicios, dependencias y uso convierte &quot;el sistema se siente pesado&quot; en datos que cualquiera puede evaluar.</p></li>
+        <li class="regla"><h4 class="regla__t">Dos opciones con sus costos</h4><p class="regla__d">Las decisiones grandes llegan con alternativas, para que decida quien tiene el contexto de negocio.</p></li>
+        <li class="regla"><h4 class="regla__t">Migración por partes</h4><p class="regla__d">El sistema nuevo absorbe piezas mientras el viejo sigue funcionando, con criterios de vuelta atrás definidos desde el inicio.</p></li>
+        <li class="regla"><h4 class="regla__t">Decisiones por escrito</h4><p class="regla__d">Qué se decidió y por qué, para poder revisarlo cuando cambie el contexto.</p></li>
+      </ol>
+    </div>
+  </article>
+  <article class="estacion estacion--stack" style="--x:2346" data-parada data-tipo="stack" data-cx="2282" data-mantener="70" aria-labelledby="stack-t">
+    <div class="tablero">
+      <h3 id="stack-t" class="tablero__titulo">Herramientas</h3>
+        <section class="tablero__grupo"><h4 class="tablero__g">Principal</h4><ul class="tablero__fila" role="list"><li class="herramienta">TypeScript</li><li class="herramienta">Python</li><li class="herramienta">React</li><li class="herramienta">Next.js</li><li class="herramienta">Node.js</li><li class="herramienta">PostgreSQL</li></ul></section>
+        <section class="tablero__grupo"><h4 class="tablero__g">Infraestructura</h4><ul class="tablero__fila" role="list"><li class="herramienta">Docker</li><li class="herramienta">Kubernetes</li><li class="herramienta">ArgoCD</li><li class="herramienta">AWS</li><li class="herramienta">Cloudflare</li></ul></section>
+        <section class="tablero__grupo"><h4 class="tablero__g">Datos y APIs</h4><ul class="tablero__fila" role="list"><li class="herramienta">GraphQL</li><li class="herramienta">REST</li><li class="herramienta">tRPC</li><li class="herramienta">Prisma</li><li class="herramienta">SQLAlchemy</li></ul></section>
+        <section class="tablero__grupo"><h4 class="tablero__g">También</h4><ul class="tablero__fila" role="list"><li class="herramienta">FastAPI</li><li class="herramienta">Astro</li><li class="herramienta">React Native</li><li class="herramienta">Auth0</li><li class="herramienta">Stripe</li></ul></section>
+    </div>
+  </article>
+        </section>
+        <section id="llegada" class="cap cap--llegada" aria-labelledby="llegada-t">
+    <div class="cartel" style="--x:2466" data-parada data-tipo="llegada" data-cx="2400" data-mantener="50">
+      <i class="cinta cinta--a" aria-hidden="true"></i><i class="cinta cinta--b" aria-hidden="true"></i>
+      <h2 id="llegada-t" class="cartel__titulo">Se busca</h2>
+      <p class="cartel__nombre">Iván Santander</p>
+      <p class="cartel__cargo">Tech Lead y Technical Product Owner</p>
+      <p class="cartel__texto">Para hablar de arquitectura, liderazgo técnico o de alguno de estos casos. Escríbeme.</p>
+      <dl class="cartel__datos" aria-label="Datos">
+        <div><dt>Años</dt><dd>7</dd></div>
+        <div><dt>Desde</dt><dd>2019</dd></div>
+        <div><dt>Casos</dt><dd>18</dd></div>
+      </dl>
+      <ul class="cartel__enlaces" role="list">
+        <li><a href="https://www.linkedin.com/in/ivan-santander/" rel="noopener noreferrer" target="_blank">LinkedIn</a></li>
+        <li><a href="https://github.com/ivansantander-hub" rel="noopener noreferrer" target="_blank">GitHub</a></li>
+        <li><a href="/">Portafolio actual</a></li>
+        <li><a href="#loma" data-irloma>Volver al inicio</a></li>
+      </ul>
+      <p class="cartel__lugar">Medellín, Colombia · remoto</p>
+    </div>
+        </section>
+      </div>
+    <div class="lineas" aria-hidden="true"></div>
+    <div class="moto" id="moto">
+      <div class="moto__haz" aria-hidden="true"></div>
+      <div class="moto__cuerpo" id="moto-cuerpo">
+        <img class="moto__img" src="/v3-1/img/dt.webp" alt="Un joven con gorra, gafas y chaqueta blanca y negra sobre una moto DT blanca, en un sticker de estilo cómic" width="1000" height="874" fetchpriority="high" decoding="async">
+        <span class="moto__humo" aria-hidden="true"><i></i><i></i><i></i><i></i></span>
+      </div>
+      <div class="moto__sombra" aria-hidden="true"></div>
+      <span class="moto__globo" aria-hidden="true">¡brrm!</span>
+    </div>
+    <div class="ruta-nav solo-js" id="ruta-nav" aria-label="Recorrido de murales" role="group">
+      <button type="button" id="rn-ant" aria-label="Mural anterior">‹</button>
+      <p class="ruta-nav__txt"><span id="rn-barrio"></span><b id="rn-n"></b></p>
+      <button type="button" id="rn-sig" aria-label="Mural siguiente">›</button>
+    </div>
+    <p class="pista-ayuda solo-js" id="pista-ayuda">Baja para avanzar · mantén espacio o clic para acelerar</p>
+    </div>
+  </div>
+</main>
+
+<footer class="pie">
+  <p>Iván Santander · Tech Lead y Technical Product Owner · Medellín, Colombia</p>
+  <p class="pie__credito">Ilustración de la moto y el personaje: material aportado por Iván Santander. Canciones: «El estren» e «India conocida», pertenecientes a sus autores y usadas como banda sonora de esta versión experimental.</p>
+</footer>
+
+<noscript><p class="sin-js">Esta versión funciona mejor con JavaScript. La página normal está en <a href="/">ivansantander.com</a>.</p></noscript>
+
+<script type="application/json" id="geo">{"mundoW": 2526, "sxMural": 64, "xPuerta": 1946, "xTaller0": 1934, "xTaller1": 2408, "alturas": {}, "paradas": [{"kind": "loma", "cx": 0}, {"kind": "letrero", "cx": 90}, {"kind": "mural", "cx": 172}, {"kind": "mural", "cx": 260}, {"kind": "mural", "cx": 348}, {"kind": "mural", "cx": 436}, {"kind": "mural", "cx": 524}, {"kind": "mural", "cx": 612}, {"kind": "mural", "cx": 700}, {"kind": "mural", "cx": 788}, {"kind": "mural", "cx": 876}, {"kind": "mural", "cx": 964}, {"kind": "letrero", "cx": 1060}, {"kind": "mural", "cx": 1148}, {"kind": "mural", "cx": 1236}, {"kind": "mural", "cx": 1324}, {"kind": "mural", "cx": 1412}, {"kind": "mural", "cx": 1500}, {"kind": "mural", "cx": 1588}, {"kind": "mural", "cx": 1676}, {"kind": "mural", "cx": 1764}, {"kind": "puerta", "cx": 1882}, {"kind": "orden", "cx": 2022}, {"kind": "reglas", "cx": 2152}, {"kind": "stack", "cx": 2282}, {"kind": "llegada", "cx": 2400}]}</script>
+<script src="/v3-1/v3.js" defer></script>
+</body>
+</html>
