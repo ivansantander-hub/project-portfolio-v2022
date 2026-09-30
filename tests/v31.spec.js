@@ -119,7 +119,7 @@ test.describe('v3.1', () => {
   test('los fotogramas de referencia están en la página y cargan', async ({ page }) => {
     await page.waitForTimeout(600);
     const figuras = page.locator('figure img');
-    expect(await figuras.count()).toBe(16);
+    expect(await figuras.count()).toBe(15);
     for (const img of await figuras.all()) {
       await img.scrollIntoViewIfNeeded();
       await expect.poll(() => img.evaluate((i) => i.complete && i.naturalWidth > 0)).toBe(true);
@@ -141,7 +141,7 @@ test.describe('v3.1', () => {
     await expect(page.locator('#contacto')).toBeInViewport();
   });
 
-  test('la moto del héroe es la foto real y las fotos con personas no se publican', async ({ page, request }) => {
+  test('la moto del héroe es la DT blanca y las fotos con personas no se publican', async ({ page, request }) => {
     const moto = page.locator('.moto__foto');
     await expect(moto).toHaveAttribute('src', '/v3-1/img/dt.webp');
     await expect.poll(() => moto.evaluate((i) => i.complete && i.naturalWidth > 0)).toBe(true);

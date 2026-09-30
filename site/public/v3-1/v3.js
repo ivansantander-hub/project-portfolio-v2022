@@ -26,6 +26,8 @@
   if (reduced) $$('animateTransform, animate').forEach((a) => a.remove());
   const rng = (seed) => () => { seed |= 0; seed = (seed + 0x6D2B79F5) | 0; let t = Math.imul(seed ^ (seed >>> 15), 1 | seed); t = (t + Math.imul(t ^ (t >>> 7), 61 | t)) ^ t; return ((t ^ (t >>> 14)) >>> 0) / 4294967296; };
 
+  // Sentido de marcha de la moto del héroe: +1 mira a la derecha, -1 a la izquierda (la DT).
+  const DIR = -1;
   const state = {
     t: 0, last: performance.now(), frame: 0, running: true,
     px: innerWidth < 760 ? 5 : 6,
@@ -129,7 +131,7 @@
     capas.className = 'eco__capas';
     ['t-1', 't-2', 't-4', 't-3', 't-5'].forEach((t, i) => {
       const im = document.createElement('img');
-      im.src = '/v3-1/img/dt.webp';
+      im.src = '/v3-1/img/yamaha.webp';
       im.alt = '';
       im.decoding = 'async';
       im.className = 'eco__capa';
@@ -138,7 +140,7 @@
       capas.appendChild(im);
     });
     const frente = document.createElement('img');
-    frente.src = '/v3-1/img/dt.webp';
+    frente.src = '/v3-1/img/yamaha.webp';
     frente.alt = '';
     frente.decoding = 'async';
     frente.className = 'eco__frente';
@@ -349,7 +351,7 @@
 
   const COMUN = `
 precision highp float;
-uniform vec2 uRes; uniform float uTime;
+uniform vec2 uRes; uniform float uTime; uniform float uDir;
 float hash(vec2 p){ vec3 p3 = fract(vec3(p.xyx) * .1031); p3 += dot(p3, p3.yzx + 33.33); return fract((p3.x + p3.y) * p3.z); }
 vec3 bandas(float k){
   if (k < 1.) return vec3(.93, .91, .85);
@@ -374,7 +376,7 @@ void emite(vec2 p, vec4 e, float wob, inout vec4 c){
 }
 void main(){
   vec2 p = floor(gl_FragCoord.xy);
-  vec4 prev = texture2D(uPrev, (p + vec2(uShift, 0.) + .5) / uRes);
+  vec4 prev = texture2D(uPrev, (p + vec2(uShift * uDir, 0.) + .5) / uRes);
   vec4 c = vec4(prev.rgb, max(prev.a - uShift * 2. / 255., 0.));
   emite(p, uMoto, sin(uTime * 5.) * 1.4 + sin(uTime * 2.3) * 1.1, c);
   emite(p, uMouse, sin(uTime * 9.) * .8, c);
@@ -396,14 +398,14 @@ vec3 noche(vec2 p, float t){
   vec3 col = vec3(.024, .026, .034);
   for (int i = 0; i < 3; i++){
     float fi = float(i);
-    vec2 q = vec2(p.x + floor(uDrift * (1.4 + fi * 2.8)), p.y);
+    vec2 q = vec2(p.x + uDir * floor(uDrift * (1.4 + fi * 2.8)), p.y);
     float h = hash(q + fi * 17.3);
     if (h < .010 - fi * .0026){
       float tw = .5 + .5 * sin(t * 3. + h * 400.);
       col = mix(col, vec3(.86, .92, 1.), mix(.4, 1., tw) * (.5 + fi * .25));
     }
   }
-  vec2 q = vec2(p.x + floor(uDrift * 4.), p.y);
+  vec2 q = vec2(p.x + uDir * floor(uDrift * 4.), p.y);
   vec2 cell = floor(q / 34.);
   vec2 f = q - cell * 34.;
   vec2 c = floor(vec2(hash(cell) * 26. + 4., hash(cell + 9.1) * 26. + 4.));
@@ -413,7 +415,7 @@ vec3 noche(vec2 p, float t){
 }
 vec3 asfalto(vec2 p, float t){
   vec3 col = vec3(.035, .035, .04);
-  vec2 q = vec2(p.x + floor(uDrift * 1.5), p.y);
+  vec2 q = vec2(p.x + uDir * floor(uDrift * 1.5), p.y);
   vec2 c = (floor(q / 4.) + .5) * 4.;
   float r = mix(.5, 1.5, smoothstep(0., uRes.y, p.y)) + .2 * sin(t * .8 + c.x * .07);
   if (length(q - c) < r) col = vec3(.09, .09, .10);
@@ -453,7 +455,7 @@ void main(){
 
   // el faro de la moto: un haz tramado hacia la izquierda, sobre el nombre
   if (uMundo < .5 && uFaro.z > .5){
-    float dx = p.x - uFaro.x;
+    float dx = (p.x - uFaro.x) * uDir;
     if (dx > 0.){
       float abre = 3. + dx * .34;
       float dy = p.y - (uFaro.y + dx * .06);
@@ -616,7 +618,7 @@ void main(){
     gl.useProgram(pEstela);
     let u = pEstela.u;
     textura(0, estela[i].tex, u.uPrev);
-    gl.uniform2f(u.uRes, W, H); gl.uniform1f(u.uTime, state.t); gl.uniform1f(u.uShift, shift);
+    gl.uniform2f(u.uRes, W, H); gl.uniform1f(u.uTime, state.t); gl.uniform1f(u.uShift, shift); gl.uniform1f(u.uDir, DIR);
     gl.uniform4fv(u.uMoto, cola4); gl.uniform4fv(u.uMouse, raton);
     dibuja(estela[j].fb, pEstela, W, H);
 
@@ -649,6 +651,7 @@ void main(){
     textura(3, atlas, u.uFoto);
     gl.uniform1f(u.uFotoOn, atlasOn);
     gl.uniform1f(u.uDrift, state.drift);
+    gl.uniform1f(u.uDir, DIR);
     gl.uniform2f(u.uRes, W, H); gl.uniform1f(u.uTime, state.t);
     gl.uniform1f(u.uMundo, state.mundo);
     gl.uniform1f(u.uMosh, mosh);
