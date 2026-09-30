@@ -744,11 +744,11 @@ body[data-mundo="1"] .tilt { opacity: 1; }
 }
 .moto.is-brrm .moto__mueve { animation-name: caballito2; }
 @keyframes pesada2 {
-  0%, 50% { transform: rotate(0); } 58% { transform: rotate(-2deg); } 72% { transform: rotate(-10deg); }
-  86% { transform: rotate(-9deg); } 95% { transform: rotate(-.5deg); } 100% { transform: rotate(0); }
+  0%, 50% { transform: rotate(0); } 58% { transform: rotate(1.5deg); } 72% { transform: rotate(7deg); }
+  86% { transform: rotate(6deg); } 95% { transform: rotate(.4deg); } 100% { transform: rotate(0); }
 }
-@keyframes caballito2 { 0% { transform: rotate(0); } 30% { transform: rotate(-15deg); } 60% { transform: rotate(-12deg); } 100% { transform: rotate(0); } }
-.moto__globo { left: auto; right: 6%; top: -8%; }
+@keyframes caballito2 { 0% { transform: rotate(0); } 30% { transform: rotate(15deg); } 60% { transform: rotate(12deg); } 100% { transform: rotate(0); } }
+.moto__globo { left: 6%; right: auto; top: -8%; }
 
 /* Ecos: la misma foto, en copias planas que se van hacia atrás (a la izquierda) */
 .eco { position: relative; display: block; width: 100%; max-width: 560px; margin: 0 auto; overflow: visible; }
@@ -806,13 +806,13 @@ body[data-mundo="1"] .tilt { opacity: 1; }
 }
 .sol__rayos {
   position: absolute; inset: -30%;
-  background: repeating-conic-gradient(from 0deg, #ffc61a 0 6deg, #fff0a8 6deg 12deg);
+  background: repeating-conic-gradient(from 0deg, #ffc61a 0 6deg, #ffefa0 6deg 12deg);
   animation: sol 70s linear infinite;
 }
 .sol__puntos {
   position: absolute; inset: 0;
   background:
-    radial-gradient(circle at 50% 46%, rgba(255, 255, 255, .85) 0, rgba(255, 255, 255, 0) 46%),
+    radial-gradient(circle at 50% 46%, rgba(255, 246, 200, .4) 0, rgba(255, 246, 200, 0) 44%),
     radial-gradient(rgba(0, 0, 0, .34) 1.6px, transparent 2.3px) 0 0 / 9px 9px;
   -webkit-mask-image: radial-gradient(circle at 50% 50%, transparent 0 24%, #000 78%);
   mask-image: radial-gradient(circle at 50% 50%, transparent 0 24%, #000 78%);
