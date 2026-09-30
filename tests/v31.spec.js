@@ -113,4 +113,28 @@ test.describe('v3.1', () => {
     await page.mouse.up();
     await expect(page.getByRole('heading', { level: 1, name: 'Iván Santander' })).toBeVisible();
   });
+
+  test('los fotogramas de referencia están en la página y cargan', async ({ page }) => {
+    await page.waitForTimeout(600);
+    const figuras = page.locator('figure img');
+    expect(await figuras.count()).toBe(4);
+    for (const img of await figuras.all()) {
+      await img.scrollIntoViewIfNeeded();
+      await expect.poll(() => img.evaluate((i) => i.complete && i.naturalWidth > 0)).toBe(true);
+      expect(await img.getAttribute('alt')).toBeTruthy();
+    }
+    await expect(page.locator('.pie__credito')).toContainText('referencia visual');
+  });
+
+  test('el corte de cinta con foto no bloquea los clics ni deja rastro', async ({ page }) => {
+    await page.locator('#sobre-mi').scrollIntoViewIfNeeded();
+    await page.waitForTimeout(150);
+    const pe = await page.evaluate(() => getComputedStyle(document.querySelector('.corte')).pointerEvents);
+    expect(pe).toBe('none');
+    await page.waitForTimeout(1200);
+    const vis = await page.evaluate(() => getComputedStyle(document.querySelector('.corte')).visibility);
+    expect(vis).toBe('hidden');
+    await page.locator('.barra__nav a[href="#contacto"]').click();
+    await expect(page.locator('#contacto')).toBeInViewport();
+  });
 });

@@ -82,6 +82,7 @@
 </svg>
 
 <div class="carga" aria-hidden="true"></div>
+<div class="corte" id="corte" aria-hidden="true"><img id="corte-img" alt="" width="960" height="540" decoding="async"></div>
 <div class="grano" aria-hidden="true"></div>
 <div class="vineta" aria-hidden="true"></div>
 <div class="cinta" aria-hidden="true"><i></i></div>
@@ -210,6 +211,10 @@
    </g>
   </svg></h2>
       <p class="casos__intro">18 casos: 10 en una plataforma de ensayos clínicos y 8 proyectos propios. Cada pieza lleva a su caso.</p>
+      <figure class="foto foto--maqueta">
+        <div class="foto__marco"><img src="/v3-1/img/fotograma-maqueta.jpg" alt="Maqueta de un barrio pintado con graffiti, con un bus amarillo y un rostro gigante en el cielo" width="960" height="470" loading="lazy" decoding="async"></div>
+        <figcaption>Referencia visual: maqueta de barrio</figcaption>
+      </figure>
     </div>
     <ul class="calle">
       <li class="casa" style="--rot:-1.4deg;--h:380px;--tinta:#ffc61a;--luz:#ff9a2a;--vel:0.030">
@@ -495,8 +500,16 @@
         <li>FastAPI</li><li>Astro</li><li>React Native</li><li>Auth0</li><li>Stripe</li>
       </ul>
     </div>
-    <div class="sobre__eco" aria-hidden="true">
-      <svg class="eco" viewBox="-80 0 780 420" id="eco"></svg>
+    <div class="sobre__eco">
+      <svg class="eco" viewBox="-80 0 780 420" id="eco" aria-hidden="true" focusable="false"></svg>
+      <figure class="tira">
+        <div class="tira__fotos">
+          <img src="/v3-1/img/fotograma-espacio.jpg" alt="Una moto de trail con su piloto flotando entre estrellas cuadradas" width="960" height="538" loading="lazy" decoding="async">
+          <img src="/v3-1/img/fotograma-caballos.jpg" alt="Caballos corriendo en un fotograma con bloques de compresión en verde y lila" width="960" height="447" loading="lazy" decoding="async">
+          <img src="/v3-1/img/fotograma-eco.jpg" alt="Una figura con copias desfasadas que dejan una estela de colores detrás" width="800" height="523" loading="lazy" decoding="async">
+        </div>
+        <figcaption>Referencias visuales</figcaption>
+      </figure>
     </div>
   </section>
 
@@ -534,6 +547,7 @@
 
 <footer class="pie">
   <p>Iván Santander · Tech Lead y Technical Product Owner · Medellín, Colombia</p>
+  <p class="pie__credito">Fotogramas de un videoclip de MRB, incluidos como referencia visual.</p>
 </footer>
 
 <noscript><p class="sin-js">Esta versión necesita JavaScript para el fondo animado. La página normal está en <a href="/">ivansantander.com</a>.</p></noscript>

@@ -256,6 +256,27 @@
   addEventListener('scroll', () => { state.dirty = true; parallax(); }, { passive: true });
   parallax();
 
+  /* ── Corte de cinta: un fotograma real en fotocopia en cada cambio de sección ── */
+  const corte = $('#corte'), corteImg = $('#corte-img');
+  const FOTOGRAMAS = [
+    ['fotograma-espacio.jpg', '#e9e6da'],
+    ['fotograma-maqueta.jpg', '#d4a017'],
+    ['fotograma-eco.jpg', '#39ff14'],
+    ['fotograma-caballos.jpg', '#d4a017'],
+  ];
+  let corteN = 0, corteTimer = 0, primerMundo = true;
+  function corta(n) {
+    if (reduced || !corte) return;
+    if (primerMundo) { primerMundo = false; return; }
+    const [f, tinta] = FOTOGRAMAS[n % FOTOGRAMAS.length];
+    corteN++;
+    corteImg.src = '/v3-1/img/' + f;
+    corte.style.setProperty('--tinta-corte', tinta);
+    corte.classList.remove('on'); void corte.offsetWidth; corte.classList.add('on');
+    clearTimeout(corteTimer);
+    corteTimer = setTimeout(() => corte.classList.remove('on'), 700);
+  }
+
   /* ── Mundos por sección ───────────────────────────────────────────── */
   const mundos = $$('[data-mundo]', $('main'));
   function cambiaMundo(n) {
@@ -264,6 +285,7 @@
     document.body.dataset.mundo = String(n);
     state.moshT0 = performance.now() / 1000; state.moshSeed++;
     state.dirty = true;
+    corta(n);
     if (typeof pins !== 'undefined') pins.forEach((a, i) => a.setAttribute('aria-current', i === n ? 'true' : 'false'));
   }
   const io = new IntersectionObserver((entradas) => {
@@ -352,8 +374,8 @@ void main(){
 }`;
 
   const FRAG_MUNDO = COMUN + `
-uniform sampler2D uEstela, uPrevD, uGraf;
-uniform float uDrift;
+uniform sampler2D uEstela, uPrevD, uGraf, uFoto;
+uniform float uDrift, uFotoOn;
 uniform float uMundo, uMosh, uSeed;
 uniform vec3 uClick;   // x, y, cantidad
 uniform vec3 uFaro;    // x, y, activo
@@ -450,7 +472,16 @@ void main(){
       float tipo = hash(bid + 8.8);
       if (tipo < .26) col = (hash(bid + 1.9) < .5) ? vec3(0.) : vec3(.22, 1., .08) * (.55 + .45 * hash(bid + 4.));
       else if (tipo < .46) col = (hash(bid + 2.7) < .55) ? vec3(0.) : vec3(.83, .63, .09);
-      else {
+      else if (tipo < .78 && uFotoOn > .5){
+        // fotograma real, en fotocopia: el bloque muestra un trozo con su propio tamaño
+        float f = floor(hash(bid + 6.1) * 4.);
+        vec2 cel = vec2(mod(f, 2.), floor(f / 2.));
+        vec2 uvf = fract(uv * vec2(1.6, 1.6) + vec2(hash(bid + 9.4), hash(bid + 1.3)) * .5);
+        vec3 ph = texture2D(uFoto, (cel + uvf * .96 + .02) * .5).rgb;
+        float l = floor(dot(ph, vec3(.3, .59, .11)) * 5. + .5) / 5.;
+        vec3 tinta = (hash(bid + 3.7) < .35) ? vec3(.22, 1., .08) : vec3(.95, .78, .25);
+        col = mix(vec3(0.), tinta, clamp(l * 1.25, 0., 1.));
+      } else {
         vec2 mv = (vec2(hash(bid + 2.2), hash(bid + 5.5)) - .5) * vec2(13., 4.) * bs;
         col = texture2D(uPrevD, (p + mv + .5) / uRes).rgb;
       }
@@ -474,7 +505,7 @@ void main(){
 
   const FRAG_COPIA = 'precision mediump float;varying vec2 vUv;uniform sampler2D uTex;void main(){gl_FragColor=texture2D(uTex,vUv);}';
 
-  let pEstela, pMundo, pCopia, pGraf, W = 0, H = 0, estela = [], visto = [], graf = [];
+  let pEstela, pMundo, pCopia, pGraf, W = 0, H = 0, estela = [], visto = [], graf = [], atlas = null, atlasOn = 0;
 
   function compila(tipo, src) {
     const s = gl.createShader(tipo);
@@ -530,6 +561,20 @@ void main(){
       console.warn('[v3] sin WebGL, se usa el respaldo en CSS:', err.message);
       ok = false;
     }
+  }
+  // fotogramas de referencia, para que el datamosh use imagen real (fotocopia)
+  if (ok) {
+    atlas = gl.createTexture();
+    gl.bindTexture(gl.TEXTURE_2D, atlas);
+    gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGBA, 1, 1, 0, gl.RGBA, gl.UNSIGNED_BYTE, new Uint8Array([0, 0, 0, 255]));
+    const foto = new Image();
+    foto.onload = () => {
+      gl.bindTexture(gl.TEXTURE_2D, atlas);
+      gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGB, gl.RGB, gl.UNSIGNED_BYTE, foto);
+      for (const [k, v] of [[gl.TEXTURE_MIN_FILTER, gl.LINEAR], [gl.TEXTURE_MAG_FILTER, gl.LINEAR], [gl.TEXTURE_WRAP_S, gl.CLAMP_TO_EDGE], [gl.TEXTURE_WRAP_T, gl.CLAMP_TO_EDGE]]) gl.texParameteri(gl.TEXTURE_2D, k, v);
+      atlasOn = 1;
+    };
+    foto.src = '/v3-1/img/fotogramas-atlas.jpg';
   }
   if (!ok) root.classList.add('sin-gl');
 
@@ -593,6 +638,8 @@ void main(){
     textura(0, estela[j].tex, u.uEstela);
     textura(1, visto[i].tex, u.uPrevD);
     textura(2, graf[j].tex, u.uGraf);
+    textura(3, atlas, u.uFoto);
+    gl.uniform1f(u.uFotoOn, atlasOn);
     gl.uniform1f(u.uDrift, state.drift);
     gl.uniform2f(u.uRes, W, H); gl.uniform1f(u.uTime, state.t);
     gl.uniform1f(u.uMundo, state.mundo);

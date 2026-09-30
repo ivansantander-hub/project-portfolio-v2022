@@ -664,3 +664,70 @@ body[data-mundo="1"] .tilt { opacity: 1; }
   .nombre__svg { animation: none; }
   .e-bus { left: auto; right: 4%; animation: none; }
 }
+
+
+/* ── Fotogramas de referencia: fotocopia con semitono, pegados con cinta ───── */
+.foto { position: relative; margin: 0; max-width: min(100%, 360px); transform: rotate(2deg); filter: drop-shadow(6px 8px 0 #000); }
+.foto::before, .tira::before {
+  content: ""; position: absolute; z-index: 3; top: -12px; left: 50%; width: 92px; height: 26px;
+  background: rgba(214, 198, 150, .88); transform: translateX(-50%) rotate(-3deg);
+}
+.foto__marco { position: relative; background: var(--papel); padding: 8px 8px 36px; }
+.foto__marco::after, .tira__fotos::after {
+  content: ""; position: absolute; pointer-events: none;
+  background-image: radial-gradient(rgba(0, 0, 0, .32) 1px, transparent 1.6px); background-size: 4px 4px; mix-blend-mode: multiply;
+  transition: opacity .25s;
+}
+.foto__marco::after { inset: 8px 8px 36px 8px; }
+.foto img, .tira img { display: block; width: 100%; height: auto; filter: grayscale(1) contrast(1.4) brightness(1.03); transition: filter .25s; }
+.foto:hover img, .tira:hover img { filter: grayscale(0) contrast(1.15); }
+.foto:hover .foto__marco::after, .tira:hover .tira__fotos::after { opacity: 0; }
+.foto figcaption, .tira figcaption {
+  font: 400 15px/1 var(--condensada); letter-spacing: .1em; text-transform: uppercase;
+}
+.foto figcaption { position: absolute; left: 14px; bottom: 10px; color: #000; }
+.casos__cabeza .foto { margin-left: auto; }
+.tira { position: relative; margin: 34px 0 0; transform: rotate(-1.4deg); filter: drop-shadow(6px 8px 0 #000); }
+.tira__fotos {
+  position: relative; display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 8px; align-items: stretch;
+  padding: 22px 10px; background: #000;
+  background-image:
+    repeating-linear-gradient(90deg, transparent 0 9px, rgba(233, 230, 218, .8) 9px 17px),
+    repeating-linear-gradient(90deg, transparent 0 9px, rgba(233, 230, 218, .8) 9px 17px);
+  background-size: 100% 8px, 100% 8px; background-position: 0 6px, 0 calc(100% - 6px); background-repeat: no-repeat;
+}
+.tira__fotos::after { inset: 22px 10px; }
+.tira img { height: 100%; object-fit: cover; aspect-ratio: 3 / 4; }
+.tira figcaption { padding: 10px 4px 0; color: var(--papel); text-shadow: 2px 2px 0 #000; }
+.pie__credito { margin-top: 6px !important; font-size: 13px; opacity: .8; }
+@media (max-width: 860px) { .casos__cabeza .foto { margin-left: 0; } .sobre__eco { max-width: 520px; } }
+
+
+/* ── Corte de cinta: un fotograma en fotocopia que aparece y se rompe al cambiar de sección ── */
+.corte {
+  position: fixed; inset: 0; z-index: 42; pointer-events: none; overflow: hidden; visibility: hidden;
+  background: #000;
+}
+.corte img {
+  position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover;
+  filter: grayscale(1) contrast(1.9) brightness(.95); mix-blend-mode: normal;
+}
+.corte::before {
+  content: ""; position: absolute; inset: 0; z-index: 2;
+  background: var(--tinta-corte, #d4a017); mix-blend-mode: multiply;
+}
+.corte::after {
+  content: ""; position: absolute; inset: 0; z-index: 3;
+  background-image: radial-gradient(rgba(0, 0, 0, .55) 1px, transparent 1.7px); background-size: 5px 5px;
+}
+.corte.on { visibility: visible; animation: corte .62s steps(1) forwards; }
+@keyframes corte {
+  0% { opacity: 1; clip-path: inset(0 0 0 0); }
+  18% { clip-path: inset(0 0 0 0); transform: translateX(-2%); }
+  30% { clip-path: polygon(0 0, 100% 0, 100% 34%, 68% 34%, 68% 52%, 100% 52%, 100% 100%, 0 100%, 0 71%, 31% 71%, 31% 46%, 0 46%); transform: translateX(1.5%); }
+  48% { clip-path: polygon(0 0, 46% 0, 46% 22%, 100% 22%, 100% 63%, 24% 63%, 24% 100%, 0 100%); transform: translateX(-1%); opacity: .9; }
+  66% { clip-path: polygon(58% 0, 100% 0, 100% 100%, 82% 100%, 82% 44%, 58% 44%); transform: none; opacity: .75; }
+  82% { clip-path: polygon(8% 18%, 22% 18%, 22% 29%, 8% 29%, 40% 70%, 56% 70%, 56% 84%, 40% 84%); opacity: .6; }
+  100% { opacity: 0; clip-path: inset(50% 50% 50% 50%); visibility: hidden; }
+}
+@media (prefers-reduced-motion: reduce) { .corte { display: none; } }
