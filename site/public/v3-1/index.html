@@ -75,6 +75,7 @@
       <feComponentTransfer><feFuncR type="discrete" tableValues="0 0 .35 .8 1"/><feFuncG type="discrete" tableValues="0 0 .35 .8 1"/><feFuncB type="discrete" tableValues="0 0 .35 .8 1"/></feComponentTransfer>
     </filter>
   </defs>
+  <symbol id="s-chispa" viewBox="0 0 48 48"><path d="M24 1C26 15 33 22 47 24C33 26 26 33 24 47C22 33 15 26 1 24C15 22 22 15 24 1Z" fill="currentColor" stroke="#000" stroke-width="3" stroke-linejoin="round"/></symbol>
   <symbol id="s-estrella" viewBox="0 0 48 48"><path d="M24 3l6.2 13.6 14.8 1.6-11 10 3.2 14.6L24 34.6 10.8 42.8 14 28.2 3 18.2l14.8-1.6z" fill="currentColor" stroke="#000" stroke-width="3.5" stroke-linejoin="round"/></symbol>
   <symbol id="s-hexa" viewBox="0 0 48 48"><path d="M24 3l19 10.5v21L24 45 5 34.5v-21z" fill="currentColor" stroke="#000" stroke-width="3.5" stroke-linejoin="round"/><path d="M24 14l9 5v10l-9 5-9-5V19z" fill="none" stroke="#000" stroke-width="3"/></symbol>
   <symbol id="s-circulo" viewBox="0 0 48 48"><circle cx="24" cy="24" r="20" fill="currentColor" stroke="#000" stroke-width="3.5"/><circle cx="24" cy="24" r="11" fill="none" stroke="#000" stroke-width="3"/><circle cx="24" cy="24" r="3.5" fill="#000"/></symbol>
@@ -137,60 +138,17 @@
       <a class="boton boton--oro" href="#casos">Ver casos</a>
       <a class="boton boton--papel" href="#contacto">Escríbeme</a>
     </p>
-    <div class="moto" id="moto">
+    <div class="moto" id="moto" style="--ratio:1.1516;--rueda-x:14.47%;--rueda-y:83.66%">
+      <div class="sol" aria-hidden="true"><i class="sol__rayos"></i><i class="sol__puntos"></i></div>
+      <svg class="chispa chispa--a" aria-hidden="true"><use href="#s-chispa"/></svg>
+      <svg class="chispa chispa--b" aria-hidden="true"><use href="#s-chispa"/></svg>
+      <svg class="chispa chispa--c" aria-hidden="true"><use href="#s-chispa"/></svg>
+      <svg class="chispa chispa--d" aria-hidden="true"><use href="#s-chispa"/></svg>
+      <p class="insignia" aria-label="Desde 2019"><svg viewBox="0 0 120 120" aria-hidden="true"><path d="M60 3l9 17 17-9 3 19 19 2-8 17 16 10-14 13 9 17-19 2-2 19-17-8-10 16-11-15-17 8-3-19-19-2 8-17-16-10 14-13-9-17 19-2 2-19 17 8z" fill="#d4a017" stroke="#000" stroke-width="5" stroke-linejoin="round"/></svg><span>Desde<b>2019</b></span></p>
       <div class="moto__mueve">
-        <span class="moto__faro" id="moto-faro" aria-hidden="true"></span>
-        <span class="moto__cola" id="moto-cola" aria-hidden="true"></span>
-        <svg class="moto__svg" viewBox="0 0 560 330" aria-hidden="true" focusable="false">
-  <g filter="url(#recorte-moto)">
-   <g transform="translate(560 0) scale(-1 1)">
-   <g class="moto__dibujo" stroke="#0b0b0c" stroke-width="4.5" stroke-linejoin="round" stroke-linecap="round">
-    <g class="rueda">
-      <circle cx="120" cy="236" r="60" fill="#0b0b0c" stroke="none"/>
-      <circle cx="120" cy="236" r="55" fill="none" stroke="#3a3a3d" stroke-width="9" stroke-dasharray="7 9"/>
-      <circle cx="120" cy="236" r="43" fill="#e9e6da"/>
-      <path d="M120 193V279M77 236H163M90 206L150 266M150 206L90 266" stroke-width="2.5" fill="none"/>
-    </g>
-    <g class="rueda">
-      <circle cx="444" cy="236" r="60" fill="#0b0b0c" stroke="none"/>
-      <circle cx="444" cy="236" r="55" fill="none" stroke="#3a3a3d" stroke-width="9" stroke-dasharray="7 9"/>
-      <circle cx="444" cy="236" r="43" fill="#e9e6da"/>
-      <path d="M444 193V279M401 236H487M414 206L474 266M474 206L414 266" stroke-width="2.5" fill="none"/>
-    </g>
-    <path d="M120 236 L262 246" stroke="#0b0b0c" stroke-width="15" fill="none"/><path d="M120 236 L262 246" stroke="#8f8f8c" stroke-width="8" fill="none"/>
-    <path d="M244 240 C190 252 140 228 96 188" stroke="#0b0b0c" stroke-width="15" fill="none"/><path d="M244 240 C190 252 140 228 96 188" stroke="#b7b7b1" stroke-width="8" fill="none"/>
-    <path d="M104 174 L60 152 L48 172 L92 196 Z" fill="#6b6b70"/>
-    <path d="M196 200 L300 194 L308 250 L206 256 Z" fill="#4a4a4d"/>
-    <path d="M214 166 L284 162 L290 198 L212 202 Z" fill="#6b6b70"/>
-    <path d="M218 177 L286 173 M218 188 L288 184" stroke-width="2.5" fill="none"/>
-    <path d="M186 146 L204 236" stroke="#0b0b0c" stroke-width="14" fill="none"/><path d="M186 146 L204 236" stroke="#d4a017" stroke-width="7" fill="none"/>
-    <path d="M34 110 Q92 112 170 128 L168 150 Q112 146 78 152 Q46 152 34 110 Z" fill="#e9e6da"/>
-    <path d="M48 113 Q100 116 162 131 L162 139 Q102 125 54 123 Z" fill="#d4a017" stroke="none"/>
-    <path d="M62 178 Q120 148 176 182 L164 192 Q120 168 76 194 Z" fill="#e9e6da"/>
-    <path d="M124 130 Q200 114 270 132 L266 154 Q198 148 128 152 Z" fill="#0b0b0c"/>
-    <path d="M258 136 Q284 98 348 104 L360 126 Q326 134 312 164 L260 166 Z" fill="#e9e6da"/>
-    <path d="M266 145 Q292 121 344 121 L348 132 Q306 142 292 160 L266 162 Z" fill="#d4a017" stroke="none"/>
-    <path d="M352 112 L442 236" stroke="#0b0b0c" stroke-width="15" fill="none"/><path d="M352 112 L442 236" stroke="#b7b7b1" stroke-width="8" fill="none"/>
-    <path d="M396 172 Q446 140 496 168 L488 184 Q446 166 408 192 Z" fill="#e9e6da"/>
-    <circle cx="120" cy="236" r="10" fill="#d4a017"/><circle cx="444" cy="236" r="10" fill="#d4a017"/>
-    <circle cx="376" cy="104" r="25" fill="#e9e6da"/><circle cx="376" cy="104" r="12" fill="#fff6c8"/>
-    <path d="M342 92 L308 76" stroke="#0b0b0c" stroke-width="12" fill="none"/><path d="M342 92 L308 76" stroke="#8f8f8c" stroke-width="5" fill="none"/>
-    <path d="M204 140 L300 172 L268 236" stroke="#0b0b0c" stroke-width="37" fill="none"/>
-    <path d="M204 140 L300 172 L268 236" stroke="#1d2947" stroke-width="28" fill="none"/>
-    <path d="M250 234 L294 242 L298 262 L244 262 Z" fill="#0b0b0c"/>
-    <path d="M186 148 Q194 96 258 62 L320 84 Q308 124 262 156 Z" fill="#f28a1e"/>
-    <path d="M214 132 Q246 102 282 92" fill="none" stroke="#e9e6da" stroke-width="4"/>
-    <path d="M284 86 L336 98" stroke="#0b0b0c" stroke-width="31" fill="none"/>
-    <path d="M284 86 L336 98" stroke="#f28a1e" stroke-width="22" fill="none"/>
-    <circle cx="340" cy="98" r="13" fill="#0b0b0c"/>
-    <circle cx="316" cy="52" r="28" fill="#141416"/>
-    <path d="M323 36 Q356 38 354 58 L326 63 Z" fill="#39ff14"/>
-    <path d="M294 44 Q316 24 338 40" stroke="#4a4a4d" stroke-width="5" fill="none"/>
-   </g>
-   </g>
-  </g>
-</svg>
-        <img class="moto__foto" id="moto-foto" alt="" width="560" height="330" hidden>
+        <img class="moto__foto" src="/v3-1/img/dt.webp" alt="Un piloto con gorra, lentes y camiseta naranja sobre la Yamaha azul de Iván, en un fotomontaje" width="1300" height="1129" fetchpriority="high" decoding="async">
+        <span class="moto__faro" id="moto-faro" aria-hidden="true" style="left:69.98%;top:45.23%"></span>
+        <span class="moto__cola" id="moto-cola" aria-hidden="true" style="left:1.87%;top:46.21%;height:9.8%"></span>
         <span class="moto__globo" aria-hidden="true">¡brrm!</span>
       </div>
     </div>
@@ -214,6 +172,20 @@
       <figure class="foto foto--maqueta">
         <div class="foto__marco"><img src="/v3-1/img/fotograma-maqueta.jpg" alt="Maqueta de un barrio pintado con graffiti, con un bus amarillo y un rostro gigante en el cielo" width="960" height="470" loading="lazy" decoding="async"></div>
         <figcaption>Referencia visual: maqueta de barrio</figcaption>
+      </figure>
+      <figure class="foto foto--sticker">
+        <div class="foto__marco"><img src="/v3-1/img/sticker-amarillo.jpg" alt="Un sticker amarillo y blanco con un tag pintado a mano" width="690" height="345" loading="lazy" decoding="async"></div>
+        <figcaption>Archivo personal</figcaption>
+      </figure>
+    </div>
+    <div class="casos__fila">
+      <figure class="foto foto--muro">
+        <div class="foto__marco"><img src="/v3-1/img/muro-hiphop.jpg" alt="Una pared de ladrillo con la frase Proyecto hip-hop, paz, convivencia, sobre un mural de graffiti azul" width="1200" height="475" loading="lazy" decoding="async"></div>
+        <figcaption>«Proyecto hip-hop, paz, convivencia»</figcaption>
+      </figure>
+      <figure class="foto foto--die foto--dt">
+        <div class="foto__marco"><img src="/v3-1/img/dt-blanca.webp" alt="Una Yamaha DT blanca, moto de trail de los noventa, recortada como un sticker" width="760" height="517" loading="lazy" decoding="async"></div>
+        <figcaption>Yamaha DT</figcaption>
       </figure>
     </div>
     <ul class="calle">
@@ -501,7 +473,22 @@
       </ul>
     </div>
     <div class="sobre__eco">
-      <svg class="eco" viewBox="-80 0 780 420" id="eco" aria-hidden="true" focusable="false"></svg>
+      <div class="eco" id="eco" aria-hidden="true"></div>
+      <div class="coll">
+        <figure class="foto foto--g">
+          <div class="foto__marco"><img src="/v3-1/img/graffiti-ivan.jpg" alt="Una pieza de graffiti en blanco, negro y plata con el nombre Ivan y el año 2019" width="720" height="350" loading="lazy" decoding="async"></div>
+          <figcaption>2019</figcaption>
+        </figure>
+        <figure class="foto foto--m foto--die">
+          <div class="foto__marco"><img src="/v3-1/img/sticker-moto-bosque.webp" alt="La moto azul vista desde atrás, recortada como un sticker" width="620" height="831" loading="lazy" decoding="async"></div>
+          <figcaption>La moto</figcaption>
+        </figure>
+        <figure class="foto foto--s">
+          <div class="foto__marco"><img src="/v3-1/img/silueta.jpg" alt="La silueta de una persona con gorra contra un cielo gris" width="760" height="1008" loading="lazy" decoding="async"></div>
+          <figcaption>De noche</figcaption>
+        </figure>
+      </div>
+      <div class="album" id="album" hidden></div>
       <figure class="tira">
         <div class="tira__fotos">
           <img src="/v3-1/img/fotograma-espacio.jpg" alt="Una moto de trail con su piloto flotando entre estrellas cuadradas" width="960" height="538" loading="lazy" decoding="async">
@@ -509,6 +496,17 @@
           <img src="/v3-1/img/fotograma-eco.jpg" alt="Una figura con copias desfasadas que dejan una estela de colores detrás" width="800" height="523" loading="lazy" decoding="async">
         </div>
         <figcaption>Referencias visuales</figcaption>
+      </figure>
+      <figure class="versus">
+        <div class="versus__marquesina"><img src="/v3-1/img/jax.webp" alt="Ilustración de Jax, de Mortal Kombat, con un puño rodeado de rayos" width="768" height="431" loading="lazy" decoding="async"></div>
+        <div class="versus__pantallas">
+          <div class="crt"><img src="/v3-1/img/mk-versus.webp" alt="Pantalla de pelea de un Mortal Kombat de los noventa: Liu Kang lanza una bola de fuego contra Scorpion" width="500" height="304" loading="lazy" decoding="async"></div>
+          <div class="crt"><img src="/v3-1/img/mk-ronda3.webp" alt="Pantalla de la ronda 3 de Mortal Kombat, con dos Scorpion frente a frente sobre un fondo rojo" width="474" height="237" loading="lazy" decoding="async"></div>
+        </div>
+        <img class="versus__consola" src="/v3-1/img/ps1-consola.webp" alt="Una consola PlayStation original con su mando" width="820" height="353" loading="lazy" decoding="async">
+        <img class="versus__mando" src="/v3-1/img/ps1-mando.webp" alt="El mando gris de la PlayStation original" width="460" height="293" loading="lazy" decoding="async">
+        <img class="versus__cage" src="/v3-1/img/johnny-cage.webp" alt="Johnny Cage, personaje de Mortal Kombat, en una pose desafiante" width="380" height="677" loading="lazy" decoding="async">
+        <figcaption>PS1 · Mortal Kombat</figcaption>
       </figure>
     </div>
   </section>
@@ -520,7 +518,7 @@
     <div class="ficha__hoja">
       <h2 class="ficha__titulo" id="contacto-t">Se busca</h2>
       <div class="ficha__cuerpo">
-        <div class="ficha__foto" aria-hidden="true"><svg viewBox="-20 0 600 340" id="ficha-moto"></svg><img class="ficha__yo" id="ficha-yo" alt="" hidden></div>
+        <div class="ficha__foto" aria-hidden="true"><img class="ficha__moto" src="/v3-1/img/dt.webp" alt="" width="1300" height="747" loading="lazy" decoding="async"><img class="ficha__yo" id="ficha-yo" alt="" hidden></div>
         <div class="ficha__datos-w">
           <p class="ficha__nombre">Iván Santander</p>
           <p class="ficha__cargo">Tech Lead y Technical Product Owner</p>
@@ -547,7 +545,7 @@
 
 <footer class="pie">
   <p>Iván Santander · Tech Lead y Technical Product Owner · Medellín, Colombia</p>
-  <p class="pie__credito">Fotogramas de un videoclip de MRB, incluidos como referencia visual.</p>
+  <p class="pie__credito">Fotografías: archivo personal de Iván Santander. Fotogramas de un videoclip de MRB. PlayStation es marca de Sony y Mortal Kombat pertenece a sus titulares: imágenes usadas como referencia cultural y de homenaje.</p>
 </footer>
 
 <noscript><p class="sin-js">Esta versión necesita JavaScript para el fondo animado. La página normal está en <a href="/">ivansantander.com</a>.</p></noscript>

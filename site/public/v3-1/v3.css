@@ -178,7 +178,7 @@ main { position: relative; z-index: 2; }
   padding: clamp(84px, 12vh, 120px) clamp(16px, 5vw, 72px) 6vh;
   display: flex; flex-direction: column; align-items: flex-start; gap: 14px;
 }
-.nombre { margin: 0; width: min(90vw, 1020px); transform: rotate(-.6deg); line-height: 0; }
+.nombre { margin: 0; width: min(63vw, 800px); transform: rotate(-.6deg); line-height: 0; }
 .nombre__svg { display: block; width: 100%; height: auto; overflow: visible; }
 .gotas-negras rect, .gotas-oro rect { transform-box: fill-box; transform-origin: top; animation: gotea 2.4s cubic-bezier(.3, .6, .3, 1) both; animation-delay: var(--d, 0s); }
 @keyframes gotea { from { transform: scaleY(0); } }
@@ -731,3 +731,159 @@ body[data-mundo="1"] .tilt { opacity: 1; }
   100% { opacity: 0; clip-path: inset(50% 50% 50% 50%); visibility: hidden; }
 }
 @media (prefers-reduced-motion: reduce) { .corte { display: none; } }
+
+/* ══════════ v3.1 · la moto real y las fotos propias ══════════ */
+
+/* Héroe: la Yamaha de verdad, recortada como pegatina; mira a la derecha y levanta la rueda de adelante */
+.moto { right: 3.5vw; bottom: 3vh; width: clamp(320px, 44vw, 690px); }
+.moto__mueve { transform-origin: var(--rueda-x, 14%) var(--rueda-y, 75%); animation-name: pesada2; }
+.moto__foto {
+  display: block; width: 100%; height: auto;
+  filter: drop-shadow(8px 10px 0 rgba(0, 0, 0, .9));
+  animation: ralenti .2s steps(2) infinite;
+}
+.moto.is-brrm .moto__mueve { animation-name: caballito2; }
+@keyframes pesada2 {
+  0%, 50% { transform: rotate(0); } 58% { transform: rotate(-2deg); } 72% { transform: rotate(-10deg); }
+  86% { transform: rotate(-9deg); } 95% { transform: rotate(-.5deg); } 100% { transform: rotate(0); }
+}
+@keyframes caballito2 { 0% { transform: rotate(0); } 30% { transform: rotate(-15deg); } 60% { transform: rotate(-12deg); } 100% { transform: rotate(0); } }
+.moto__globo { left: auto; right: 6%; top: -8%; }
+
+/* Ecos: la misma foto, en copias planas que se van hacia atrás (a la izquierda) */
+.eco { position: relative; display: block; width: 100%; max-width: 560px; margin: 0 auto; overflow: visible; }
+.eco__capas { position: absolute; left: 26%; right: 0; top: 0; bottom: 0; filter: url(#eco-mov); }
+.eco__capa {
+  position: absolute; inset: 0; width: 100%; height: 100%;
+  translate: calc((var(--i) + 1) * -5%) calc((var(--i) - 2) * 1.4%);
+  z-index: calc(6 - var(--i));
+  animation: eco2 6s ease-in-out infinite alternate; animation-delay: calc(var(--i) * -.9s);
+}
+.eco__frente { position: relative; z-index: 9; display: block; margin-left: 26%; width: 74%; height: auto; filter: drop-shadow(6px 8px 0 #000); }
+@keyframes eco2 { from { transform: translateX(-8px); } to { transform: translateX(8px); } }
+
+/* Contacto: la moto en fotocopia sobre el papel */
+.ficha__foto { position: relative; }
+.ficha__foto::after {
+  content: ""; position: absolute; inset: 8px; pointer-events: none; mix-blend-mode: multiply;
+  background-image: radial-gradient(rgba(0, 0, 0, .3) 1px, transparent 1.6px); background-size: 4px 4px;
+}
+.ficha__moto { display: block; width: 100%; height: auto; filter: grayscale(1) contrast(1.55) brightness(1.06); }
+
+/* Fotos pegadas: pegatina y muro en Casos, collage en Sobre mí, álbum solo en local */
+.casos__cabeza .foto--sticker { margin-left: 0; max-width: 290px; transform: rotate(-3deg); }
+.casos__cabeza .foto--maqueta { margin-left: auto; }
+.casos .foto--muro { position: relative; z-index: 2; max-width: min(100%, 940px); margin: 0 0 clamp(30px, 6vh, 64px) clamp(0px, 5vw, 80px); transform: rotate(-.8deg); }
+.foto--muro img { max-height: 250px; object-fit: cover; object-position: center 70%; }
+.sobre__eco { position: static; }
+.coll { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 30px 24px; margin: 46px 0 0; }
+.coll .foto { max-width: none; }
+.coll .foto--g { grid-column: 1 / -1; transform: rotate(-1.6deg); }
+.coll .foto--m { transform: rotate(2deg); }
+.coll .foto--s { transform: rotate(-2.4deg); }
+.coll .foto--m img, .coll .foto--s img { aspect-ratio: 3 / 4; object-fit: cover; }
+.album { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 30px 24px; margin: 46px 0 0; }
+.album[hidden] { display: none; }
+.foto--album { max-width: none; transform: rotate(var(--r, 0deg)); }
+.foto--album img { aspect-ratio: 4 / 5; object-fit: cover; }
+@media (max-width: 860px) {
+  .eco { max-width: 460px; }
+  .casos__cabeza .foto--sticker { max-width: 240px; }
+  .casos .foto--muro { margin-left: 0; }
+}
+@media (max-width: 640px) {
+  .moto { right: auto; }
+  .coll, .album { gap: 26px 16px; }
+}
+
+
+/* ══════════ v3.1 · fotomontaje del héroe: sol, chispas e insignia ══════════ */
+.moto { pointer-events: none; }
+.sol {
+  position: absolute; z-index: 0; left: 11%; top: 9%; width: 80%; aspect-ratio: 1; border-radius: 50%;
+  border: 7px solid #000; box-shadow: 0 0 0 12px var(--papel), 0 0 0 18px #000, 12px 16px 0 18px rgba(0, 0, 0, .8);
+  overflow: hidden; translate: calc(var(--mx, 0) * 10px) calc(var(--my, 0) * 6px);
+}
+.sol__rayos {
+  position: absolute; inset: -30%;
+  background: repeating-conic-gradient(from 0deg, #ffc61a 0 6deg, #fff0a8 6deg 12deg);
+  animation: sol 70s linear infinite;
+}
+.sol__puntos {
+  position: absolute; inset: 0;
+  background:
+    radial-gradient(circle at 50% 46%, rgba(255, 255, 255, .85) 0, rgba(255, 255, 255, 0) 46%),
+    radial-gradient(rgba(0, 0, 0, .34) 1.6px, transparent 2.3px) 0 0 / 9px 9px;
+  -webkit-mask-image: radial-gradient(circle at 50% 50%, transparent 0 24%, #000 78%);
+  mask-image: radial-gradient(circle at 50% 50%, transparent 0 24%, #000 78%);
+  mix-blend-mode: multiply;
+}
+@keyframes sol { to { transform: rotate(360deg); } }
+.moto__mueve { z-index: 2; }
+.moto__foto { position: relative; }
+
+.chispa { position: absolute; z-index: 3; width: 44px; height: 44px; color: #fff; pointer-events: none; animation: chispa 2.6s steps(5) infinite; animation-delay: var(--d, 0s); }
+.chispa--a { left: 4%; top: 30%; width: 58px; height: 58px; --d: -.4s; color: #fff6c8; }
+.chispa--b { right: 3%; top: 6%; width: 40px; height: 40px; --d: -1.3s; color: var(--taxi); }
+.chispa--c { left: 44%; top: 0; width: 30px; height: 30px; --d: -2s; }
+.chispa--d { right: 0; bottom: 34%; width: 50px; height: 50px; --d: -.9s; color: var(--verde); }
+@keyframes chispa { 0%, 100% { transform: scale(.35) rotate(0deg); opacity: .5; } 50% { transform: scale(1.1) rotate(20deg); opacity: 1; } }
+
+.insignia {
+  position: absolute; z-index: 4; right: -1%; top: 14%; width: clamp(96px, 10.5vw, 150px); aspect-ratio: 1; margin: 0;
+  transform: rotate(-13deg); filter: drop-shadow(5px 6px 0 rgba(0, 0, 0, .9)); animation: insignia 4.5s ease-in-out infinite alternate;
+}
+.insignia svg { position: absolute; inset: 0; width: 100%; height: 100%; }
+.insignia span {
+  position: absolute; inset: 0; display: grid; place-content: center; text-align: center; color: #000;
+  font: 400 clamp(13px, 1.3vw, 18px)/1 var(--condensada); letter-spacing: .12em; text-transform: uppercase;
+}
+.insignia b { display: block; font: 400 clamp(26px, 3vw, 42px)/1 var(--graffiti); letter-spacing: 0; margin-top: 3px; }
+@keyframes insignia { from { transform: rotate(-16deg) scale(.97); } to { transform: rotate(-9deg) scale(1.04); } }
+
+/* sticker recortado de la moto del bosque: sin marco, en color */
+.foto--die .foto__marco { background: none; padding: 0 0 30px; }
+.foto--die .foto__marco::after { display: none; }
+.foto--die::before { display: none; }
+.foto--die img { filter: none; }
+.foto--die:hover img { filter: none; }
+.foto--die { filter: drop-shadow(6px 8px 0 #000); }
+.foto--die figcaption { left: 4px; bottom: 0; color: var(--papel); text-shadow: 2px 2px 0 #000; }
+
+@media (max-width: 640px) {
+  .sol { left: 8%; top: 12%; width: 86%; }
+  .insignia { right: 0; top: 0; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .sol__rayos, .chispa, .insignia { animation: none; }
+  .chispa { transform: none; opacity: 1; }
+}
+
+
+/* ══════════ v3.1 · recursos de la época PS1 ══════════ */
+/* Casos: el muro de hip-hop y la Yamaha DT blanca, en una misma fila */
+.casos__fila { position: relative; z-index: 2; display: flex; flex-wrap: wrap; align-items: flex-end; gap: 24px 30px; margin: 0 0 clamp(30px, 6vh, 64px) clamp(0px, 5vw, 80px); }
+.casos__fila .foto--muro { margin: 0; flex: 1 1 480px; max-width: 760px; }
+.foto--dt { flex: 0 0 auto; width: clamp(210px, 25vw, 350px); max-width: none; transform: rotate(4deg); margin-bottom: 6px; }
+
+/* Sobre mí: "modo versus" — consola, mando, pantallas CRT y un luchador */
+.versus { position: relative; margin: 64px 0 0; padding: 0 0 8px; }
+.versus__marquesina { height: 118px; overflow: hidden; background: #000; border: 5px solid #000; box-shadow: 0 0 0 4px var(--papel), 9px 11px 0 4px rgba(0, 0, 0, .9); transform: rotate(-1.4deg); }
+.versus__marquesina img { display: block; width: 100%; height: 100%; object-fit: cover; object-position: 50% 32%; }
+.versus__pantallas { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 20px 18px; margin: 30px 0 0; }
+.crt { position: relative; aspect-ratio: 4 / 3; overflow: hidden; background: #000; border: 7px solid #0d0d0f; box-shadow: 0 0 0 3px var(--gris, #8f8f8c), 7px 9px 0 3px rgba(0, 0, 0, .9); }
+.crt:nth-child(1) { transform: rotate(1.6deg); }
+.crt:nth-child(2) { transform: rotate(-1.3deg); margin-top: 14px; }
+.crt img { display: block; width: 100%; height: 100%; object-fit: cover; image-rendering: pixelated; image-rendering: crisp-edges; }
+.crt::after { content: ""; position: absolute; inset: 0; pointer-events: none;
+  background: repeating-linear-gradient(0deg, rgba(0, 0, 0, .3) 0 1px, transparent 1px 3px), radial-gradient(ellipse at center, transparent 55%, rgba(0, 0, 0, .55) 100%); }
+.versus__consola { position: relative; z-index: 2; display: block; width: 76%; height: auto; margin: 26px 0 0 -3%; transform: rotate(-3deg); filter: drop-shadow(6px 8px 0 #000); }
+.versus__mando { position: absolute; z-index: 3; width: 34%; height: auto; right: 24%; bottom: 36px; transform: rotate(9deg); filter: drop-shadow(5px 7px 0 #000); }
+.versus__cage { position: absolute; z-index: 4; width: 25%; height: auto; right: -1%; bottom: 30px; transform: rotate(4deg); filter: drop-shadow(6px 8px 0 #000); }
+.versus figcaption { margin: 28px 0 0; font: 400 15px/1 var(--condensada); letter-spacing: .1em; text-transform: uppercase; color: var(--papel); text-shadow: 2px 2px 0 #000; }
+@media (max-width: 860px) { .versus { max-width: 520px; margin-left: auto; margin-right: auto; } }
+@media (max-width: 640px) {
+  .casos__fila { margin-left: 0; }
+  .foto--dt { width: min(64%, 260px); margin-left: auto; }
+  .versus__marquesina { height: 92px; }
+}
