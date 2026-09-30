@@ -29,7 +29,8 @@ export const LINK_V1 = process.env.LINK_V1 !== '0';
 
 /**
  * Enlace en el footer a la v3 — una versión experimental del portafolio,
- * servida en /v3/ como página estática independiente (public/v3/).
+ * servida en /v3/ (y su iteración v3.1 en /v3.1/) como páginas estáticas
+ * independientes (public/v3/, public/v3-1/).
  * No comparte CSS ni JS con el sitio.
  *   LINK_V3=0 pnpm build   ← lo quita del footer
  */
