@@ -135,7 +135,8 @@ const html = `<!doctype html>
 </main>
 <div class="reproductor" id="repro" hidden>
   <button type="button" id="repro-play" aria-pressed="true" aria-label="Pausar la música"><span aria-hidden="true">❚❚</span></button>
-  <p class="repro__txt">Lofi ambient</p>
+  <p class="repro__txt" id="repro-nombre">El estren</p>
+  <button type="button" id="repro-sig" aria-label="Cambiar de canción"><span aria-hidden="true">⏭</span></button>
   <button type="button" id="repro-mudo" aria-pressed="false" aria-label="Silenciar la música"><span aria-hidden="true">♪</span></button>
 </div>
 <script src="/mixtape/mixtape.js" defer></script>
