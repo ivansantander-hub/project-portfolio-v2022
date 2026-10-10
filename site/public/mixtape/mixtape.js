@@ -1,4 +1,4 @@
-/* mixtape.js — las figuritas se pegan al entrar; "Dale play" pone el lofi y el ecualizador baila con el audio.
+/* mixtape.js — las figuritas se pegan al entrar; "Dale play" pone la canción y el ecualizador baila con el audio.
    Nada suena antes del primer clic; se puede pausar o silenciar; la preferencia de silencio se recuerda. */
 (() => {
   'use strict';
@@ -26,8 +26,16 @@
   const rMudo = document.getElementById('repro-mudo');
   const barras = [...document.querySelectorAll('#eq i')];
 
+  const CANCIONES = [
+    { src: '/audio/el-estren.mp3', nombre: 'El estren' },
+    { src: '/audio/india-conocida.mp3', nombre: 'India conocida' },
+  ];
+  let cual = Number(leer('mixtape:cancion')) === 1 ? 1 : 0;
+  const rSig = document.getElementById('repro-sig');
+  const rNombre = document.getElementById('repro-nombre');
+
   const audio = new Audio();
-  audio.src = '/audio/lofi-ambient.mp3';
+  audio.src = CANCIONES[cual].src;
   audio.loop = true;
   audio.preload = 'none';
   audio.volume = 0.55;
@@ -67,6 +75,7 @@
     rPlay.setAttribute('aria-pressed', String(sonando));
     rPlay.setAttribute('aria-label', sonando ? 'Pausar la música' : 'Poner la música');
     rPlay.firstElementChild.textContent = sonando ? '❚❚' : '▶';
+    rNombre.textContent = CANCIONES[cual].nombre;
     rMudo.setAttribute('aria-pressed', String(audio.muted));
     rMudo.setAttribute('aria-label', audio.muted ? 'Quitar el silencio' : 'Silenciar la música');
     if (!sonando) barras.forEach((b) => { b.style.transform = ''; });
@@ -94,6 +103,13 @@
     if (eraPausa && sonando) document.getElementById('lado-a').scrollIntoView({ behavior: quieto ? 'auto' : 'smooth' });
   });
   rPlay.addEventListener('click', alterna);
+  rSig.addEventListener('click', () => {
+    cual = (cual + 1) % CANCIONES.length;
+    guardar('mixtape:cancion', String(cual));
+    audio.src = CANCIONES[cual].src;
+    if (sonando) audio.play().catch(() => {});
+    pintaEstado();
+  });
   rMudo.addEventListener('click', () => { audio.muted = !audio.muted; guardar('mixtape:mudo', audio.muted ? '1' : '0'); pintaEstado(); });
 
   /* si la pestaña se oculta, se pausa; al volver, sigue */
