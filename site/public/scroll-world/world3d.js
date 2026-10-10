@@ -36,14 +36,14 @@ function arranca() {
   const renderer = new THREE.WebGLRenderer({ canvas, antialias: false, powerPreference: 'high-performance' });
   if (!renderer.capabilities.isWebGL2) throw new Error('sin WebGL2');
   renderer.toneMapping = THREE.ACESFilmicToneMapping;
-  renderer.toneMappingExposure = 1.05;
+  renderer.toneMappingExposure = 0.82;
   renderer.setClearColor(0x04050a, 1);
 
   const scene = new THREE.Scene();
   const camera = new THREE.PerspectiveCamera(46, 1, 2, 7000);
   const comp = new EffectComposer(renderer);
   comp.addPass(new RenderPass(scene, camera));
-  const bloom = new UnrealBloomPass(new THREE.Vector2(512, 512), 0.95, 0.7, 0.55);
+  const bloom = new UnrealBloomPass(new THREE.Vector2(512, 512), 0.38, 0.45, 0.82);
   comp.addPass(bloom);
   comp.addPass(new OutputPass());
 
@@ -115,8 +115,11 @@ function arranca() {
       vec2 cell = floor(g), f = fract(g);
       float win = step(0.2, f.x) * step(f.x, 0.8) * step(0.24, f.y) * step(f.y, 0.76);
       float r = hash(cell + vInfo.x * 17.0);
-      float dens = mix(0.5, 0.66, vInfo.z) + uFocus * 0.16;
-      float on = step(r, dens) * (1.0 - step(0.9, n.y));
+      float dens = mix(0.34, 0.5, vInfo.z) + uFocus * 0.22;
+      vec2 fw = fwidth(g);
+      float aa = smoothstep(0.3, 0.75, max(fw.x, fw.y));
+      win = mix(win, 0.5, aa);
+      float on = mix(step(r, dens), dens, aa) * (1.0 - step(0.9, n.y));
       float blink = step(0.965, hash(cell + 3.1 + vInfo.x)) * (0.5 + 0.5 * sin(uTime * 1.3 + r * 40.0));
       on *= 1.0 - blink * 0.7;
       float tone = hash(cell.yx + 9.0);
@@ -125,11 +128,11 @@ function arranca() {
       vec3 wall = mix(vec3(0.026, 0.03, 0.05), vec3(0.06, 0.036, 0.03), vInfo.y);
       float sh = 0.55 + 0.45 * clamp(dot(n, normalize(vec3(0.3, 0.8, 0.5))), 0.0, 1.0);
       vec3 col = wall * sh;
-      col += warm * win * on * (1.9 + uFocus * 1.2);
-      col += vec3(1.0, 0.5, 0.16) * exp(-max(vW.y, 0.0) / 7.0) * 0.08;
+      col += warm * win * on * (0.75 + uFocus * 0.9);
+      col += vec3(1.0, 0.5, 0.16) * exp(-max(vW.y, 0.0) / 7.0) * 0.035;
       vec3 vdir = normalize(cameraPosition - vW);
       float rim = pow(1.0 - abs(dot(n, vdir)), 2.4);
-      col += vec3(0.2, 0.95, 0.5) * rim * uFocus * 1.5;
+      col += vec3(0.2, 0.95, 0.5) * rim * uFocus * 0.9;
       col = aplicaNiebla(col, vW);
       gl_FragColor = vec4(col, 1.0);
     }`;
@@ -153,10 +156,10 @@ function arranca() {
         fragmentShader: `varying vec3 vD;
           void main(){
             float y = vD.y;
-            vec3 hor = vec3(0.17, 0.085, 0.05), mid = vec3(0.025, 0.035, 0.1), top = vec3(0.008, 0.01, 0.03);
+            vec3 hor = vec3(0.075, 0.04, 0.03), mid = vec3(0.025, 0.035, 0.1), top = vec3(0.008, 0.01, 0.03);
             vec3 c = mix(hor, mid, smoothstep(-0.02, 0.28, y));
             c = mix(c, top, smoothstep(0.2, 0.85, y));
-            c += vec3(0.1, 0.045, 0.02) * exp(-abs(y) * 9.0) * (0.5 + 0.5 * vD.z * -1.0);
+            c += vec3(0.045, 0.02, 0.012) * exp(-abs(y) * 9.0) * (0.5 + 0.5 * vD.z * -1.0);
             c = mix(c, vec3(0.03, 0.027, 0.05), smoothstep(0.0, -0.4, y));
             gl_FragColor = vec4(c, 1.0);
           }`,
@@ -338,7 +341,7 @@ function arranca() {
           vC = ${atributos ? 'aC' : 'uColor'} * tw;
           float d = -mv.z;
           vF = 1.0 - exp(-pow(d * uFogD, 2.0));
-          gl_PointSize = clamp(uSize * ${atributos ? 'aP.z' : '1.0'} * uScale / d, 1.4, 9.0);
+          gl_PointSize = clamp(uSize * ${atributos ? 'aP.z' : '1.0'} * uScale / d, 1.2, 5.0);
           gl_Position = projectionMatrix * mv;
         }`,
       fragmentShader: `varying vec3 vC; varying float vF;
@@ -349,12 +352,12 @@ function arranca() {
   /* luces de las comunas: racimos que trepan por las laderas */
   {
     const pos = [], P = [], C = [];
-    const paleta = [[2.1, 1.0, 0.28], [2.2, 1.55, 0.6], [2.0, 1.75, 1.2], [2.4, 0.8, 0.2], [1.5, 1.7, 2.0]];
-    const racimos = 190;
+    const paleta = [[1.0, 0.46, 0.13], [1.05, 0.72, 0.28], [0.95, 0.82, 0.55], [1.1, 0.38, 0.1], [0.7, 0.8, 0.95]];
+    const racimos = 120;
     for (let k = 0; k < racimos; k++) {
       const lado = R() < 0.55 ? -1 : 1;
       const cz = lado * (130 + Math.pow(R(), 0.85) * 520), cx = (R() - 0.5) * 2800;
-      const n = 220 + Math.floor(R() * 520), sx = 26 + R() * 50, sz = 12 + R() * 26;
+      const n = 140 + Math.floor(R() * 330), sx = 26 + R() * 50, sz = 12 + R() * 26;
       const paletaK = R();
       for (let i = 0; i < n; i++) {
         const gx = (R() + R() + R() - 1.5) * sx, gz = (R() + R() + R() - 1.5) * sz;
@@ -370,14 +373,14 @@ function arranca() {
     for (const c of CALLES) {
       for (let t = c.a; t <= c.b; t += 12) for (const off of [-7.5, 7.5]) {
         const x = c.axis === 0 ? t : c.c + off, z = c.axis === 0 ? c.c + off : t;
-        pos.push(x, 9, z); P.push(R() * 6.28, 0.3, 1.0, 0); C.push(2.3, 1.15, 0.4);
+        pos.push(x, 9, z); P.push(R() * 6.28, 0.3, 0.8, 0); C.push(1.1, 0.55, 0.2);
       }
     }
     const g = new THREE.BufferGeometry();
     g.setAttribute('position', new THREE.Float32BufferAttribute(pos, 3));
     g.setAttribute('aP', new THREE.Float32BufferAttribute(P, 4));
     g.setAttribute('aC', new THREE.Float32BufferAttribute(C, 3));
-    const pts = new THREE.Points(g, puntos({ size: 2.6, color: [1, 1, 1], atributos: true }));
+    const pts = new THREE.Points(g, puntos({ size: 1.9, color: [1, 1, 1], atributos: true }));
     pts.frustumCulled = false;
     scene.add(pts);
   }
@@ -418,10 +421,10 @@ function arranca() {
           float u = fract(aMove.x + uTime * aMove.y * aMove.z);
           float along = mix(aRoad.z, aRoad.w, u);
           vec3 p = aRoad.x < 0.5 ? vec3(along, 1.1, aRoad.y + aMove.w) : vec3(aRoad.y + aMove.w, 1.1, along);
-          vC = aMove.z > 0.0 ? vec3(2.2, 1.9, 1.4) : vec3(2.2, 0.28, 0.14);
+          vC = aMove.z > 0.0 ? vec3(1.0, 0.9, 0.65) : vec3(1.0, 0.14, 0.07);
           vec4 mv = viewMatrix * vec4(p, 1.0); float d = -mv.z;
           vF = 1.0 - exp(-pow(d * uFogD, 2.0));
-          gl_PointSize = clamp(1.7 * uScale / d, 1.3, 7.0);
+          gl_PointSize = clamp(1.4 * uScale / d, 1.2, 4.5);
           gl_Position = projectionMatrix * mv;
         }`,
       fragmentShader: 'varying vec3 vC; varying float vF; void main(){ float d = length(gl_PointCoord - 0.5); float a = smoothstep(0.5, 0.0, d); gl_FragColor = vec4(vC * a * (1.0 - vF * 0.75), 1.0); }',
@@ -456,9 +459,9 @@ function arranca() {
     pil.forEach((e, i) => { mm.compose(new THREE.Vector3(e.x, e.y - 3, e.z), new THREE.Quaternion(), new THREE.Vector3(e.w, e.h + 3, e.d)); pm.setMatrixAt(i, mm); });
     scene.add(pm);
     const lam = new THREE.BufferGeometry().setAttribute('position', new THREE.Float32BufferAttribute(pil.flatMap((e) => [e.x, e.y + e.h - 1, e.z]), 3));
-    scene.add(new THREE.Points(lam, puntos({ size: 1.5, color: [2.2, 1.0, 0.25], pulso: true })));
+    scene.add(new THREE.Points(lam, puntos({ size: 1.3, color: [1.0, 0.5, 0.12], pulso: true })));
   }
-  const cabinas = new THREE.InstancedMesh(new THREE.BoxGeometry(6.5, 4.6, 5.2), new THREE.MeshBasicMaterial({ color: new THREE.Color(2.4, 1.7, 0.8), toneMapped: false }), 20);
+  const cabinas = new THREE.InstancedMesh(new THREE.BoxGeometry(6.5, 4.6, 5.2), new THREE.MeshBasicMaterial({ color: new THREE.Color(1.1, 0.8, 0.4), toneMapped: false }), 20);
   cabinas.frustumCulled = false;
   scene.add(cabinas);
   const dummy = new THREE.Object3D(), tang = new THREE.Vector3();
@@ -481,7 +484,7 @@ function arranca() {
     const u = 0.17 + i * 0.095;
     const c = cable.getPointAt(u), tg = cable.getTangentAt(u);
     const lado = i % 2 ? 1 : -1;
-    const x = c.x + lado * tg.z * 36, z = c.z - lado * tg.x * 36;
+    const x = c.x + lado * tg.z * 52, z = c.z - lado * tg.x * 52;
     p.u = u;
     p.hero = crearHeroe({ x, z, w: 15 + (i % 3) * 3, h: 17 + ((i * 5) % 4) * 5, d: 15 + ((i + 1) % 3) * 2, forma: FORMAS[(i + 2) % FORMAS.length], tint: 0.8, clase: 1 });
   });
@@ -509,7 +512,7 @@ function arranca() {
     const mat = matEdificio();
     const mesh = new THREE.Mesh(g, mat); mesh.frustumCulled = false;
     nave.add(mesh);
-    const puerta = new THREE.Mesh(new THREE.PlaneGeometry(W * 0.46, Hh * 0.72), new THREE.MeshBasicMaterial({ color: new THREE.Color(2.6, 1.5, 0.5), toneMapped: false }));
+    const puerta = new THREE.Mesh(new THREE.PlaneGeometry(W * 0.46, Hh * 0.72), new THREE.MeshBasicMaterial({ color: new THREE.Color(1.2, 0.7, 0.25), toneMapped: false }));
     puerta.position.set(-W * 0.18, Hh * 0.38, D / 2 + 0.1);
     nave.add(puerta);
     scene.add(nave);
@@ -539,9 +542,12 @@ function arranca() {
 
     // farolas de la plataforma
     const fp = [];
-    for (let a = 0; a < 14; a++) { const t = (a / 14) * Math.PI * 2; fp.push(CIMA.x + Math.cos(t) * 64, Y + 7, CIMA.z + Math.sin(t) * 58); }
+    for (let a = 0; a < 26; a++) { const t = (a / 26) * Math.PI * 2; fp.push(CIMA.x + Math.cos(t) * (46 + (a % 2) * 20), Y + 7, CIMA.z + Math.sin(t) * (44 + (a % 2) * 18)); }
     const fg = new THREE.BufferGeometry().setAttribute('position', new THREE.Float32BufferAttribute(fp, 3));
-    scene.add(new THREE.Points(fg, puntos({ size: 3.2, color: [2.3, 1.2, 0.4] })));
+    scene.add(new THREE.Points(fg, puntos({ size: 2.4, color: [1.1, 0.6, 0.2] })));
+    const halo = new THREE.Mesh(new THREE.CircleGeometry(95, 48).rotateX(-Math.PI / 2), new THREE.MeshBasicMaterial({ color: new THREE.Color(0.03, 0.018, 0.008), transparent: true, depthWrite: false, blending: THREE.AdditiveBlending }));
+    halo.position.set(CIMA.x, Y + 0.6, CIMA.z);
+    scene.add(halo);
   }
 
   /* cartelera de la llegada */
@@ -564,7 +570,7 @@ function arranca() {
     dibuja(); doc.fonts && doc.fonts.ready.then(dibuja);
     const g = new THREE.Group();
     const Y = PLAT;
-    const cara = new THREE.Mesh(new THREE.PlaneGeometry(52, 28.4), new THREE.MeshBasicMaterial({ map: tex, toneMapped: false, color: new THREE.Color(1.5, 1.45, 1.35) }));
+    const cara = new THREE.Mesh(new THREE.PlaneGeometry(52, 28.4), new THREE.MeshBasicMaterial({ map: tex, toneMapped: false, color: new THREE.Color(0.95, 0.92, 0.85) }));
     cara.position.y = Y + 26;
     const marco = new THREE.Mesh(new THREE.BoxGeometry(54.6, 31, 1.6), new THREE.MeshBasicMaterial({ color: 0x0d0f16 }));
     marco.position.set(0, Y + 26, -1.2);
@@ -577,12 +583,12 @@ function arranca() {
 
   /* haz de luz verde: marca el edificio en foco */
   const haz = new THREE.Mesh(
-    new THREE.CylinderGeometry(2.6, 2.6, 520, 24, 1, true).translate(0, 260, 0),
+    new THREE.CylinderGeometry(1.3, 1.3, 520, 20, 1, true).translate(0, 260, 0),
     new THREE.ShaderMaterial({
       transparent: true, depthWrite: false, blending: THREE.AdditiveBlending, side: THREE.DoubleSide,
       uniforms: { uOn: { value: 0 } },
       vertexShader: 'varying float vY; void main(){ vY = position.y / 520.0; gl_Position = projectionMatrix * modelViewMatrix * vec4(position, 1.0); }',
-      fragmentShader: 'uniform float uOn; varying float vY; void main(){ float a = pow(1.0 - vY, 1.6) * uOn; gl_FragColor = vec4(vec3(0.2, 1.6, 0.8) * a, a); }',
+      fragmentShader: 'uniform float uOn; varying float vY; void main(){ float a = pow(1.0 - vY, 1.6) * uOn; gl_FragColor = vec4(vec3(0.12, 0.6, 0.32) * a * 0.55, a * 0.55); }',
     }),
   );
   haz.visible = false; haz.frustumCulled = false;
@@ -605,19 +611,16 @@ function arranca() {
 
   function construyePoses() {
     poses.length = 0;
-    const heroPose = (hr, i, lado) => {
+    const heroPose = (hr) => {
       const c = V3(hr.x, hr.y + hr.h * 0.5, hr.z);
-      const R0 = clamp(hr.h * 1.15 + 50, 120, 210);
-      const ang = (lado ? 1 : -1) * (0.55 + (i % 3) * 0.12);
-      const hacia = hr.z < 0 ? 1 : -1; // hacia el corredor
-      const pos = V3(hr.x + Math.sin(ang) * R0, hr.y + hr.h * 0.62 + 26, hr.z + hacia * Math.cos(ang) * R0);
-      return pose(pos, c, 0.2);
+      const lado = hr.z < 0 ? 1 : -1; // la cámara va por el lado contrario de la avenida
+      return pose(V3(hr.x - 158, hr.y + hr.h * 0.58 + 50, lado * 30), c, 0.2, 48);
     };
     let ic = 0, ip = 0;
     for (const st of paradas) {
       switch (st.id) {
         case 'p-inicio': poses.push(pose(V3(120, 470, 1060), V3(-20, 30, -60), -0.2, 44)); break;
-        case 'p-clinica': poses.push(pose(V3(-150, 250, 430), V3(0, 70, -10), 0.16)); break;
+        case 'p-clinica': poses.push(pose(V3(-430, 170, 12), V3(-70, 75, 0), 0.12)); break;
         case 'p-propios': { const c0 = cable.getPointAt(0.04); poses.push(pose(V3(c0.x + 70, c0.y + 36, c0.z + 80), cable.getPointAt(0.34), 0.15)); break; }
         case 'p-taller': poses.push(pose(V3(CIMA.x - 90, PLAT + 62, CIMA.z + 160), estaciones.taller.punto.clone().add(V3(0, 12, 0)), 0.18)); break;
         case 'taller-trayectoria': poses.push(stationPose(estaciones.tray)); break;
@@ -626,17 +629,17 @@ function arranca() {
         case 'taller-stack': poses.push(stationPose(estaciones.stack)); break;
         case 'p-contacto': poses.push(pose(V3(cartel.x + 70, PLAT + 56, cartel.z + 120), cartel.punto, 0.2)); break;
         default:
-          if (st.cap === 'clinica') poses.push(heroPose(st.hero, ic++, ic % 2));
+          if (st.cap === 'clinica') poses.push(heroPose(st.hero));
           else {
             const hr = st.hero, i = ip++;
-            const cp = cable.getPointAt(clamp(st.u - 0.012, 0, 1));
-            poses.push(pose(V3(cp.x, cp.y - 3, cp.z), V3(hr.x, hr.y + hr.h * 0.5 + 4, hr.z), 0.2, 48, false));
+            const cp = cable.getPointAt(clamp(st.u - 0.075, 0, 1));
+            poses.push(pose(V3(cp.x, cp.y + 30, cp.z), V3(hr.x, hr.y + hr.h * 0.5 + 4, hr.z), 0.2, 52, false));
           }
       }
     }
   }
   function stationPose(e) {
-    return pose(V3(e.punto.x + 18, e.punto.y + 24, e.punto.z + 72), V3(e.punto.x, e.punto.y + e.alto * 0.55, e.punto.z), 0.2);
+    return pose(V3(e.punto.x + 30, e.punto.y + 40, e.punto.z + 105), V3(e.punto.x, e.punto.y + e.alto * 0.5, e.punto.z), 0.2, 50);
   }
 
   /* ───────── scroll → cámara ───────── */
@@ -738,7 +741,7 @@ function arranca() {
 
   /* ───────── bucle ───────── */
   let lenis = null, ultT = performance.now(), activo = true;
-  if (window.Lenis) lenis = new window.Lenis({ lerp: 0.1, smoothWheel: true, wheelMultiplier: 0.9 });
+  if (window.Lenis) lenis = new window.Lenis({ lerp: 0.12, smoothWheel: true, wheelMultiplier: 1.1 });
 
   /* calidad adaptativa: si el equipo va justo, baja la resolución interna antes que perder fluidez */
   let acum = 0, nF = 0, enfria = 0;
@@ -758,6 +761,17 @@ function arranca() {
     bloom.resolution.set(S.W * dpr * 0.5, S.H * dpr * 0.5);
   }
 
+  /* al soltar el scroll entre dos paradas, termina el viaje hacia la siguiente (o vuelve a la anterior) */
+  let yAnt = -1, tMov = 0, dirMov = 1;
+  function ajusta(now) {
+    if (scrollY !== yAnt) { dirMov = scrollY > yAnt ? 1 : -1; yAnt = scrollY; tMov = now; return; }
+    if (DBG || S.destino != null || now - tMov < 230 || tMov === 0) return;
+    const y = clamp(scrollY - S.top, 0, S.total);
+    const seg = S.segs.find((s) => y <= s.b);
+    if (!seg || seg.t !== 'move') return;
+    irA(dirMov > 0 ? seg.i + 1 : seg.i);
+  }
+
   function frame(now) {
     requestAnimationFrame(frame);
     if (doc.hidden || !activo) return;
@@ -766,7 +780,8 @@ function arranca() {
     lenis && lenis.raf(now);
     const t = (now - S.t0) / 1000;
     U.uTime.value = t;
-    S.cur = DBG ? scrollY : S.cur + (scrollY - S.cur) * (1 - Math.exp(-dt * 11));
+    S.cur = DBG ? scrollY : S.cur + (scrollY - S.cur) * (1 - Math.exp(-dt * 16));
+    ajusta(now);
     adapta(dt);
     const idx = colocaCamara(S.cur - S.top, t);
     enFoco(idx);
@@ -793,7 +808,7 @@ function arranca() {
     S.destino = i;
     const y = S.top + holdDe(i).a + 2;
     if (DBG) { scrollTo({ top: y, behavior: 'instant' }); S.destino = null; return; }
-    if (lenis) lenis.scrollTo(y, { duration: 1.8, easing: (t) => 1 - Math.pow(1 - t, 4) });
+    if (lenis) lenis.scrollTo(y, { duration: 1.4, easing: (t) => 1 - Math.pow(1 - t, 4) });
     else scrollTo({ top: y, behavior: 'smooth' });
   }
   const actual = () => (S.destino != null ? S.destino : S.ultimo);
