@@ -49,7 +49,6 @@ a { color: inherit; }
 
 /* ───────── escena (franja en modo lista) ───────── */
 #escena { position: relative; height: min(54svh, 460px); overflow: hidden; background: radial-gradient(140% 85% at 50% 108%, #3a1d0a 0%, #120d12 48%, #05060a 100%); }
-#escena svg { position: absolute; inset: 0; width: 100%; height: 100%; display: block; }
 .viñeta { position: absolute; inset: 0; pointer-events: none; background: radial-gradient(120% 100% at 50% 50%, transparent 55%, rgba(3, 4, 7, 0.72) 100%); }
 
 /* ───────── contenido en modo lista ───────── */
@@ -128,53 +127,14 @@ h3 { font-weight: 650; font-size: 22px; line-height: 1.2; letter-spacing: -0.01e
 #hud button:active { transform: scale(0.96); }
 #hud-txt { min-width: 16rem; text-align: center; font: 500 12px/1.3 'Geist Mono', monospace; letter-spacing: 0.08em; text-transform: uppercase; color: var(--hueso); }
 
-/* ───────── SVG ───────── */
-.est { fill: #cfd6ff; opacity: 0.55; }
-.est.tw { animation: tw 4.2s ease-in-out infinite; }
-.lz { opacity: 0.85; }
-.lz.a { fill: var(--sodio); } .lz.b { fill: var(--oro); } .lz.c { fill: #fff1cf; } .lz.d { fill: #ff5f1f; opacity: 0.6; }
-
-.suelo { fill: #10131a; stroke: #262a36; stroke-width: 1.4; }
-.suelo.plaza { fill: #171a23; }
-.roca-l { fill: #15110e; } .roca-r { fill: #0b0907; }
-.asfalto { fill: #07080b; } .bordillo { fill: #262a35; } .raya { fill: var(--oro); opacity: 0.8; }
-
-.tn0 { --ft: #2d323e; --fl: #1b1f28; --fr: #10131a; }
-.tn1 { --ft: #382b20; --fl: #251c14; --fr: #17110d; }
-.tn2 { --ft: #233140; --fl: #18232c; --fr: #0f161d; }
-.tn3 { --ft: #20342b; --fl: #16241d; --fr: #0d1511; }
-.ft { fill: var(--ft, #2d323e); }
-.fl { fill: var(--fl, #1b1f28); }
-.fr { fill: var(--fr, #10131a); }
-.ft.claro { fill: color-mix(in srgb, var(--ft, #2d323e) 78%, #fff); }
-.edif :is(.ft, .fl, .fr) { stroke: rgba(0, 0, 0, 0.35); stroke-width: 0.8; stroke-linejoin: round; }
-
-.v { fill: #090b0f; }
-.v.a { fill: var(--sodio); } .v.b { fill: var(--oro); } .v.c { fill: #ffe3b3; }
-.edif:not(.is-foco) :is(.v.a, .v.b, .v.c) { opacity: 0.6; }
-.edif.is-foco :is(.v.a, .v.b, .v.c) { opacity: 1; }
-.puerta { fill: #040507; }
-.borde { fill: none; stroke: var(--verde); stroke-width: 3.2; stroke-linejoin: round; opacity: 0; transition: opacity 0.5s var(--ease); }
-.edif.is-foco .borde { opacity: 0.95; }
-.parp { animation: parp 3.6s steps(2, end) infinite; }
-.antena { stroke: #3a4050; stroke-width: 2.4; }
-.baliza { fill: var(--sodio); animation: parp 2.4s ease-in-out infinite; }
-.farola line { stroke: #2d313d; stroke-width: 3; }
-.farola .foco { fill: #ffe3b3; }
-.arbol line { stroke: #1d160f; stroke-width: 3; }
-.arbol ellipse { fill: #0d2a1c; } .arbol .claro { fill: #14412a; }
-.poste { stroke: #2d313d; stroke-width: 3.2; }
-.ladrillo { fill: #2b1a13; }
-.herr { fill: #c9cbd3; } .herr.h0 { fill: #858c9b; } .herr.h2 { fill: var(--oro); }
-.cartel-luz { fill: #fff0cb; opacity: 0.96; }
-.tanque .ft { fill: #2f3541; }
-
-#trazo { stroke: var(--oro); stroke-width: 2.6; stroke-dasharray: 3 15; stroke-linecap: round; opacity: 0.5; animation: marcha 3s linear infinite; }
-#faro-ruta .punto { fill: #fff6dd; }
-
-@keyframes parp { 50% { opacity: 0.25; } }
-@keyframes tw { 50% { opacity: 0.12; } }
-@keyframes marcha { to { stroke-dashoffset: -36; } }
+/* ───────── lienzo 3D ───────── */
+#lienzo { position: absolute; inset: 0; width: 100%; height: 100%; display: none; }
+.modo-mundo #lienzo { display: block; }
+.poster { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; display: block; }
+.modo-mundo .poster { display: none; }
+html.lenis, html.lenis body { height: auto; }
+.lenis.lenis-smooth { scroll-behavior: auto !important; }
+.lenis.lenis-stopped { overflow: hidden; }
 
 /* ───────── pantallas pequeñas ───────── */
 @media (max-width: 899px) {
@@ -190,3 +150,19 @@ h3 { font-weight: 650; font-size: 22px; line-height: 1.2; letter-spacing: -0.01e
 /* luna */
 .luna { fill: #e8e3d3; opacity: 0.9; }
 .luna-sombra { fill: #05060a; }
+
+/* ───────── paneles como hoja inferior cuando la pantalla es alta ───────── */
+@media (max-aspect-ratio: 19/20) {
+  .modo-mundo .parada, .modo-mundo .panel--izq, .modo-mundo .panel--largo, .modo-mundo .panel--cartel {
+    top: auto; bottom: 84px; left: 12px; right: 12px; width: auto; max-height: 52svh; padding: 18px;
+    transform: translateY(24px);
+  }
+  .modo-mundo .parada.is-foco { transform: translateY(0); }
+  .modo-mundo .caso__titulo { font-size: clamp(24px, 7vw, 34px); }
+  .modo-mundo .caso__sub { font-size: 15px; }
+  .modo-mundo #hud { bottom: 14px; }
+  #hud-txt { min-width: 8rem; font-size: 11px; }
+  .modo-mundo h1 { font-size: clamp(36px, 11vw, 56px); }
+  .modo-mundo h2 { font-size: clamp(28px, 8vw, 40px); }
+  .modo-mundo .historial__cab { font-size: 14px; }
+}

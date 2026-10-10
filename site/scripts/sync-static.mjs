@@ -81,6 +81,17 @@ copyFile(
   join(vendor, 'model-viewer.min.js'),
 );
 
+// ─── three.js (MIT) para /scroll-world/: núcleo + postprocesado (bloom). Se sirve por import map. ───
+const three = join(nm, 'three');
+const threeOut = join(vendor, 'three');
+for (const f of ['three.module.min.js', 'three.core.min.js']) {
+  ensureDir(join(threeOut, 'build'));
+  copyFile(join(three, 'build', f), join(threeOut, 'build', f));
+}
+for (const sub of ['postprocessing', 'shaders', 'utils']) {
+  syncDir(join(three, 'examples', 'jsm', sub), join(threeOut, 'examples', 'jsm', sub));
+}
+
 // ─── @fontsource: woff2 files → dist/fonts/ ──────────────────────────────────
 const fontsOut = join(dist, 'fonts');
 ensureDir(fontsOut);

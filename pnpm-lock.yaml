@@ -54,6 +54,9 @@ importers:
       mini-astro:
         specifier: github:ivansantander-hub/mini-astro
         version: https://codeload.github.com/ivansantander-hub/mini-astro/tar.gz/7f5643063e86022e3dc2a77f13bbd5839fef483b
+      three:
+        specifier: 0.182.0
+        version: 0.182.0
     devDependencies:
       gray-matter:
         specifier: ^4.0.3
