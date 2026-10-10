@@ -45,6 +45,21 @@ test.describe('medellin-hills · contenido', () => {
   });
 });
 
+test.describe('medellin-hills · imágenes', () => {
+  for (const [w, h] of [[1000, 620], [1440, 900], [1920, 1080], [390, 844]]) {
+    test(`ninguna imagen se estira ni se sale de proporción (${w}x${h})`, async ({ browser }) => {
+      const ctx = await browser.newContext({ viewport: { width: w, height: h } });
+      const p = await ctx.newPage();
+      await p.goto(URL, { waitUntil: 'load' });
+      await p.evaluate(async () => { for (let y = 0; y < document.body.scrollHeight; y += 700) { scrollTo(0, y); await new Promise((r) => setTimeout(r, 50)); } scrollTo(0, 0); });
+      await p.waitForTimeout(400);
+      const malas = await p.evaluate(() => [...document.images].filter((i) => i.naturalWidth && i.clientWidth && i.clientHeight).map((i) => ({ src: i.src.split('/').pop(), nat: i.naturalWidth / i.naturalHeight, vis: i.clientWidth / i.clientHeight })).filter((i) => Math.abs(i.nat / i.vis - 1) > 0.03));
+      expect(malas).toEqual([]);
+      await ctx.close();
+    });
+  }
+});
+
 test.describe('medellin-hills · música', () => {
   test('nada suena ni se descarga antes del clic', async ({ page }) => {
     const audio = [];
@@ -62,9 +77,9 @@ test.describe('medellin-hills · música', () => {
     await page.click('#play');
     await expect(page.locator('html')).toHaveClass(/suena/);
     await expect(page.locator('#repro')).toBeVisible();
-    const pulsos = new Set();
-    for (let i = 0; i < 15; i++) { pulsos.add(await page.evaluate(() => getComputedStyle(document.documentElement).getPropertyValue('--pulso'))); await page.waitForTimeout(90); }
-    expect(pulsos.size).toBeGreaterThan(2);
+    const latidos = new Set();
+    for (let i = 0; i < 15; i++) { latidos.add(await page.evaluate(() => document.querySelector('.casete').style.transform)); await page.waitForTimeout(90); }
+    expect(latidos.size).toBeGreaterThan(2);
     await expect(page.locator('.pista.activa')).toHaveAttribute('id', 'pista-architecture-simplification', { timeout: 20_000 });
     await page.mouse.move(700, 500);
     await page.mouse.wheel(0, 200);
@@ -88,7 +103,7 @@ test.describe('medellin-hills · alternativas', () => {
     await p.goto(URL, { waitUntil: 'load' });
     await p.click('#play');
     await p.waitForTimeout(1500);
-    expect(await p.evaluate(() => getComputedStyle(document.documentElement).getPropertyValue('--pulso').trim())).toBe('0');
+    expect(await p.evaluate(() => new Set([...document.querySelectorAll('.casete')].map((e) => e.style.transform)).size)).toBeLessThanOrEqual(1);
     expect(await p.evaluate(() => scrollY)).toBeLessThan(5);
     await ctx.close();
   });

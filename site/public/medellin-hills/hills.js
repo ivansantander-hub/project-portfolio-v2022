@@ -1,5 +1,5 @@
 /* hills.js — Medellín Hills: la página late con la canción.
-   · Reloj de pulso: el tempo medido de cada canción (94 BPM en "El estren") mueve --pulso (0..1) en cada golpe.
+   · Reloj de pulso: el tempo medido de cada canción (94 BPM en "El estren") mueve a mano solo unos pocos elementos (nada de variables globales: eso recalculaba todo el estilo).
    · Escuchar: el scroll sigue la estructura de la canción. Mover el scroll pasa a Explorar.
    · Palabras: figuritas que aparecen cuando suena la palabra (solo palabras sueltas, nunca la letra).
    · Vinilo: arrastrarlo "ralla" la canción. Nada suena antes del primer clic. */
@@ -16,6 +16,23 @@
   const play = $('play'), repro = $('repro'), rPlay = $('repro-play'), rMudo = $('repro-mudo'), rSig = $('repro-sig'), rModo = $('repro-modo'), rNombre = $('repro-nombre');
   const aviso = $('aviso'), palabras = $('palabras'), vinilo = $('vinilo'), giro = vinilo.querySelector('.vinilo__giro');
   const barras = [...doc.querySelectorAll('#eq i')];
+  const capa = { sol: doc.querySelector('.sol'), loma: doc.querySelector('.loma'), casete: doc.querySelector('.casete'), ruta: doc.querySelector('.ruta') };
+  const deco = [...doc.querySelectorAll('.deco img')];
+  let decoVisible = false, figAct = null, claveAnt = '';
+  if ('IntersectionObserver' in window) new IntersectionObserver(([e]) => { decoVisible = e.isIntersecting; }).observe(doc.querySelector('.deco'));
+  /* el latido y el parallax: solo transform, solo lo que se ve, y solo si cambió */
+  function aplica(pulso, sy) {
+    const clave = `${Math.round(pulso * 40)}|${Math.round(sy / 3)}|${decoVisible}`;
+    if (clave === claveAnt) return;
+    claveAnt = clave;
+    if (sy < innerHeight * 1.3) {
+      capa.sol.style.transform = `scale(${(1 + pulso * 0.05).toFixed(3)})`;
+      capa.loma.style.transform = `translateY(${(sy * 0.12).toFixed(1)}px) scale(${(1 + pulso * 0.012).toFixed(4)})`;
+      capa.casete.style.transform = `translateY(${(sy * 0.25 - pulso * 12).toFixed(1)}px) rotate(${(-pulso * 0.8).toFixed(2)}deg) scale(${(1 + pulso * 0.018).toFixed(4)})`;
+    }
+    if (figAct) figAct.style.transform = `scale(${(1 + pulso * 0.07).toFixed(3)})`;
+    if (decoVisible) deco.forEach((d, i) => { d.style.transform = `scale(${(1 + pulso * (i === 2 ? 0 : 0.06)).toFixed(3)})`; });
+  }
   const txt = play.querySelector('.play__txt'), ico = play.querySelector('.play__icono');
   const anuncia = (m) => { aviso.textContent = ''; setTimeout(() => { aviso.textContent = m; }, 40); };
 
@@ -59,7 +76,9 @@
   function marcaActiva(el) {
     if (el === activa) return;
     activa?.classList.remove('activa');
+    if (figAct) figAct.style.transform = '';
     activa = el; el?.classList.add('activa');
+    figAct = el ? el.querySelector('.fig') : null;
   }
   function tour(t) {
     let i = 0;
@@ -108,12 +127,10 @@
       const fase = beats - Math.floor(beats);
       pulso = Math.pow(1 - fase, 3);
     }
-    html.style.setProperty('--pulso', pulso.toFixed(3));
-    html.style.setProperty('--sy', `${Math.min(scrollY, 900)}px`);
+    aplica(pulso, scrollY);
     // cabina del Metrocable: avanza con la canción, o muy despacio si está en pausa
     const p = sonando ? (t / c.dur) % 1 : (idle += 0.00006, idle % 1);
-    html.style.setProperty('--cx', (100 - p * 86).toFixed(2));
-    html.style.setProperty('--cy', (2 + p * 28).toFixed(2));
+    if (scrollY < innerHeight * 1.3) { capa.ruta.style.setProperty('--cx', (100 - p * 86).toFixed(2)); capa.ruta.style.setProperty('--cy', (2 + p * 28).toFixed(2)); }
     if (sonando) {
       if (analyser) {
         analyser.getByteFrequencyData(datos);
