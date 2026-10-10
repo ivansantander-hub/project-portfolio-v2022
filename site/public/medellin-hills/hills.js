@@ -1,84 +1,110 @@
-/* hills.js — Medellín Hills: la página late con la canción.
-   · Reloj de pulso: el tempo medido de cada canción (94 BPM en "El estren") mueve a mano solo unos pocos elementos (nada de variables globales: eso recalculaba todo el estilo).
-   · Escuchar: el scroll sigue la estructura de la canción. Mover el scroll pasa a Explorar.
-   · Palabras: figuritas que aparecen cuando suena la palabra (solo palabras sueltas, nunca la letra).
-   · Vinilo: arrastrarlo "ralla" la canción. Nada suena antes del primer clic. */
+/* hills.js — Medellín Hills.
+   · Revelado al hacer scroll y frase palabra por palabra: IntersectionObserver (ningún listener de scroll).
+   · Isla de navegación: el menú se abre como un cristal; la sección actual queda marcada.
+   · Música: nada suena antes del primer clic. "Seguir la canción" lleva la página por la estructura de la
+     canción; mover el scroll lo apaga. Las imágenes NO laten al compás. */
 (() => {
   'use strict';
   const doc = document, html = doc.documentElement;
   const quieto = matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const $ = (id) => doc.getElementById(id);
+  const clamp = (v, a, b) => Math.max(a, Math.min(b, v));
   const guardar = (k, v) => { try { localStorage.setItem(k, v); } catch { /* sin almacenamiento */ } };
   const leer = (k) => { try { return localStorage.getItem(k); } catch { return null; } };
-  const clamp = (v, a, b) => Math.max(a, Math.min(b, v));
-  const $ = (id) => doc.getElementById(id);
+  const anuncia = (m) => { const a = $('aviso'); a.textContent = ''; setTimeout(() => { a.textContent = m; }, 40); };
 
-  const CANCIONES = JSON.parse($('canciones').textContent);
-  const play = $('play'), repro = $('repro'), rPlay = $('repro-play'), rMudo = $('repro-mudo'), rSig = $('repro-sig'), rModo = $('repro-modo'), rNombre = $('repro-nombre');
-  const aviso = $('aviso'), palabras = $('palabras'), vinilo = $('vinilo'), giro = vinilo.querySelector('.vinilo__giro');
-  const barras = [...doc.querySelectorAll('#eq i')];
-  const capa = { sol: doc.querySelector('.sol'), loma: doc.querySelector('.loma'), casete: doc.querySelector('.casete'), ruta: doc.querySelector('.ruta') };
-  const deco = [...doc.querySelectorAll('.deco img')];
-  let decoVisible = false, figAct = null, claveAnt = '';
-  if ('IntersectionObserver' in window) new IntersectionObserver(([e]) => { decoVisible = e.isIntersecting; }).observe(doc.querySelector('.deco'));
-  /* el latido y el parallax: solo transform, solo lo que se ve, y solo si cambió */
-  function aplica(pulso, sy) {
-    const clave = `${Math.round(pulso * 40)}|${Math.round(sy / 3)}|${decoVisible}`;
-    if (clave === claveAnt) return;
-    claveAnt = clave;
-    if (sy < innerHeight * 1.3) {
-      capa.sol.style.transform = `scale(${(1 + pulso * 0.05).toFixed(3)})`;
-      capa.loma.style.transform = `translateY(${(sy * 0.12).toFixed(1)}px) scale(${(1 + pulso * 0.012).toFixed(4)})`;
-      capa.casete.style.transform = `translateY(${(sy * 0.25 - pulso * 12).toFixed(1)}px) rotate(${(-pulso * 0.8).toFixed(2)}deg) scale(${(1 + pulso * 0.018).toFixed(4)})`;
-    }
-    if (figAct) figAct.style.transform = `scale(${(1 + pulso * 0.07).toFixed(3)})`;
-    if (decoVisible) deco.forEach((d, i) => { d.style.transform = `scale(${(1 + pulso * (i === 2 ? 0 : 0.06)).toFixed(3)})`; });
-  }
-  const txt = play.querySelector('.play__txt'), ico = play.querySelector('.play__icono');
-  const anuncia = (m) => { aviso.textContent = ''; setTimeout(() => { aviso.textContent = m; }, 40); };
-
-  /* ───────── figuritas que se pegan al entrar ───────── */
-  const pistas = [...doc.querySelectorAll('.pista')];
+  /* ───────── revelado ───────── */
   if (!quieto && 'IntersectionObserver' in window) {
     html.classList.add('js');
-    const io = new IntersectionObserver((es) => es.forEach((e) => { if (e.isIntersecting) { e.target.classList.add('pegada'); io.unobserve(e.target); } }), { threshold: 0.28 });
-    pistas.forEach((p) => io.observe(p));
+    const io = new IntersectionObserver((es) => es.forEach((e) => { if (e.isIntersecting) { e.target.classList.add('in'); io.unobserve(e.target); } }), { threshold: 0.12, rootMargin: '0px 0px -8% 0px' });
+    doc.querySelectorAll('.reveal').forEach((el) => io.observe(el));
   }
 
-  /* ───────── audio ───────── */
+  /* frase grande: cada palabra pasa de 30 % a 100 % al cruzar la línea, en orden de lectura */
+  const tag = $('tagline');
+  if (tag && !quieto && 'IntersectionObserver' in window) {
+    const palabras = tag.textContent.trim().split(/\s+/);
+    tag.setAttribute('aria-label', tag.textContent.trim());
+    tag.textContent = '';
+    const spans = palabras.map((p, i) => { const s = doc.createElement('span'); s.className = 'w'; s.setAttribute('aria-hidden', 'true'); s.textContent = p + (i < palabras.length - 1 ? ' ' : ''); tag.append(s); return s; });
+    let lote = 0, tLote = 0;
+    const iw = new IntersectionObserver((es) => es.forEach((e) => {
+      if (!e.isIntersecting) return;
+      const ahora = performance.now();
+      if (ahora - tLote > 400) lote = 0;
+      tLote = ahora;
+      e.target.style.transitionDelay = `${lote++ * 70}ms`;
+      e.target.classList.add('on'); iw.unobserve(e.target);
+    }), { rootMargin: '0px 0px -38% 0px' });
+    spans.forEach((s) => iw.observe(s));
+  }
+
+  /* ───────── isla y menú ───────── */
+  const abre = $('abre-menu'), menu = $('menu'), main = $('contenido'), pie = doc.querySelector('.pie');
+  function setMenu(abierto) {
+    abre.setAttribute('aria-expanded', String(abierto));
+    abre.setAttribute('aria-label', abierto ? 'Cerrar el menú' : 'Abrir el menú');
+    menu.classList.toggle('abierto', abierto);
+    menu.setAttribute('aria-hidden', String(!abierto));
+    menu.querySelectorAll('a').forEach((a) => a.setAttribute('tabindex', abierto ? '0' : '-1'));
+    [main, pie].forEach((el) => { if (abierto) el.setAttribute('inert', ''); else el.removeAttribute('inert'); });
+    if (abierto) menu.querySelector('a').focus(); else abre.focus({ preventScroll: true });
+  }
+  abre.addEventListener('click', () => setMenu(abre.getAttribute('aria-expanded') !== 'true'));
+  menu.addEventListener('click', (e) => { if (e.target.closest('a')) setMenu(false); });
+  doc.addEventListener('keydown', (e) => { if (e.key === 'Escape' && menu.classList.contains('abierto')) setMenu(false); });
+
+  /* sección actual */
+  if ('IntersectionObserver' in window) {
+    const enlaces = [...doc.querySelectorAll('.isla__nav a')];
+    const spy = new IntersectionObserver((es) => es.forEach((e) => {
+      if (!e.isIntersecting) return;
+      enlaces.forEach((a) => (a.dataset.sec === e.target.id ? a.setAttribute('aria-current', 'true') : a.removeAttribute('aria-current')));
+    }), { rootMargin: '-40% 0px -55% 0px' });
+    enlaces.forEach((a) => { const s = $(a.dataset.sec); if (s) spy.observe(s); });
+  }
+
+  /* la cabina del Metrocable quieta si se pidió menos movimiento */
+  if (quieto) { const c = doc.querySelector('.visual__cable'); if (c && c.pauseAnimations) c.pauseAnimations(); }
+
+  /* ───────── música ───────── */
+  const CANCIONES = JSON.parse($('canciones').textContent);
+  const repro = $('repro'), rPlay = $('repro-play'), rMudo = $('repro-mudo'), rSig = $('repro-sig'), rModo = $('repro-modo'), rNombre = $('repro-nombre');
+  const barras = [...doc.querySelectorAll('.repro__bars i')];
+  const botonesPlay = [$('musica'), $('casete-play')];
+  const palabras = $('palabras'), vinilo = $('vinilo'), giro = vinilo.querySelector('.vinilo__giro');
+  const iconoPlay = $('musica').innerHTML, iconoPausa = rPlay.innerHTML;
+
   let cual = Number(leer('hills:cancion')) === 1 ? 1 : 0;
   const audio = new Audio();
-  audio.src = CANCIONES[cual].src;
-  audio.loop = true; audio.preload = 'none'; audio.volume = 0.6;
+  audio.src = CANCIONES[cual].src; audio.loop = true; audio.preload = 'none'; audio.volume = 0.6;
   audio.muted = leer('hills:mudo') === '1';
-  let ctx = null, analyser = null, datos = null, sonando = false, pausaOculta = false;
-  let modo = 'escuchar', idxTour = -1, activa = null, tPrev = 0, ultDrop = -1;
+  let ctx = null, analyser = null, datos = null, sonando = false, pausaOculta = false, raf = 0;
+  let sigue = true, idxTour = -1, activa = null, tPrev = 0;
 
   function conectar() {
     if (ctx || quieto) return;
     try {
       ctx = new (window.AudioContext || window.webkitAudioContext)();
       const f = ctx.createMediaElementSource(audio);
-      analyser = ctx.createAnalyser(); analyser.fftSize = 128; analyser.smoothingTimeConstant = 0.78;
+      analyser = ctx.createAnalyser(); analyser.fftSize = 64; analyser.smoothingTimeConstant = 0.8;
       f.connect(analyser); analyser.connect(ctx.destination);
       datos = new Uint8Array(analyser.frequencyBinCount);
-      html.classList.add('real');
     } catch { ctx = null; analyser = null; }
   }
 
-  /* ───────── el recorrido: la estructura de "El estren" (intro, coros y versos, puente, coro final, outro) ───────── */
-  const A = pistas.filter((p) => p.closest('#lado-a')), B = pistas.filter((p) => p.closest('#lado-b'));
+  /* el recorrido sigue la estructura de "El estren": intro, coros y versos, puente, coro final, outro */
+  const A = [...doc.querySelectorAll('.caso[data-lado="A"]')], B = [...doc.querySelectorAll('.caso[data-lado="B"]')];
   const TOUR = [{ t: 0, el: $('inicio') }];
   A.forEach((p, i) => TOUR.push({ t: 10 + i * 8.1, el: p }));
-  TOUR.push({ t: 91, el: $('trabajo') });
+  TOUR.push({ t: 91, el: $('como-lidero') });
   B.forEach((p, i) => TOUR.push({ t: 112 + i * 5.5, el: p }));
   TOUR.push({ t: 156, el: $('contacto') });
 
-  function marcaActiva(el) {
+  function marca(el) {
     if (el === activa) return;
-    activa?.classList.remove('activa');
-    if (figAct) figAct.style.transform = '';
-    activa = el; el?.classList.add('activa');
-    figAct = el ? el.querySelector('.fig') : null;
+    activa?.classList.remove('activa'); activa = el;
+    if (el && el.classList.contains('caso')) el.classList.add('activa'); else activa = el;
   }
   function tour(t) {
     let i = 0;
@@ -86,83 +112,55 @@
     if (i === idxTour) return;
     idxTour = i;
     const el = TOUR[i].el;
-    marcaActiva(el);
-    if (modo === 'escuchar' && !quieto) el.scrollIntoView({ behavior: 'smooth', block: i === 0 || el.id === 'contacto' ? 'start' : 'center' });
+    marca(el);
+    if (sigue && !quieto) el.scrollIntoView({ behavior: 'smooth', block: el.classList.contains('caso') ? 'center' : 'start' });
   }
-
-  /* en Explorar, la activa es la que está en el centro de la pantalla */
   if ('IntersectionObserver' in window) {
-    const centro = new IntersectionObserver((es) => es.forEach((e) => { if (e.isIntersecting && modo === 'explorar') marcaActiva(e.target); }), { rootMargin: '-45% 0px -45% 0px' });
-    [...pistas, $('trabajo')].forEach((p) => centro.observe(p));
+    const centro = new IntersectionObserver((es) => es.forEach((e) => { if (e.isIntersecting && !sigue) marca(e.target); }), { rootMargin: '-45% 0px -45% 0px' });
+    [...A, ...B].forEach((c) => centro.observe(c));
   }
 
-  /* ───────── palabras de la canción ───────── */
-  const SPOTS = [[4, 62], [78, 58], [3, 30], [80, 26], [6, 78], [76, 74], [10, 46], [72, 44]];
-  let spot = 0;
+  /* palabras sueltas de la canción: una ficha quieta en la esquina, sin letra */
   function pop(p) {
-    const base = palabras.querySelector(`[data-pal="${p.img}"]`);
-    if (!base || quieto) return;
-    const f = doc.createElement('figure');
-    f.className = 'pop';
-    const s = SPOTS[spot++ % SPOTS.length];
-    f.style.cssText = `left:${s[0]}%;top:${s[1]}%;--r0:${spot % 2 ? -28 : 28}deg;--r1:${spot % 2 ? 7 : -7}deg`;
-    const im = base.cloneNode(); im.hidden = false; im.removeAttribute('data-pal');
-    const c = doc.createElement('span'); c.textContent = p.txt;
-    f.append(im, c); palabras.append(f);
-    setTimeout(() => f.remove(), 3400);
+    if (quieto) return;
+    const f = doc.createElement('div'); f.className = 'pop';
+    const im = doc.createElement('img'); im.src = `/medellin-hills/img/${p.img}.webp`; im.alt = ''; im.width = 48; im.height = 48;
+    const s = doc.createElement('span'); s.textContent = p.txt;
+    f.append(im, s);
+    while (palabras.children.length >= 2) palabras.firstChild.remove();
+    palabras.append(f); setTimeout(() => f.remove(), 3600);
   }
 
-  /* ───────── reloj de pulso + ecualizador + cabina ───────── */
-  let raf = 0, idle = 0;
-  function bucle(now) {
+  function bucle() {
     raf = requestAnimationFrame(bucle);
-    if (doc.hidden) return;
-    const c = CANCIONES[cual];
-    const t = audio.currentTime;
-    // pulso: 1 en el golpe, decae rápido
-    let pulso = 0;
-    if (sonando && !quieto) {
-      const latencia = ctx ? (ctx.outputLatency || ctx.baseLatency || 0) : 0;
-      const beats = (t - latencia - c.pulso0) * c.bpm / 60;
-      const fase = beats - Math.floor(beats);
-      pulso = Math.pow(1 - fase, 3);
+    if (doc.hidden || !sonando) return;
+    const c = CANCIONES[cual], t = audio.currentTime;
+    if (analyser) {
+      analyser.getByteFrequencyData(datos);
+      for (let i = 0; i < barras.length; i++) barras[i].style.transform = `scaleY(${(0.15 + (datos[i * 2] || 0) / 255 * 0.85).toFixed(2)})`;
     }
-    aplica(pulso, scrollY);
-    // cabina del Metrocable: avanza con la canción, o muy despacio si está en pausa
-    const p = sonando ? (t / c.dur) % 1 : (idle += 0.00006, idle % 1);
-    if (scrollY < innerHeight * 1.3) { capa.ruta.style.setProperty('--cx', (100 - p * 86).toFixed(2)); capa.ruta.style.setProperty('--cy', (2 + p * 28).toFixed(2)); }
-    if (sonando) {
-      if (analyser) {
-        analyser.getByteFrequencyData(datos);
-        const n = barras.length;
-        for (let i = 0; i < n; i++) barras[i].style.transform = `scaleY(${(0.1 + datos[Math.min(datos.length - 1, Math.floor((i / n) * datos.length * 0.75))] / 255 * 0.95).toFixed(3)})`;
-      }
-      if (c.tour && t < tPrev - 1) { idxTour = -1; }
-      if (c.tour) tour(t);
+    if (c.tour) {
+      if (t < tPrev - 1) idxTour = -1;
+      tour(t);
       for (const w of c.palabras) if (tPrev < w.t && t >= w.t && t - tPrev < 1.2) pop(w);
-      for (const d of c.drops) if (tPrev < d && t >= d && t - tPrev < 1.2 && d !== ultDrop) { ultDrop = d; doc.body.classList.add('drop'); setTimeout(() => doc.body.classList.remove('drop'), 650); }
-      vinilo.setAttribute('aria-valuenow', String(Math.round(t)));
     }
+    vinilo.setAttribute('aria-valuenow', String(Math.round(t)));
     tPrev = t;
   }
 
-  /* ───────── controles ───────── */
-  function pintaEstado() {
+  function pinta() {
     html.classList.toggle('suena', sonando);
     html.classList.toggle('rap', cual === 1);
-    play.setAttribute('aria-pressed', String(sonando));
-    txt.textContent = sonando ? 'Pausa' : 'Dale play';
-    ico.textContent = sonando ? '❚❚' : '▶';
+    botonesPlay.forEach((b) => { if (b.id === 'musica') { b.setAttribute('aria-pressed', String(sonando)); b.setAttribute('aria-label', sonando ? 'Pausar la música' : 'Poner la música'); b.innerHTML = sonando ? iconoPausa : iconoPlay; } });
     rPlay.setAttribute('aria-pressed', String(sonando));
     rPlay.setAttribute('aria-label', sonando ? 'Pausar la música' : 'Poner la música');
-    rPlay.firstElementChild.textContent = sonando ? '❚❚' : '▶';
+    rPlay.innerHTML = sonando ? iconoPausa : iconoPlay;
     rNombre.textContent = CANCIONES[cual].nombre;
     rMudo.setAttribute('aria-pressed', String(audio.muted));
     rMudo.setAttribute('aria-label', audio.muted ? 'Quitar el silencio' : 'Silenciar la música');
     const tourOk = CANCIONES[cual].tour;
     rModo.disabled = !tourOk;
-    rModo.setAttribute('aria-pressed', String(modo === 'escuchar' && tourOk));
-    rModo.firstElementChild.textContent = modo === 'escuchar' && tourOk ? 'Escuchar' : 'Explorar';
+    rModo.setAttribute('aria-pressed', String(sigue && tourOk));
     vinilo.setAttribute('aria-valuemax', String(CANCIONES[cual].dur));
     if (!sonando) barras.forEach((b) => { b.style.transform = ''; });
   }
@@ -172,46 +170,43 @@
       if (ctx && ctx.state === 'suspended') await ctx.resume();
       await audio.play();
       sonando = true; repro.hidden = false; tPrev = audio.currentTime; idxTour = -1;
-      pintaEstado();
+      pinta();
       if (!raf) raf = requestAnimationFrame(bucle);
-      if (CANCIONES[cual].tour && modo === 'escuchar') anuncia('Modo escuchar: la página sigue la canción. Mueve el scroll para explorar tú.');
-    } catch { sonando = false; pintaEstado(); txt.textContent = 'No se pudo'; }
+      if (CANCIONES[cual].tour && sigue) anuncia('La página sigue la canción. Mueve el scroll para explorar tú.');
+    } catch { sonando = false; pinta(); anuncia('No se pudo reproducir el audio.'); }
   }
-  function pausa() { audio.pause(); sonando = false; pintaEstado(); }
+  function pausa() { audio.pause(); sonando = false; pinta(); }
   const alterna = () => (sonando ? pausa() : dale());
 
-  play.addEventListener('click', alterna);
+  botonesPlay.forEach((b) => b.addEventListener('click', alterna));
   rPlay.addEventListener('click', alterna);
-  rMudo.addEventListener('click', () => { audio.muted = !audio.muted; guardar('hills:mudo', audio.muted ? '1' : '0'); pintaEstado(); });
+  rMudo.addEventListener('click', () => { audio.muted = !audio.muted; guardar('hills:mudo', audio.muted ? '1' : '0'); pinta(); });
   rSig.addEventListener('click', () => {
     cual = (cual + 1) % CANCIONES.length; guardar('hills:cancion', String(cual));
-    audio.src = CANCIONES[cual].src; tPrev = 0; idxTour = -1; ultDrop = -1;
-    if (cual === 1) modo = 'explorar';
+    audio.src = CANCIONES[cual].src; tPrev = 0; idxTour = -1;
+    if (!CANCIONES[cual].tour) sigue = false; else sigue = true;
     if (sonando) audio.play().catch(() => {});
-    pintaEstado(); anuncia(`Suena ${CANCIONES[cual].nombre}`);
+    pinta(); anuncia(`Suena ${CANCIONES[cual].nombre}`);
   });
-  rModo.addEventListener('click', () => {
-    modo = modo === 'escuchar' ? 'explorar' : 'escuchar'; idxTour = -1; pintaEstado();
-    anuncia(modo === 'escuchar' ? 'Modo escuchar: la página sigue la canción.' : 'Modo explorar: tú mandas el scroll.');
-  });
+  rModo.addEventListener('click', () => { sigue = !sigue; idxTour = -1; pinta(); anuncia(sigue ? 'La página sigue la canción.' : 'Tú mandas el scroll.'); });
 
-  /* mover el scroll por cuenta propia = Explorar */
-  const exploras = () => { if (modo === 'escuchar' && sonando && CANCIONES[cual].tour) { modo = 'explorar'; pintaEstado(); anuncia('Modo explorar: tú mandas el scroll.'); } };
+  /* mover el scroll por cuenta propia apaga "Seguir la canción" */
+  const exploras = () => { if (sigue && sonando && CANCIONES[cual].tour) { sigue = false; pinta(); anuncia('Tú mandas el scroll.'); } };
   addEventListener('wheel', exploras, { passive: true });
   addEventListener('touchmove', exploras, { passive: true });
-  addEventListener('keydown', (e) => { if (['ArrowDown', 'ArrowUp', 'PageDown', 'PageUp', 'Home', 'End', ' '].includes(e.key) && !e.target.closest('button, a, [role="slider"]')) exploras(); });
+  addEventListener('keydown', (e) => { if (['ArrowDown', 'ArrowUp', 'PageDown', 'PageUp', 'Home', 'End'].includes(e.key) && !e.target.closest('button, a, [role="slider"], summary')) exploras(); });
 
-  /* ───────── vinilo: arrastrar para rayar ───────── */
+  /* vinilo: arrastrar para rayar la canción */
   let arrastra = false, aPrev = 0, acum = 0;
   const angulo = (e) => { const r = vinilo.getBoundingClientRect(); return Math.atan2(e.clientY - (r.top + r.height / 2), e.clientX - (r.left + r.width / 2)) * 180 / Math.PI; };
-  vinilo.addEventListener('pointerdown', (e) => { arrastra = true; aPrev = angulo(e); vinilo.setPointerCapture(e.pointerId); vinilo.style.animationPlayState = 'paused'; if (!sonando) dale(); });
+  vinilo.addEventListener('pointerdown', (e) => { arrastra = true; aPrev = angulo(e); vinilo.setPointerCapture(e.pointerId); if (!sonando) dale(); });
   vinilo.addEventListener('pointermove', (e) => {
     if (!arrastra) return;
     let d = angulo(e) - aPrev; if (d > 180) d -= 360; if (d < -180) d += 360;
     aPrev = angulo(e); acum += d; giro.style.setProperty('--giro', acum.toFixed(1));
     if (audio.duration) audio.currentTime = clamp(audio.currentTime + d / 360 * 2.2, 0, audio.duration - 0.2);
   });
-  const suelta = () => { arrastra = false; vinilo.style.animationPlayState = ''; };
+  const suelta = () => { arrastra = false; };
   vinilo.addEventListener('pointerup', suelta); vinilo.addEventListener('pointercancel', suelta);
   vinilo.addEventListener('keydown', (e) => {
     const d = e.key === 'ArrowRight' || e.key === 'ArrowUp' ? 5 : e.key === 'ArrowLeft' || e.key === 'ArrowDown' ? -5 : 0;
@@ -221,12 +216,11 @@
     acum += d * 12; giro.style.setProperty('--giro', acum);
   });
 
-  /* pestaña oculta = pausa; al volver sigue */
   doc.addEventListener('visibilitychange', () => {
     if (doc.hidden && sonando) { pausaOculta = true; audio.pause(); }
     else if (!doc.hidden && pausaOculta) { pausaOculta = false; audio.play().catch(() => {}); }
   });
 
-  pintaEstado();
+  pinta();
   raf = requestAnimationFrame(bucle);
 })();
