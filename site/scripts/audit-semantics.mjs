@@ -17,12 +17,12 @@ import { fileURLToPath } from 'node:url';
 const root = join(dirname(fileURLToPath(import.meta.url)), '..');
 const dist = join(root, 'dist');
 
-/** Páginas del sitio v3. Se excluye /v1/ (portafolio antiguo, congelado). */
+/** Páginas del sitio v3. Se excluyen /v1/ (portafolio antiguo, congelado) y /scroll-world/ (experimento aparte, noindex). */
 function paginas(dir, acc = []) {
   for (const e of readdirSync(dir, { withFileTypes: true })) {
     const p = join(dir, e.name);
     if (e.isDirectory()) {
-      if (['models-3d', 'proto', 'v1', 'img', 'fonts', 'vendor', 'css', 'js', 'audio'].includes(e.name)) continue;
+      if (['models-3d', 'proto', 'v1', 'scroll-world', 'img', 'fonts', 'vendor', 'css', 'js', 'audio'].includes(e.name)) continue;
       paginas(p, acc);
     } else if (e.name === 'index.html') acc.push(p);
   }

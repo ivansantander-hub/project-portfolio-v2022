@@ -56,7 +56,7 @@ function copyFile(from, to) {
 
 // ─── public/ static dirs ──────────────────────────────────────────────────────
 ensureDir(dist);
-for (const sub of ['css', 'js', 'img', 'audio', 'proto']) {
+for (const sub of ['css', 'js', 'img', 'audio', 'proto', 'scroll-world']) {
   syncDir(join(root, 'public', sub), join(dist, sub));
 }
 
