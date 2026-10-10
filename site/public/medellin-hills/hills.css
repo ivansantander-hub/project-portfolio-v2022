@@ -38,20 +38,23 @@ a { color: inherit; }
 .barra a:hover { background: var(--tinta); color: var(--crema); transform: translateY(-2px); }
 .barra__nav { display: flex; gap: 6px; }
 
-/* ───────── portada en capas: el cielo gira, la loma y el casete laten con la canción ───────── */
-:root { --pulso: 0; --sy: 0px; }
-.portada { position: relative; min-height: 100svh; overflow: hidden; background: var(--mostaza); isolation: isolate; }
-.cielo { position: absolute; inset: -60%; z-index: -4; background: repeating-conic-gradient(from 0deg at 50% 66%, #f6b640 0deg 7deg, #e9743c 7deg 14deg), radial-gradient(70% 40% at 50% 0, rgba(180, 96, 158, 0.5), transparent); background-blend-mode: normal; animation: rayos 160s linear infinite; transform-origin: 50% 66%; }
-.cielo::after { content: ''; position: absolute; inset: 0; background: radial-gradient(60% 30% at 50% 0%, rgba(150, 70, 140, 0.55), transparent 70%); }
-.sol { position: absolute; z-index: -3; left: 50%; top: 40%; width: min(34vw, 420px); aspect-ratio: 1; border-radius: 50%; background: #fbe9bd; transform: translate(-50%, calc(var(--sy) * 0.1)) scale(calc(1 + var(--pulso) * 0.05)); box-shadow: 0 0 0 calc(10px + var(--pulso) * 26px) rgba(251, 233, 189, 0.22); }
-.loma { position: absolute; z-index: -2; left: 50%; bottom: -3%; width: max(122%, 1500px); max-width: none; transform: translate(-50%, calc(var(--sy) * 0.14)) scale(calc(1 + var(--pulso) * 0.012)); transform-origin: 50% 100%; }
-.ruta { position: absolute; z-index: -1; right: 0; top: 4%; width: min(62vw, 900px); aspect-ratio: 100 / 40; }
+/* ───────── portada: un escenario de proporción fija (16:10) que cubre la pantalla ─────────
+   Todas las capas se colocan en % del escenario, así que nunca se descuadran ni se estiran. */
+img { max-width: 100%; height: auto; }
+.portada { position: relative; height: 100svh; min-height: 560px; max-height: 1200px; overflow: hidden; background: var(--mostaza); isolation: isolate; container-type: size; }
+.escenario { position: absolute; left: 50%; top: 50%; width: max(100vw, 160svh); width: max(100cqw, 160cqh); aspect-ratio: 16 / 10; translate: -50% -50%; z-index: 0; }
+.escenario > * { position: absolute; }
+.cielo { inset: -30%; z-index: -4; background: repeating-conic-gradient(from 0deg at 50% 46%, #f6b640 0deg 7deg, #e9743c 7deg 14deg); transform-origin: 50% 46%; animation: rayos 160s linear infinite; will-change: transform; }
+.cielo::after { content: ''; position: absolute; inset: 0; background: radial-gradient(50% 24% at 50% 8%, rgba(150, 70, 140, 0.5), transparent 72%); }
+.sol { left: 50%; top: 24%; width: 21%; aspect-ratio: 1; border-radius: 50%; background: #fbe9bd; translate: -50% 0; z-index: -3; will-change: transform; }
+.loma { left: 50%; bottom: -5%; width: 101%; translate: -50% 0; transform-origin: 50% 100%; z-index: -2; will-change: transform; }
+.ruta { right: 0; top: 3%; width: 50%; aspect-ratio: 100 / 40; z-index: -1; }
 .ruta svg { position: absolute; inset: 0; width: 100%; height: 100%; overflow: visible; }
-.ruta line { stroke: var(--tinta); stroke-width: 0.5; vector-effect: non-scaling-stroke; stroke-width: 2px; }
-.cabina { position: absolute; width: 7%; left: calc(var(--cx, 100) * 1%); top: calc(var(--cy, 2.5) * 1%); transform: translate(-50%, -6%) rotate(calc(8deg + var(--pulso) * 2deg)); transform-origin: 50% 0; }
-.casete { position: absolute; z-index: 1; left: 50%; bottom: -4%; width: min(66vw, 940px); transform: translate(-50%, calc(var(--sy) * 0.28 - var(--pulso) * 12px)) rotate(calc(var(--pulso) * -0.8deg)) scale(calc(1 + var(--pulso) * 0.018)); filter: drop-shadow(0 22px 28px rgba(40, 14, 0, 0.35)); }
+.ruta line { stroke: var(--tinta); stroke-width: 2px; vector-effect: non-scaling-stroke; }
+.cabina { position: absolute; width: 7.5%; left: calc(var(--cx, 100) * 1%); top: calc(var(--cy, 2.5) * 1%); translate: -50% -6%; rotate: 8deg; transform-origin: 50% 0; }
+.casete { left: 50%; bottom: -3%; width: 50%; translate: -50% 0; z-index: 1; will-change: transform; }
 .portada__texto { position: relative; z-index: 2; padding: clamp(84px, 13vh, 130px) var(--gutter) 0; max-width: 1100px; }
-.portada h1 { font: 900 clamp(54px, 10.5vw, 160px)/0.86 var(--display); font-stretch: 125%; letter-spacing: -0.03em; text-transform: uppercase; color: var(--tinta); margin: 12px 0 14px; text-shadow: 5px 5px 0 rgba(246, 231, 200, 0.9); }
+.portada h1 { font: 900 clamp(44px, min(10.5vw, 17svh), 150px)/0.86 var(--display); font-stretch: 125%; letter-spacing: -0.03em; text-transform: uppercase; color: var(--tinta); margin: 12px 0 14px; text-shadow: 5px 5px 0 rgba(246, 231, 200, 0.9); }
 .portada__rol { display: inline-block; font: 800 clamp(15px, 1.6vw, 22px)/1.2 var(--display); font-stretch: 112%; text-transform: uppercase; letter-spacing: 0.02em; background: var(--tinta); color: var(--oro); padding: 9px 16px; border-radius: 10px; transform: rotate(-1.5deg); }
 .portada__frase { position: absolute; z-index: 3; left: var(--gutter); bottom: clamp(18px, 3vh, 36px); max-width: min(30rem, 62vw); font-weight: 600; font-size: 15px; background: rgba(246, 231, 200, 0.95); padding: 12px 16px; border-radius: 14px; }
 .play { position: absolute; z-index: 3; right: var(--gutter); bottom: clamp(18px, 3vh, 36px); display: inline-flex; align-items: center; gap: 12px; min-height: 56px; padding: 10px 22px 10px 12px; border: 3px solid var(--tinta); border-radius: 999px; background: var(--oro); color: var(--tinta); font: 900 17px/1 var(--display); font-stretch: 112%; text-transform: uppercase; cursor: pointer; transition: transform 0.35s var(--ease), background 0.35s var(--ease); }
@@ -64,7 +67,7 @@ a { color: inherit; }
 .eq { display: flex; align-items: flex-end; gap: 4px; height: 76px; padding: 0 var(--gutter); background: var(--tinta); overflow: hidden; }
 .eq i { flex: 1; min-width: 3px; height: calc(var(--h) * 1%); background: linear-gradient(to top, var(--terracota), var(--mostaza)); border-radius: 3px 3px 0 0; transform-origin: bottom; transform: scaleY(0.35); transition: transform 0.6s var(--ease); }
 html.suena .eq i { animation: baila 0.9s ease-in-out infinite alternate; animation-delay: calc(var(--i) * -70ms); }
-html.suena.real .eq i { animation: none; transition: transform 0.09s linear; }
+html.suena.real .eq i { animation: none; transition: none; }
 
 /* ───────── lados y pistas ───────── */
 .lado { padding: clamp(56px, 9vw, 120px) 0 0; background: var(--crema); }
@@ -85,9 +88,9 @@ html.suena.real .eq i { animation: none; transition: transform 0.09s linear; }
 .pista__num { position: absolute; top: clamp(4px, 1vw, 16px); right: var(--gutter); font: 900 clamp(90px, 18vw, 260px)/0.8 var(--display); font-stretch: 125%; letter-spacing: -0.05em; opacity: 0.16; pointer-events: none; user-select: none; }
 .pista--inv .pista__num { right: auto; left: var(--gutter); }
 
-.fig { justify-self: center; width: min(100%, 460px); transform: scale(calc(1 + var(--act, 0) * var(--pulso) * 0.07)); }
+.fig { justify-self: center; width: min(100%, 460px); will-change: auto; }
 .pista.activa { --act: 1; }
-.figurita { width: 100%; display: block; height: auto; justify-self: center; transform: rotate(-4deg); filter: drop-shadow(0 18px 24px rgba(30, 10, 0, 0.28)); transition: transform 0.6s var(--ease); }
+.figurita { width: 100%; display: block; height: auto; justify-self: center; transform: rotate(-4deg); transition: transform 0.6s var(--ease); }
 .pista--inv .figurita { transform: rotate(3.5deg); }
 .pista:hover .figurita { transform: rotate(0deg) scale(1.05) translateY(-6px); }
 .js .figurita { opacity: 0; transform: translateY(60px) scale(1.25) rotate(-12deg); }
@@ -173,18 +176,17 @@ html.suena.real .eq i { animation: none; transition: transform 0.09s linear; }
 .regla__n { font: 900 54px/0.9 var(--display); font-stretch: 125%; color: var(--terracota); }
 .regla h3 { font: 900 22px/1.05 var(--display); font-stretch: 105%; text-transform: uppercase; margin-bottom: 6px; }
 .regla p { font-size: 15px; }
-.puente.activa .regla__n { transform: scale(calc(1 + var(--pulso) * 0.1)); transform-origin: left; display: inline-block; }
 
 /* ───────── lado B: decoración que late ───────── */
 .lado__cab { position: relative; }
 .lado--b .lado__cab { padding-right: min(36vw, 480px); }
 .lado--b h2 { font-size: clamp(36px, 6vw, 88px); }
 .deco { position: absolute; right: var(--gutter); top: 18%; width: min(30vw, 420px); display: grid; grid-template-columns: repeat(4, 1fr); gap: 6px; align-items: center; }
-.deco img { width: 100%; height: auto; filter: drop-shadow(0 12px 16px rgba(0, 0, 0, 0.35)); }
-.deco__a { transform: rotate(10deg) scale(calc(1 + var(--pulso) * 0.06)); }
-.deco__b { transform: rotate(-7deg) scale(calc(1 + var(--pulso) * 0.05)); }
-.deco__c { transform: rotate(-12deg); }
-.deco__d { transform: rotate(5deg) scale(calc(1 + var(--pulso) * 0.05)); }
+.deco img { width: 100%; height: auto; }
+.deco__a { rotate: 10deg; }
+.deco__b { rotate: -7deg; }
+.deco__c { rotate: -12deg; }
+.deco__d { rotate: 5deg; }
 
 /* ───────── vinilo para rayar ───────── */
 .vinilo { width: min(100%, 520px); aspect-ratio: 1; border-radius: 50%; overflow: hidden; justify-self: center; box-shadow: 0 0 0 10px #000, 0 30px 60px rgba(0, 0, 0, 0.5); cursor: grab; touch-action: none; user-select: none; animation: gira 14s linear infinite; }
@@ -195,7 +197,7 @@ html.suena.real .eq i { animation: none; transition: transform 0.09s linear; }
 /* ───────── palabras de la canción: figuritas que aparecen al sonar ───────── */
 .palabras { position: fixed; inset: 0; z-index: 35; pointer-events: none; overflow: hidden; }
 .pop { position: absolute; width: clamp(96px, 13vw, 190px); animation: pop 3.2s var(--ease) forwards; }
-.pop img { width: 100%; display: block; filter: drop-shadow(0 14px 16px rgba(30, 10, 0, 0.35)); }
+.pop img { width: 100%; display: block; }
 .pop span { position: absolute; left: 50%; bottom: -10px; transform: translateX(-50%) rotate(-3deg); white-space: nowrap; background: var(--tinta); color: var(--oro); font: 900 12px/1 var(--display); font-stretch: 112%; text-transform: uppercase; letter-spacing: 0.06em; padding: 6px 10px; border-radius: 8px; }
 @keyframes pop { 0% { opacity: 0; transform: scale(0.1) rotate(var(--r0, -25deg)); } 9% { opacity: 1; transform: scale(1.18) rotate(var(--r1, 8deg)); } 16% { transform: scale(1) rotate(var(--r1, 8deg)); } 84% { opacity: 1; transform: scale(1) rotate(var(--r1, 8deg)) translateY(0); } 100% { opacity: 0; transform: scale(0.7) rotate(var(--r1, 8deg)) translateY(-30px); } }
 
@@ -231,5 +233,4 @@ body.drop { animation: drop 0.6s steps(6) 1; }
 @media (prefers-reduced-motion: reduce) {
   .cielo, .vinilo, .voltea__ico { animation: none !important; }
   .pop { animation-duration: 3.2s; }
-  :root { --pulso: 0 !important; }
 }
