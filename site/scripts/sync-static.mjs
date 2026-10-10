@@ -56,7 +56,7 @@ function copyFile(from, to) {
 
 // ─── public/ static dirs ──────────────────────────────────────────────────────
 ensureDir(dist);
-for (const sub of ['css', 'js', 'img', 'audio', 'proto']) {
+for (const sub of ['css', 'js', 'img', 'audio', 'proto', 'mixtape']) {
   syncDir(join(root, 'public', sub), join(dist, sub));
 }
 
@@ -113,6 +113,9 @@ const variableFonts = [
 for (const [pkg, file] of variableFonts) {
   copyFile(join(nm, '@fontsource-variable', pkg, 'files', file), join(fontsOut, file));
 }
+
+// /mixtape/: Archivo con ejes de peso y ancho, para los titulares expandidos tipo cartel.
+copyFile(join(nm, '@fontsource-variable', 'archivo', 'files', 'archivo-latin-wdth-normal.woff2'), join(fontsOut, 'archivo-latin-wdth-normal.woff2'));
 
 for (const file of ['instrument-serif-latin-400-normal.woff2', 'instrument-serif-latin-400-italic.woff2']) {
   copyFile(join(nm, '@fontsource', 'instrument-serif', 'files', file), join(fontsOut, file));

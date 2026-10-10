@@ -1,0 +1,160 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Iván Santander · Mixtape</title>
+<meta name="description" content="Iván Santander, Tech Lead y Technical Product Owner. Su trabajo como un mixtape: lado A, plataforma clínica; lado B, proyectos propios.">
+<meta name="robots" content="noindex">
+<meta name="theme-color" content="#f4b13e">
+<link rel="icon" href="/favicon.ico">
+<link rel="preload" href="/fonts/archivo-latin-wdth-normal.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="/fonts/geist-latin-wght-normal.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" as="image" href="/mixtape/img/hero.webp">
+<link rel="stylesheet" href="/mixtape/mixtape.css">
+</head>
+<body>
+<a class="saltar" href="#lado-a">Saltar al contenido</a>
+<header class="barra">
+  <a class="barra__atras" href="/">← Portafolio</a>
+  <nav class="barra__nav" aria-label="Secciones">
+    <a href="#lado-a">Lado A</a>
+    <a href="#lado-b">Lado B</a>
+    <a href="#contacto">Contacto</a>
+  </nav>
+</header>
+
+<main>
+  <section class="portada" aria-labelledby="t-nombre">
+    <img class="portada__fondo" src="/mixtape/img/hero.webp" alt="Un casete grande frente a una loma de casitas de colores en Medellín, con el sol detrás y una cabina del Metrocable cruzando el cielo." width="1800" height="1200" fetchpriority="high">
+    <div class="portada__texto">
+      <p class="etiqueta">Medellín, Colombia · remoto</p>
+      <h1 id="t-nombre">Iván<br>Santander</h1>
+      <p class="portada__rol">Tech Lead y Technical Product Owner</p>
+    </div>
+    <button class="play" type="button" id="play" aria-pressed="false">
+      <span class="play__icono" aria-hidden="true">▶</span>
+      <span class="play__txt">Dale play</span>
+    </button>
+    <p class="portada__frase">Tech Lead y Technical Product Owner en LearUp, una plataforma de ensayos clínicos.</p>
+  </section>
+
+  <div class="eq" aria-hidden="true" id="eq"><i style="--i:0;--h:28"></i><i style="--i:1;--h:65"></i><i style="--i:2;--h:40"></i><i style="--i:3;--h:77"></i><i style="--i:4;--h:52"></i><i style="--i:5;--h:89"></i><i style="--i:6;--h:64"></i><i style="--i:7;--h:39"></i><i style="--i:8;--h:76"></i><i style="--i:9;--h:51"></i><i style="--i:10;--h:88"></i><i style="--i:11;--h:63"></i><i style="--i:12;--h:38"></i><i style="--i:13;--h:75"></i><i style="--i:14;--h:50"></i><i style="--i:15;--h:87"></i><i style="--i:16;--h:62"></i><i style="--i:17;--h:37"></i><i style="--i:18;--h:74"></i><i style="--i:19;--h:49"></i><i style="--i:20;--h:86"></i><i style="--i:21;--h:61"></i><i style="--i:22;--h:36"></i><i style="--i:23;--h:73"></i><i style="--i:24;--h:48"></i><i style="--i:25;--h:85"></i><i style="--i:26;--h:60"></i><i style="--i:27;--h:35"></i><i style="--i:28;--h:72"></i><i style="--i:29;--h:47"></i><i style="--i:30;--h:84"></i><i style="--i:31;--h:59"></i><i style="--i:32;--h:34"></i><i style="--i:33;--h:71"></i><i style="--i:34;--h:46"></i><i style="--i:35;--h:83"></i><i style="--i:36;--h:58"></i><i style="--i:37;--h:33"></i><i style="--i:38;--h:70"></i><i style="--i:39;--h:45"></i><i style="--i:40;--h:82"></i><i style="--i:41;--h:57"></i><i style="--i:42;--h:32"></i><i style="--i:43;--h:69"></i><i style="--i:44;--h:44"></i><i style="--i:45;--h:81"></i><i style="--i:46;--h:56"></i><i style="--i:47;--h:31"></i></div>
+
+  <section class="lado" id="lado-a" aria-labelledby="t-a">
+    <header class="lado__cab">
+      <p class="etiqueta">Lado A</p>
+      <h2 id="t-a">Plataforma clínica</h2>
+      <p class="lado__sub">Plataforma de gestión de ensayos clínicos · 3 de 10 pistas en esta maqueta</p>
+    </header>
+    <ol class="pistas">
+    <li class="pista pista--teal" id="pista-architecture-simplification">
+      <p class="pista__num" aria-hidden="true">A1</p>
+      <img class="figurita" src="/mixtape/img/architecture-simplification.webp" alt="" width="640" height="560" loading="lazy" decoding="async">
+      <article class="pista__texto">
+        <p class="pista__dom">Plataforma de gestión de ensayos clínicos</p>
+        <h3 class="pista__titulo"><a href="/trabajo/architecture-simplification/">Simplificación de arquitectura</a></h3>
+        <p class="pista__sub">Simplificar una arquitectura que creció por acumulación</p>
+        <p class="pista__rol">Technical Lead → Technical Product Owner · inventario y propuesta de arquitectura</p>
+        <p class="pista__tags">arquitectura · liderazgo · migración</p>
+        <a class="boton" href="/trabajo/architecture-simplification/">Dale play <span aria-hidden="true">▶</span><span class="sr"> al caso Simplificación de arquitectura</span></a>
+      </article>
+    </li>
+    <li class="pista pista--mostaza pista--inv" id="pista-ai-coding-assistant">
+      <p class="pista__num" aria-hidden="true">A2</p>
+      <img class="figurita" src="/mixtape/img/ai-coding-assistant.webp" alt="" width="640" height="560" loading="lazy" decoding="async">
+      <article class="pista__texto">
+        <p class="pista__dom">Plataforma de gestión de ensayos clínicos</p>
+        <h3 class="pista__titulo"><a href="/trabajo/ai-coding-assistant/">Asistente de código con IA</a></h3>
+        <p class="pista__sub">Un asistente de código con IA adaptado a la forma de trabajar del equipo</p>
+        <p class="pista__rol">Technical Lead · diseño e implementación</p>
+        <p class="pista__tags">ia · herramientas internas · automatización</p>
+        <a class="boton" href="/trabajo/ai-coding-assistant/">Dale play <span aria-hidden="true">▶</span><span class="sr"> al caso Asistente de código con IA</span></a>
+      </article>
+    </li>
+    <li class="pista pista--rosa" id="pista-workflow-engine">
+      <p class="pista__num" aria-hidden="true">A3</p>
+      <img class="figurita" src="/mixtape/img/workflow-engine.webp" alt="" width="640" height="560" loading="lazy" decoding="async">
+      <article class="pista__texto">
+        <p class="pista__dom">Plataforma de gestión de ensayos clínicos</p>
+        <h3 class="pista__titulo"><a href="/trabajo/workflow-engine/">Motor de flujos</a></h3>
+        <p class="pista__sub">Un motor de flujos configurable para integraciones de datos</p>
+        <p class="pista__rol">Technical Lead · diseño del motor y de la vista previa</p>
+        <p class="pista__tags">arquitectura · datos · producto</p>
+        <a class="boton" href="/trabajo/workflow-engine/">Dale play <span aria-hidden="true">▶</span><span class="sr"> al caso Motor de flujos</span></a>
+      </article>
+    </li>
+    </ol>
+  </section>
+
+  <div class="voltea" aria-hidden="true"><span><i class="voltea__ico">⟲</i> dale la vuelta</span></div>
+
+  <section class="lado lado--b" id="lado-b" aria-labelledby="t-b">
+    <header class="lado__cab">
+      <p class="etiqueta">Lado B</p>
+      <h2 id="t-b">Proyectos propios</h2>
+      <p class="lado__sub">Para probar ideas antes de llevarlas a un equipo · 3 de 8 pistas en esta maqueta</p>
+    </header>
+    <ol class="pistas">
+    <li class="pista pista--terracota" id="pista-sgc">
+      <p class="pista__num" aria-hidden="true">B1</p>
+      <img class="figurita" src="/mixtape/img/sgc.webp" alt="" width="640" height="560" loading="lazy" decoding="async">
+      <article class="pista__texto">
+        <p class="pista__dom">Proyecto propio</p>
+        <h3 class="pista__titulo"><a href="/trabajo/sgc/">Talonaria</a></h3>
+        <p class="pista__sub">Talonaria: un ERP multi-tenant para pymes colombianas</p>
+        <p class="pista__rol">Desarrollador único · diseño, arquitectura y desarrollo</p>
+        <p class="pista__tags">producto propio · arquitectura · fintech</p>
+        <a class="boton" href="/trabajo/sgc/">Dale play <span aria-hidden="true">▶</span><span class="sr"> al caso Talonaria</span></a>
+      </article>
+    </li>
+    <li class="pista pista--crema pista--inv" id="pista-english">
+      <p class="pista__num" aria-hidden="true">B2</p>
+      <img class="figurita" src="/mixtape/img/english.webp" alt="" width="640" height="560" loading="lazy" decoding="async">
+      <article class="pista__texto">
+        <p class="pista__dom">Proyecto propio</p>
+        <h3 class="pista__titulo"><a href="/trabajo/english/">English A1</a></h3>
+        <p class="pista__sub">Una app para practicar inglés a diario</p>
+        <p class="pista__rol">Desarrollador único · diseño y desarrollo</p>
+        <p class="pista__tags">producto propio · IA · educación</p>
+        <a class="boton" href="/trabajo/english/">Dale play <span aria-hidden="true">▶</span><span class="sr"> al caso English A1</span></a>
+      </article>
+    </li>
+    <li class="pista pista--teal" id="pista-eco-loop">
+      <p class="pista__num" aria-hidden="true">B3</p>
+      <img class="figurita" src="/mixtape/img/eco-loop.webp" alt="" width="640" height="560" loading="lazy" decoding="async">
+      <article class="pista__texto">
+        <p class="pista__dom">Proyecto propio · Código abierto</p>
+        <h3 class="pista__titulo"><a href="/trabajo/eco-loop/">eco-loop</a></h3>
+        <p class="pista__sub">Dos IAs conversando entre ellas</p>
+        <p class="pista__rol">Autor único · diseño experimental y desarrollo</p>
+        <p class="pista__tags">ia · investigación · llm</p>
+        <a class="boton" href="/trabajo/eco-loop/">Dale play <span aria-hidden="true">▶</span><span class="sr"> al caso eco-loop</span></a>
+      </article>
+    </li>
+    </ol>
+  </section>
+
+  <section class="cierre" id="contacto" aria-labelledby="t-c">
+    <div class="vinilo" aria-hidden="true"><img src="/mixtape/img/vinilo.webp" alt="" width="800" height="800" loading="lazy"></div>
+    <div class="cierre__texto">
+      <p class="etiqueta">Pista final</p>
+      <h2 id="t-c">¿Hablamos?</h2>
+      <p class="cierre__lead">Para hablar de arquitectura, liderazgo técnico o de alguno de estos casos, escríbeme.</p>
+      <dl class="datos">
+        <div><dt>Años</dt><dd>7</dd></div>
+        <div><dt>Desde</dt><dd>2019</dd></div>
+        <div><dt>Casos</dt><dd>18</dd></div>
+      </dl>
+      <p class="enlaces">
+        <a class="boton boton--oro" href="https://www.linkedin.com/in/ivan-santander/" rel="noopener">Escríbeme en LinkedIn <span aria-hidden="true">→</span></a>
+        <a class="boton boton--sec" href="https://github.com/ivansantander-hub" rel="noopener">Ver GitHub</a>
+        <a class="boton boton--sec" href="/trabajo/">Ver los 18 casos</a>
+      </p>
+      <p class="lugar">Medellín, Colombia · Trabajo en remoto</p>
+    </div>
+  </section>
+</main>
+<script src="/mixtape/mixtape.js" defer></script>
+</body>
+</html>

@@ -11,7 +11,7 @@ import { dirname, join, relative } from 'node:path';
 import { fileURLToPath } from 'node:url';
 
 const dist = join(dirname(fileURLToPath(import.meta.url)), '..', 'dist');
-const OMITIR = ['models-3d', 'proto', 'v1', 'img', 'fonts', 'vendor', 'css', 'js', 'audio'];
+const OMITIR = ['models-3d', 'proto', 'v1', 'mixtape', 'img', 'fonts', 'vendor', 'css', 'js', 'audio'];
 
 function paginas(dir, acc = []) {
   for (const e of readdirSync(dir, { withFileTypes: true })) {
