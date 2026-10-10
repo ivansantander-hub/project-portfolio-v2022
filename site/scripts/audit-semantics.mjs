@@ -22,7 +22,7 @@ function paginas(dir, acc = []) {
   for (const e of readdirSync(dir, { withFileTypes: true })) {
     const p = join(dir, e.name);
     if (e.isDirectory()) {
-      if (['models-3d', 'proto', 'v1', 'mixtape', 'img', 'fonts', 'vendor', 'css', 'js', 'audio'].includes(e.name)) continue;
+      if (['models-3d', 'proto', 'v1', 'mixtape', 'medellin-hills', 'img', 'fonts', 'vendor', 'css', 'js', 'audio'].includes(e.name)) continue;
       paginas(p, acc);
     } else if (e.name === 'index.html') acc.push(p);
   }

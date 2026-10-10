@@ -1,0 +1,344 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Iván Santander · Medellín Hills</title>
+<meta name="description" content="Iván Santander, Tech Lead y Technical Product Owner. Su trabajo como un mixtape vivo: la página late al compás de la canción. Lado A, plataforma clínica; lado B, proyectos propios.">
+<meta name="robots" content="noindex">
+<meta name="theme-color" content="#f4b13e">
+<link rel="icon" href="/favicon.ico">
+<link rel="preload" href="/fonts/archivo-latin-wdth-normal.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="/fonts/geist-latin-wght-normal.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="stylesheet" href="/medellin-hills/hills.css">
+<script type="application/json" id="canciones">[{"src":"/audio/el-estren.mp3","nombre":"El estren","bpm":94,"pulso0":0.013,"dur":164,"tour":true,"palabras":[{"t":10,"img":"pal-balon","txt":"Cotejo"},{"t":16,"img":"pal-ano-viejo","txt":"Año viejo"},{"t":33,"img":"pal-arepa","txt":"Arepa"},{"t":34.5,"img":"pal-cafe","txt":"Café"},{"t":38,"img":"pal-carriel","txt":"Carriel"},{"t":40,"img":"pal-sancocho","txt":"Sancocho"},{"t":43,"img":"pal-vecina","txt":"La vecina"},{"t":71,"img":"pal-remedios","txt":"Remedios"},{"t":76,"img":"pal-cancha","txt":"Cancha"},{"t":79,"img":"pal-cometa","txt":"Cometas"}],"drops":[]},{"src":"/audio/india-conocida.mp3","nombre":"India conocida","bpm":89.75,"pulso0":0.25,"dur":275,"tour":false,"palabras":[],"drops":[109,161,202]}]</script>
+</head>
+<body>
+<a class="saltar" href="#lado-a">Saltar al contenido</a>
+<header class="barra">
+  <a class="barra__atras" href="/">← Portafolio</a>
+  <nav class="barra__nav" aria-label="Secciones">
+    <a href="#lado-a">Lado A</a>
+    <a href="#trabajo">Cómo trabajo</a>
+    <a href="#lado-b">Lado B</a>
+    <a href="#contacto">Contacto</a>
+  </nav>
+</header>
+
+<main>
+  <section class="portada" id="inicio" aria-labelledby="t-nombre">
+    <div class="cielo" aria-hidden="true"></div>
+    <div class="sol" aria-hidden="true"></div>
+    <img class="loma" src="/medellin-hills/img/loma.webp" alt="" width="2000" height="1333" fetchpriority="high">
+    <div class="ruta" aria-hidden="true">
+      <svg viewBox="0 0 100 40" preserveAspectRatio="none"><line x1="100" y1="1" x2="14" y2="30"/></svg>
+      <img class="cabina" src="/medellin-hills/img/cabina.webp" alt="" width="320" height="400">
+    </div>
+    <img class="casete" src="/medellin-hills/img/casete.webp" alt="Un casete grande frente a la loma de casitas de colores de Medellín." width="1100" height="712" fetchpriority="high">
+    <div class="portada__texto">
+      <p class="etiqueta">Medellín, Colombia · remoto</p>
+      <h1 id="t-nombre">Iván<br>Santander</h1>
+      <p class="portada__rol">Tech Lead y Technical Product Owner</p>
+    </div>
+    <button class="play" type="button" id="play" aria-pressed="false">
+      <span class="play__icono" aria-hidden="true">▶</span>
+      <span class="play__txt">Dale play</span>
+    </button>
+    <p class="portada__frase">Tech Lead y Technical Product Owner en LearUp, una plataforma de ensayos clínicos.</p>
+  </section>
+
+  <div class="eq" aria-hidden="true" id="eq"><i style="--i:0;--h:28"></i><i style="--i:1;--h:65"></i><i style="--i:2;--h:40"></i><i style="--i:3;--h:77"></i><i style="--i:4;--h:52"></i><i style="--i:5;--h:89"></i><i style="--i:6;--h:64"></i><i style="--i:7;--h:39"></i><i style="--i:8;--h:76"></i><i style="--i:9;--h:51"></i><i style="--i:10;--h:88"></i><i style="--i:11;--h:63"></i><i style="--i:12;--h:38"></i><i style="--i:13;--h:75"></i><i style="--i:14;--h:50"></i><i style="--i:15;--h:87"></i><i style="--i:16;--h:62"></i><i style="--i:17;--h:37"></i><i style="--i:18;--h:74"></i><i style="--i:19;--h:49"></i><i style="--i:20;--h:86"></i><i style="--i:21;--h:61"></i><i style="--i:22;--h:36"></i><i style="--i:23;--h:73"></i><i style="--i:24;--h:48"></i><i style="--i:25;--h:85"></i><i style="--i:26;--h:60"></i><i style="--i:27;--h:35"></i><i style="--i:28;--h:72"></i><i style="--i:29;--h:47"></i><i style="--i:30;--h:84"></i><i style="--i:31;--h:59"></i><i style="--i:32;--h:34"></i><i style="--i:33;--h:71"></i><i style="--i:34;--h:46"></i><i style="--i:35;--h:83"></i><i style="--i:36;--h:58"></i><i style="--i:37;--h:33"></i><i style="--i:38;--h:70"></i><i style="--i:39;--h:45"></i><i style="--i:40;--h:82"></i><i style="--i:41;--h:57"></i><i style="--i:42;--h:32"></i><i style="--i:43;--h:69"></i><i style="--i:44;--h:44"></i><i style="--i:45;--h:81"></i><i style="--i:46;--h:56"></i><i style="--i:47;--h:31"></i></div>
+
+  <section class="lado" id="lado-a" aria-labelledby="t-a">
+    <header class="lado__cab">
+      <p class="etiqueta">Lado A</p>
+      <h2 id="t-a">Plataforma clínica</h2>
+      <p class="lado__sub">Plataforma de gestión de ensayos clínicos · 10 pistas</p>
+    </header>
+    <ol class="pistas">
+    <li class="pista pista--teal" id="pista-architecture-simplification" data-slug="architecture-simplification">
+      <p class="pista__num" aria-hidden="true">A1</p>
+      <div class="fig"><img class="figurita" src="/medellin-hills/img/architecture-simplification.webp" alt="" width="560" height="560" loading="lazy" decoding="async"></div>
+      <article class="pista__texto">
+        <p class="pista__dom">Plataforma de gestión de ensayos clínicos</p>
+        <h3 class="pista__titulo"><a href="/trabajo/architecture-simplification/">Simplificación de arquitectura</a></h3>
+        <p class="pista__sub">Simplificar una arquitectura que creció por acumulación</p>
+        <p class="pista__rol">Technical Lead → Technical Product Owner · inventario y propuesta de arquitectura</p>
+        <p class="pista__tags">arquitectura · liderazgo · migración</p>
+        <a class="boton" href="/trabajo/architecture-simplification/">Dale play <span aria-hidden="true">▶</span><span class="sr"> al caso Simplificación de arquitectura</span></a>
+      </article>
+    </li>
+    <li class="pista pista--mostaza pista--inv" id="pista-ai-coding-assistant" data-slug="ai-coding-assistant">
+      <p class="pista__num" aria-hidden="true">A2</p>
+      <div class="fig"><img class="figurita" src="/medellin-hills/img/ai-coding-assistant.webp" alt="" width="560" height="560" loading="lazy" decoding="async"></div>
+      <article class="pista__texto">
+        <p class="pista__dom">Plataforma de gestión de ensayos clínicos</p>
+        <h3 class="pista__titulo"><a href="/trabajo/ai-coding-assistant/">Asistente de código con IA</a></h3>
+        <p class="pista__sub">Un asistente de código con IA adaptado a la forma de trabajar del equipo</p>
+        <p class="pista__rol">Technical Lead · diseño e implementación</p>
+        <p class="pista__tags">ia · herramientas internas · automatización</p>
+        <a class="boton" href="/trabajo/ai-coding-assistant/">Dale play <span aria-hidden="true">▶</span><span class="sr"> al caso Asistente de código con IA</span></a>
+      </article>
+    </li>
+    <li class="pista pista--rosa" id="pista-workflow-engine" data-slug="workflow-engine">
+      <p class="pista__num" aria-hidden="true">A3</p>
+      <div class="fig"><img class="figurita" src="/medellin-hills/img/workflow-engine.webp" alt="" width="560" height="560" loading="lazy" decoding="async"></div>
+      <article class="pista__texto">
+        <p class="pista__dom">Plataforma de gestión de ensayos clínicos</p>
+        <h3 class="pista__titulo"><a href="/trabajo/workflow-engine/">Motor de flujos</a></h3>
+        <p class="pista__sub">Un motor de flujos configurable para integraciones de datos</p>
+        <p class="pista__rol">Technical Lead · diseño del motor y de la vista previa</p>
+        <p class="pista__tags">arquitectura · datos · producto</p>
+        <a class="boton" href="/trabajo/workflow-engine/">Dale play <span aria-hidden="true">▶</span><span class="sr"> al caso Motor de flujos</span></a>
+      </article>
+    </li>
+    <li class="pista pista--terracota pista--inv" id="pista-document-management" data-slug="document-management">
+      <p class="pista__num" aria-hidden="true">A4</p>
+      <div class="fig"><img class="figurita" src="/medellin-hills/img/document-management.webp" alt="" width="560" height="560" loading="lazy" decoding="async"></div>
+      <article class="pista__texto">
+        <p class="pista__dom">Plataforma de gestión de ensayos clínicos</p>
+        <h3 class="pista__titulo"><a href="/trabajo/document-management/">Gestión documental</a></h3>
+        <p class="pista__sub">Gestión documental con permisos y trazabilidad</p>
+        <p class="pista__rol">Technical Lead · modelo de permisos y carga de archivos</p>
+        <p class="pista__tags">arquitectura · seguridad · auditoría</p>
+        <a class="boton" href="/trabajo/document-management/">Dale play <span aria-hidden="true">▶</span><span class="sr"> al caso Gestión documental</span></a>
+      </article>
+    </li>
+    <li class="pista pista--crema" id="pista-dashboards" data-slug="dashboards">
+      <p class="pista__num" aria-hidden="true">A5</p>
+      <div class="fig"><img class="figurita" src="/medellin-hills/img/dashboards.webp" alt="" width="560" height="560" loading="lazy" decoding="async"></div>
+      <article class="pista__texto">
+        <p class="pista__dom">Plataforma de gestión de ensayos clínicos</p>
+        <h3 class="pista__titulo"><a href="/trabajo/dashboards/">Dashboards configurables</a></h3>
+        <p class="pista__sub">Dashboards configurables por proyecto</p>
+        <p class="pista__rol">Technical Lead · diseño de la solución, flujo de datos y base del motor</p>
+        <p class="pista__tags">producto · datos · arquitectura</p>
+        <a class="boton" href="/trabajo/dashboards/">Dale play <span aria-hidden="true">▶</span><span class="sr"> al caso Dashboards configurables</span></a>
+      </article>
+    </li>
+    <li class="pista pista--teal pista--inv" id="pista-ai-integration" data-slug="ai-integration">
+      <p class="pista__num" aria-hidden="true">A6</p>
+      <div class="fig"><img class="figurita" src="/medellin-hills/img/ai-integration.webp" alt="" width="560" height="560" loading="lazy" decoding="async"></div>
+      <article class="pista__texto">
+        <p class="pista__dom">Plataforma de gestión de ensayos clínicos</p>
+        <h3 class="pista__titulo"><a href="/trabajo/ai-integration/">Integración de IA</a></h3>
+        <p class="pista__sub">Una propuesta para integrar IA en una plataforma de un entorno regulado</p>
+        <p class="pista__rol">Technical Lead / Technical Product Owner · propuesta de integración y prototipo</p>
+        <p class="pista__tags">ia · arquitectura · privacidad</p>
+        <a class="boton" href="/trabajo/ai-integration/">Dale play <span aria-hidden="true">▶</span><span class="sr"> al caso Integración de IA</span></a>
+      </article>
+    </li>
+    <li class="pista pista--mostaza" id="pista-digital-signatures" data-slug="digital-signatures">
+      <p class="pista__num" aria-hidden="true">A7</p>
+      <div class="fig"><img class="figurita" src="/medellin-hills/img/digital-signatures.webp" alt="" width="560" height="560" loading="lazy" decoding="async"></div>
+      <article class="pista__texto">
+        <p class="pista__dom">Plataforma de gestión de ensayos clínicos</p>
+        <h3 class="pista__titulo"><a href="/trabajo/digital-signatures/">Firma electrónica</a></h3>
+        <p class="pista__sub">Firmas electrónicas con evidencia verificable</p>
+        <p class="pista__rol">Technical Lead · orquestación del flujo, generación de evidencia y firma de documentos</p>
+        <p class="pista__tags">firma electrónica · seguridad · auditoría</p>
+        <a class="boton" href="/trabajo/digital-signatures/">Dale play <span aria-hidden="true">▶</span><span class="sr"> al caso Firma electrónica</span></a>
+      </article>
+    </li>
+    <li class="pista pista--rosa pista--inv" id="pista-dynamic-forms" data-slug="dynamic-forms">
+      <p class="pista__num" aria-hidden="true">A8</p>
+      <div class="fig"><img class="figurita" src="/medellin-hills/img/dynamic-forms.webp" alt="" width="560" height="560" loading="lazy" decoding="async"></div>
+      <article class="pista__texto">
+        <p class="pista__dom">Plataforma de gestión de ensayos clínicos</p>
+        <h3 class="pista__titulo"><a href="/trabajo/dynamic-forms/">Formularios configurables</a></h3>
+        <p class="pista__sub">Formularios definidos por configuración</p>
+        <p class="pista__rol">Technical Lead · constructor de formularios compartido, lógica condicional e integraciones</p>
+        <p class="pista__tags">producto · frontend · arquitectura</p>
+        <a class="boton" href="/trabajo/dynamic-forms/">Dale play <span aria-hidden="true">▶</span><span class="sr"> al caso Formularios configurables</span></a>
+      </article>
+    </li>
+    <li class="pista pista--terracota" id="pista-shell-system" data-slug="shell-system">
+      <p class="pista__num" aria-hidden="true">A9</p>
+      <div class="fig"><img class="figurita" src="/medellin-hills/img/shell-system.webp" alt="" width="560" height="560" loading="lazy" decoding="async"></div>
+      <article class="pista__texto">
+        <p class="pista__dom">Plataforma de gestión de ensayos clínicos</p>
+        <h3 class="pista__titulo"><a href="/trabajo/shell-system/">Pantallas configurables</a></h3>
+        <p class="pista__sub">Pantallas de seguimiento a partir de configuración</p>
+        <p class="pista__rol">Technical Lead · diseño e implementación</p>
+        <p class="pista__tags">arquitectura · frontend · configuración</p>
+        <a class="boton" href="/trabajo/shell-system/">Dale play <span aria-hidden="true">▶</span><span class="sr"> al caso Pantallas configurables</span></a>
+      </article>
+    </li>
+    <li class="pista pista--crema pista--inv" id="pista-dev-platform" data-slug="dev-platform">
+      <p class="pista__num" aria-hidden="true">A10</p>
+      <div class="fig"><img class="figurita" src="/medellin-hills/img/dev-platform.webp" alt="" width="560" height="560" loading="lazy" decoding="async"></div>
+      <article class="pista__texto">
+        <p class="pista__dom">Plataforma de gestión de ensayos clínicos</p>
+        <h3 class="pista__titulo"><a href="/trabajo/dev-platform/">Entorno de desarrollo local</a></h3>
+        <p class="pista__sub">Una herramienta de línea de comandos para el entorno local</p>
+        <p class="pista__rol">Technical Lead · diseño e implementación de la herramienta</p>
+        <p class="pista__tags">herramientas internas · experiencia de desarrollo · automatización</p>
+        <a class="boton" href="/trabajo/dev-platform/">Dale play <span aria-hidden="true">▶</span><span class="sr"> al caso Entorno de desarrollo local</span></a>
+      </article>
+    </li>
+    </ol>
+  </section>
+
+  <section class="puente" id="trabajo" aria-labelledby="t-w">
+    <header class="lado__cab">
+      <p class="etiqueta">El puente</p>
+      <h2 id="t-w">Cómo trabajo</h2>
+    </header>
+    <ol class="reglas">
+      <li class="regla"><p class="regla__n" aria-hidden="true">1</p><div><h3>Inventario antes de proponer</h3><p>Un listado real de servicios, dependencias y uso convierte &quot;el sistema se siente pesado&quot; en datos que cualquiera puede evaluar.</p></div></li>
+      <li class="regla"><p class="regla__n" aria-hidden="true">2</p><div><h3>Dos opciones con sus costos</h3><p>Las decisiones grandes llegan con alternativas, para que decida quien tiene el contexto de negocio.</p></div></li>
+      <li class="regla"><p class="regla__n" aria-hidden="true">3</p><div><h3>Migración por partes</h3><p>El sistema nuevo absorbe piezas mientras el viejo sigue funcionando, con criterios de vuelta atrás definidos desde el inicio.</p></div></li>
+      <li class="regla"><p class="regla__n" aria-hidden="true">4</p><div><h3>Decisiones por escrito</h3><p>Qué se decidió y por qué, para poder revisarlo cuando cambie el contexto.</p></div></li>
+    </ol>
+  </section>
+
+  <div class="voltea" aria-hidden="true"><span><i class="voltea__ico">⟲</i> dale la vuelta</span></div>
+
+  <section class="lado lado--b" id="lado-b" aria-labelledby="t-b">
+    <header class="lado__cab">
+      <p class="etiqueta">Lado B</p>
+      <h2 id="t-b">Proyectos propios</h2>
+      <p class="lado__sub">Para probar ideas antes de llevarlas a un equipo · 8 pistas</p>
+      <div class="deco" aria-hidden="true">
+        <img class="deco__a" src="/medellin-hills/img/b-microfono.webp" alt="" width="406" height="460" loading="lazy">
+        <img class="deco__b" src="/medellin-hills/img/b-bandeja.webp" alt="" width="460" height="400" loading="lazy">
+        <img class="deco__c" src="/medellin-hills/img/b-aerosol.webp" alt="" width="460" height="416" loading="lazy">
+        <img class="deco__d" src="/medellin-hills/img/b-boombox.webp" alt="" width="460" height="332" loading="lazy">
+      </div>
+    </header>
+    <ol class="pistas">
+    <li class="pista pista--teal" id="pista-sgc" data-slug="sgc">
+      <p class="pista__num" aria-hidden="true">B1</p>
+      <div class="fig"><img class="figurita" src="/medellin-hills/img/sgc.webp" alt="" width="560" height="560" loading="lazy" decoding="async"></div>
+      <article class="pista__texto">
+        <p class="pista__dom">Proyecto propio</p>
+        <h3 class="pista__titulo"><a href="/trabajo/sgc/">Talonaria</a></h3>
+        <p class="pista__sub">Talonaria: un ERP multi-tenant para pymes colombianas</p>
+        <p class="pista__rol">Desarrollador único · diseño, arquitectura y desarrollo</p>
+        <p class="pista__tags">producto propio · arquitectura · fintech</p>
+        <a class="boton" href="/trabajo/sgc/">Dale play <span aria-hidden="true">▶</span><span class="sr"> al caso Talonaria</span></a>
+      </article>
+    </li>
+    <li class="pista pista--mostaza pista--inv" id="pista-english" data-slug="english">
+      <p class="pista__num" aria-hidden="true">B2</p>
+      <div class="fig"><img class="figurita" src="/medellin-hills/img/english.webp" alt="" width="560" height="560" loading="lazy" decoding="async"></div>
+      <article class="pista__texto">
+        <p class="pista__dom">Proyecto propio</p>
+        <h3 class="pista__titulo"><a href="/trabajo/english/">English A1</a></h3>
+        <p class="pista__sub">Una app para practicar inglés a diario</p>
+        <p class="pista__rol">Desarrollador único · diseño y desarrollo</p>
+        <p class="pista__tags">producto propio · IA · educación</p>
+        <a class="boton" href="/trabajo/english/">Dale play <span aria-hidden="true">▶</span><span class="sr"> al caso English A1</span></a>
+      </article>
+    </li>
+    <li class="pista pista--rosa" id="pista-eco-loop" data-slug="eco-loop">
+      <p class="pista__num" aria-hidden="true">B3</p>
+      <div class="fig"><img class="figurita" src="/medellin-hills/img/eco-loop.webp" alt="" width="560" height="560" loading="lazy" decoding="async"></div>
+      <article class="pista__texto">
+        <p class="pista__dom">Proyecto propio · Código abierto</p>
+        <h3 class="pista__titulo"><a href="/trabajo/eco-loop/">eco-loop</a></h3>
+        <p class="pista__sub">Dos IAs conversando entre ellas</p>
+        <p class="pista__rol">Autor único · diseño experimental y desarrollo</p>
+        <p class="pista__tags">ia · investigación · llm</p>
+        <a class="boton" href="/trabajo/eco-loop/">Dale play <span aria-hidden="true">▶</span><span class="sr"> al caso eco-loop</span></a>
+      </article>
+    </li>
+    <li class="pista pista--terracota pista--inv" id="pista-mini-astro" data-slug="mini-astro">
+      <p class="pista__num" aria-hidden="true">B4</p>
+      <div class="fig"><img class="figurita" src="/medellin-hills/img/mini-astro.webp" alt="" width="560" height="560" loading="lazy" decoding="async"></div>
+      <article class="pista__texto">
+        <p class="pista__dom">Proyecto propio · Código abierto (MIT)</p>
+        <h3 class="pista__titulo"><a href="/trabajo/mini-astro/">mini-astro</a></h3>
+        <p class="pista__sub">Un generador de sitios estáticos propio</p>
+        <p class="pista__rol">Autor único · diseño, desarrollo y mantenimiento</p>
+        <p class="pista__tags">producto propio · herramientas · código abierto</p>
+        <a class="boton" href="/trabajo/mini-astro/">Dale play <span aria-hidden="true">▶</span><span class="sr"> al caso mini-astro</span></a>
+      </article>
+    </li>
+    <li class="pista pista--crema" id="pista-avatar-studio" data-slug="avatar-studio">
+      <p class="pista__num" aria-hidden="true">B5</p>
+      <div class="fig"><img class="figurita" src="/medellin-hills/img/avatar-studio.webp" alt="" width="560" height="560" loading="lazy" decoding="async"></div>
+      <article class="pista__texto">
+        <p class="pista__dom">Proyecto propio</p>
+        <h3 class="pista__titulo"><a href="/trabajo/avatar-studio/">Avatar Studio</a></h3>
+        <p class="pista__sub">Un pipeline local para avatares que hablan</p>
+        <p class="pista__rol">Desarrollador único · investigación, scripts y pruebas</p>
+        <p class="pista__tags">producto propio · ia generativa · audio</p>
+        <a class="boton" href="/trabajo/avatar-studio/">Dale play <span aria-hidden="true">▶</span><span class="sr"> al caso Avatar Studio</span></a>
+      </article>
+    </li>
+    <li class="pista pista--teal pista--inv" id="pista-megabyte" data-slug="megabyte">
+      <p class="pista__num" aria-hidden="true">B6</p>
+      <div class="fig"><img class="figurita" src="/medellin-hills/img/megabyte.webp" alt="" width="560" height="560" loading="lazy" decoding="async"></div>
+      <article class="pista__texto">
+        <p class="pista__dom">Proyecto propio</p>
+        <h3 class="pista__titulo"><a href="/trabajo/megabyte/">megabyte</a></h3>
+        <p class="pista__sub">Un agente de terminal con modelos locales</p>
+        <p class="pista__rol">Autor único de la capa megabyte · el motor es pi (earendil-works, MIT)</p>
+        <p class="pista__tags">proyecto propio · agentes · código abierto</p>
+        <a class="boton" href="/trabajo/megabyte/">Dale play <span aria-hidden="true">▶</span><span class="sr"> al caso megabyte</span></a>
+      </article>
+    </li>
+    <li class="pista pista--mostaza" id="pista-blog-26" data-slug="blog-26">
+      <p class="pista__num" aria-hidden="true">B7</p>
+      <div class="fig"><img class="figurita" src="/medellin-hills/img/blog-26.webp" alt="" width="560" height="560" loading="lazy" decoding="async"></div>
+      <article class="pista__texto">
+        <p class="pista__dom">Proyecto propio</p>
+        <h3 class="pista__titulo"><a href="/trabajo/blog-26/">blog-26</a></h3>
+        <p class="pista__sub">El historial de versiones que rehice tres veces</p>
+        <p class="pista__rol">Autor único · diseño y desarrollo</p>
+        <p class="pista__tags">producto propio · depuración · producto</p>
+        <a class="boton" href="/trabajo/blog-26/">Dale play <span aria-hidden="true">▶</span><span class="sr"> al caso blog-26</span></a>
+      </article>
+    </li>
+    <li class="pista pista--rosa pista--inv" id="pista-scrum-poker" data-slug="scrum-poker">
+      <p class="pista__num" aria-hidden="true">B8</p>
+      <div class="fig"><img class="figurita" src="/medellin-hills/img/scrum-poker.webp" alt="" width="560" height="560" loading="lazy" decoding="async"></div>
+      <article class="pista__texto">
+        <p class="pista__dom">Proyecto propio</p>
+        <h3 class="pista__titulo"><a href="/trabajo/scrum-poker/">Scrum Poker</a></h3>
+        <p class="pista__sub">Planning poker en tiempo real</p>
+        <p class="pista__rol">Desarrollador único</p>
+        <p class="pista__tags">producto propio · tiempo real</p>
+        <a class="boton" href="/trabajo/scrum-poker/">Dale play <span aria-hidden="true">▶</span><span class="sr"> al caso Scrum Poker</span></a>
+      </article>
+    </li>
+    </ol>
+  </section>
+
+  <section class="cierre" id="contacto" aria-labelledby="t-c">
+    <div class="vinilo" id="vinilo" role="slider" tabindex="0" aria-label="Rayar el disco: mueve la canción adelante y atrás" aria-valuemin="0" aria-valuemax="164" aria-valuenow="0">
+      <div class="vinilo__giro"><img src="/medellin-hills/img/vinilo.webp" alt="" width="800" height="800" loading="lazy" draggable="false"></div>
+    </div>
+    <div class="cierre__texto">
+      <p class="etiqueta">Pista final</p>
+      <h2 id="t-c">¿Hablamos?</h2>
+      <p class="cierre__lead">Para hablar de arquitectura, liderazgo técnico o de alguno de estos casos, escríbeme.</p>
+      <dl class="datos">
+        <div><dt>Años</dt><dd>7</dd></div>
+        <div><dt>Desde</dt><dd>2019</dd></div>
+        <div><dt>Casos</dt><dd>18</dd></div>
+      </dl>
+      <p class="enlaces">
+        <a class="boton boton--oro" href="https://www.linkedin.com/in/ivan-santander/" rel="noopener">Escríbeme en LinkedIn <span aria-hidden="true">→</span></a>
+        <a class="boton boton--sec" href="https://github.com/ivansantander-hub" rel="noopener">Ver GitHub</a>
+        <a class="boton boton--sec" href="/trabajo/">Ver todos los casos</a>
+      </p>
+      <p class="lugar">Medellín, Colombia · Trabajo en remoto</p>
+    </div>
+  </section>
+</main>
+
+<div class="palabras" id="palabras" aria-hidden="true"><img src="/medellin-hills/img/pal-balon.webp" alt="" width="460" height="460" decoding="async" hidden data-pal="pal-balon"><img src="/medellin-hills/img/pal-ano-viejo.webp" alt="" width="460" height="460" decoding="async" hidden data-pal="pal-ano-viejo"><img src="/medellin-hills/img/pal-arepa.webp" alt="" width="460" height="460" decoding="async" hidden data-pal="pal-arepa"><img src="/medellin-hills/img/pal-cafe.webp" alt="" width="460" height="460" decoding="async" hidden data-pal="pal-cafe"><img src="/medellin-hills/img/pal-carriel.webp" alt="" width="460" height="460" decoding="async" hidden data-pal="pal-carriel"><img src="/medellin-hills/img/pal-sancocho.webp" alt="" width="460" height="460" decoding="async" hidden data-pal="pal-sancocho"><img src="/medellin-hills/img/pal-vecina.webp" alt="" width="460" height="460" decoding="async" hidden data-pal="pal-vecina"><img src="/medellin-hills/img/pal-remedios.webp" alt="" width="460" height="460" decoding="async" hidden data-pal="pal-remedios"><img src="/medellin-hills/img/pal-cancha.webp" alt="" width="460" height="460" decoding="async" hidden data-pal="pal-cancha"><img src="/medellin-hills/img/pal-cometa.webp" alt="" width="460" height="460" decoding="async" hidden data-pal="pal-cometa"></div>
+
+<div class="reproductor" id="repro" hidden>
+  <button type="button" id="repro-play" aria-pressed="true" aria-label="Pausar la música"><span aria-hidden="true">❚❚</span></button>
+  <p class="repro__txt" id="repro-nombre">El estren</p>
+  <button type="button" class="repro__modo" id="repro-modo" aria-pressed="true" title="La página sigue la canción. Mueve el scroll para explorar tú."><span>Escuchar</span></button>
+  <button type="button" id="repro-sig" aria-label="Cambiar de canción"><span aria-hidden="true">⏭</span></button>
+  <button type="button" id="repro-mudo" aria-pressed="false" aria-label="Silenciar la música"><span aria-hidden="true">♪</span></button>
+</div>
+<p class="sr" id="aviso" role="status" aria-live="polite"></p>
+<script src="/medellin-hills/hills.js" defer></script>
+</body>
+</html>
