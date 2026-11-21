@@ -217,7 +217,17 @@ const PERSONA = {
   '@type': 'Person',
   '@id': `${SITE}/#persona`,
   name: 'Iván Santander',
-  jobTitle: 'Technical Product Owner',
+  // Sin tilde: así lo escribe la mayoría al buscar.
+  alternateName: ['Ivan Santander'],
+  jobTitle: 'Tech Lead & Technical Product Owner',
+  description:
+    'Tech Lead y Technical Product Owner. Arquitectura, liderazgo técnico y producto en salud digital, fintech y SaaS.',
+  // Hay otras personas públicas con el mismo nombre (p. ej. un bailarín español);
+  // esto le dice al buscador cuál es esta.
+  disambiguatingDescription:
+    'Ingeniero de software colombiano de Medellín; Tech Lead y Technical Product Owner en LearUp.',
+  worksFor: { '@type': 'Organization', name: 'LearUp' },
+  nationality: { '@type': 'Country', name: 'Colombia' },
   url: SITE,
   address: { '@type': 'PostalAddress', addressLocality: 'Medellín', addressCountry: 'CO' },
   sameAs: [LINKEDIN_URL, GITHUB_URL],
