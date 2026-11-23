@@ -6,6 +6,7 @@ title: El historial de versiones que rehice tres veces
 project: blog-26
 headline: Publicar en un blog estático exigía commit, push y build. La solución fue un CMS propio; su parte difícil, el historial de versiones, necesitó tres intentos.
 domain: Proyecto propio
+cardLine: "Blog con CMS propio"
 role: Autor único · diseño y desarrollo
 period: 2026
 featured: false

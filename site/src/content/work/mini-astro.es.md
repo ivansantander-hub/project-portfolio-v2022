@@ -6,6 +6,7 @@ title: Un generador de sitios estáticos propio
 project: mini-astro
 headline: "Entender cómo funciona por dentro un generador de sitios estáticos construyendo uno: una sola dependencia, que solo usa el servidor de desarrollo, y ningún runtime en el cliente. No compite con Astro; este portafolio corre sobre él."
 domain: Proyecto propio · Código abierto (MIT)
+cardLine: "Código abierto · MIT"
 role: Autor único · diseño, desarrollo y mantenimiento
 period: 2026 – presente
 featured: false

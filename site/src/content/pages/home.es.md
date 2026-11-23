@@ -19,7 +19,7 @@ Simplifico sistemas en producción que crecieron más rápido que su equipo, sin
 **cta_primary:** Ver casos
 **cta_secondary:** Escríbeme
 
-**stats:** +2 M / vistas al mes · 12 / casos · 2019 / desde
+**stats:** +2 / millones de vistas al mes · 2019 / desde · 3 / sectores
 
 ---
 
@@ -28,7 +28,7 @@ Simplifico sistemas en producción que crecieron más rápido que su equipo, sin
 **title:** Casos
 
 **body:**
-Trabajo en empresa y productos propios, cada uno con imagen, cifras y el detalle para quien quiera leer más.
+Trabajo en empresa y productos propios. Cada caso tiene el detalle para quien quiera leer más.
 
 ---
 

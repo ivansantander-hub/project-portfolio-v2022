@@ -539,8 +539,12 @@
   .vcard__img {
     display: block; width: 100%; aspect-ratio: 16 / 10; object-fit: cover; object-position: top;
     border-radius: var(--radius-md); border: 1px solid var(--border); background: var(--surface);
-    margin-bottom: var(--space-2xs); transition: border-color .2s, transform .2s;
+    margin-bottom: var(--space-2xs); transition: border-color .2s, transform .2s, filter .3s;
+    /* Una sola gama en la grilla: cada caso trae su paleta y juntas se ven
+       revueltas. El color vuelve al pasar el mouse o con foco. */
+    filter: grayscale(1) contrast(1.05) brightness(.92);
   }
+  .vcard__link:focus-visible .vcard__img { filter: none; }
   .vcard__project {
     font-family: var(--font-mono); font-size: var(--type-2xs);
     letter-spacing: var(--tracking-wide); text-transform: uppercase; color: var(--text-dim);
@@ -548,7 +552,7 @@
   .vcard__title { font-size: var(--type-lg); font-weight: 620; line-height: 1.25; text-wrap: balance; }
   .vcard__metric { font-size: var(--type-sm); color: var(--text-muted); }
   .vcard__metric b { color: var(--accent); font-weight: 650; font-variant-numeric: tabular-nums; }
-  .vcard__link:hover .vcard__img { border-color: var(--accent); }
+  .vcard__link:hover .vcard__img { border-color: var(--accent); filter: none; }
   .vcard__link:hover .vcard__title { color: var(--accent); }
   @media (prefers-reduced-motion: no-preference) { .vcard__link:hover .vcard__img { transform: translateY(-3px); } }
   .vcard--all .vcard__link {
@@ -628,8 +632,10 @@
   .project-card img {
     width: 100%; aspect-ratio: 16 / 10; object-fit: cover; object-position: top;
     border-radius: var(--radius-md); border: 1px solid var(--border); margin-bottom: var(--space-2xs);
-    transition: border-color .2s, transform .2s;
+    transition: border-color .2s, transform .2s, filter .3s;
+    filter: grayscale(1) contrast(1.05) brightness(.92);
   }
+  .project-card:hover img, .project-card:focus-visible img { filter: none; }
   .project-card__name {
     font-family: var(--font-mono); font-size: var(--type-2xs);
     letter-spacing: var(--tracking-wide); text-transform: uppercase; color: var(--text-dim);

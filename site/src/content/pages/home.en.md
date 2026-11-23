@@ -19,7 +19,7 @@ I simplify production systems that grew faster than their team, without slowing 
 **cta_primary:** See the work
 **cta_secondary:** Get in touch
 
-**stats:** 2M+ / monthly views · 12 / cases · 2019 / since
+**stats:** 2M+ / views a month · 2019 / since · 3 / industries
 
 ---
 
@@ -28,7 +28,7 @@ I simplify production systems that grew faster than their team, without slowing 
 **title:** Work
 
 **body:**
-Employer work and my own products, each with images, figures and the details for anyone who wants more.
+Employer work and my own products. Each case has the details for anyone who wants more.
 
 ---
 

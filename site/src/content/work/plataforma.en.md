@@ -6,6 +6,7 @@ title: Turning hand-written screens into a configurable platform
 project: SaaS platform
 headline: "As Technical Lead of a SaaS product in a regulated industry, I moved forms, dashboards, data flows and screens from custom code to configuration, and brought AI to the team without exposing sensitive data."
 domain: "Employer · SaaS product in a regulated industry"
+cardLine: "Employer · regulated industry"
 role: "Technical Lead · solution design, architecture and team"
 featured: true
 confidential: true

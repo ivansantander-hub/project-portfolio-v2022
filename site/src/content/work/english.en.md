@@ -6,6 +6,7 @@ title: An app for practicing English every day
 project: English A1
 headline: "A personal app for practicing the Present Simple with real exercises, sentence-by-sentence AI feedback and an engine that picks what to practice based on mistakes."
 domain: Personal project
+cardLine: "Web app · AI feedback"
 role: Sole developer · design and development
 period: August 2026
 featured: true

@@ -6,6 +6,7 @@ title: Real parts designed in code
 project: Mark 1
 headline: "Super 8's sibling, with FreeCAD: every part comes out of a Python script with its measurements at the top, and from it the 3D model, scale drawings, fabrication files and the numbers on how much it holds."
 domain: "Personal project · Mechanical design and fabrication"
+cardLine: "Mechanical design with FreeCAD"
 role: "Sole author · modelling, drawings, analysis and site"
 period: "November 2026 – present"
 featured: false

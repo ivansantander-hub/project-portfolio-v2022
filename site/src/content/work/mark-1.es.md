@@ -6,6 +6,7 @@ title: Piezas reales diseñadas en código
 project: Mark 1
 headline: "El hermano de Super 8, con FreeCAD: cada pieza sale de un script de Python con sus medidas arriba, y de ahí el modelo 3D, los planos a escala, los archivos para fabricar y los cálculos de cuánto aguanta."
 domain: "Proyecto propio · Diseño mecánico y fabricación"
+cardLine: "Diseño mecánico con FreeCAD"
 role: "Autor único · modelado, planos, cálculo y sitio"
 period: "Noviembre 2026 – presente"
 featured: false

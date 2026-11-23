@@ -6,6 +6,7 @@ title: Un estudio creativo donde la IA propone y la persona aprueba
 project: Kinora
 headline: "Una app de escritorio para que un equipo pequeño planee una serie de videos, haga cada episodio y lo publique. Cada cambio es una operación tipada y reversible: se hace a mano o la propone un agente, y la persona la aprueba."
 domain: "Proyecto propio · Producto de escritorio"
+cardLine: "App de escritorio · Electron"
 role: "Product owner y desarrollador · arquitectura, producto y código"
 period: "Octubre 2026 – presente"
 featured: true

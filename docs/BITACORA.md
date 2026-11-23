@@ -362,3 +362,11 @@ del hero y las secciones `thesis` y `secondary` se vuelven opcionales (ya no est
 en el contenido). Cifras del hero: +2 M vistas al mes · 12 casos · desde 2019.
 `keys.js` navega ahora `.vcard__link`. Se borró el CSS de `.work-card`. El
 `statement` no cambia, así que título, descripción y OG quedan igual.
+
+**Ajuste tras revisión de Iván:** sin cifras en las tarjetas (commits o piezas
+publicadas cambian y quedan viejas); cada caso lleva una línea fija `cardLine`
+(Avatar Studio: "+2 millones de vistas al mes"). Las imágenes de las tarjetas van
+en escala de grises y toman color al pasar el mouse o con foco: juntas, las
+paletas de cada caso se veían revueltas. Fuera "12 casos" del hero y de "Sobre
+mí" (crecerá); en su lugar "3 sectores". "+2 millones" se parte en "+2" y
+"millones de vistas al mes" para que no rompa la fila de cifras.

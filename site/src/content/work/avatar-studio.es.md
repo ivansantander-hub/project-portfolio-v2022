@@ -6,6 +6,7 @@ title: Un estudio que produce y publica videos cortos con IA
 project: Avatar Studio
 headline: "Una plataforma propia para producir videos cortos de punta a punta, de la idea a la publicación automática en Instagram, YouTube y Facebook. Las cuentas que alimenta suman más de dos millones de vistas en un mes."
 domain: "Proyecto propio · Producto y contenido"
+cardLine: "+2 millones de vistas al mes"
 role: "Autor único · producto, arquitectura, código y dirección de contenido"
 period: "Septiembre 2026 – presente"
 featured: true

@@ -6,6 +6,7 @@ title: Dos IAs conversando entre ellas
 project: eco-loop
 headline: "Dos modelos de lenguaje que hablan solos se atascan ofreciéndose ayuda. eco-loop es un laboratorio para medir cuándo pasa y qué lo rompe: 195 ensayos con réplicas por 1,02 dólares."
 domain: "Proyecto propio · Código abierto"
+cardLine: "Experimento con modelos de lenguaje"
 role: "Autor único · diseño experimental y desarrollo"
 period: Septiembre 2026
 featured: true

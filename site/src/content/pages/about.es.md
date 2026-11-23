@@ -17,10 +17,10 @@ metrics:
     label: "escribiendo software"
   - value: "3"
     label: "roles en LearUp: de developer a TPO"
-  - value: "+2 M"
-    label: "vistas al mes en las cuentas que alimenta mi estudio"
-  - value: "12"
-    label: "casos en este portafolio"
+  - value: "+2"
+    label: "millones de vistas al mes en las cuentas que alimenta mi estudio"
+  - value: "3"
+    label: "sectores: salud digital, fintech y SaaS"
 timelineTitle: Trayectoria
 timelineMore: Ver qué hice en cada rol
 timeline:

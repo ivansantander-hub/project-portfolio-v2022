@@ -314,7 +314,8 @@ function emit(relFile, { lang, title, description, canonical, altUrl, body, scri
 
 /* ── Plantillas de cuerpo ─────────────────────────────────────────────────── */
 
-/* Tarjeta visual: imagen del caso, proyecto, título y una cifra. Reemplaza a
+/* Tarjeta visual: imagen del caso, proyecto, título y una línea fija (cardLine o
+   el contexto del caso), sin cifras que envejecen. Reemplaza a
    la tarjeta de texto en la portada y en /trabajo/: casi nadie lee el párrafo,
    todos miran la imagen. */
 function caseThumb(d) {
@@ -322,7 +323,6 @@ function caseThumb(d) {
 }
 function renderVisualCard(item, lang, nivel = 3) {
   const L = LANGS[lang], d = item.data;
-  const m = Array.isArray(d.metrics) && d.metrics[0];
   const img = caseThumb(d);
   return `
       <li class="vcard">
@@ -330,7 +330,7 @@ function renderVisualCard(item, lang, nivel = 3) {
           ${img ? `<img class="vcard__img" src="${esc(img)}" alt="" loading="lazy" decoding="async">` : '<span class="vcard__img vcard__img--empty" aria-hidden="true"></span>'}
           <span class="vcard__project">${esc(d.project || d.domain)}</span>
           <h${nivel} class="vcard__title">${esc(d.title)}</h${nivel}>
-          ${m ? `<span class="vcard__metric"><b>${esc(m.value)}</b> ${marked.parseInline(esc(m.label))}</span>` : `<span class="vcard__metric">${esc(d.role || '')}</span>`}
+          <span class="vcard__metric">${esc(d.cardLine || d.domain || '')}</span>
         </a>
       </li>`;
 }

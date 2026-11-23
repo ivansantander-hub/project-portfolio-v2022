@@ -6,6 +6,7 @@ title: Convertir pantallas escritas a mano en una plataforma configurable
 project: Plataforma SaaS
 headline: "Como Technical Lead de un producto SaaS en un sector regulado, llevé formularios, tableros, flujos de datos y pantallas de código a medida a configuración, y llevé la IA al equipo sin exponer datos sensibles."
 domain: "Empresa · Producto SaaS en un sector regulado"
+cardLine: "Empresa · sector regulado"
 role: "Technical Lead · diseño de soluciones, arquitectura y equipo"
 featured: true
 confidential: true

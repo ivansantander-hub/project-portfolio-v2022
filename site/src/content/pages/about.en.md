@@ -19,8 +19,8 @@ metrics:
     label: "roles at LearUp: developer to TPO"
   - value: "2M+"
     label: "monthly views on the accounts my studio feeds"
-  - value: "12"
-    label: "cases in this portfolio"
+  - value: "3"
+    label: "industries: digital health, fintech and SaaS"
 timelineTitle: Experience
 timelineMore: What I did in each role
 timeline:

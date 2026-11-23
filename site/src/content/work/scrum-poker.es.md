@@ -6,6 +6,7 @@ title: Planning poker en tiempo real
 project: Scrum Poker
 headline: "Una app de planning poker para estimar en equipo: salas con código, votos ocultos hasta que el anfitrión los revela y reconexión si se cae la conexión."
 domain: Proyecto propio
+cardLine: "Tiempo real · WebSockets"
 role: Desarrollador único
 period: Marzo 2026
 featured: false
