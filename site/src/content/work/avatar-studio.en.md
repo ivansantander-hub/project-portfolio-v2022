@@ -1,7 +1,7 @@
 ---
 slug: avatar-studio
 lang: en
-order: 2
+order: 3
 title: A studio that makes and publishes short videos with AI
 project: Avatar Studio
 headline: "My own platform to make short videos end to end, from the idea to automatic publishing on Instagram, YouTube and Facebook. The accounts it feeds add up to more than two million views in a month."
@@ -30,6 +30,25 @@ metrics:
     label: "views in a month on @tony.mercury (Instagram)"
   - value: "+5,300"
     label: "new followers in a month across the three accounts"
+points:
+  - "**From idea to publishing:** script, voice, scenes, edit and upload on schedule, in one place."
+  - "**Every model with its cost:** each call picks the best model for the step and lands in a spend ledger."
+  - "**It learns from corrections:** what I fix in one video becomes a rule for the next ones."
+gallery:
+  - src: /img/casos/avatar-studio/semaforo.webp
+    alt: "Cover of the Reel «This traffic light knows you arrived»"
+    caption: 3,710 views · Instagram
+  - src: /img/casos/avatar-studio/chernobil.webp
+    alt: "Cover of the Reel about working remotely from Chernobyl"
+    caption: 3,098 views · Instagram
+  - src: /img/casos/avatar-studio/tarjeta.webp
+    alt: "Cover of the Reel «Your card said Approved»"
+    caption: 2,867 views · Instagram
+  - src: /img/casos/avatar-studio/camara.webp
+    alt: "Cover of the Reel «This camera doesn't know who you are»"
+    caption: 2,146 views · Instagram
+galleryShape: vertical
+moreLabel: "Read the details: how the studio works"
 stack:
   - TypeScript
   - tRPC · Postgres

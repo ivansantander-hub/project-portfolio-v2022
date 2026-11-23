@@ -1,7 +1,7 @@
 ---
 slug: super-8
 lang: es
-order: 3
+order: 4
 title: Animación 3D escrita en código
 project: Super 8
 headline: "Aprender Blender sin tocar la interfaz: cada escena, personaje y corto animado sale de un script de Python. Catorce piezas publicadas, del primer dado a un monólogo con voz y boca sincronizada."
@@ -28,6 +28,28 @@ metrics:
     label: "proyectos en un solo repositorio"
   - value: "2"
     label: "personajes con rig y expresiones"
+media:
+  video: /img/casos/super-8/la-nube.mp4
+  poster: /img/casos/super-8/la-nube.webp
+  alt: "La nube de arcilla del corto «Yo no lloro», renderizada en Blender"
+points:
+  - "**De un dado a un corto con voz**, con una técnica nueva en cada pieza."
+  - "**Rig generado por código:** los pesos de la piel salen de la geometría, sin pintar nada."
+  - "**La voz mueve la boca:** la animación se lee del volumen de cada frase."
+gallery:
+  - src: /img/casos/super-8/la-ultima-ficha.webp
+    alt: "La ficha de dominó con brazos y cara del corto «La última ficha»"
+    caption: La última ficha
+  - src: /img/casos/super-8/domino.webp
+    alt: "Cadena de fichas de dominó cayendo en curva"
+    caption: Cadena de dominó
+  - src: /img/casos/super-8/dados.webp
+    alt: "Dados rodando con física de cuerpos rígidos"
+    caption: Física de dados
+  - src: /img/casos/super-8/nube-rig.webp
+    alt: "La nube enojada con rayos, una expresión del rig"
+    caption: La nube · rig
+moreLabel: "Ver el detalle: cómo se trabaja sin la interfaz"
 stack:
   - Python
   - Blender (bpy)
