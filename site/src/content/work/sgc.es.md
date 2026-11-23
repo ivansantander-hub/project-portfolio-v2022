@@ -28,6 +28,11 @@ metrics:
     label: "casos de test"
   - value: "~78k"
     label: "líneas de TypeScript"
+points:
+  - "**La contabilidad en el centro:** cada operación con dinero crea su asiento; si no cuadra, no ocurre."
+  - "**Multi-tenant de verdad:** cada empresa aislada, con permisos por rol y respaldos diarios."
+  - "**Hecho por una persona:** CI, versiones automáticas y más de mil tests."
+moreLabel: "Ver el detalle: arquitectura y decisiones"
 stack:
   - Next.js
   - TypeScript

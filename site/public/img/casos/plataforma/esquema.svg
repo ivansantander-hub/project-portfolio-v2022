@@ -1,0 +1,33 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1280 720" role="img" aria-labelledby="t">
+  <title id="t">Pantallas escritas a mano que pasan por un motor y salen como configuración</title>
+  <rect width="1280" height="720" fill="#77777d" fill-opacity="0.06"/>
+  <g font-family="ui-monospace, 'SF Mono', Menlo, monospace" font-size="22" fill="#8a8a92">
+    <g fill="#8a8a92" fill-opacity="0.08" stroke="#8a8a92" stroke-opacity="0.45" stroke-width="2">
+      <rect x="80" y="150" width="300" height="76" rx="12"/>
+      <rect x="80" y="262" width="300" height="76" rx="12"/>
+      <rect x="80" y="374" width="300" height="76" rx="12"/>
+      <rect x="80" y="486" width="300" height="76" rx="12"/>
+    </g>
+    <text x="110" y="196">formulario a mano</text>
+    <text x="110" y="308">tablero a mano</text>
+    <text x="110" y="420">integración a mano</text>
+    <text x="110" y="532">pantalla a mano</text>
+    <g stroke="#8a8a92" stroke-opacity="0.6" stroke-width="2" fill="none">
+      <path d="M380 188 C 470 188, 470 356, 540 356"/>
+      <path d="M380 300 C 470 300, 470 356, 540 356"/>
+      <path d="M380 412 C 470 412, 470 356, 540 356"/>
+      <path d="M380 524 C 470 524, 470 356, 540 356"/>
+    </g>
+    <rect x="540" y="266" width="260" height="180" rx="24" fill="#8a8a92" fill-opacity="0.16" stroke="#8a8a92" stroke-width="3"/>
+    <text x="670" y="350" text-anchor="middle" font-size="34" font-weight="600" fill="#9c9ca4">motor</text>
+    <text x="670" y="390" text-anchor="middle" font-size="20">esquema + validación</text>
+    <path d="M800 356 H 884" stroke="#8a8a92" stroke-width="3"/>
+    <path d="M870 344 L 888 356 L 870 368" stroke="#8a8a92" stroke-width="3" fill="none"/>
+    <rect x="900" y="210" width="340" height="292" rx="16" fill="#8a8a92" fill-opacity="0.08" stroke="#8a8a92" stroke-opacity="0.45" stroke-width="2"/>
+    <text x="922" y="262">{ "tipo": "tablero",</text>
+    <text x="922" y="302">  "fuente": "…",</text>
+    <text x="922" y="342">  "campos": [ … ],</text>
+    <text x="922" y="382">  "permisos": "…" }</text>
+    <text x="1070" y="470" text-anchor="middle" font-size="20" fill="#9c9ca4">configuración</text>
+  </g>
+</svg>

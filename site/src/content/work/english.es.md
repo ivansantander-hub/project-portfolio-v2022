@@ -1,7 +1,7 @@
 ---
 slug: english
 lang: es
-order: 5
+order: 6
 title: Una app para practicar inglés a diario
 project: English A1
 headline: "Una app personal para practicar Present Simple con ejercicios reales, corrección con IA oración por oración y un motor que elige qué practicar según los errores."
@@ -30,6 +30,11 @@ metrics:
     label: "modelos de datos"
   - value: "~10.7k"
     label: "líneas de TypeScript"
+points:
+  - "**15 ejercicios al día** con corrección oración por oración, explicada en inglés y en español."
+  - "**IA con red de seguridad:** la corrección se valida por esquema y, si falla, responden reglas."
+  - "**Practicas lo que fallas:** un motor elige el siguiente ejercicio según tus errores."
+moreLabel: "Ver el detalle: cómo está hecha"
 stack:
   - React
   - Vite

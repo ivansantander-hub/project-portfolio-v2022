@@ -3,8 +3,213 @@
     {
       "source": "**/*.@(css|js)",
       "headers": [
-        { "key": "Cache-Control", "value": "public, max-age=60, must-revalidate" }
+        {
+          "key": "Cache-Control",
+          "value": "public, max-age=60, must-revalidate"
+        }
       ]
+    }
+  ],
+  "redirects": [
+    {
+      "source": "/trabajo/ai-coding-assistant",
+      "destination": "/trabajo/plataforma/",
+      "type": 301
+    },
+    {
+      "source": "/trabajo/ai-coding-assistant/",
+      "destination": "/trabajo/plataforma/",
+      "type": 301
+    },
+    {
+      "source": "/en/work/ai-coding-assistant",
+      "destination": "/en/work/plataforma/",
+      "type": 301
+    },
+    {
+      "source": "/en/work/ai-coding-assistant/",
+      "destination": "/en/work/plataforma/",
+      "type": 301
+    },
+    {
+      "source": "/trabajo/ai-integration",
+      "destination": "/trabajo/plataforma/",
+      "type": 301
+    },
+    {
+      "source": "/trabajo/ai-integration/",
+      "destination": "/trabajo/plataforma/",
+      "type": 301
+    },
+    {
+      "source": "/en/work/ai-integration",
+      "destination": "/en/work/plataforma/",
+      "type": 301
+    },
+    {
+      "source": "/en/work/ai-integration/",
+      "destination": "/en/work/plataforma/",
+      "type": 301
+    },
+    {
+      "source": "/trabajo/architecture-simplification",
+      "destination": "/trabajo/plataforma/",
+      "type": 301
+    },
+    {
+      "source": "/trabajo/architecture-simplification/",
+      "destination": "/trabajo/plataforma/",
+      "type": 301
+    },
+    {
+      "source": "/en/work/architecture-simplification",
+      "destination": "/en/work/plataforma/",
+      "type": 301
+    },
+    {
+      "source": "/en/work/architecture-simplification/",
+      "destination": "/en/work/plataforma/",
+      "type": 301
+    },
+    {
+      "source": "/trabajo/dashboards",
+      "destination": "/trabajo/plataforma/",
+      "type": 301
+    },
+    {
+      "source": "/trabajo/dashboards/",
+      "destination": "/trabajo/plataforma/",
+      "type": 301
+    },
+    {
+      "source": "/en/work/dashboards",
+      "destination": "/en/work/plataforma/",
+      "type": 301
+    },
+    {
+      "source": "/en/work/dashboards/",
+      "destination": "/en/work/plataforma/",
+      "type": 301
+    },
+    {
+      "source": "/trabajo/dev-platform",
+      "destination": "/trabajo/plataforma/",
+      "type": 301
+    },
+    {
+      "source": "/trabajo/dev-platform/",
+      "destination": "/trabajo/plataforma/",
+      "type": 301
+    },
+    {
+      "source": "/en/work/dev-platform",
+      "destination": "/en/work/plataforma/",
+      "type": 301
+    },
+    {
+      "source": "/en/work/dev-platform/",
+      "destination": "/en/work/plataforma/",
+      "type": 301
+    },
+    {
+      "source": "/trabajo/digital-signatures",
+      "destination": "/trabajo/plataforma/",
+      "type": 301
+    },
+    {
+      "source": "/trabajo/digital-signatures/",
+      "destination": "/trabajo/plataforma/",
+      "type": 301
+    },
+    {
+      "source": "/en/work/digital-signatures",
+      "destination": "/en/work/plataforma/",
+      "type": 301
+    },
+    {
+      "source": "/en/work/digital-signatures/",
+      "destination": "/en/work/plataforma/",
+      "type": 301
+    },
+    {
+      "source": "/trabajo/document-management",
+      "destination": "/trabajo/plataforma/",
+      "type": 301
+    },
+    {
+      "source": "/trabajo/document-management/",
+      "destination": "/trabajo/plataforma/",
+      "type": 301
+    },
+    {
+      "source": "/en/work/document-management",
+      "destination": "/en/work/plataforma/",
+      "type": 301
+    },
+    {
+      "source": "/en/work/document-management/",
+      "destination": "/en/work/plataforma/",
+      "type": 301
+    },
+    {
+      "source": "/trabajo/dynamic-forms",
+      "destination": "/trabajo/plataforma/",
+      "type": 301
+    },
+    {
+      "source": "/trabajo/dynamic-forms/",
+      "destination": "/trabajo/plataforma/",
+      "type": 301
+    },
+    {
+      "source": "/en/work/dynamic-forms",
+      "destination": "/en/work/plataforma/",
+      "type": 301
+    },
+    {
+      "source": "/en/work/dynamic-forms/",
+      "destination": "/en/work/plataforma/",
+      "type": 301
+    },
+    {
+      "source": "/trabajo/shell-system",
+      "destination": "/trabajo/plataforma/",
+      "type": 301
+    },
+    {
+      "source": "/trabajo/shell-system/",
+      "destination": "/trabajo/plataforma/",
+      "type": 301
+    },
+    {
+      "source": "/en/work/shell-system",
+      "destination": "/en/work/plataforma/",
+      "type": 301
+    },
+    {
+      "source": "/en/work/shell-system/",
+      "destination": "/en/work/plataforma/",
+      "type": 301
+    },
+    {
+      "source": "/trabajo/workflow-engine",
+      "destination": "/trabajo/plataforma/",
+      "type": 301
+    },
+    {
+      "source": "/trabajo/workflow-engine/",
+      "destination": "/trabajo/plataforma/",
+      "type": 301
+    },
+    {
+      "source": "/en/work/workflow-engine",
+      "destination": "/en/work/plataforma/",
+      "type": 301
+    },
+    {
+      "source": "/en/work/workflow-engine/",
+      "destination": "/en/work/plataforma/",
+      "type": 301
     }
   ]
 }

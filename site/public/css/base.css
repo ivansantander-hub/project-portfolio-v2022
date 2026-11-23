@@ -585,6 +585,67 @@
   .link-back { font-family: var(--font-mono); font-size: var(--type-xs); letter-spacing: var(--tracking-wide); color: var(--text-muted); }
   .link-back:hover { color: var(--accent); }
 
+  /* ── CASO CORTO ───────────────────────────────────────────────────────
+     Se entiende en 30 segundos: imagen o video, cifras, tres líneas y una
+     galería. El texto largo queda plegado en .case__more. */
+  .case--short .case__head { border-bottom: 0; padding-bottom: 0; }
+  .case__media {
+    margin-top: var(--space-xl); border-radius: var(--radius-lg); overflow: hidden;
+    border: 1px solid var(--border); background: var(--surface);
+  }
+  .case__media :is(img, video) { width: 100%; height: auto; aspect-ratio: 16 / 9; object-fit: cover; }
+  .case--short .case__metrics { border-top: 0; padding-top: 0; }
+  .case__points {
+    list-style: none; padding: 0; margin-top: var(--space-xl);
+    display: grid; gap: var(--space-sm); max-width: var(--measure);
+  }
+  .case__points li {
+    display: grid; grid-template-columns: 0.9rem minmax(0, 1fr); gap: var(--space-xs);
+    font-size: var(--type-lg); line-height: 1.45; color: var(--text-muted);
+  }
+  .case__points li::before {
+    content: ""; width: 0.4rem; height: 0.4rem; border-radius: 50%;
+    background: var(--accent); margin-top: 0.62em;
+  }
+  .case__points strong { color: var(--text); font-weight: 600; }
+
+  .case__gallery {
+    display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 12rem), 1fr));
+    gap: var(--space-sm); margin-top: var(--space-xl);
+  }
+  .case__gallery--vertical { grid-template-columns: repeat(auto-fit, minmax(min(45%, 9rem), 1fr)); }
+  .case__gallery figure { display: grid; gap: var(--space-2xs); min-width: 0; align-content: start; }
+  .case__gallery img {
+    width: 100%; aspect-ratio: 16 / 10; object-fit: cover; object-position: top;
+    border-radius: var(--radius-md); border: 1px solid var(--border);
+  }
+  .case__gallery--vertical img { aspect-ratio: 9 / 16; object-position: center; }
+  .case__gallery figcaption {
+    font-family: var(--font-mono); font-size: var(--type-2xs);
+    letter-spacing: var(--tracking-wide); color: var(--text-dim);
+  }
+
+  .case__more {
+    margin-top: var(--space-2xl); border: 1px solid var(--border);
+    border-radius: var(--radius-lg); background: var(--surface);
+  }
+  .case__more > summary {
+    cursor: pointer; list-style: none; padding: var(--space-md) var(--space-lg);
+    display: flex; justify-content: space-between; align-items: center; gap: var(--space-md);
+    font-weight: 600;
+  }
+  .case__more > summary::-webkit-details-marker { display: none; }
+  .case__more > summary::after {
+    content: "+"; font-family: var(--font-mono); font-size: var(--type-lg); color: var(--accent); line-height: 1;
+  }
+  .case__more[open] > summary::after { content: "\2212"; }
+  .case__more > summary:hover { color: var(--accent); }
+  .case__more .case__body { margin-top: 0; padding: 0 var(--space-lg) var(--space-lg); }
+  .case__more .prose > h2:first-child { margin-top: var(--space-sm); }
+  .case__back { display: inline-block; margin-top: var(--space-lg); }
+  .case__media--video { aspect-ratio: 16 / 9; background-size: cover; background-position: center; }
+  @media (prefers-reduced-motion: reduce) { .case__media video { visibility: hidden; } }
+
   /* ── PROSA ────────────────────────────────────────────────────────── */
   .prose { max-width: var(--measure); }
   .prose > * + * { margin-top: var(--space-md); }

@@ -1,7 +1,7 @@
 ---
 slug: english
 lang: en
-order: 5
+order: 6
 title: An app for practicing English every day
 project: English A1
 headline: "A personal app for practicing the Present Simple with real exercises, sentence-by-sentence AI feedback and an engine that picks what to practice based on mistakes."
@@ -30,6 +30,11 @@ metrics:
     label: "data models"
   - value: "~10.7k"
     label: "lines of TypeScript"
+points:
+  - "**15 exercises a day** with sentence-by-sentence feedback, explained in English and Spanish."
+  - "**AI with a safety net:** feedback is schema-validated and falls back to rules if it fails."
+  - "**You practise what you miss:** an engine picks the next exercise from your mistakes."
+moreLabel: "Read the details: how it is built"
 stack:
   - React
   - Vite

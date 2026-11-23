@@ -28,6 +28,11 @@ metrics:
     label: "test cases"
   - value: "~78k"
     label: "lines of TypeScript"
+points:
+  - "**Accounting at the core:** every money operation creates its entry; if it doesn't balance, it doesn't happen."
+  - "**Real multi-tenancy:** each company isolated, with role permissions and daily backups."
+  - "**Built by one person:** CI, automatic releases and more than a thousand tests."
+moreLabel: "Read the details: architecture and decisions"
 stack:
   - Next.js
   - TypeScript
