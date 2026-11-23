@@ -97,6 +97,12 @@
     <xhtml:link rel="alternate" hreflang="x-default" href="https://ivansantander.com/en/work/kinora/"/>
   </url>
   <url>
+    <loc>https://ivansantander.com/trabajo/mark-1/</loc>
+    <xhtml:link rel="alternate" hreflang="es" href="https://ivansantander.com/trabajo/mark-1/"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://ivansantander.com/en/work/mark-1/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://ivansantander.com/en/work/mark-1/"/>
+  </url>
+  <url>
     <loc>https://ivansantander.com/trabajo/megabyte/</loc>
     <xhtml:link rel="alternate" hreflang="es" href="https://ivansantander.com/trabajo/megabyte/"/>
     <xhtml:link rel="alternate" hreflang="en" href="https://ivansantander.com/en/work/megabyte/"/>
@@ -233,6 +239,12 @@
     <xhtml:link rel="alternate" hreflang="en" href="https://ivansantander.com/en/work/kinora/"/>
     <xhtml:link rel="alternate" hreflang="es" href="https://ivansantander.com/trabajo/kinora/"/>
     <xhtml:link rel="alternate" hreflang="x-default" href="https://ivansantander.com/en/work/kinora/"/>
+  </url>
+  <url>
+    <loc>https://ivansantander.com/en/work/mark-1/</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://ivansantander.com/en/work/mark-1/"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://ivansantander.com/trabajo/mark-1/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://ivansantander.com/en/work/mark-1/"/>
   </url>
   <url>
     <loc>https://ivansantander.com/en/work/megabyte/</loc>

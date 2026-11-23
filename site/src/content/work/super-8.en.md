@@ -12,6 +12,8 @@ featured: true
 links:
   - label: See the pieces
     href: https://super-8.pages.dev
+  - label: Sibling project · Mark 1
+    href: https://mark-1.pages.dev
 summary:
   - k: The question
     v: "Can you get from a still die to an animated short by writing code instead of moving vertices by hand?"
