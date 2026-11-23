@@ -333,3 +333,15 @@ lidero" en dos columnas de tarjetas, stack en etiquetas y los proyectos propios
 como tarjetas con imagen generadas desde los casos (todos menos los `confidential`),
 para que no vuelvan a quedar viejos. Sin frontmatter `timeline` se usa el render
 anterior. Mismo título y descripción: sin cambio de posicionamiento.
+
+---
+
+## 2026-11-22 — "Sobre mí" en 30 segundos
+
+**Hallazgo (Iván):** el rediseño seguía teniendo mucho texto que poca gente lee.
+
+**Cambio:** la trayectoria muestra solo empresa, periodo y progresión de roles
+(LearUp: Developer → Tech Lead → Technical Product Owner); qué se hizo en cada rol
+queda plegado. "Cómo trabajo" y "Cómo lidero" muestran solo los títulos, con la
+explicación plegada. Frase de cabecera más corta. Unas 260 palabras visibles,
+contando etiquetas del stack y títulos de proyectos.

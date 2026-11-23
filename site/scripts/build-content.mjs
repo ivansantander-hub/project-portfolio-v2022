@@ -628,16 +628,27 @@ ${list(d.timeline).map(e => `      <li class="timeline__item">
         <p class="timeline__period">${esc(e.period)}</p>
         <div class="timeline__body">
           <h3 class="timeline__org">${esc(e.org)}</h3>
-${list(e.roles).map(r => `          <p class="timeline__role">${esc(r.role)}</p>
-          <p class="timeline__text">${esc(r.text)}</p>`).join('\n')}
+          <p class="timeline__role">${list(e.roles).slice().reverse().map(r => esc(r.short || r.role)).join(' <span aria-hidden="true">&rarr;</span> ')}</p>
         </div>
       </li>`).join('\n')}
-    </ol>`)}
+    </ol>
+    <details class="case__more">
+      <summary>${esc(d.timelineMore)}</summary>
+      <div class="case__body prose">
+${list(d.timeline).map(e => list(e.roles).map(r => `        <p><strong>${esc(e.org)} · ${esc(r.role)}.</strong> ${esc(r.text)}</p>`).join('\n')).join('\n')}
+      </div>
+    </details>`)}
   <div class="principles">
 ${list(d.principles).map((g, gi) => section(`principios-${gi + 1}`, g.title, `    <ul class="principles__list">
-${list(g.items).map(it => `      <li><strong>${esc(it.k)}</strong> ${esc(it.v)}</li>`).join('\n')}
+${list(g.items).map(it => `      <li>${esc(String(it.k).replace(/\.$/, ''))}</li>`).join('\n')}
     </ul>`)).join('\n')}
   </div>
+  <details class="case__more">
+    <summary>${esc(d.principlesMore)}</summary>
+    <div class="case__body prose">
+${list(d.principles).flatMap(g => list(g.items)).map(it => `      <p><strong>${esc(it.k)}</strong> ${esc(it.v)}</p>`).join('\n')}
+    </div>
+  </details>
 ${section('stack', d.stackTitle, `    <div class="stack-groups">
 ${list(d.stack).map(s => `      <div class="stack-group"><p class="stack-group__k">${esc(s.k)}</p><ul class="case__stack">${list(s.items).map(x => `<li>${esc(x)}</li>`).join('')}</ul></div>`).join('\n')}
     </div>`)}
