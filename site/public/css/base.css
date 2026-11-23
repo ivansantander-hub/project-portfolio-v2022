@@ -249,13 +249,19 @@
 
   /* ── HERO ─────────────────────────────────────────────────────────── */
   .hero {
-    min-height: 100svh;
+    /* Alto según el contenido, no la pantalla completa: así en un portátil ya
+       asoma la primera fila de casos debajo de las cifras. */
     display: grid;
     align-content: center;
-    /* Relleno proporcional a la altura de la ventana, no fijo: con 11rem el
-       botón principal caía por debajo del pliegue en pantallas de portátil. */
-    padding-block: clamp(3.5rem, 9vh, 7rem) var(--space-2xl);
+    padding-block: clamp(5rem, 11vh, 8rem) var(--space-md);
   }
+  /* En la portada, "Casos" es un rótulo de sección, no otro titular: la
+     grilla tiene que asomar en la primera pantalla. */
+  .hero + .work-preview { padding-top: var(--space-md); }
+  .work-preview .section-head { margin-bottom: 0; gap: var(--space-3xs); }
+  .work-preview .section-title { font-size: var(--type-xl); }
+  .work-preview .section-head .prose { font-size: var(--type-sm); }
+  .work-preview .vgrid { margin-top: var(--space-md); }
 
   /* Por encima del fondo generativo de toda la página (.bg-shader). */
   .hero__copy {

@@ -4,7 +4,7 @@ lang: en
 order: 4
 title: 3D animation written as code
 project: Super 8
-headline: "Learning Blender without touching its interface: every scene, character and animated short comes out of a Python script. Fourteen published pieces, from a first die to a monologue with a voice and a synced mouth."
+headline: "Learning Blender without touching its interface: every scene, character and animated short comes out of a Python script. More than ten published pieces, from a first die to a monologue with a voice and a synced mouth."
 domain: "Personal project · 3D animation"
 cardLine: "3D animation with Python and Blender"
 role: "Sole author · scenes, characters, rigging, rendering and site"
@@ -21,12 +21,12 @@ summary:
   - k: The rule
     v: "The script is the source of truth; the .blend, the image and the video are artifacts you rebuild."
   - k: Where it is
-    v: "Fourteen published pieces, two rigged characters and three shorts with sound, one with a voice."
+    v: "More than ten published pieces, two rigged characters and three shorts with sound, one with a voice."
 metrics:
-  - value: "14"
+  - value: "10+"
     label: "published pieces"
-  - value: "12"
-    label: "projects in one repository"
+  - value: "1"
+    label: "repository for everything"
   - value: "2"
     label: "rigged characters with expressions"
 media:

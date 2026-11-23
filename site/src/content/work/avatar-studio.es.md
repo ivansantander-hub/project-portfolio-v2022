@@ -25,12 +25,12 @@ summary:
   - k: Qué está pasando
     v: "Tres cuentas activas alimentadas por el estudio, con más de dos millones de vistas y más de 5.000 seguidores nuevos en un mes."
 metrics:
-  - value: "1,5 M"
-    label: "vistas en un mes en Kinema Studio (Facebook)"
-  - value: "541 mil"
-    label: "vistas en un mes en @tony.mercury (Instagram)"
-  - value: "+5.300"
-    label: "seguidores nuevos en un mes entre las tres cuentas"
+  - value: "+2 millones"
+    label: "vistas al mes entre las tres cuentas"
+  - value: "+5.000"
+    label: "seguidores nuevos al mes"
+  - value: "3"
+    label: "redes con publicación automática"
 points:
   - "**De la idea a la publicación:** guion, voz, escenas, montaje y subida a su hora, en un solo lugar."
   - "**Cada modelo con su costo:** la llamada elige el mejor modelo para el paso y queda en un libro de gastos."

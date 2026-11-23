@@ -10,9 +10,6 @@ cardLine: "Blog con CMS propio"
 role: Autor único · diseño y desarrollo
 period: 2026
 featured: false
-links:
-  - label: Ver el blog
-    href: https://blog.ivansantander.com
 summary:
   - k: El problema
     v: "Cada nota exigía commit, push y esperar un build."

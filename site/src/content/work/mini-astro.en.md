@@ -25,7 +25,7 @@ metrics:
     label: "dependency (for `dev` only)"
   - value: "0"
     label: "client-side runtime"
-  - value: "56"
+  - value: "50+"
     label: "tests with `node --test`"
   - value: "~2,300"
     label: "lines of JavaScript"

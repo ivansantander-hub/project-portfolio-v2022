@@ -21,8 +21,8 @@ summary:
   - k: Where it is
     v: "Full editor and planning studio done; publishing to YouTube, Instagram and Facebook is next."
 metrics:
-  - value: "277"
-    label: "commits in 17 days"
+  - value: "0"
+    label: "paid licences"
   - value: "~100"
     label: "documented architecture decisions"
   - value: "16"

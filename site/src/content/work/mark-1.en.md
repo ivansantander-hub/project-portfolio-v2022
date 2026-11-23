@@ -21,14 +21,14 @@ summary:
   - k: The rule
     v: "The script is the source of truth; the model, drawings, dieline and video are rebuilt with one command."
   - k: Where it is
-    v: "Two parts in two series: a cardboard box with dielines and drawings, and a PLA bracket checked with finite elements."
+    v: "Parts in series, starting with a cardboard box with dielines and drawings, and a PLA bracket checked with finite elements."
 metrics:
-  - value: "2"
-    label: "published parts"
+  - value: "1:1"
+    label: "drawing scale"
   - value: "3"
-    label: "A3 sheets at 1:1 scale"
+    label: "A3 sheets for the box"
   - value: "4.3"
-    label: "calculated safety factor"
+    label: "safety factor of the bracket"
 media:
   video: /img/casos/mark-1/ensamble.mp4
   poster: /img/casos/mark-1/ensamble.webp

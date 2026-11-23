@@ -4,7 +4,7 @@ lang: es
 order: 4
 title: Animación 3D escrita en código
 project: Super 8
-headline: "Aprender Blender sin tocar la interfaz: cada escena, personaje y corto animado sale de un script de Python. Catorce piezas publicadas, del primer dado a un monólogo con voz y boca sincronizada."
+headline: "Aprender Blender sin tocar la interfaz: cada escena, personaje y corto animado sale de un script de Python. Más de diez piezas publicadas, del primer dado a un monólogo con voz y boca sincronizada."
 domain: "Proyecto propio · Animación 3D"
 cardLine: "Animación 3D con Python y Blender"
 role: "Autor único · escenas, personajes, rig, render y sitio"
@@ -21,12 +21,12 @@ summary:
   - k: La regla
     v: "El script es la fuente de verdad; el .blend, la imagen y el video son artefactos que se regeneran."
   - k: Dónde va
-    v: "Catorce piezas publicadas, dos personajes con rig y tres cortos con sonido, uno de ellos con voz."
+    v: "Más de diez piezas publicadas, dos personajes con rig y tres cortos con sonido, uno de ellos con voz."
 metrics:
-  - value: "14"
+  - value: "+10"
     label: "piezas publicadas"
-  - value: "12"
-    label: "proyectos en un solo repositorio"
+  - value: "1"
+    label: "repositorio para todo"
   - value: "2"
     label: "personajes con rig y expresiones"
 media:

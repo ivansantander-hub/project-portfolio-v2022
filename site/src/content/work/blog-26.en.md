@@ -10,9 +10,6 @@ cardLine: "Blog with its own CMS"
 role: Sole author · design and development
 period: 2026
 featured: false
-links:
-  - label: See the blog
-    href: https://blog.ivansantander.com
 summary:
   - k: The problem
     v: "Every note meant a commit, a push and waiting for a build."

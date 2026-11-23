@@ -21,8 +21,8 @@ summary:
   - k: Dónde va
     v: "Editor completo y estudio de planeación terminados; sigue la publicación a YouTube, Instagram y Facebook."
 metrics:
-  - value: "277"
-    label: "commits en 17 días"
+  - value: "0"
+    label: "licencias pagas"
   - value: "~100"
     label: "decisiones de arquitectura documentadas"
   - value: "16"
