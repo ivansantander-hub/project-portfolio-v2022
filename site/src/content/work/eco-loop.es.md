@@ -1,7 +1,7 @@
 ---
 slug: eco-loop
 lang: es
-order: 5
+order: 6
 title: Dos IAs conversando entre ellas
 project: eco-loop
 headline: "Dos modelos de lenguaje que hablan solos se atascan ofreciéndose ayuda. eco-loop es un laboratorio para medir cuándo pasa y qué lo rompe: 195 ensayos con réplicas por 1,02 dólares."

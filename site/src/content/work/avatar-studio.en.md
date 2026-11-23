@@ -1,65 +1,69 @@
 ---
 slug: avatar-studio
 lang: en
-order: 8
-title: A local pipeline for talking avatars
+order: 2
+title: A studio that makes and publishes short videos with AI
 project: Avatar Studio
-headline: "Testing whether short videos of fictional AI characters speaking Spanish can be produced mostly with open models on a Mac, renting a GPU or an API only for the video."
-domain: Personal project
-role: Sole developer · research, scripts and testing
-period: "2026"
-featured: false
+headline: "My own platform to make short videos end to end, from the idea to automatic publishing on Instagram, YouTube and Facebook. The accounts it feeds add up to more than two million views in a month."
+domain: "Personal project · Product and content"
+role: "Sole author · product, architecture, code and content direction"
+period: "September 2026 – present"
+featured: true
+links:
+  - label: "@tony.mercury on Instagram"
+    href: https://www.instagram.com/tony.mercury/
+  - label: "Kinema Studio on Facebook"
+    href: https://www.facebook.com/1262282486979772
+  - label: "kalvin9604 on YouTube"
+    href: https://www.youtube.com/@kalvin9604
 summary:
   - k: The problem
-    v: "Making videos of an AI character with natural Spanish speech without relying on a closed platform for every step."
+    v: "A good short video takes many separate steps: idea, script, voice, images, edit, captions and posting to each network on its own."
   - k: The decision
-    v: "Images and voice locally with open models; lip-sync on a rented GPU or through an API."
-  - k: How it ended
-    v: "Voice and image pipeline working and two pilot clips generated through an API; still in testing."
+    v: "One studio where every step belongs to a project, models are chosen per call and publishing goes out on its own at its time."
+  - k: What is happening
+    v: "Three live accounts fed by the studio, with more than two million views and more than 5,000 new followers in a month."
 metrics:
-  - value: "4"
-    label: "fictional characters defined"
-  - value: "40"
-    label: "scripts written"
-  - value: "1.2 min"
-    label: "to generate a 30 s clip through the API"
-  - value: "US$1.52"
-    label: "cost of that clip"
+  - value: "1.5 M"
+    label: "views in a month on Kinema Studio (Facebook)"
+  - value: "541k"
+    label: "views in a month on @tony.mercury (Instagram)"
+  - value: "+5,300"
+    label: "new followers in a month across the three accounts"
 stack:
-  - Python
-  - uv
-  - Chatterbox
-  - Whisper
-  - mflux
-  - ffmpeg
-  - OpenRouter
-  - ComfyUI
+  - TypeScript
+  - tRPC · Postgres
+  - Remotion
+  - MCP
+  - Python (local models)
 tags:
-  - personal project
+  - own product
   - generative ai
-  - audio
+  - content
 ---
 
-Avatar Studio is a set of Python scripts for producing short vertical videos of fictional characters talking to the camera. It covers the character profile, their images, the backgrounds, the voice, the lip-synced video and the final edit with subtitles. It started as a local folder called `ai-influencer`; it's the same code that now lives in a private repository.
+Avatar Studio started in September 2026 as a folder of scripts to make an AI character talk. Today it is a platform: a workspace with accounts, series, a calendar and a pipeline that takes each video from the idea to publishing. I use it to produce the content of three real accounts, and their numbers are public.
 
-## The problem
+## What is behind each video
 
-I wanted to know how much of this workflow can run on open models on my own Mac, and which parts really need a rented GPU or a paid service. The hard part turned out to be the voice: the first Spanish audio sounded flat or robotic, and a character that speaks badly is no use even if the image is good.
+Each video is a project that moves through stages: idea, script, shots, edit, review, scheduled and published. Ideas are captured and voted on; the script is written in versions; the voice comes from a text-to-speech model directed as a character; images and scenes come from whichever model suits each shot; the edit is built as data and rendered to MP4. At the end the studio uploads the video at its time to Instagram as a Reel, to YouTube and to a Facebook Page, and links each post with its metrics.
 
 ## Decisions
 
-**Voices cloned from open datasets, not designed from scratch.** I first tried designing voices from a text description with Qwen3-TTS and dropped them because they sounded foreign or robotic. I ended up cloning with Chatterbox from anonymous speakers in Common Voice (CC0) and in a Google Colombian Spanish corpus (CC BY-SA), with an attribution file per voice. Cost: two of the four voices require attribution in the character's description, and quality depends on how expressive those clips are.
+**The edit is data, not a file.** A cut is stored as a composition (clips, text, music, captions) and rendered with Remotion. A text or a timing can be fixed and exported again without redoing anything, and the same cut also comes out as captions or a CapCut pack.
 
-**The reference is built from the most expressive clips.** Chatterbox copies the speaking style of its reference, so a script measures how much the pitch moves in each of the speaker's clips and concatenates the liveliest ones up to about 20 seconds. Cost: it's a simple metric (pitch range) that doesn't capture everything that makes a voice sound natural.
+**A model harness with a budget.** Each call chooses its model (video, image, voice or text, in the cloud or on the Mac) and is logged with its cost in a spend ledger with a monthly cap. *Trade-off:* more plumbing than marrying one vendor, in exchange for the best model at each step and knowing what each video costs.
 
-**Sentence-by-sentence narration, with several takes and Whisper as a filter.** The script is split into chunks of at least 8 words (with 3 there were 11 cuts and it sounded robotic), several takes are generated per chunk, Whisper checks that the take says the text (minimum similarity 0.85), slow or dragging takes are dropped, and the one with the most pitch variation wins. Then it's joined with pauses and normalized to -14 LUFS with ffmpeg. Cost: three takes per sentence multiplies the time each audio takes.
+**Local and cloud work on separate lanes.** What runs on the Mac (local models, rendering) goes through one lane; what runs on the server, through another. If no worker is running for a lane, the studio refuses the job with a reason instead of leaving it in a queue that never moves.
 
-**Images locally, video elsewhere.** Backgrounds, character views and the first frame are generated on the Mac with mflux (Z-Image Turbo and FLUX.2 klein, quantized to 8 bits). For lip-sync I prepared a RunPod session with InfiniteTalk in ComfyUI plus an install script, and in parallel a script that requests the video from HeyGen Avatar IV through OpenRouter. Cost: video isn't local, and the API charges per second.
+**Any agent can work in the studio.** An MCP server exposes the studio with the same permissions as the web app, so an agent like Claude can propose ideas, write scripts or assemble a cut inside the workspace, with roles and a spending cap.
 
-## Outcome
+**The studio learns from corrections.** The fixes I make to a video become lessons in a per-account style book, and the next videos follow them.
 
-The four characters have profiles, there are 40 scripts, and the voice and image pipeline works. The two pilot clips I recorded come from the same script and were made through the API: one of 30.4 s that took 1.2 min and cost US$1.52, and one of 25.2 s at 1080p that took 2.2 min, with an estimated cost of US$1.26 and audio from Gemini through OpenRouter. Neither is marked as usable yet, and the InfiniteTalk session on RunPod has no measurements: its time is an estimate. The repository has a single commit.
+## Results
 
-## What I'd do differently
+In the last month, measured on November 21, 2026: **Kinema Studio** on Facebook reached 1.5 million views and 1.2 million accounts, with almost 4,000 new followers; **@tony.mercury** on Instagram, 541k views and 385k accounts, with 1,226 new followers; and **kalvin9604** on YouTube, 75k views. The repository has about 400 commits since late September.
 
-I'd keep the test log from day one in a format that can be compared, instead of numbered folders with listening scripts. And I'd test the video with one character and one script before writing 40: the video step is the one most likely to change everything else.
+## What comes next
+
+Letting the studio close the loop on its own: read which videos worked, turn that into ideas and propose the next week.
