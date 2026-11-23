@@ -241,3 +241,20 @@ capturas (caso confidencial, caso con métricas, página en inglés).
   aunque solo `/v1/` los usa.
 - `DESIGN-DIRECTION.md` sigue describiendo el sistema de color del grafo que
   ya no existe — decidir si se reescribe o se archiva con una nota.
+
+---
+
+## 2026-11-22 — Casos nuevos: Super 8 y Kinora
+
+**Hallazgo:** el portafolio terminaba en septiembre de 2026 (eco-loop) y dejaba
+fuera los dos proyectos más grandes de octubre y noviembre.
+
+**Cambio:** dos casos nuevos en ES/EN, destacados en la portada después de
+Talonaria: **Super 8** (animación 3D escrita en Python, 14 piezas publicadas,
+enlace a super-8.pages.dev) y **Kinora** (estudio creativo de escritorio donde la
+IA propone operaciones tipadas y la persona aprueba; repo privado, enlace a la
+cadena de herramientas pública). English A1 y eco-loop bajan a los puestos 4 y 5.
+Cifras sacadas de los repos (commits, paquetes, referencias ADR), sin inventar.
+Sin cambio de posicionamiento, así que título, descripción y OG quedan igual.
+Verificado: build (47 páginas), `audit:seo` sin inválidos y capturas de la portada
+y de los dos casos.
