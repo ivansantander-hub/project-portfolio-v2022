@@ -91,6 +91,12 @@
     <xhtml:link rel="alternate" hreflang="x-default" href="https://ivansantander.com/en/work/english/"/>
   </url>
   <url>
+    <loc>https://ivansantander.com/trabajo/kinora/</loc>
+    <xhtml:link rel="alternate" hreflang="es" href="https://ivansantander.com/trabajo/kinora/"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://ivansantander.com/en/work/kinora/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://ivansantander.com/en/work/kinora/"/>
+  </url>
+  <url>
     <loc>https://ivansantander.com/trabajo/megabyte/</loc>
     <xhtml:link rel="alternate" hreflang="es" href="https://ivansantander.com/trabajo/megabyte/"/>
     <xhtml:link rel="alternate" hreflang="en" href="https://ivansantander.com/en/work/megabyte/"/>
@@ -119,6 +125,12 @@
     <xhtml:link rel="alternate" hreflang="es" href="https://ivansantander.com/trabajo/shell-system/"/>
     <xhtml:link rel="alternate" hreflang="en" href="https://ivansantander.com/en/work/shell-system/"/>
     <xhtml:link rel="alternate" hreflang="x-default" href="https://ivansantander.com/en/work/shell-system/"/>
+  </url>
+  <url>
+    <loc>https://ivansantander.com/trabajo/super-8/</loc>
+    <xhtml:link rel="alternate" hreflang="es" href="https://ivansantander.com/trabajo/super-8/"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://ivansantander.com/en/work/super-8/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://ivansantander.com/en/work/super-8/"/>
   </url>
   <url>
     <loc>https://ivansantander.com/trabajo/workflow-engine/</loc>
@@ -217,6 +229,12 @@
     <xhtml:link rel="alternate" hreflang="x-default" href="https://ivansantander.com/en/work/english/"/>
   </url>
   <url>
+    <loc>https://ivansantander.com/en/work/kinora/</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://ivansantander.com/en/work/kinora/"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://ivansantander.com/trabajo/kinora/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://ivansantander.com/en/work/kinora/"/>
+  </url>
+  <url>
     <loc>https://ivansantander.com/en/work/megabyte/</loc>
     <xhtml:link rel="alternate" hreflang="en" href="https://ivansantander.com/en/work/megabyte/"/>
     <xhtml:link rel="alternate" hreflang="es" href="https://ivansantander.com/trabajo/megabyte/"/>
@@ -245,6 +263,12 @@
     <xhtml:link rel="alternate" hreflang="en" href="https://ivansantander.com/en/work/shell-system/"/>
     <xhtml:link rel="alternate" hreflang="es" href="https://ivansantander.com/trabajo/shell-system/"/>
     <xhtml:link rel="alternate" hreflang="x-default" href="https://ivansantander.com/en/work/shell-system/"/>
+  </url>
+  <url>
+    <loc>https://ivansantander.com/en/work/super-8/</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://ivansantander.com/en/work/super-8/"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://ivansantander.com/trabajo/super-8/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://ivansantander.com/en/work/super-8/"/>
   </url>
   <url>
     <loc>https://ivansantander.com/en/work/workflow-engine/</loc>
