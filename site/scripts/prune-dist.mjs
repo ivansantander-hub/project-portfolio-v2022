@@ -23,7 +23,7 @@ const buildPages = join(root, '.build', 'pages');
 if (!existsSync(dist) || !existsSync(buildPages)) process.exit(0);
 
 /** Carpetas de assets: nunca se tocan. */
-const ASSETS = new Set(['css', 'js', 'img', 'fonts', 'vendor', 'models-3d', 'audio', 'proto', 'v3']);
+const ASSETS = new Set(['css', 'js', 'img', 'fonts', 'vendor', 'models-3d', 'audio', 'proto', 'v3', 'v3-1']);
 
 /** Rutas que el build acaba de producir, derivadas de .build/pages. */
 function rutasEsperadas(dir, prefijo = '') {
