@@ -25,6 +25,7 @@
 
 import { readFileSync, writeFileSync, mkdirSync, readdirSync, rmSync, cpSync, existsSync } from 'node:fs';
 import { dirname, join } from 'node:path';
+import { createHash } from 'node:crypto';
 import { fileURLToPath } from 'node:url';
 import matter from 'gray-matter';
 import { marked } from 'marked';
@@ -654,6 +655,25 @@ mkdirSync(buildPagesDir, { recursive: true });
 for (const sub of ['templates', 'atoms', 'molecules', 'organisms', 'data']) {
   const from = join(srcDir, sub);
   if (existsSync(from)) cpSync(from, join(buildDir, sub), { recursive: true });
+}
+
+/* Versión en la URL de cada CSS y JS propio (`?v=<hash del contenido>`). El
+   CDN guarda estos archivos horas; sin versión, una página nueva puede llegar
+   con el CSS viejo y salir sin estilos (pasó el 2026-11-22 con el formato
+   corto de casos). Con el hash, un cambio siempre pide un archivo nuevo. */
+{
+  const docPath = join(buildDir, 'templates', 'Doc.html');
+  const publicDir = join(root, 'public');
+  const html = readFileSync(docPath, 'utf8').replace(
+    /((?:href|src)=")(\/(?:css|js)\/[^"?]+\.(?:css|js))"/g,
+    (all, attr, url) => {
+      const file = join(publicDir, url);
+      if (!existsSync(file)) return all;
+      const v = createHash('sha1').update(readFileSync(file)).digest('hex').slice(0, 10);
+      return `${attr}${url}?v=${v}"`;
+    },
+  );
+  writeFileSync(docPath, html, 'utf8');
 }
 
 // Páginas escritas a mano (v1.html y las que se añadan). `src/content/` no
