@@ -1,0 +1,59 @@
+---
+slug: super-8
+lang: en
+order: 2
+title: 3D animation written as code
+project: Super 8
+headline: "Learning Blender without touching its interface: every scene, character and animated short comes out of a Python script. Fourteen published pieces, from a first die to a monologue with a voice and a synced mouth."
+domain: "Personal project · 3D animation"
+role: "Sole author · scenes, characters, rigging, rendering and site"
+period: "November 2026 – present"
+featured: true
+links:
+  - label: See the pieces
+    href: https://super-8.pages.dev
+summary:
+  - k: The question
+    v: "Can you get from a still die to an animated short by writing code instead of moving vertices by hand?"
+  - k: The rule
+    v: "The script is the source of truth; the .blend, the image and the video are artifacts you rebuild."
+  - k: Where it is
+    v: "Fourteen published pieces, two rigged characters and three shorts with sound, one with a voice."
+metrics:
+  - value: "14"
+    label: "published pieces"
+  - value: "12"
+    label: "projects in one repository"
+  - value: "2"
+    label: "rigged characters with expressions"
+stack:
+  - Python
+  - Blender (bpy)
+  - Geometry Nodes
+  - Cycles · EEVEE
+  - ffmpeg
+tags:
+  - 3d
+  - animation
+  - procedural
+---
+
+Super 8 is a Blender learning path done backwards: instead of the interface, every piece is a Python script that builds the scene, animates it and renders it. The repository keeps the code; the Blender file, the images and the videos can be rebuilt with one command. The pieces live on their own site, each with its process explained.
+
+## From a die to a short
+
+The path moved in steps, each with one new technique: a die with film lighting, procedural coins with Geometry Nodes, rigid-body physics, a chain of dominoes, and then characters. The first was a domino tile with arms, legs and a face; the second, a clay cloud. The tile starred in a 26-second short with an explosion, slow motion and eleven shots; the cloud, a one-minute monologue with a voice.
+
+## Working without the interface
+
+**Review fast before rendering.** A final Cycles render takes hours. Before that there is a Workbench or EEVEE draft that comes out in minutes, with sound, to judge the acting and the timing. The final render only starts once the draft is approved.
+
+**A generated rig, not a painted one.** The cloud's body is seven spheres; the rig creates one bone per sphere and works out the skin weights from each sphere's position and radius, with no painting. The face has a control panel (smile, surprise, blink, anger) that drives the mouth, eyes and brows.
+
+**The voice drives the mouth.** In the monologue, the mouth is animated from the loudness of each spoken line. When the voice changed after the render, hours were not repeated: only a box around the mouth was rendered again and pasted over the original frames.
+
+**Sound in code too.** Sounds synthesized with numpy and free recordings are placed on the exact frames of the simulation, and the edit and the credits come out of the same pipeline.
+
+## What the path taught
+
+That the time goes into reviewing, not writing: the biggest saving was the fast draft, not a faster render. That a simple character (a few big shapes) is easier to animate and looks better than a detailed one. And that the voice and the script are approved before the final render; changing the voice afterwards means patching the mouth.
