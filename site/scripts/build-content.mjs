@@ -73,14 +73,14 @@ const UI = {
     backToWork: 'Volver a casos', role: 'Rol', period: 'Periodo', context: 'Contexto',
     prev: 'Anterior', next: 'Siguiente', pager: 'Navegación entre proyectos',
     toc: 'En este caso', tocAbout: 'En esta página', details: 'Ficha del caso', contact: 'Contacto',
-    stack: 'Stack',
+    stack: 'Stack', more: 'Ver el detalle',
   },
   en: {
     workTitle: 'Work', workDesc: 'Case studies in architecture, technical leadership and product.',
     backToWork: 'Back to work', role: 'Role', period: 'Period', context: 'Context',
     prev: 'Previous', next: 'Next', pager: 'Project navigation',
     toc: 'In this case', tocAbout: 'On this page', details: 'Case details', contact: 'Contact',
-    stack: 'Stack',
+    stack: 'Stack', more: 'Read the details',
   },
 };
 
@@ -389,6 +389,68 @@ ${d.summary.map(s => `    <div><dt>${esc(s.k)}</dt><dd>${esc(s.v)}</dd></div>`).
   </dl>` : '';
 
   const { html: bodyHtml, toc } = conAnclas(marked.parse(item.content));
+
+  /* Formato corto: un caso con `points` se entiende en 30 segundos. Arriba
+     la imagen o el video, las cifras y tres líneas; el texto largo queda
+     plegado en <details> para quien quiera leerlo. Los casos sin `points`
+     siguen con el formato largo de siempre. */
+  const short = Array.isArray(d.points) && d.points.length > 0;
+  const m = d.media || {};
+  const mediaHtml = m.video ? `
+  <figure class="case__media case__media--video"${m.poster ? ` style="background-image:url('${esc(m.poster)}')"` : ''}>
+    <video src="${esc(m.video)}"${m.poster ? ` poster="${esc(m.poster)}"` : ''} autoplay muted loop playsinline preload="metadata" aria-label="${esc(m.alt)}"></video>
+  </figure>` : m.image ? `
+  <figure class="case__media">
+    <img src="${esc(m.image)}" alt="${esc(m.alt)}"${m.width ? ` width="${esc(m.width)}" height="${esc(m.height)}"` : ''} decoding="async">
+  </figure>` : '';
+  const pointsHtml = short ? `
+  <ul class="case__points">
+${d.points.map(p => `    <li><span>${marked.parseInline(String(p))}</span></li>`).join('\n')}
+  </ul>` : '';
+  const gallery = Array.isArray(d.gallery) ? d.gallery : [];
+  const galleryHtml = gallery.length ? `
+  <div class="case__gallery${d.galleryShape === 'vertical' ? ' case__gallery--vertical' : ''}">
+${gallery.map(g => `    <figure><img src="${esc(g.src)}" alt="${esc(g.alt)}" loading="lazy" decoding="async">${g.caption ? `<figcaption>${esc(g.caption)}</figcaption>` : ''}</figure>`).join('\n')}
+  </div>` : '';
+
+  if (short) {
+    return `
+<article class="case case--short" data-zone="clear">
+  <header class="case__head">
+    <div class="case__intro">
+      <p class="eyebrow">${esc(d.project || d.domain)}</p>
+      <h1 class="case__title" data-reveal>${esc(d.title)}</h1>
+      <p class="case__headline">${esc(d.headline)}</p>
+    </div>
+    <aside class="case__panel" aria-label="${t.details}">
+      <dl class="case__facts">
+        <div><dt>${t.context}</dt><dd>${esc(d.domain)}</dd></div>
+        <div><dt>${t.role}</dt><dd>${esc(d.role)}</dd></div>
+${d.period ? `        <div><dt>${t.period}</dt><dd>${esc(d.period)}</dd></div>\n` : ''}      </dl>
+${stackHtml}${links}
+    </aside>
+  </header>
+${mediaHtml}
+${metricsHtml}
+${pointsHtml}
+${galleryHtml}
+  <details class="case__more">
+    <summary>${esc(d.moreLabel || t.more)}</summary>
+    <div class="case__body prose">
+${bodyHtml}
+    </div>
+  </details>
+  <a class="link-back case__back" href="${urlFor(lang, L.work)}">${t.backToWork}</a>
+
+  <footer class="case__foot">
+    <nav class="case__pager" aria-label="${t.pager}">
+${pagerLink(prev, 'prev')}
+${pagerLink(next, 'next')}
+    </nav>
+  </footer>
+</article>
+`;
+  }
 
   /* En pantallas anchas: cabecera con la ficha a la derecha y, debajo, el
      texto con un índice fijo al lado. Así la columna derecha acompaña todo

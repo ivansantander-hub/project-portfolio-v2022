@@ -1,7 +1,7 @@
 ---
 slug: avatar-studio
 lang: es
-order: 2
+order: 3
 title: Un estudio que produce y publica videos cortos con IA
 project: Avatar Studio
 headline: "Una plataforma propia para producir videos cortos de punta a punta, de la idea a la publicación automática en Instagram, YouTube y Facebook. Las cuentas que alimenta suman más de dos millones de vistas en un mes."
@@ -30,6 +30,25 @@ metrics:
     label: "vistas en un mes en @tony.mercury (Instagram)"
   - value: "+5.300"
     label: "seguidores nuevos en un mes entre las tres cuentas"
+points:
+  - "**De la idea a la publicación:** guion, voz, escenas, montaje y subida a su hora, en un solo lugar."
+  - "**Cada modelo con su costo:** la llamada elige el mejor modelo para el paso y queda en un libro de gastos."
+  - "**Aprende de las correcciones:** lo que corrijo en un video se vuelve regla para los siguientes."
+gallery:
+  - src: /img/casos/avatar-studio/semaforo.webp
+    alt: "Portada del Reel «Este semáforo sabe que llegaste»"
+    caption: 3.710 vistas · Instagram
+  - src: /img/casos/avatar-studio/chernobil.webp
+    alt: "Portada del Reel sobre trabajar remoto desde Chernóbil"
+    caption: 3.098 vistas · Instagram
+  - src: /img/casos/avatar-studio/tarjeta.webp
+    alt: "Portada del Reel «Tu tarjeta dijo Aprobada»"
+    caption: 2.867 vistas · Instagram
+  - src: /img/casos/avatar-studio/camara.webp
+    alt: "Portada del Reel «Esta cámara no sabe quién eres»"
+    caption: 2.146 vistas · Instagram
+galleryShape: vertical
+moreLabel: "Ver el detalle: cómo funciona el estudio"
 stack:
   - TypeScript
   - tRPC · Postgres

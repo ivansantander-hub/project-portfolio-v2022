@@ -1,7 +1,7 @@
 ---
 slug: eco-loop
 lang: es
-order: 6
+order: 7
 title: Dos IAs conversando entre ellas
 project: eco-loop
 headline: "Dos modelos de lenguaje que hablan solos se atascan ofreciéndose ayuda. eco-loop es un laboratorio para medir cuándo pasa y qué lo rompe: 195 ensayos con réplicas por 1,02 dólares."
@@ -28,6 +28,21 @@ metrics:
     label: "ensayos con «¿en qué puedo ayudarte?» si la semilla es un sueño"
   - value: "$1,02"
     label: "coste en OpenRouter"
+media:
+  image: /img/casos/eco-loop/laboratorios.webp
+  alt: "La web de Eco Loop con los dos laboratorios, sus ensayos y su costo"
+points:
+  - "**Un experimento, no una charla suelta:** marcos controlados, réplicas y medidas automáticas."
+  - "**El hallazgo:** darles papel de persona sube la originalidad de 54 a 68 %."
+  - "**Barato y abierto:** 195 ensayos por $1,02 en OpenRouter, con el código en GitHub."
+gallery:
+  - src: /img/casos/eco-loop/portada.webp
+    alt: "Portada de Eco Loop"
+    caption: Portada
+  - src: /img/casos/eco-loop/hallazgos.webp
+    alt: "Lista de hallazgos de Eco Loop"
+    caption: Hallazgos
+moreLabel: "Ver el detalle: laboratorios y conclusiones"
 stack:
   - Python
   - JavaScript

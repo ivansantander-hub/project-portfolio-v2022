@@ -1,7 +1,7 @@
 ---
 slug: kinora
 lang: en
-order: 4
+order: 5
 title: A creative studio where AI proposes and the person approves
 project: Kinora
 headline: "A desktop app for a small team to plan a video series, make each episode and publish it. Every change is a typed, reversible operation: you do it by hand or an agent proposes it, and the person approves it."
@@ -26,6 +26,24 @@ metrics:
     label: "documented architecture decisions"
   - value: "16"
     label: "packages and apps in the monorepo"
+media:
+  image: /img/casos/kinora/editor.webp
+  alt: "The Kinora editor with the timeline, viewer and inspector"
+points:
+  - "**Operations, not clicks:** every change is a validated operation you can undo."
+  - "**AI proposes, the person approves:** the agent works in the same project without breaking it."
+  - "**Offline and with no paid licences:** originals never leave the disk."
+gallery:
+  - src: /img/casos/kinora/proyectos.webp
+    alt: "Kinora home screen with the projects"
+    caption: Projects
+  - src: /img/casos/kinora/medios.webp
+    alt: "Kinora media library"
+    caption: Media
+  - src: /img/casos/kinora/transcripcion.webp
+    alt: "Editing by transcript in Kinora"
+    caption: Edit from the text
+moreLabel: "Read the details: how the agent works"
 stack:
   - TypeScript
   - Electron
