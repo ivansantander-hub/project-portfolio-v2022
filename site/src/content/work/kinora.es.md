@@ -1,7 +1,7 @@
 ---
 slug: kinora
 lang: es
-order: 3
+order: 4
 title: Un estudio creativo donde la IA propone y la persona aprueba
 project: Kinora
 headline: "Una app de escritorio para que un equipo pequeño planee una serie de videos, haga cada episodio y lo publique. Cada cambio es una operación tipada y reversible: se hace a mano o la propone un agente, y la persona la aprueba."

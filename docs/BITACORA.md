@@ -258,3 +258,20 @@ Cifras sacadas de los repos (commits, paquetes, referencias ADR), sin inventar.
 Sin cambio de posicionamiento, así que título, descripción y OG quedan igual.
 Verificado: build (47 páginas), `audit:seo` sin inválidos y capturas de la portada
 y de los dos casos.
+
+---
+
+## 2026-11-22 — Avatar Studio: del piloto al estudio con resultados públicos
+
+**Hallazgo:** el caso describía el piloto de septiembre (un commit, dos clips de
+prueba). Hoy es una plataforma que produce y publica en tres cuentas reales.
+
+**Cambio:** caso reescrito en ES/EN y destacado en la portada (puesto 2):
+pipeline de la idea a la publicación automática, decisiones (montaje como datos,
+arnés de modelos con presupuesto, carriles local/nube, servidor MCP, lecciones
+por cuenta) y resultados del último mes, medidos el 21-11-2026 desde el estudio,
+**nombrando las cuentas con enlace** para que las cifras se puedan verificar
+(decisión de Iván): Kinema Studio (Facebook) 1,5 M vistas, @tony.mercury
+(Instagram) 541 mil, kalvin9604 (YouTube) 75 mil; +5.300 seguidores entre las tres.
+Super 8, Kinora, English A1 y eco-loop bajan un puesto. Misma URL
+(`/trabajo/avatar-studio/`), sin cambio de posicionamiento.

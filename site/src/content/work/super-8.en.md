@@ -1,7 +1,7 @@
 ---
 slug: super-8
 lang: en
-order: 2
+order: 3
 title: 3D animation written as code
 project: Super 8
 headline: "Learning Blender without touching its interface: every scene, character and animated short comes out of a Python script. Fourteen published pieces, from a first die to a monologue with a voice and a synced mouth."

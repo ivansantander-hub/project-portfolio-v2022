@@ -1,7 +1,7 @@
 ---
 slug: kinora
 lang: en
-order: 3
+order: 4
 title: A creative studio where AI proposes and the person approves
 project: Kinora
 headline: "A desktop app for a small team to plan a video series, make each episode and publish it. Every change is a typed, reversible operation: you do it by hand or an agent proposes it, and the person approves it."
