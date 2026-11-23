@@ -29,7 +29,7 @@ import { createHash } from 'node:crypto';
 import { fileURLToPath } from 'node:url';
 import matter from 'gray-matter';
 import { marked } from 'marked';
-import { PALETTE, PALETTE_PICKER, PALETTES, LINK_V1 } from '../site.config.mjs';
+import { PALETTE, PALETTE_PICKER, PALETTES, LINK_V1, LINK_V3 } from '../site.config.mjs';
 
 if (!PALETTES.includes(PALETTE)) {
   throw new Error(
@@ -293,6 +293,7 @@ function emit(relFile, { lang, title, description, canonical, altUrl, body, scri
     `navAboutHref: ${urlFor(lang, L.about)}`,
     `navAboutLabel: ${lang === 'es' ? 'Sobre mí' : 'About'}`,
     `linkV1: ${LINK_V1 ? `<a class="site-footer__v1" href="/v1/" title="${lang === 'es' ? 'Portafolio de 2022, con 3D' : '2022 portfolio, with 3D'}">v1</a>` : ''}`,
+    `linkV3: ${LINK_V3 ? `<a class="site-footer__v1" href="/v3/" title="${lang === 'es' ? 'Versión experimental del portafolio, en collage pop' : 'Experimental version of the portfolio, pop collage'}">v3</a>` : ''}`,
     '---',
     '',
   ].join('\n');
