@@ -29,17 +29,17 @@ metrics:
   - value: "~2.300"
     label: "líneas de JavaScript"
 media:
-  image: /img/casos/mini-astro/terminal.webp
+  image: /img/casos/mini-astro/terminal.webp?v=2
   alt: "Terminal: crear un sitio con mini-astro, compilarlo y correr sus 56 tests"
 points:
   - "**Una sola dependencia,** solo para el servidor de desarrollo, y ningún runtime en el cliente."
   - "**Componentes que se resuelven al compilar,** organizados con diseño atómico."
   - "**Probado y en uso:** 56 tests con `node --test`, y este portafolio está construido con él."
 gallery:
-  - src: /img/casos/mini-astro/sitio.webp
+  - src: /img/casos/mini-astro/sitio.webp?v=2
     alt: "La página de inicio que genera mini-astro"
     caption: Sitio generado
-  - src: /img/casos/mini-astro/cookies.webp
+  - src: /img/casos/mini-astro/cookies.webp?v=2
     alt: "El aviso de cookies que trae por defecto"
     caption: Consentimiento de cookies
 moreLabel: "Ver el detalle: cómo funciona por dentro"

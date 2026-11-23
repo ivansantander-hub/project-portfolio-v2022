@@ -48,3 +48,6 @@ out/
 site/dist/
 site/.build/
 site/.mini-astro/
+
+# Las imágenes del caso mini-astro no son la copia de la herramienta.
+!site/public/img/casos/mini-astro/
