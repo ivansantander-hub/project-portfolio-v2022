@@ -6,6 +6,7 @@ title: A studio that makes and publishes short videos with AI
 project: Avatar Studio
 headline: "My own platform to make short videos end to end, from the idea to automatic publishing on Instagram, YouTube and Facebook. The accounts it feeds add up to more than two million views in a month."
 domain: "Personal project · Product and content"
+cardLine: "2M+ views a month"
 role: "Sole author · product, architecture, code and content direction"
 period: "September 2026 – present"
 featured: true

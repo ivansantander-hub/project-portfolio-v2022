@@ -6,6 +6,7 @@ title: "Talonaria: un ERP multi-tenant para pymes colombianas"
 project: Talonaria
 headline: "En muchas pymes colombianas los libros no cuadran con el negocio. Talonaria es un ERP multi-tenant donde cada operación con dinero genera su asiento contable en la misma transacción."
 domain: Proyecto propio
+cardLine: "ERP · contabilidad, ventas y nómina"
 role: Desarrollador único · diseño, arquitectura y desarrollo
 period: 2026 – presente
 featured: true

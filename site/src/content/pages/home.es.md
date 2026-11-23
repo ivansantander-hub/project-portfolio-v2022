@@ -14,21 +14,12 @@ description: "Tech Lead y Technical Product Owner. Arquitectura, liderazgo técn
 **role:** Producto · Ingeniería · IA
 
 **lead:**
-Arquitectura de sistemas en producción y priorización técnica en una plataforma de ensayos clínicos.
+Simplifico sistemas en producción que crecieron más rápido que su equipo, sin frenar las entregas. Por fuera del trabajo construyo productos propios.
 
 **cta_primary:** Ver casos
 **cta_secondary:** Escríbeme
 
-**stats:** 7+ / años · 20+ / proyectos · 3 / industrias
-
----
-
-## thesis
-
-**title:** Enfoque
-
-**body:**
-Simplificar sistemas en producción que crecieron más rápido que su equipo, sin frenar las entregas.
+**stats:** +2 / millones de vistas al mes · 2019 / desde · 3 / sectores
 
 ---
 
@@ -37,21 +28,7 @@ Simplificar sistemas en producción que crecieron más rápido que su equipo, si
 **title:** Casos
 
 **body:**
-Algunos proyectos propios. Cada caso cuenta el problema, las decisiones y el resultado.
-
----
-
-## secondary
-
-**title:** Antes de esto
-
-**body:**
-- Pasarela de pagos para una app móvil.
-- Gestor de APIs y automatización en salud.
-- Apps móviles de monitoreo clínico.
-- Control de acceso con códigos QR.
-
-De ahí viene mi experiencia en integraciones, pagos y salud digital.
+Trabajo en empresa y productos propios. Cada caso tiene el detalle para quien quiera leer más.
 
 ---
 

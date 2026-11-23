@@ -6,6 +6,7 @@ title: The version history I rebuilt three times
 project: blog-26
 headline: Publishing on a static blog meant commit, push and build. The fix was a self-built CMS; its hard part, the version history, took three attempts.
 domain: Personal project
+cardLine: "Blog with its own CMS"
 role: Sole author · design and development
 period: 2026
 featured: false

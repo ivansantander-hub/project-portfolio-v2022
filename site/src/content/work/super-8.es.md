@@ -6,6 +6,7 @@ title: Animación 3D escrita en código
 project: Super 8
 headline: "Aprender Blender sin tocar la interfaz: cada escena, personaje y corto animado sale de un script de Python. Catorce piezas publicadas, del primer dado a un monólogo con voz y boca sincronizada."
 domain: "Proyecto propio · Animación 3D"
+cardLine: "Animación 3D con Python y Blender"
 role: "Autor único · escenas, personajes, rig, render y sitio"
 period: "Noviembre 2026 – presente"
 featured: true

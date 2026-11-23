@@ -6,6 +6,7 @@ title: Two AIs talking to each other
 project: eco-loop
 headline: "Two language models left to talk on their own get stuck offering each other help. eco-loop is a lab for measuring when that happens and what breaks it: 195 replicated trials for $1.02."
 domain: "Personal project · Open source"
+cardLine: "Experiment with language models"
 role: "Sole author · experimental design and development"
 period: September 2026
 featured: true

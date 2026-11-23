@@ -333,3 +333,40 @@ lidero" en dos columnas de tarjetas, stack en etiquetas y los proyectos propios
 como tarjetas con imagen generadas desde los casos (todos menos los `confidential`),
 para que no vuelvan a quedar viejos. Sin frontmatter `timeline` se usa el render
 anterior. Mismo título y descripción: sin cambio de posicionamiento.
+
+---
+
+## 2026-11-22 — "Sobre mí" en 30 segundos
+
+**Hallazgo (Iván):** el rediseño seguía teniendo mucho texto que poca gente lee.
+
+**Cambio:** la trayectoria muestra solo empresa, periodo y progresión de roles
+(LearUp: Developer → Tech Lead → Technical Product Owner); qué se hizo en cada rol
+queda plegado. "Cómo trabajo" y "Cómo lidero" muestran solo los títulos, con la
+explicación plegada. Frase de cabecera más corta. Unas 260 palabras visibles,
+contando etiquetas del stack y títulos de proyectos.
+
+---
+
+## 2026-11-22 — Portada y /trabajo/ con tarjetas visuales
+
+**Hallazgo:** las tarjetas de casos eran texto (párrafo, etiquetas, tres cifras) y
+ya cada caso tiene imagen; "Enfoque" era una frase suelta con media pantalla vacía;
+las cifras del hero ("20+ proyectos") no cuadraban con los 12 casos; "Antes de
+esto" repetía "Sobre mí".
+
+**Cambio:** `renderVisualCard()` (imagen, proyecto, título y una cifra) reemplaza a
+`renderWorkCard()` en la portada y en /trabajo/, 4 columnas; la portada cierra la
+grilla con una tarjeta "Ver todos los casos". La frase de "Enfoque" pasa al lead
+del hero y las secciones `thesis` y `secondary` se vuelven opcionales (ya no están
+en el contenido). Cifras del hero: +2 M vistas al mes · 12 casos · desde 2019.
+`keys.js` navega ahora `.vcard__link`. Se borró el CSS de `.work-card`. El
+`statement` no cambia, así que título, descripción y OG quedan igual.
+
+**Ajuste tras revisión de Iván:** sin cifras en las tarjetas (commits o piezas
+publicadas cambian y quedan viejas); cada caso lleva una línea fija `cardLine`
+(Avatar Studio: "+2 millones de vistas al mes"). Las imágenes de las tarjetas van
+en escala de grises y toman color al pasar el mouse o con foco: juntas, las
+paletas de cada caso se veían revueltas. Fuera "12 casos" del hero y de "Sobre
+mí" (crecerá); en su lugar "3 sectores". "+2 millones" se parte en "+2" y
+"millones de vistas al mes" para que no rompa la fila de cifras.

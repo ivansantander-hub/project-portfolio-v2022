@@ -6,6 +6,7 @@ title: A static site generator of my own
 project: mini-astro
 headline: "Understanding how a static site generator works inside by building one: a single dependency, used only by the dev server, and no client-side runtime. It doesn't compete with Astro; this portfolio runs on it."
 domain: Personal project · Open source (MIT)
+cardLine: "Open source · MIT"
 role: Sole author · design, development and maintenance
 period: 2026 – present
 featured: false

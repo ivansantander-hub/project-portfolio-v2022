@@ -6,6 +6,7 @@ title: "Talonaria: a multi-tenant ERP for Colombian small businesses"
 project: Talonaria
 headline: "In many Colombian small businesses, the books don't match the business. Talonaria is a multi-tenant ERP where every money operation creates its journal entry in the same transaction."
 domain: Personal project
+cardLine: "ERP · accounting, sales and payroll"
 role: Sole developer · design, architecture and development
 period: 2026 – present
 featured: true

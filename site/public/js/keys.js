@@ -34,7 +34,7 @@
       return;
     }
 
-    var tarjetas = Array.prototype.slice.call(document.querySelectorAll('.work-card__link'));
+    var tarjetas = Array.prototype.slice.call(document.querySelectorAll('.vcard__link'));
     if (!tarjetas.length) return;
     var actual = tarjetas.indexOf(document.activeElement);
     var adelante = key === 'ArrowRight' || (actual !== -1 && key === 'ArrowDown');
@@ -57,7 +57,7 @@
 (function () {
   if (!window.matchMedia('(hover: hover) and (pointer: fine)').matches) return;
   var esCaso = !!document.querySelector('a.case__pager-link[rel="prev"], a.case__pager-link[rel="next"]');
-  var hayTarjetas = !!document.querySelector('.work-card__link');
+  var hayTarjetas = !!document.querySelector('.vcard__link');
   if (!esCaso && !hayTarjetas) return;
 
   var CLAVE = 'is-keys-hint';

@@ -4,7 +4,7 @@ lang: es
 title: Sobre mí
 description: Iván Santander — Tech Lead y Technical Product Owner en plataformas de salud. Medellín, Colombia.
 name: Iván Santander
-lead: "Tech Lead y Technical Product Owner en una plataforma de ensayos clínicos. Por fuera del trabajo construyo productos propios: un ERP, un estudio que publica videos con IA y animación 3D escrita en código."
+lead: "Tech Lead y Technical Product Owner en salud digital. Por fuera del trabajo construyo productos propios."
 facts:
   - k: Ahora
     v: "Technical Product Owner en LearUp"
@@ -17,20 +17,24 @@ metrics:
     label: "escribiendo software"
   - value: "3"
     label: "roles en LearUp: de developer a TPO"
-  - value: "+2 M"
-    label: "vistas al mes en las cuentas que alimenta mi estudio"
-  - value: "12"
-    label: "casos en este portafolio"
+  - value: "+2"
+    label: "millones de vistas al mes en las cuentas que alimenta mi estudio"
+  - value: "3"
+    label: "sectores: salud digital, fintech y SaaS"
 timelineTitle: Trayectoria
+timelineMore: Ver qué hice en cada rol
 timeline:
   - org: LearUp
     period: "2024 – presente"
     roles:
       - role: Sr. Associate Technical Product Owner
+        short: Technical Product Owner
         text: "Defino y priorizo las iniciativas de la plataforma. Coordino desarrollo, QA y operaciones."
       - role: Sr. Associate Tech Lead
+        short: Tech Lead
         text: "Lideré al equipo en diseño e implementación. Arquitectura de servicios y decisiones técnicas de fondo."
       - role: Associate Product Full Stack Developer
+        short: Developer
         text: "Núcleo de la plataforma en JavaScript y Python. Entrega continua."
   - org: CogenTech
     period: "jun 2023 – jul 2024"
@@ -52,6 +56,7 @@ timeline:
     roles:
       - role: Software Developer
         text: "Aplicaciones híbridas y web, casi todas en salud digital."
+principlesMore: Ver por qué trabajo y lidero así
 principles:
   - title: Cómo trabajo
     items:

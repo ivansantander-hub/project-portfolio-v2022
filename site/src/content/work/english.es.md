@@ -6,6 +6,7 @@ title: Una app para practicar inglés a diario
 project: English A1
 headline: "Una app personal para practicar Present Simple con ejercicios reales, corrección con IA oración por oración y un motor que elige qué practicar según los errores."
 domain: Proyecto propio
+cardLine: "App web · corrección con IA"
 role: Desarrollador único · diseño y desarrollo
 period: Agosto 2026
 featured: true

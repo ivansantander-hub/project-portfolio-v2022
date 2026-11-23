@@ -6,6 +6,7 @@ title: A terminal agent on local models
 project: megabyte
 headline: "An agent that runs in my terminal on a local Ollama model. I first wrote it in Python; the next day I turned it into a thin layer over a fork of pi, an MIT project by earendil-works."
 domain: Personal project
+cardLine: "Terminal agent · Ollama"
 role: Sole author of the megabyte layer · the engine is pi (earendil-works, MIT)
 period: 2026
 featured: false
