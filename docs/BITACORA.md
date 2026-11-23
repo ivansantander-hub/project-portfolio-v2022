@@ -275,3 +275,29 @@ por cuenta) y resultados del último mes, medidos el 21-11-2026 desde el estudio
 (Instagram) 541 mil, kalvin9604 (YouTube) 75 mil; +5.300 seguidores entre las tres.
 Super 8, Kinora, English A1 y eco-loop bajan un puesto. Misma URL
 (`/trabajo/avatar-studio/`), sin cambio de posicionamiento.
+
+---
+
+## 2026-11-22 — Casos de 30 segundos y un solo caso de empresa
+
+**Hallazgo:** los casos eran texto largo (300 a 1.500 palabras) que casi nadie
+lee, sin una sola imagen, y 10 de los 20 casos eran del mismo empleador.
+
+**Cambio:**
+- Formato corto en `renderCase()`: un caso con `points` muestra arriba imagen o
+  video (`media`), cifras, tres líneas y una galería (`gallery`, `galleryShape:
+  vertical` para Reels); el cuerpo de siempre queda plegado en un `<details>`
+  ("Ver el detalle", texto propio en `moreLabel`). Los casos sin `points` siguen
+  con el formato largo.
+- Aplicado a los 7 destacados. Medios en `public/img/casos/<slug>/` (WebP y un
+  MP4 sin audio de 8 s para Super 8; 604 KB en total). Kinora usa capturas del
+  manual; Eco Loop, su web local; Avatar Studio, portadas de Reels propios de
+  @tony.mercury (sin personas reales).
+- Los 10 casos del empleador se unieron en `/trabajo/plataforma/`, con la regla
+  de §9.1: sin nombre del cliente, capturas, cifras ni conteos; la imagen es un
+  esquema abstracto. Las 10 URLs viejas redirigen con 301 en `serve.json`.
+- Orden sin duplicados: Talonaria, Plataforma, Avatar Studio, Super 8, Kinora,
+  English, eco-loop, Mark 1, mini-astro, megabyte, blog-26, scrum-poker.
+
+**Pendiente:** talonaria.co y la app de English responden 404; sin capturas
+hasta que vuelvan a estar en línea.

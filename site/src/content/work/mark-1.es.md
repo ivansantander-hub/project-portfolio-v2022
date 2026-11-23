@@ -1,7 +1,7 @@
 ---
 slug: mark-1
 lang: es
-order: 7
+order: 8
 title: Piezas reales diseñadas en código
 project: Mark 1
 headline: "El hermano de Super 8, con FreeCAD: cada pieza sale de un script de Python con sus medidas arriba, y de ahí el modelo 3D, los planos a escala, los archivos para fabricar y los cálculos de cuánto aguanta."

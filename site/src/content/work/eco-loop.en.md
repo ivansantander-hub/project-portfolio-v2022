@@ -1,7 +1,7 @@
 ---
 slug: eco-loop
 lang: en
-order: 6
+order: 7
 title: Two AIs talking to each other
 project: eco-loop
 headline: "Two language models left to talk on their own get stuck offering each other help. eco-loop is a lab for measuring when that happens and what breaks it: 195 replicated trials for $1.02."
@@ -28,6 +28,21 @@ metrics:
     label: "trials with “how can I help you?” when the seed is a dream"
   - value: "$1.02"
     label: "spent on OpenRouter"
+media:
+  image: /img/casos/eco-loop/laboratorios.webp
+  alt: "The Eco Loop site with both labs, their runs and their cost"
+points:
+  - "**An experiment, not a loose chat:** controlled frames, replicas and automatic measures."
+  - "**The finding:** giving them a human role raises originality from 54 to 68 %."
+  - "**Cheap and open:** 195 runs for $1.02 on OpenRouter, with the code on GitHub."
+gallery:
+  - src: /img/casos/eco-loop/portada.webp
+    alt: "Eco Loop home page"
+    caption: Home
+  - src: /img/casos/eco-loop/hallazgos.webp
+    alt: "Eco Loop list of findings"
+    caption: Findings
+moreLabel: "Read the details: labs and conclusions"
 stack:
   - Python
   - JavaScript
