@@ -35,6 +35,16 @@ points:
   - "**AI with a safety net:** feedback is schema-validated and falls back to rules if it fails."
   - "**You practise what you miss:** an engine picks the next exercise from your mistakes."
 moreLabel: "Read the details: how it is built"
+media:
+  image: /img/casos/english/camino.webp
+  alt: "English Line home: streak, daily goal and practice path"
+gallery:
+  - src: /img/casos/english/ejercicio.webp
+    alt: "Translation exercise into English"
+    caption: Exercise
+  - src: /img/casos/english/errores.webp
+    alt: "Areas to review, weakest first"
+    caption: What to review
 stack:
   - React
   - Vite

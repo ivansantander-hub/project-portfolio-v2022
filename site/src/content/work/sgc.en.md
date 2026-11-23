@@ -33,6 +33,19 @@ points:
   - "**Real multi-tenancy:** each company isolated, with role permissions and daily backups."
   - "**Built by one person:** CI, automatic releases and more than a thousand tests."
 moreLabel: "Read the details: architecture and decisions"
+media:
+  image: /img/casos/sgc/tablero.webp
+  alt: "Talonaria dashboard with sales for the last 7 days, on a demo company"
+gallery:
+  - src: /img/casos/sgc/diario-contable.webp
+    alt: "Accounting journal with balanced debit and credit entries"
+    caption: Journal
+  - src: /img/casos/sgc/reportes.webp
+    alt: "Sales report with VAT and transactions"
+    caption: Reports
+  - src: /img/casos/sgc/mesas.webp
+    alt: "Restaurant tables by area and status"
+    caption: Tables
 stack:
   - Next.js
   - TypeScript

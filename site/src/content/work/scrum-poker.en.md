@@ -26,6 +26,24 @@ metrics:
     label: "client → server events"
   - value: "~2.8k"
     label: "lines of TypeScript"
+media:
+  image: /img/casos/scrum-poker/votando.webp
+  alt: "Scrum Poker room with four players: two have voted and their cards stay hidden"
+points:
+  - "**Rooms with a code:** join with no sign-up, using a 6-character code."
+  - "**Hidden votes** until the host reveals them; then the average."
+  - "**Reconnection:** the server keeps the room and resends the full state on every change."
+gallery:
+  - src: /img/casos/scrum-poker/inicio.webp
+    alt: "Home screen: create or join a room"
+    caption: Home
+  - src: /img/casos/scrum-poker/sala.webp
+    alt: "Room with the players before starting"
+    caption: Room
+  - src: /img/casos/scrum-poker/resultado.webp
+    alt: "Revealed votes with the average"
+    caption: Result
+moreLabel: "Read the details: state on the server"
 stack:
   - NestJS
   - Socket.IO

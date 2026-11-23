@@ -24,10 +24,25 @@ metrics:
     label: "dependencia (solo para `dev`)"
   - value: "0"
     label: "runtime en el cliente"
-  - value: "55"
+  - value: "56"
     label: "tests con `node --test`"
   - value: "~2.300"
     label: "líneas de JavaScript"
+media:
+  image: /img/casos/mini-astro/terminal.webp
+  alt: "Terminal: crear un sitio con mini-astro, compilarlo y correr sus 56 tests"
+points:
+  - "**Una sola dependencia,** solo para el servidor de desarrollo, y ningún runtime en el cliente."
+  - "**Componentes que se resuelven al compilar,** organizados con diseño atómico."
+  - "**Probado y en uso:** 56 tests con `node --test`, y este portafolio está construido con él."
+gallery:
+  - src: /img/casos/mini-astro/sitio.webp
+    alt: "La página de inicio que genera mini-astro"
+    caption: Sitio generado
+  - src: /img/casos/mini-astro/cookies.webp
+    alt: "El aviso de cookies que trae por defecto"
+    caption: Consentimiento de cookies
+moreLabel: "Ver el detalle: cómo funciona por dentro"
 stack:
   - Node.js
   - JavaScript
@@ -83,6 +98,6 @@ Código abierto con licencia MIT, instalable desde GitHub con `npx github:ivansa
 
 ## Qué haría distinto
 
-Escribir los tests primero. En un compilador son fáciles de hacer (entra texto, sale texto), y aun así durante meses lo probé a mano en el navegador. Los tests llegaron tarde, con la versión 0.2.0: hoy son 55, se ejecutan con `node --test` sin dependencias añadidas y cubren build, CLI, configuración, servidor de desarrollo y frontmatter. Esa misma versión corrigió fallos que una suite temprana habría detectado: errores que se ignoraban en silencio, subcarpetas de `pages/` que se generaban como `x/index/index.html`, o un `init` que, con la entrada por tubería, terminaba con éxito sin crear nada.
+Escribir los tests primero. En un compilador son fáciles de hacer (entra texto, sale texto), y aun así durante meses lo probé a mano en el navegador. Los tests llegaron tarde, con la versión 0.2.0: hoy son 56, se ejecutan con `node --test` sin dependencias añadidas y cubren build, CLI, configuración, servidor de desarrollo y frontmatter. Esa misma versión corrigió fallos que una suite temprana habría detectado: errores que se ignoraban en silencio, subcarpetas de `pages/` que se generaban como `x/index/index.html`, o un `init` que, con la entrada por tubería, terminaba con éxito sin crear nada.
 
 El otro riesgo a vigilar es que crezca de más. Con una herramienta propia es tentador añadir todo lo que pide cada proyecto, y si mini-astro acaba pareciéndose a Astro, deja de tener sentido haberlo escrito.

@@ -33,6 +33,19 @@ points:
   - "**Multi-tenant de verdad:** cada empresa aislada, con permisos por rol y respaldos diarios."
   - "**Hecho por una persona:** CI, versiones automáticas y más de mil tests."
 moreLabel: "Ver el detalle: arquitectura y decisiones"
+media:
+  image: /img/casos/sgc/tablero.webp
+  alt: "Tablero de Talonaria con ventas de los últimos 7 días, en una empresa de demostración"
+gallery:
+  - src: /img/casos/sgc/diario-contable.webp
+    alt: "Diario contable con asientos que cuadran debe y haber"
+    caption: Diario contable
+  - src: /img/casos/sgc/reportes.webp
+    alt: "Reporte de ventas con IVA y transacciones"
+    caption: Reportes
+  - src: /img/casos/sgc/mesas.webp
+    alt: "Mesas del restaurante por zona y estado"
+    caption: Mesas
 stack:
   - Next.js
   - TypeScript

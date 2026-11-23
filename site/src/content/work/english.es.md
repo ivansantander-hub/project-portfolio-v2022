@@ -35,6 +35,16 @@ points:
   - "**IA con red de seguridad:** la corrección se valida por esquema y, si falla, responden reglas."
   - "**Practicas lo que fallas:** un motor elige el siguiente ejercicio según tus errores."
 moreLabel: "Ver el detalle: cómo está hecha"
+media:
+  image: /img/casos/english/camino.webp
+  alt: "Inicio de English Line: racha, meta del día y camino de práctica"
+gallery:
+  - src: /img/casos/english/ejercicio.webp
+    alt: "Ejercicio de traducción al inglés"
+    caption: Ejercicio
+  - src: /img/casos/english/errores.webp
+    alt: "Áreas para repasar, ordenadas de la más débil a la más fuerte"
+    caption: Qué repasar
 stack:
   - React
   - Vite

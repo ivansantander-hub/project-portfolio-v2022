@@ -301,3 +301,19 @@ lee, sin una sola imagen, y 10 de los 20 casos eran del mismo empleador.
 
 **Pendiente:** talonaria.co y la app de English responden 404; sin capturas
 hasta que vuelvan a estar en línea.
+
+---
+
+## 2026-11-22 — Apoyo visual en todos los casos
+
+**Cambio:** los 12 casos quedan en formato corto con imagen o video. Las capturas
+salen de las apps corriendo en local con datos de demostración y bases de datos
+temporales que se borraron después: Talonaria (`setup:demo`), English, blog-26 y
+Scrum Poker. Mark 1 usa su video de ensamble y sus planos; mini-astro, su salida
+real de terminal y el sitio que genera; megabyte, sesiones reales guardadas (el
+modelo se muestra como "qwen3 14b").
+
+**Por qué local:** talonaria.co, la app de English y blog.ivansantander.com
+responden 404 "Application not found" en Railway.
+
+**Ajuste:** mini-astro tiene hoy 56 tests (antes decía 55).

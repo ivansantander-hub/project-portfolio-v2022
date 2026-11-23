@@ -26,6 +26,24 @@ metrics:
     label: "eventos cliente → servidor"
   - value: "~2.8k"
     label: "líneas de TypeScript"
+media:
+  image: /img/casos/scrum-poker/votando.webp
+  alt: "Sala de Scrum Poker con cuatro jugadores: dos ya votaron y sus cartas siguen ocultas"
+points:
+  - "**Salas con código:** se entra sin registro, con un código de 6 caracteres."
+  - "**Votos ocultos** hasta que el anfitrión los revela; después, el promedio."
+  - "**Reconexión:** el servidor guarda la sala y reenvía el estado completo en cada cambio."
+gallery:
+  - src: /img/casos/scrum-poker/inicio.webp
+    alt: "Pantalla de inicio: crear o unirse a una sala"
+    caption: Inicio
+  - src: /img/casos/scrum-poker/sala.webp
+    alt: "Sala con los jugadores antes de empezar"
+    caption: Sala
+  - src: /img/casos/scrum-poker/resultado.webp
+    alt: "Votos revelados con el promedio"
+    caption: Resultado
+moreLabel: "Ver el detalle: estado en el servidor"
 stack:
   - NestJS
   - Socket.IO
