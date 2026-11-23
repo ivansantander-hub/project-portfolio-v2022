@@ -19,8 +19,8 @@ const outDir = join(root, 'public', 'cv');
 const esc = s => String(s ?? '').replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
 
 const T = {
-  es: { contact: 'Contacto', exp: 'Trayectoria', how: 'Cómo trabajo y lidero', stack: 'Stack', projects: 'Proyectos propios', site: 'Portafolio' },
-  en: { contact: 'Contact', exp: 'Experience', how: 'How I work and lead', stack: 'Stack', projects: 'Personal projects', site: 'Portfolio' },
+  es: { contact: 'Contacto', exp: 'Trayectoria', how: 'Cómo trabajo y lidero', stack: 'Stack', projects: 'Proyectos propios', site: 'Portafolio', hobbies: 'Intereses' },
+  en: { contact: 'Contact', exp: 'Experience', how: 'How I work and lead', stack: 'Stack', projects: 'Personal projects', site: 'Portfolio', hobbies: 'Interests' },
 };
 
 function html(lang) {
@@ -31,7 +31,7 @@ function html(lang) {
     .map(f => matter(readFileSync(join(root, 'src/content/work', f), 'utf8')).data)
     .filter(d => !d.confidential)
     .sort((a, b) => (a.order ?? 99) - (b.order ?? 99))
-    .slice(0, 6);
+    .slice(0, 5);
   const facts = (about.facts || []).map(f => `<li><b>${esc(f.k)}:</b> ${esc(f.v)}</li>`).join('');
   const timeline = (about.timeline || []).map(e => `
     <div class="job">
@@ -43,22 +43,22 @@ function html(lang) {
   const projects = work.map(d => `<li><b>${esc(d.project)}</b> — ${esc(d.cardLine || d.title)}</li>`).join('');
   return `<!doctype html><html lang="${lang}"><meta charset="utf-8"><title>${esc(about.name)} — CV</title>
 <style>
-  @page { size: A4; margin: 14mm 16mm; }
+  @page { size: A4; margin: 12mm 15mm; }
   * { box-sizing: border-box; margin: 0; }
   body { font: 10pt/1.45 -apple-system, "Helvetica Neue", Arial, sans-serif; color: #16181d; }
   header { display: grid; grid-template-columns: 1fr auto; gap: 8mm; align-items: end; padding-bottom: 5mm; border-bottom: 1.5pt solid #16181d; }
   h1 { font-size: 24pt; letter-spacing: -0.02em; }
   .lead { margin-top: 2mm; color: #3d424d; max-width: 120mm; }
   .contact { list-style: none; padding: 0; font-size: 8.5pt; text-align: right; color: #3d424d; }
-  h2 { font-size: 8pt; letter-spacing: 0.14em; text-transform: uppercase; color: #5b6170; margin: 6mm 0 2.5mm; }
+  h2 { font-size: 8pt; letter-spacing: 0.14em; text-transform: uppercase; color: #5b6170; margin: 5mm 0 2mm; }
   .cols { display: grid; grid-template-columns: 1fr 62mm; gap: 9mm; }
-  .job { margin-bottom: 3.5mm; break-inside: avoid; }
+  .job { margin-bottom: 2.8mm; break-inside: avoid; }
   .job__head { display: flex; justify-content: space-between; align-items: baseline; }
   .job__head h3 { font-size: 11pt; }
   .job__head span { font-size: 8.5pt; color: #5b6170; }
   .job p { margin-top: 1mm; color: #2a2e36; }
   ul { padding-left: 4mm; }
-  li { margin-bottom: 1mm; }
+  li { margin-bottom: 0.6mm; }
   aside p { margin-bottom: 1.5mm; }
   .metrics { display: flex; gap: 7mm; margin-top: 4mm; }
   .metrics div b { display: block; font-size: 15pt; }
@@ -90,6 +90,8 @@ function html(lang) {
       ${stack}
       <h2>${t.projects}</h2>
       <ul>${projects}</ul>
+      <h2>${t.hobbies}</h2>
+      <p>${(about.hobbies || []).map(h => esc(h.k)).join(' · ')}</p>
     </aside>
   </div>
 </body></html>`;
