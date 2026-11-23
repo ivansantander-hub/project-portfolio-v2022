@@ -314,38 +314,33 @@ function emit(relFile, { lang, title, description, canonical, altUrl, body, scri
 
 /* ── Plantillas de cuerpo ─────────────────────────────────────────────────── */
 
-function renderWorkCard(item, lang, nivel = 3) {
-  const L = LANGS[lang];
-  const d = item.data;
-  const metrics = Array.isArray(d.metrics) ? d.metrics : [];
-  const stack = Array.isArray(d.stack) ? d.stack.slice(0, 5) : [];
-
-  /* Con cifras, mandan las cifras. Sin ellas, manda el rol: un hueco vacío
-     se lee como página sin terminar. */
-  const extra = metrics.length
-    ? metrics.slice(0, 3).map(m =>
-        `            <div><b>${esc(m.value)}</b><span>${esc(m.label)}</span></div>`).join('\n')
-    : `            <div><b>&mdash;</b><span>${esc(d.role)}</span></div>`;
-
+/* Tarjeta visual: imagen del caso, proyecto, título y una cifra. Reemplaza a
+   la tarjeta de texto en la portada y en /trabajo/: casi nadie lee el párrafo,
+   todos miran la imagen. */
+function caseThumb(d) {
+  return d.media?.image || d.media?.poster || d.gallery?.[0]?.src || '';
+}
+function renderVisualCard(item, lang, nivel = 3) {
+  const L = LANGS[lang], d = item.data;
+  const m = Array.isArray(d.metrics) && d.metrics[0];
+  const img = caseThumb(d);
   return `
-      <li class="work-card">
-        <a class="work-card__link" href="${urlFor(lang, L.work, item.slug)}">
-          <p class="work-card__meta-top">
-            <span class="work-card__project">${esc(d.project || d.domain)}</span>
-${d.period ? `            <span>${esc(d.period)}</span>\n` : ''}          </p>
-          <div class="work-card__body">
-            <h${nivel} class="work-card__title">${esc(d.title)}</h${nivel}>
-            <p class="work-card__headline">${esc(d.headline)}</p>
-            <ul class="work-card__stack" aria-label="Stack">
-${stack.map(x => `              <li>${esc(x)}</li>`).join('\n')}
-            </ul>
-          </div>
-          <div class="work-card__extra">
-            <div class="work-card__figures">
-${extra}
-            </div>
-            <p class="work-card__arrow" aria-hidden="true">${lang === 'es' ? 'Ver caso' : 'See case'} &rarr;</p>
-          </div>
+      <li class="vcard">
+        <a class="vcard__link" href="${urlFor(lang, L.work, item.slug)}">
+          ${img ? `<img class="vcard__img" src="${esc(img)}" alt="" loading="lazy" decoding="async">` : '<span class="vcard__img vcard__img--empty" aria-hidden="true"></span>'}
+          <span class="vcard__project">${esc(d.project || d.domain)}</span>
+          <h${nivel} class="vcard__title">${esc(d.title)}</h${nivel}>
+          ${m ? `<span class="vcard__metric"><b>${esc(m.value)}</b> ${marked.parseInline(esc(m.label))}</span>` : `<span class="vcard__metric">${esc(d.role || '')}</span>`}
+        </a>
+      </li>`;
+}
+function renderAllCard(lang, total) {
+  const L = LANGS[lang];
+  return `
+      <li class="vcard vcard--all">
+        <a class="vcard__link" href="${urlFor(lang, L.work)}">
+          <span class="vcard__all-n">${total}</span>
+          <span class="vcard__title">${lang === 'es' ? 'Ver todos los casos' : 'See all the work'} &rarr;</span>
         </a>
       </li>`;
 }
@@ -502,14 +497,14 @@ function renderWorkIndex(items, lang) {
 <section class="work-index" data-zone="clear">
   <h1 class="work-index__title">${t.workTitle}</h1>
   <p class="work-index__lead">${t.workDesc}</p>
-  <ul class="work-index__list" data-stagger>
-${items.map(i => renderWorkCard(i, lang, 2)).join('\n')}
+  <ul class="vgrid" data-stagger>
+${items.map(i => renderVisualCard(i, lang, 2)).join('\n')}
   </ul>
 </section>
 `;
 }
 
-function renderHome(sections, work, lang) {
+function renderHome(sections, work, lang, total = work.length) {
   const L = LANGS[lang];
   const hero = sections.hero || {};
   const thesis = sections.thesis || {};
@@ -550,31 +545,29 @@ ${stats.map(([v, l]) => `      <div><dd>${esc(v)}</dd><dt>${esc(l)}</dt></div>`)
   </div>
 </section>
 
-<section class="thesis">
+${thesis.title ? `<section class="thesis">
   <h2 class="thesis__title" data-reveal>${esc(thesis.title)}</h2>
   <div class="thesis__body" data-reveal>${md(thesis.body)}</div>
   ${thesis.note ? `<p class="thesis__note">${esc(thesis.note)}</p>` : ''}
-</section>
+</section>` : ''}
 
 <section class="work-preview">
   <div class="section-head" data-reveal>
     <h2 class="section-title">${esc(workIntro.title)}</h2>
     <div class="prose">${md(workIntro.body)}</div>
   </div>
-  <ul class="work-index__list" data-stagger>
-${work.map(i => renderWorkCard(i, lang)).join('\n')}
+  <ul class="vgrid" data-stagger>
+${work.map(i => renderVisualCard(i, lang)).join('\n')}
+${renderAllCard(lang, total)}
   </ul>
-  <p class="work-preview__more">
-    <a class="link-back" href="${urlFor(lang, L.work)}">${lang === 'es' ? 'Ver todos los casos' : 'See all the work'} &rarr;</a>
-  </p>
 </section>
 
-<section class="secondary">
+${secondary.title ? `<section class="secondary">
   <div class="section-head" data-reveal>
     <h2 class="section-title">${esc(secondary.title)}</h2>
     <div class="prose">${md(secondary.body)}</div>
   </div>
-</section>
+</section>` : ''}
 
 <section class="contact" id="contact">
   <h2 class="section-title" data-reveal>${esc(contact.title)}</h2>
@@ -784,7 +777,7 @@ for (const lang of Object.keys(LANGS)) {
       description: homeDoc.data.description,
       canonical: lang === 'es' ? '/' : '/en/',
       altUrl: other === 'es' ? '/' : '/en/',
-      body: renderHome(parseSections(homeDoc.content), items.filter(i => i.data.featured), lang),
+      body: renderHome(parseSections(homeDoc.content), items.filter(i => i.data.featured), lang, items.length),
       scripts: HOME_SCRIPTS,
       schema: [
         PERSONA,

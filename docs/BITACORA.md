@@ -345,3 +345,20 @@ anterior. Mismo título y descripción: sin cambio de posicionamiento.
 queda plegado. "Cómo trabajo" y "Cómo lidero" muestran solo los títulos, con la
 explicación plegada. Frase de cabecera más corta. Unas 260 palabras visibles,
 contando etiquetas del stack y títulos de proyectos.
+
+---
+
+## 2026-11-22 — Portada y /trabajo/ con tarjetas visuales
+
+**Hallazgo:** las tarjetas de casos eran texto (párrafo, etiquetas, tres cifras) y
+ya cada caso tiene imagen; "Enfoque" era una frase suelta con media pantalla vacía;
+las cifras del hero ("20+ proyectos") no cuadraban con los 12 casos; "Antes de
+esto" repetía "Sobre mí".
+
+**Cambio:** `renderVisualCard()` (imagen, proyecto, título y una cifra) reemplaza a
+`renderWorkCard()` en la portada y en /trabajo/, 4 columnas; la portada cierra la
+grilla con una tarjeta "Ver todos los casos". La frase de "Enfoque" pasa al lead
+del hero y las secciones `thesis` y `secondary` se vuelven opcionales (ya no están
+en el contenido). Cifras del hero: +2 M vistas al mes · 12 casos · desde 2019.
+`keys.js` navega ahora `.vcard__link`. Se borró el CSS de `.work-card`. El
+`statement` no cambia, así que título, descripción y OG quedan igual.
