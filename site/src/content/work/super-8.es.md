@@ -12,6 +12,8 @@ featured: true
 links:
   - label: Ver las piezas
     href: https://super-8.pages.dev
+  - label: Proyecto hermano · Mark 1
+    href: https://mark-1.pages.dev
 summary:
   - k: La pregunta
     v: "¿Se puede llegar de un dado estático a un corto animado escribiendo código en vez de mover vértices a mano?"
