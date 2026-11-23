@@ -11,7 +11,7 @@ description: "Tech Lead y Technical Product Owner. Arquitectura, liderazgo técn
 
 **statement:** Tech Lead y Product Owner.
 
-**role:** Producto · Ingeniería · IA
+**role:** Producto · Desarrollo · IA
 
 **lead:**
 Simplifico sistemas en producción que crecieron más rápido que su equipo, sin frenar las entregas. Por fuera del trabajo construyo productos propios.

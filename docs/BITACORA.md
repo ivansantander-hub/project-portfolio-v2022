@@ -370,3 +370,14 @@ en escala de grises y toman color al pasar el mouse o con foco: juntas, las
 paletas de cada caso se veían revueltas. Fuera "12 casos" del hero y de "Sobre
 mí" (crecerá); en su lugar "3 sectores". "+2 millones" se parte en "+2" y
 "millones de vistas al mes" para que no rompa la fila de cifras.
+
+---
+
+## 2026-11-22 — "Ingeniería" fuera del rol
+
+**Decisión (Iván):** no es ingeniero de título, así que la línea del hero pasa de
+"Producto · Ingeniería · IA" a "Producto · Desarrollo · IA" (EN: "Product ·
+Development · AI"). En la misma pasada, la imagen OG (`gen-og.mjs`) se iguala a la
+portada: frase "Tech Lead y Product Owner." y cifras "+2 millones de vistas al mes ·
+desde 2019 · 3 sectores" (seguía con "Simplifico lo que se volvió complejo." y
+"7+ años · 20+ proyectos · 3 industrias").

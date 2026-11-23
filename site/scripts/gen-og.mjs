@@ -57,15 +57,15 @@ const svg = `<svg xmlns="http://www.w3.org/2000/svg" width="${W}" height="${H}" 
         font-size="94" font-weight="700" fill="#f4f4f5" letter-spacing="-4">Iván Santander</text>
 
   <text x="80" y="352" font-family="Geist, Helvetica, Arial, sans-serif"
-        font-size="38" font-weight="500" fill="#f4f4f5" fill-opacity="0.92">Simplifico lo que se volvió complejo.</text>
+        font-size="38" font-weight="500" fill="#f4f4f5" fill-opacity="0.92">Tech Lead y Product Owner.</text>
 
   <text x="80" y="406" font-family="ui-monospace, Menlo, Consolas, monospace"
-        font-size="20" fill="${C.muted}" letter-spacing="3">PRODUCTO · INGENIERÍA · IA</text>
+        font-size="20" fill="${C.muted}" letter-spacing="3">PRODUCTO · DESARROLLO · IA</text>
 
   <line x1="80" y1="486" x2="1120" y2="486" stroke="#ffffff" stroke-opacity="0.12" stroke-width="1"/>
 
   <text x="80" y="536" font-family="ui-monospace, Menlo, Consolas, monospace"
-        font-size="19" fill="${C.muted}" letter-spacing="1.5">7+ años · 20+ proyectos · 3 industrias</text>
+        font-size="19" fill="${C.muted}" letter-spacing="1.5">+2 millones de vistas al mes · desde 2019 · 3 sectores</text>
 
   <text x="80" y="576" font-family="ui-monospace, Menlo, Consolas, monospace"
         font-size="17" fill="#5f5f68" letter-spacing="1.5">ivansantander.com</text>
