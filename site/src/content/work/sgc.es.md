@@ -10,24 +10,21 @@ cardLine: "ERP · contabilidad, ventas y nómina"
 role: Desarrollador único · diseño, arquitectura y desarrollo
 period: 2026 – presente
 featured: true
-links:
-  - label: Ver Talonaria
-    href: https://talonaria.co
 summary:
   - k: El problema
     v: "La contabilidad suele ser un módulo agregado al final; los libros no cuadran con el negocio."
   - k: La decisión
     v: "Contabilidad como función central: cada operación con dinero crea su asiento en la misma transacción, y si el asiento no cuadra, la operación no ocurre."
   - k: En qué terminó
-    v: "Producto desplegado en talonaria.co, en pre-lanzamiento y sin clientes todavía, con CI, versiones automáticas y respaldos diarios, mantenido por una sola persona."
+    v: "Producto en pre-lanzamiento y sin clientes todavía, con CI, versiones automáticas y respaldos diarios, mantenido por una sola persona."
 metrics:
-  - value: "91"
+  - value: "+90"
     label: "modelos de datos"
-  - value: "~300"
+  - value: "+300"
     label: "endpoints HTTP"
-  - value: "1.138"
+  - value: "+1.100"
     label: "casos de test"
-  - value: "~78k"
+  - value: "+75k"
     label: "líneas de TypeScript"
 points:
   - "**La contabilidad en el centro:** cada operación con dinero crea su asiento; si no cuadra, no ocurre."
@@ -95,7 +92,7 @@ A eso se suman restricciones locales que no admiten interpretación: plan único
 
 ## Resultado
 
-Está desplegado en talonaria.co y funcionando, en pre-lanzamiento: el registro público, la prueba gratis y el cobro están montados, pero todavía no lo opera ningún cliente real. El primer commit es del 7 de marzo de 2026.
+Está en pre-lanzamiento: el registro público, la prueba gratis y el cobro están montados, pero todavía no lo opera ningún cliente real. El primer commit es del 7 de marzo de 2026.
 
 A septiembre de 2026, las cifras de la cabecera son: 91 modelos Prisma; unos 300 handlers HTTP repartidos en 204 archivos de rutas; 1.138 casos de prueba en 106 archivos, entre Vitest y Playwright; y unas 78.000 líneas de TypeScript en 509 archivos. El historial suma 344 commits y 40 versiones etiquetadas, hasta la v0.27.1; las anteriores a septiembre se asignaron retroactivamente a partir del historial de git.
 

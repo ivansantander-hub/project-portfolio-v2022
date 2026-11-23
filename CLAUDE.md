@@ -43,6 +43,7 @@ root, or `cd site && npm run <script>`):
 ```bash
 npm run build:content   # just build-content.mjs (content collections + i18n → .build/pages)
 npm run og               # regenerate public/img/og.png (scripts/gen-og.mjs)
+npm run cv               # regenerate public/cv/ivan-santander-cv-{es,en}.pdf from about.{es,en}.md + cases (scripts/gen-cv.mjs, needs Playwright's Chromium)
 npm run audit:seo        # audit-semantics.mjs + check-jsonld.mjs against dist/ (exit 1 on failure)
 node scripts/graph-snapshot.mjs   # render the hero graph's SVG states with the same seeded PRNG as the browser, for reviewing choreography without a screenshot
 ```
@@ -53,6 +54,7 @@ Palette and v1-link are env-driven, not code changes:
 PALETTE=vermilion pnpm build     # 'ultramarine' | 'chartreuse' | 'vermilion' | 'copper'
 PALETTE_PICKER=1 pnpm dev        # inject a live palette picker (dev tool, not shipped)
 LINK_V1=0 pnpm build             # drop the footer link to the frozen /v1/ site
+CF_WEB_ANALYTICS_TOKEN=… pnpm build  # inject the Cloudflare Web Analytics beacon (set it as a Railway variable); unset = no analytics
 ```
 
 ## Architecture

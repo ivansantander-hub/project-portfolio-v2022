@@ -381,3 +381,24 @@ Development · AI"). En la misma pasada, la imagen OG (`gen-og.mjs`) se iguala a
 portada: frase "Tech Lead y Product Owner." y cifras "+2 millones de vistas al mes ·
 desde 2019 · 3 sectores" (seguía con "Simplifico lo que se volvió complejo." y
 "7+ años · 20+ proyectos · 3 industrias").
+
+---
+
+## 2026-11-22 — Arreglos: enlaces caídos, cifras estables, portada, analítica y CV
+
+- **Enlaces caídos:** fuera los enlaces a talonaria.co y blog.ivansantander.com
+  (Railway responde "Application not found") y el texto "desplegado en
+  talonaria.co y funcionando". La app de English volvió (200), su enlace queda.
+- **Cifras que no envejecen:** en proyectos activos, "+" delante de los conteos que
+  solo suben (Super 8 "+10 piezas", Talonaria "+90 modelos"…); fuera los commits
+  de Kinora; Avatar Studio "+2 millones de vistas al mes"; Mark 1 con datos fijos
+  de cada pieza. Los proyectos cerrados (megabyte, Scrum Poker, blog-26, eco-loop)
+  conservan sus cifras históricas.
+- **Portada:** el hero ya no ocupa la pantalla completa y "Casos" es un rótulo; en
+  1440×900 asoma la primera fila de tarjetas.
+- **Analítica:** si Railway define `CF_WEB_ANALYTICS_TOKEN`, el build inyecta el
+  beacon de Cloudflare Web Analytics (sin cookies). Sin token no cambia nada.
+- **Hoja de vida:** `npm run cv` genera `public/cv/ivan-santander-cv-{es,en}.pdf`
+  (una página A4) desde about.md y los casos; enlace en la ficha de "Sobre mí".
+  `sync-static` copia ahora `public/cv`.
+- **Pendiente:** foto de Iván (no se usa nada de carpetas privadas sin que la elija).

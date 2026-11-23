@@ -25,12 +25,12 @@ summary:
   - k: What is happening
     v: "Three live accounts fed by the studio, with more than two million views and more than 5,000 new followers in a month."
 metrics:
-  - value: "1.5 M"
-    label: "views in a month on Kinema Studio (Facebook)"
-  - value: "541k"
-    label: "views in a month on @tony.mercury (Instagram)"
-  - value: "+5,300"
-    label: "new followers in a month across the three accounts"
+  - value: "2M+"
+    label: "views a month across the three accounts"
+  - value: "5,000+"
+    label: "new followers a month"
+  - value: "3"
+    label: "networks with automatic publishing"
 points:
   - "**From idea to publishing:** script, voice, scenes, edit and upload on schedule, in one place."
   - "**Every model with its cost:** each call picks the best model for the step and lands in a spend ledger."

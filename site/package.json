@@ -8,6 +8,7 @@
     "predev": "node scripts/kill-port.mjs && node scripts/build-content.mjs && node scripts/sync-static.mjs",
     "dev": "mini-astro dev",
     "og": "node scripts/gen-og.mjs",
+    "cv": "node scripts/gen-cv.mjs",
     "build:content": "node scripts/build-content.mjs",
     "audit:seo": "node scripts/audit-semantics.mjs && node scripts/check-jsonld.mjs"
   },

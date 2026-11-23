@@ -21,14 +21,14 @@ summary:
   - k: La regla
     v: "El script es la fuente de verdad; el modelo, los planos, el troquel y el video se regeneran con un comando."
   - k: Dónde va
-    v: "Dos piezas en dos series: una caja de cartón con troqueles y planos, y una escuadra de PLA probada con elementos finitos."
+    v: "Piezas en series, empezando por una caja de cartón con troqueles y planos, y una escuadra de PLA probada con elementos finitos."
 metrics:
-  - value: "2"
-    label: "piezas publicadas"
+  - value: "1:1"
+    label: "escala de los planos"
   - value: "3"
-    label: "hojas A3 a escala 1:1"
+    label: "hojas A3 para la caja"
   - value: "4,3"
-    label: "factor de seguridad calculado"
+    label: "factor de seguridad de la escuadra"
 media:
   video: /img/casos/mark-1/ensamble.mp4
   poster: /img/casos/mark-1/ensamble.webp

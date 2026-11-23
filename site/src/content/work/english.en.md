@@ -23,13 +23,13 @@ summary:
   - k: How it ended
     v: "Deployed on Railway, version 1.5.0, with CI and 131 tests."
 metrics:
-  - value: "131"
+  - value: "130+"
     label: "automated tests"
   - value: "29"
     label: "tRPC procedures"
   - value: "19"
     label: "data models"
-  - value: "~10.7k"
+  - value: "10k+"
     label: "lines of TypeScript"
 points:
   - "**15 exercises a day** with sentence-by-sentence feedback, explained in English and Spanish."

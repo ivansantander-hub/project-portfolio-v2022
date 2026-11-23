@@ -10,24 +10,21 @@ cardLine: "ERP · accounting, sales and payroll"
 role: Sole developer · design, architecture and development
 period: 2026 – present
 featured: true
-links:
-  - label: See Talonaria
-    href: https://talonaria.co
 summary:
   - k: The problem
     v: "Accounting is usually a module added at the end; the books don't match the business."
   - k: The decision
     v: "Accounting as a core function: every money operation creates its entry in the same transaction, and if the entry doesn't balance, the operation doesn't happen."
   - k: How it ended
-    v: "Product deployed at talonaria.co, pre-launch with no customers yet, with CI, automated releases and daily backups, maintained by one person."
+    v: "Product in pre-launch with no customers yet, with CI, automated releases and daily backups, maintained by one person."
 metrics:
-  - value: "91"
+  - value: "90+"
     label: "data models"
-  - value: "~300"
+  - value: "300+"
     label: "HTTP endpoints"
-  - value: "1,138"
+  - value: "1,100+"
     label: "test cases"
-  - value: "~78k"
+  - value: "75k+"
     label: "lines of TypeScript"
 points:
   - "**Accounting at the core:** every money operation creates its entry; if it doesn't balance, it doesn't happen."
@@ -95,7 +92,7 @@ On top of that come local rules that leave no room for interpretation: the natio
 
 ## Result
 
-It's deployed at talonaria.co and running, pre-launch: public sign-up, the free trial and billing are in place, but no real customer operates on it yet. The first commit is from March 7, 2026.
+It's in pre-launch: public sign-up, the free trial and billing are in place, but no real customer operates on it yet. The first commit is from March 7, 2026.
 
 As of September 2026, the header figures are: 91 Prisma models; about 300 HTTP handlers across 204 route files; 1,138 test cases in 106 files, across Vitest and Playwright; and about 78,000 lines of TypeScript in 509 files. The history adds up to 344 commits and 40 tagged versions, up to v0.27.1; the ones before September were assigned retroactively from the git history.
 

@@ -610,6 +610,7 @@ ${list(d.facts).map(f => `        <div><dt>${esc(f.k)}</dt><dd>${esc(f.v)}</dd><
       <ul class="case__links">
         <li><a href="https://www.linkedin.com/in/ivan-santander/" rel="noopener noreferrer" target="_blank">LinkedIn <span aria-hidden="true">&#8599;</span></a></li>
         <li><a href="https://github.com/ivansantander-hub" rel="noopener noreferrer" target="_blank">GitHub <span aria-hidden="true">&#8599;</span></a></li>
+        <li><a href="/cv/ivan-santander-cv-${lang}.pdf" target="_blank" rel="noopener">${lang === 'es' ? 'Hoja de vida (PDF)' : 'Résumé (PDF)'} <span aria-hidden="true">&#8599;</span></a></li>
       </ul>
     </aside>
   </header>
@@ -742,7 +743,13 @@ for (const sub of ['templates', 'atoms', 'molecules', 'organisms', 'data']) {
       return `${attr}${url}?v=${v}"`;
     },
   );
-  writeFileSync(docPath, html, 'utf8');
+  /* Cloudflare Web Analytics: sin cookies y sin aviso de privacidad. Solo se
+     inyecta si Railway define CF_WEB_ANALYTICS_TOKEN; sin token no cambia nada. */
+  const cfToken = (process.env.CF_WEB_ANALYTICS_TOKEN || '').trim();
+  const beacon = /^[A-Za-z0-9]+$/.test(cfToken)
+    ? `<script defer src="https://static.cloudflareinsights.com/beacon.min.js" data-cf-beacon='{"token": "${cfToken}"}'></script>\n</body>`
+    : '</body>';
+  writeFileSync(docPath, html.replace('</body>', beacon), 'utf8');
 }
 
 // Páginas escritas a mano (v1.html y las que se añadan). `src/content/` no
