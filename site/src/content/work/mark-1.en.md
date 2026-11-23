@@ -28,6 +28,28 @@ metrics:
     label: "A3 sheets at 1:1 scale"
   - value: "4.3"
     label: "calculated safety factor"
+media:
+  video: /img/casos/mark-1/ensamble.mp4
+  poster: /img/casos/mark-1/ensamble.webp
+  alt: "The cardboard box folding from its die line, generated with FreeCAD"
+points:
+  - "**One part, one script:** the 3D model, scale drawings and die line all come from the same code."
+  - "**Calculated before it is made:** the PLA bracket is tested with finite elements; safety factor 4.3."
+  - "**Super 8’s sibling:** the same way of working, with FreeCAD and parts that are really made."
+gallery:
+  - src: /img/casos/mark-1/caja-3d.webp
+    alt: "The lidded box open and closed"
+    caption: Box · 3D model
+  - src: /img/casos/mark-1/troquel.webp
+    alt: "Dimensioned die line of the box base"
+    caption: Die line at 1:1
+  - src: /img/casos/mark-1/plano.webp
+    alt: "Assembly drawing with views, section and detail"
+    caption: Assembly drawing
+  - src: /img/casos/mark-1/esfuerzo.webp
+    alt: "Von Mises stress and deformation of the PLA bracket"
+    caption: Bracket · finite elements
+moreLabel: "Read the details: parts, drawings and calculations"
 stack:
   - Python
   - FreeCAD

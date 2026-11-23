@@ -30,6 +30,21 @@ metrics:
     label: "cases in the tool-use evaluation"
   - value: "208"
     label: "lines in the layer over pi"
+media:
+  image: /img/casos/megabyte/sesion.webp
+  alt: "A real megabyte session with a local model: it uses the bash tool to open Playwright"
+points:
+  - "**Local model:** runs with Ollama on the Mac; it only goes online to search the web or ask Claude."
+  - "**Knows when to use tools:** an 11-case evaluation separates answering directly from using bash or search."
+  - "**From 1,395 lines to 208:** the Python version gave way to a thin layer over pi."
+gallery:
+  - src: /img/casos/megabyte/identidad.webp
+    alt: "megabyte session answering who it is"
+    caption: Real session
+  - src: /img/casos/megabyte/evaluacion.webp
+    alt: "The 11 cases of the tool-use evaluation"
+    caption: Tool-use evaluation
+moreLabel: "Read the details: from Python to pi"
 stack:
   - Python
   - TypeScript
