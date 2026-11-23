@@ -24,10 +24,25 @@ metrics:
     label: "dependency (for `dev` only)"
   - value: "0"
     label: "client-side runtime"
-  - value: "55"
+  - value: "56"
     label: "tests with `node --test`"
   - value: "~2,300"
     label: "lines of JavaScript"
+media:
+  image: /img/casos/mini-astro/terminal.webp
+  alt: "Terminal: creating a site with mini-astro, building it and running its 56 tests"
+points:
+  - "**A single dependency,** only for the dev server, and no runtime in the browser."
+  - "**Components resolved at build time,** organised with atomic design."
+  - "**Tested and in use:** 56 tests with `node --test`, and this portfolio is built with it."
+gallery:
+  - src: /img/casos/mini-astro/sitio.webp
+    alt: "The home page mini-astro generates"
+    caption: Generated site
+  - src: /img/casos/mini-astro/cookies.webp
+    alt: "The cookie notice it ships by default"
+    caption: Cookie consent
+moreLabel: "Read the details: how it works inside"
 stack:
   - Node.js
   - JavaScript
@@ -83,6 +98,6 @@ Open source under MIT, installable from GitHub with `npx github:ivansantander-hu
 
 ## What I'd do differently
 
-Write the tests first. For a compiler they're easy to write (text in, text out), and I still tested it by hand in the browser for months. The tests came late, with version 0.2.0: there are 55 today, they run with `node --test` with no added dependencies, and they cover the build, the CLI, config, the dev server and frontmatter. That same version fixed bugs an early suite would have caught: errors that were silently ignored, `pages/` subfolders that built to `x/index/index.html`, and an `init` that, with piped input, exited successfully without creating anything.
+Write the tests first. For a compiler they're easy to write (text in, text out), and I still tested it by hand in the browser for months. The tests came late, with version 0.2.0: there are 56 today, they run with `node --test` with no added dependencies, and they cover the build, the CLI, config, the dev server and frontmatter. That same version fixed bugs an early suite would have caught: errors that were silently ignored, `pages/` subfolders that built to `x/index/index.html`, and an `init` that, with piped input, exited successfully without creating anything.
 
 The other risk to watch is that it grows too much. With your own tool it's tempting to add whatever each project asks for, and if mini-astro ends up looking like Astro, there's no point in having written it.

@@ -24,6 +24,24 @@ metrics:
     label: "attempts before the diff worked"
   - value: "0"
     label: "third-party analytics dependencies"
+media:
+  image: /img/casos/blog-26/portada.webp
+  alt: "Blog home page: Code, judgement and a few convictions"
+points:
+  - "**Publishing without a build:** a visual editor saves to the database and the post goes live at once."
+  - "**History with diffs:** every version can be viewed, compared with the previous one and restored."
+  - "**Own analytics:** views per post, with no third-party scripts."
+gallery:
+  - src: /img/casos/blog-26/articulo.webp
+    alt: "A published post on the blog"
+    caption: Published post
+  - src: /img/casos/blog-26/editor.webp
+    alt: "The CMS editor with title, slug, description and content"
+    caption: Editor
+  - src: /img/casos/blog-26/historial.webp
+    alt: "Version history with the diff against the previous one"
+    caption: History and diffs
+moreLabel: "Read the details: the three attempts at history"
 stack:
   - Astro
   - TypeScript

@@ -30,6 +30,21 @@ metrics:
     label: "casos en la evaluación de uso de herramientas"
   - value: "208"
     label: "líneas de la capa sobre pi"
+media:
+  image: /img/casos/megabyte/sesion.webp
+  alt: "Sesión real de megabyte con un modelo local: usa la herramienta bash para abrir Playwright"
+points:
+  - "**Modelo local:** corre con Ollama en el Mac; solo sale a la red para buscar en la web o consultar a Claude."
+  - "**Sabe cuándo usar herramientas:** una evaluación de 11 casos separa responder directo de usar bash o buscar."
+  - "**De 1.395 líneas a 208:** la versión en Python dio paso a una capa delgada sobre pi."
+gallery:
+  - src: /img/casos/megabyte/identidad.webp
+    alt: "Sesión de megabyte respondiendo quién es"
+    caption: Sesión real
+  - src: /img/casos/megabyte/evaluacion.webp
+    alt: "Los 11 casos de la evaluación de uso de herramientas"
+    caption: Evaluación de herramientas
+moreLabel: "Ver el detalle: de Python a pi"
 stack:
   - Python
   - TypeScript

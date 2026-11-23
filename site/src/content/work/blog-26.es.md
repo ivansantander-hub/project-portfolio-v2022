@@ -24,6 +24,24 @@ metrics:
     label: "intentos hasta que el diff funcionó"
   - value: "0"
     label: "dependencias de analítica"
+media:
+  image: /img/casos/blog-26/portada.webp
+  alt: "Portada del blog: Código, criterio y algunas convicciones"
+points:
+  - "**Publicar sin build:** un editor visual guarda en la base de datos y la nota sale al instante."
+  - "**Historial con diferencias:** cada versión se ve, se compara con la anterior y se restaura."
+  - "**Analítica propia:** vistas por nota, sin scripts de terceros."
+gallery:
+  - src: /img/casos/blog-26/articulo.webp
+    alt: "Una nota publicada en el blog"
+    caption: Nota publicada
+  - src: /img/casos/blog-26/editor.webp
+    alt: "El editor del CMS con título, slug, descripción y contenido"
+    caption: Editor
+  - src: /img/casos/blog-26/historial.webp
+    alt: "Historial de versiones con la diferencia frente a la anterior"
+    caption: Historial y diferencias
+moreLabel: "Ver el detalle: los tres intentos del historial"
 stack:
   - Astro
   - TypeScript

@@ -28,6 +28,28 @@ metrics:
     label: "hojas A3 a escala 1:1"
   - value: "4,3"
     label: "factor de seguridad calculado"
+media:
+  video: /img/casos/mark-1/ensamble.mp4
+  poster: /img/casos/mark-1/ensamble.webp
+  alt: "La caja de cartón armándose desde su troquel, generada con FreeCAD"
+points:
+  - "**Una pieza, un script:** del mismo código salen el modelo 3D, los planos a escala y el troquel."
+  - "**Cálculo antes de fabricar:** la escuadra de PLA se prueba con elementos finitos; factor de seguridad 4,3."
+  - "**Hermano de Super 8:** la misma regla de trabajo, con FreeCAD y piezas que se fabrican de verdad."
+gallery:
+  - src: /img/casos/mark-1/caja-3d.webp
+    alt: "La caja tapa-fondo abierta y cerrada"
+    caption: Caja · modelo 3D
+  - src: /img/casos/mark-1/troquel.webp
+    alt: "Troquel acotado de la base de la caja"
+    caption: Troquel a escala 1:1
+  - src: /img/casos/mark-1/plano.webp
+    alt: "Plano de conjunto con vistas, corte y detalle"
+    caption: Plano de conjunto
+  - src: /img/casos/mark-1/esfuerzo.webp
+    alt: "Esfuerzo de von Mises y deformación de la escuadra de PLA"
+    caption: Escuadra · elementos finitos
+moreLabel: "Ver el detalle: piezas, planos y cálculos"
 stack:
   - Python
   - FreeCAD
