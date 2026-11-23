@@ -11,7 +11,7 @@ description: "Tech Lead and Technical Product Owner. Architecture, technical lea
 
 **statement:** Tech Lead and Product Owner.
 
-**role:** Product · Engineering · AI
+**role:** Product · Development · AI
 
 **lead:**
 I simplify production systems that grew faster than their team, without slowing delivery. Outside work I build my own products.
