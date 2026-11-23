@@ -29,17 +29,17 @@ metrics:
   - value: "~2,300"
     label: "lines of JavaScript"
 media:
-  image: /img/casos/mini-astro/terminal.webp
+  image: /img/casos/mini-astro/terminal.webp?v=2
   alt: "Terminal: creating a site with mini-astro, building it and running its 56 tests"
 points:
   - "**A single dependency,** only for the dev server, and no runtime in the browser."
   - "**Components resolved at build time,** organised with atomic design."
   - "**Tested and in use:** 56 tests with `node --test`, and this portfolio is built with it."
 gallery:
-  - src: /img/casos/mini-astro/sitio.webp
+  - src: /img/casos/mini-astro/sitio.webp?v=2
     alt: "The home page mini-astro generates"
     caption: Generated site
-  - src: /img/casos/mini-astro/cookies.webp
+  - src: /img/casos/mini-astro/cookies.webp?v=2
     alt: "The cookie notice it ships by default"
     caption: Cookie consent
 moreLabel: "Read the details: how it works inside"
