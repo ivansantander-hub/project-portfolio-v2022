@@ -647,6 +647,7 @@
   /* ── SOBRE MÍ ─────────────────────────────────────────────────────────
      Misma cabecera que un caso corto; debajo, secciones a todo el ancho. */
   .about-rich .case__metrics { margin-top: var(--space-xl); }
+  .about-rich .case__more { margin-top: var(--space-lg); }
   .about-sec { margin-top: var(--space-2xl); }
   .about-sec__title { font-size: var(--type-2xl); font-weight: 620; }
   .about-sec__lead { color: var(--text-muted); margin-top: var(--space-xs); max-width: var(--measure); }
@@ -654,7 +655,7 @@
   .timeline { list-style: none; padding: 0; margin-top: var(--space-lg); border-left: 1px solid var(--border); }
   .timeline__item {
     position: relative; display: grid; gap: var(--space-2xs);
-    padding: 0 0 var(--space-xl) var(--space-lg);
+    padding: 0 0 var(--space-md) var(--space-lg);
   }
   .timeline__item::before {
     content: ""; position: absolute; left: -0.3rem; top: 0.45rem;
@@ -665,13 +666,13 @@
     letter-spacing: var(--tracking-wide); text-transform: uppercase; color: var(--text-dim);
   }
   .timeline__org { font-size: var(--type-xl); font-weight: 620; }
-  .timeline__role { font-weight: 600; margin-top: var(--space-xs); }
+  .timeline__role { color: var(--text-muted); margin-top: var(--space-3xs); }
   .timeline__text { color: var(--text-muted); max-width: var(--measure); }
   @media (min-width: 48rem) {
     .timeline { border-left: 0; }
     .timeline__item {
       grid-template-columns: 11rem minmax(0, 1fr); column-gap: var(--space-xl);
-      padding-left: 0; border-top: 1px solid var(--border); padding-top: var(--space-lg);
+      padding-left: 0; border-top: 1px solid var(--border); padding-top: var(--space-md);
     }
     .timeline__item::before { display: none; }
     .timeline__period { padding-top: 0.35rem; }
@@ -685,7 +686,7 @@
   .principles__list { list-style: none; padding: 0; margin-top: var(--space-lg); display: grid; gap: var(--space-sm); }
   .principles__list li {
     padding: var(--space-md) var(--space-lg); border: 1px solid var(--border);
-    border-radius: var(--radius-lg); background: var(--surface); color: var(--text-muted);
+    border-radius: var(--radius-lg); background: var(--surface); color: var(--text); font-weight: 500;
   }
   .principles__list strong { display: block; color: var(--text); font-weight: 600; margin-bottom: var(--space-3xs); }
 

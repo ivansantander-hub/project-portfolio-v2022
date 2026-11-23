@@ -4,7 +4,7 @@ lang: en
 title: About
 description: Iván Santander — Tech Lead and Technical Product Owner on healthcare platforms. Medellín, Colombia.
 name: Iván Santander
-lead: "Tech Lead and Technical Product Owner on a clinical trial platform. Outside work I build my own products: an ERP, a studio that publishes videos with AI and 3D animation written as code."
+lead: "Tech Lead and Technical Product Owner in digital health. Outside work I build my own products."
 facts:
   - k: Now
     v: "Technical Product Owner at LearUp"
@@ -22,15 +22,19 @@ metrics:
   - value: "12"
     label: "cases in this portfolio"
 timelineTitle: Experience
+timelineMore: What I did in each role
 timeline:
   - org: LearUp
     period: "2024 – present"
     roles:
       - role: Sr. Associate Technical Product Owner
+        short: Technical Product Owner
         text: "I define and prioritize platform initiatives. I coordinate development, QA and operations."
       - role: Sr. Associate Tech Lead
+        short: Tech Lead
         text: "Led the team through design and implementation. Service architecture and core technical decisions."
       - role: Associate Product Full Stack Developer
+        short: Developer
         text: "Core platform work in JavaScript and Python. Continuous delivery."
   - org: CogenTech
     period: "Jun 2023 – Jul 2024"
@@ -52,6 +56,7 @@ timeline:
     roles:
       - role: Software Developer
         text: "Hybrid and web applications, nearly all in digital health."
+principlesMore: Why I work and lead this way
 principles:
   - title: How I work
     items:
