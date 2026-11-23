@@ -317,3 +317,19 @@ modelo se muestra como "qwen3 14b").
 responden 404 "Application not found" en Railway.
 
 **Ajuste:** mini-astro tiene hoy 56 tests (antes decía 55).
+
+---
+
+## 2026-11-22 — "Sobre mí" rediseñado
+
+**Hallazgo:** era una columna de texto con la mitad derecha vacía, la trayectoria
+en párrafos sueltos y "Proyectos propios" desactualizado (nombraba 3 proyectos).
+
+**Cambio:** el contenido pasa a frontmatter estructurado y `renderAboutRich()` lo
+arma con el lenguaje de los casos: nombre y frase, ficha a la derecha (ahora, base,
+sectores, LinkedIn, GitHub), cifras (2019, 3 roles en LearUp, +2 M vistas/mes del
+estudio, 12 casos), trayectoria como línea de tiempo, "Cómo trabajo" y "Cómo
+lidero" en dos columnas de tarjetas, stack en etiquetas y los proyectos propios
+como tarjetas con imagen generadas desde los casos (todos menos los `confidential`),
+para que no vuelvan a quedar viejos. Sin frontmatter `timeline` se usa el render
+anterior. Mismo título y descripción: sin cambio de posicionamiento.

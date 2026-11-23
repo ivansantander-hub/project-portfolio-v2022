@@ -3,68 +3,86 @@ slug: about
 lang: es
 title: Sobre mí
 description: Iván Santander — Tech Lead y Technical Product Owner en plataformas de salud. Medellín, Colombia.
+name: Iván Santander
+lead: "Tech Lead y Technical Product Owner en una plataforma de ensayos clínicos. Por fuera del trabajo construyo productos propios: un ERP, un estudio que publica videos con IA y animación 3D escrita en código."
+facts:
+  - k: Ahora
+    v: "Technical Product Owner en LearUp"
+  - k: Base
+    v: "Medellín, Colombia · remoto"
+  - k: Sectores
+    v: "Salud digital, fintech y SaaS"
+metrics:
+  - value: "2019"
+    label: "escribiendo software"
+  - value: "3"
+    label: "roles en LearUp: de developer a TPO"
+  - value: "+2 M"
+    label: "vistas al mes en las cuentas que alimenta mi estudio"
+  - value: "12"
+    label: "casos en este portafolio"
+timelineTitle: Trayectoria
+timeline:
+  - org: LearUp
+    period: "2024 – presente"
+    roles:
+      - role: Sr. Associate Technical Product Owner
+        text: "Defino y priorizo las iniciativas de la plataforma. Coordino desarrollo, QA y operaciones."
+      - role: Sr. Associate Tech Lead
+        text: "Lideré al equipo en diseño e implementación. Arquitectura de servicios y decisiones técnicas de fondo."
+      - role: Associate Product Full Stack Developer
+        text: "Núcleo de la plataforma en JavaScript y Python. Entrega continua."
+  - org: CogenTech
+    period: "jun 2023 – jul 2024"
+    roles:
+      - role: Product Full Stack Developer
+        text: "Ciclo completo de aplicaciones web. TypeScript, Python, PostgreSQL. APIs GraphQL y REST."
+  - org: Cielum / Omnivida
+    period: "2023"
+    roles:
+      - role: Software Developer
+        text: "Gestor de APIs en Azure y automatización de procesos para salud."
+  - org: Newo
+    period: "2023"
+    roles:
+      - role: Software Developer
+        text: "Lideré una pasarela de pagos con cobros automáticos y por demanda, integrada en una app móvil."
+  - org: Be4tech
+    period: "ago 2021 – jun 2023"
+    roles:
+      - role: Software Developer
+        text: "Aplicaciones híbridas y web, casi todas en salud digital."
+principles:
+  - title: Cómo trabajo
+    items:
+      - k: Inventario antes de proponer.
+        v: "Un listado real de servicios, dependencias y uso convierte «el sistema se siente pesado» en datos que cualquiera puede evaluar."
+      - k: Dos opciones con sus costos.
+        v: "Las decisiones grandes llegan con alternativas, para que decida quien tiene el contexto de negocio."
+      - k: Migración por partes.
+        v: "El sistema nuevo absorbe piezas mientras el viejo sigue funcionando, con criterios de vuelta atrás definidos desde el inicio."
+      - k: Decisiones por escrito.
+        v: "Qué se decidió y por qué, para poder revisarlo cuando cambie el contexto."
+  - title: Cómo lidero
+    items:
+      - k: Operación cubierta.
+        v: "Durante una migración, una persona del equipo se dedica a soporte y bugs del día a día."
+      - k: Compromisos primero.
+        v: "Las entregas ya comprometidas van antes que los cambios de arquitectura."
+      - k: De lo pequeño a lo grande.
+        v: "Primero los cambios de bajo riesgo, para ganar confianza antes de lo costoso."
+      - k: Revisión de código y entrevistas.
+        v: "Dos de las tareas con más impacto en un equipo; se hacen en persona."
+stackTitle: Stack
+stack:
+  - k: Principal
+    items: [TypeScript, Python, React, Next.js, Node.js, PostgreSQL]
+  - k: Infraestructura
+    items: [Docker, Kubernetes, ArgoCD, AWS, Cloudflare]
+  - k: Datos y APIs
+    items: [GraphQL, REST, tRPC, Prisma, SQLAlchemy]
+  - k: También
+    items: [FastAPI, Astro, React Native, Auth0, Stripe, Blender, FreeCAD]
+projectsTitle: Proyectos propios
+projectsLead: "Sirven para probar ideas antes de llevarlas a un equipo. Cada uno tiene su caso, con el código abierto cuando se puede."
 ---
-
-Tech Lead y Technical Product Owner en LearUp, una plataforma de ensayos clínicos. Medellín, Colombia · remoto.
-
-**Foco actual:** arquitectura de sistemas en producción, migraciones incrementales y priorización técnica en un dominio regulado, con auditorías y datos que no admiten errores de migración.
-
-**Experiencia:** software desde 2019, con liderazgo técnico en los últimos años. Salud digital, fintech y SaaS.
-
-## Trayectoria
-
-**LearUp** · Sr. Associate Technical Product Owner
-
-Defino y priorizo las iniciativas de la plataforma. Coordino desarrollo, QA y operaciones.
-
-**LearUp** · Sr. Associate Tech Lead
-
-Lideré al equipo en diseño e implementación. Arquitectura de servicios y decisiones técnicas de fondo.
-
-**LearUp** · Associate Product Full Stack Developer
-
-Núcleo de la plataforma en JavaScript y Python. Entrega continua.
-
-**CogenTech** · Product Full Stack Developer · jun 2023 – jul 2024
-
-Ciclo completo de aplicaciones web. TypeScript, Python, PostgreSQL. APIs GraphQL y REST.
-
-**Cielum / Omnivida** · Software Developer · 2023
-
-Gestor de APIs en Azure y automatización de procesos para salud.
-
-**Newo** · Software Developer · 2023
-
-Lideré una pasarela de pagos con cobros automáticos y por demanda, integrada en una app móvil.
-
-**Be4tech** · Software Developer · ago 2021 – jun 2023
-
-Aplicaciones híbridas y web, casi todas en salud digital.
-
-## Cómo trabajo
-
-- **Inventario antes de proponer.** Un listado real de servicios, dependencias y uso convierte "el sistema se siente pesado" en datos que cualquiera puede evaluar.
-- **Dos opciones con sus costos.** Las decisiones grandes llegan con alternativas, para que decida quien tiene el contexto de negocio.
-- **Migración por partes.** El sistema nuevo absorbe piezas mientras el viejo sigue funcionando, con criterios de vuelta atrás definidos desde el inicio.
-- **Decisiones por escrito.** Qué se decidió y por qué, para poder revisarlo cuando cambie el contexto.
-
-## Cómo lidero
-
-- **Operación cubierta.** Durante una migración, una persona del equipo se dedica a soporte y bugs del día a día.
-- **Compromisos primero.** Las entregas ya comprometidas van antes que los cambios de arquitectura.
-- **De lo pequeño a lo grande.** Primero los cambios de bajo riesgo, para ganar confianza antes de lo costoso.
-- **Revisión de código y entrevistas.** Dos de las tareas con más impacto en un equipo; se hacen en persona.
-
-## Stack
-
-**Principal** · TypeScript · Python · React · Next.js · Node.js · PostgreSQL
-
-**Infraestructura** · Docker · Kubernetes · ArgoCD · AWS · Cloudflare
-
-**Datos y APIs** · GraphQL · REST · tRPC · Prisma · SQLAlchemy
-
-**También** · FastAPI · Astro · React Native · Auth0 · Stripe
-
-## Proyectos propios
-
-Un ERP multi-tenant, un generador de sitios estáticos y un blog con CMS propio. Están en la sección de casos, con el código abierto cuando se puede; sirven para probar ideas antes de llevarlas a un equipo.

@@ -588,6 +588,71 @@ ${work.map(i => renderWorkCard(i, lang)).join('\n')}
 `;
 }
 
+/* "Sobre mí" con datos estructurados (frontmatter con `timeline`): ficha y
+   cifras arriba, trayectoria como línea de tiempo, principios en tarjetas,
+   stack en etiquetas y los proyectos propios como tarjetas con imagen,
+   sacadas de los casos para que nunca queden desactualizadas. */
+function renderAboutRich(doc, lang, work) {
+  const L = LANGS[lang], t = UI[lang], d = doc.data;
+  const list = v => (Array.isArray(v) ? v : []);
+  const thumb = i => i.data.media?.image || i.data.media?.poster || i.data.gallery?.[0]?.src || '';
+  const projects = work.filter(i => !i.data.confidential && thumb(i));
+  const section = (id, title, inner) => `
+  <section class="about-sec" id="${id}" aria-labelledby="${id}-t">
+    <h2 class="about-sec__title" id="${id}-t">${esc(title)}</h2>
+${inner}
+  </section>`;
+  return `
+<article class="case case--short about-rich" data-zone="clear">
+  <header class="case__head">
+    <div class="case__intro">
+      <p class="eyebrow">${esc(d.title)}</p>
+      <h1 class="case__title" data-reveal>${esc(d.name)}</h1>
+      <p class="case__headline">${esc(d.lead)}</p>
+    </div>
+    <aside class="case__panel" aria-label="${t.details}">
+      <dl class="case__facts">
+${list(d.facts).map(f => `        <div><dt>${esc(f.k)}</dt><dd>${esc(f.v)}</dd></div>`).join('\n')}
+      </dl>
+      <ul class="case__links">
+        <li><a href="https://www.linkedin.com/in/ivan-santander/" rel="noopener noreferrer" target="_blank">LinkedIn <span aria-hidden="true">&#8599;</span></a></li>
+        <li><a href="https://github.com/ivansantander-hub" rel="noopener noreferrer" target="_blank">GitHub <span aria-hidden="true">&#8599;</span></a></li>
+      </ul>
+    </aside>
+  </header>
+  <dl class="case__metrics">
+${list(d.metrics).map(m => `    <div class="metric"><dd class="metric__value">${esc(m.value)}</dd><dt class="metric__label">${esc(m.label)}</dt></div>`).join('\n')}
+  </dl>
+${section('trayectoria', d.timelineTitle, `    <ol class="timeline">
+${list(d.timeline).map(e => `      <li class="timeline__item">
+        <p class="timeline__period">${esc(e.period)}</p>
+        <div class="timeline__body">
+          <h3 class="timeline__org">${esc(e.org)}</h3>
+${list(e.roles).map(r => `          <p class="timeline__role">${esc(r.role)}</p>
+          <p class="timeline__text">${esc(r.text)}</p>`).join('\n')}
+        </div>
+      </li>`).join('\n')}
+    </ol>`)}
+  <div class="principles">
+${list(d.principles).map((g, gi) => section(`principios-${gi + 1}`, g.title, `    <ul class="principles__list">
+${list(g.items).map(it => `      <li><strong>${esc(it.k)}</strong> ${esc(it.v)}</li>`).join('\n')}
+    </ul>`)).join('\n')}
+  </div>
+${section('stack', d.stackTitle, `    <div class="stack-groups">
+${list(d.stack).map(s => `      <div class="stack-group"><p class="stack-group__k">${esc(s.k)}</p><ul class="case__stack">${list(s.items).map(x => `<li>${esc(x)}</li>`).join('')}</ul></div>`).join('\n')}
+    </div>`)}
+${section('proyectos', d.projectsTitle, `    <p class="about-sec__lead">${esc(d.projectsLead)}</p>
+    <ul class="project-grid">
+${projects.map(i => `      <li><a class="project-card" href="${urlFor(lang, L.work, i.slug)}">
+        <img src="${esc(thumb(i))}" alt="" loading="lazy" decoding="async">
+        <span class="project-card__name">${esc(i.data.project || i.data.title)}</span>
+        <span class="project-card__title">${esc(i.data.title)}</span>
+      </a></li>`).join('\n')}
+    </ul>`)}
+</article>
+`;
+}
+
 function renderAbout(md, titulo, lang) {
   /* El h1 lo pone el generador: el markdown empieza en prosa y la página se
      quedaba sin encabezado principal. Al lado, en pantallas anchas, un índice
@@ -801,7 +866,9 @@ for (const lang of Object.keys(LANGS)) {
       description: aboutDoc.data.description,
       canonical: urlFor(lang, L.about),
       altUrl: urlFor(other, O.about),
-      body: renderAbout(aboutDoc.content, aboutDoc.data.title, lang),
+      body: Array.isArray(aboutDoc.data.timeline)
+        ? renderAboutRich(aboutDoc, lang, items)
+        : renderAbout(aboutDoc.content, aboutDoc.data.title, lang),
       schema: [
         PERSONA,
         {
