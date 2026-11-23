@@ -632,6 +632,12 @@ ${list(d.timeline).map(e => `      <li class="timeline__item">
 ${list(d.timeline).map(e => list(e.roles).map(r => `        <p><strong>${esc(e.org)} · ${esc(r.role)}.</strong> ${esc(r.text)}</p>`).join('\n')).join('\n')}
       </div>
     </details>`)}
+${list(d.hobbies).length ? section('fuera-del-trabajo', d.hobbiesTitle, `    <ul class="hobbies">
+${list(d.hobbies).map(h => `      <li>${h.href ? `<a class="hobby" href="${esc(h.href)}">` : '<div class="hobby">'}
+        <strong>${esc(h.k)}</strong>
+        <span>${esc(h.v)}</span>${h.href ? ' <span class="hobby__go" aria-hidden="true">&rarr;</span>' : ''}
+      ${h.href ? '</a>' : '</div>'}</li>`).join('\n')}
+    </ul>`) : ''}
   <div class="principles">
 ${list(d.principles).map((g, gi) => section(`principios-${gi + 1}`, g.title, `    <ul class="principles__list">
 ${list(g.items).map(it => `      <li>${esc(String(it.k).replace(/\.$/, ''))}</li>`).join('\n')}

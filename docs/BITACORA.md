@@ -402,3 +402,12 @@ desde 2019 · 3 sectores" (seguía con "Simplifico lo que se volvió complejo." 
   (una página A4) desde about.md y los casos; enlace en la ficha de "Sobre mí".
   `sync-static` copia ahora `public/cv`.
 - **Pendiente:** foto de Iván (no se usa nada de carpetas privadas sin que la elija).
+
+---
+
+## 2026-11-22 — "Fuera del trabajo" en Sobre mí
+
+Sección corta con los intereses de Iván: creación digital y 3D (enlaza a Super 8),
+diseño mecánico con Inventor y FreeCAD (enlaza a Mark 1), y Raspberry Pi y
+electrónica. Datos en `hobbies` del frontmatter de about.{es,en}.md; la hoja de
+vida los muestra como "Intereses" y sigue cabiendo en una página.

@@ -56,6 +56,16 @@ timeline:
     roles:
       - role: Software Developer
         text: "Aplicaciones híbridas y web, casi todas en salud digital."
+hobbiesTitle: Fuera del trabajo
+hobbies:
+  - k: Creación digital y 3D
+    v: "Escenas, personajes y cortos animados en Blender, escritos en código."
+    href: /trabajo/super-8/
+  - k: Diseño mecánico
+    v: "Piezas en Inventor y FreeCAD, con planos y cálculos para fabricarlas."
+    href: /trabajo/mark-1/
+  - k: Raspberry Pi y electrónica
+    v: "Proyectos con placas, sensores y circuitos."
 principlesMore: Ver por qué trabajo y lidero así
 principles:
   - title: Cómo trabajo
